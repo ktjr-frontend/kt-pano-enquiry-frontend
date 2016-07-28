@@ -1,0 +1,63 @@
+html {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background: #eff1f8;
+  min-height: 100%;
+  color: #737e9c;
+  font-size: 0.354267rem;
+}
+
+em {
+  font-weight: normal;
+  color: #f5be6c;
+  a {
+    color: #f5be6c;
+  }
+}
+
+[v-cloak] {
+  display: none;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clfix {
+  &:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+.cl-b {
+  clear: both;
+}
+
+.lh1_5 {
+  line-height: 1.5em;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}

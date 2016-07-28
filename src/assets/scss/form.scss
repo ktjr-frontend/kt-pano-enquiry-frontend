@@ -1,0 +1,200 @@
+.form-container {
+  padding: 1.36876rem 0.402576rem;
+  &.register-container {
+    padding: 0.644122rem 0.402576rem;
+  }
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 0.563607rem;
+  .weui_icon {
+    &:before {
+      font-size: 18px;
+    }
+  }
+  .weui_icon_clear {
+    &:before {
+      font-size: 16px;
+    }
+  }
+  .input {
+    background: white;
+    border-radius: 0.040258rem;
+    // width: 100%;
+    height: 1.127214rem;
+    line-height: 1.127214rem;
+    font-size: 0.354267rem;
+    padding-left: 0.563607rem;
+    padding-right: 0.281804rem;
+    position: relative;
+    &.input-withicon {
+      padding-left: 1.127214rem;
+      .icon-enquiry {
+        position: absolute;
+        left: 0.241546rem;
+        color: #f5be6c;
+      }
+    }
+    .inset-button {
+      float: left;
+      background: none;
+      padding: 0;
+      width: auto;
+      text-align: center;
+      color: #626d8b;
+      border-radius: 50px;
+      border: 1px solid #b7bed1;
+      min-width: 1.932367rem;
+      height: 0.724638rem;
+      line-height: 0.724638rem;
+      // position: absolute;
+      // right: 0.241546rem;
+      // top: 50%;
+      // transform: translateY(-50%);
+      &[disabled] {
+        color: #c5c9d2;
+        cursor: not-allowed;
+        pointer-events: none;
+        &:active {
+          color: #c5c9d2;
+        }
+      }
+      &:active {
+        color: #6e9dda;
+      }
+    }
+    .status {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      .weui_icon {
+        display: none;
+        height: 0.724638rem;
+        line-height: 0.724638rem;
+        float: left;
+        margin-left: 0.080515rem;
+        &:before {
+          font-size: 18px;
+        }
+      }
+      .weui_icon_clear {
+        &:before {
+          font-size: 16px;
+        }
+      }
+    }
+    &.not-empty {
+      .status {
+        .weui_icon_clear {
+          display: block;
+        }
+      }
+    }
+    &.valid.modified {
+      .status {
+        .weui_icon_success {
+          display: block;
+        }
+      }
+    }
+    &.invalid.touched {
+      .status {
+        .weui_icon_warn {
+          display: block;
+        }
+      }
+    }
+  }
+  input {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    -webkit-appearance: none;
+  }
+  button,
+  input[type="button"] {
+    padding-left: 0.563607rem;
+    padding-right: 0.281804rem;
+    height: 1.127214rem;
+    width: 100%;
+    color: white;
+    font-size: 0.354267rem;
+    text-align: center;
+    background: #60c2b3;
+    border-radius: 0.040258rem;
+    border: 0;
+    -webkit-appearance: none;
+    &[disabled] {
+      color: #c5c9d2;
+    }
+    &:active {
+      background: darken(#60c2b3, 10%);
+      // box-shadow: inset 0 1px 0 rgba(0, 0, 0, .5);
+    }
+    .with_arrow {
+      float: right;
+      margin-top: -0.016103rem;
+      &:after {
+        border-color: white;
+      }
+    }
+    &.cell {
+      background: #b7bed1;
+    }
+    &.btn-left-right {
+      .left {
+        float: left;
+      }
+      .right {
+        float: right;
+      }
+    }
+  }
+}
+
+.checkbox-label {
+  $orange: #ffc445;
+  color: #b6b6b6;
+  // color: white;
+  font-size: 0.289855rem;
+  position: relative;
+  [type=checkbox] {
+    display: none;
+    &:checked ~ label {
+      // border-color: $orange;
+      border-color: $orange;
+      padding: 0.120773rem 0.201288rem 0.120773rem 0.563607rem;
+      &:before {
+        content: '\e906';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0.161031rem;
+        color: $orange;
+        display: inline-block;
+        font-family: 'pano';
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+  }
+  label {
+    display: block;
+    font-weight: normal;
+    cursor: pointer;
+    padding: 0.120773rem 0.201288rem;
+    // border: 1px solid #f3f5f7;
+    border: 2px solid #f3f5f7;
+    font-size: 0.289855rem;
+    &:hover {
+      border-color: $orange;
+    }
+  }
+}
