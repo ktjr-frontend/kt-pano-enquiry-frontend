@@ -1,37 +1,35 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-
+  <div class="enquiry-type">
+    <group>
+      <cell title="资产类" @click="click" is-link class="kt-cell">
+        <div class="icon-circle" slot="icon">
+          <i class="icon-pano icon-man"></i>
+        </div>
+        <div slot="after-title" class="kt-cell-content">资产是指由企业过去经营交易各项事项形成预期会给企业经济利益的资源。</div>
+      </cell>
+    </group>
+    <group>
+      <cell title="资管类" @click="click" is-link class="kt-cell">
+        <div class="icon-circle" slot="icon">
+          <i class="icon-pano icon-man"></i>
+        </div>
+        <div slot="after-title" class="kt-cell-content">集合资产管理：顾名思义是集合客户的资产，由专业的投资者(券商)进行管理。</div>
+      </cell>
+    </group>
   </div>
-  <tabbar>
-    <tabbar-item show-dot>
-      <i slot="icon" class="icon-pano icon-search"></i>
-      <span slot="label">询价</span>
-    </tabbar-item>
-    <tabbar-item selected>
-      <i slot="icon" class="icon-pano icon-man"></i>
-      <span slot="label">我</span>
-    </tabbar-item>
-  </tabbar>
 </template>
 
 <script>
-import Tabbar from 'vux-components/tabbar'
-import TabbarItem from 'vux-components/tabbar-item'
+import Group from 'vux-components/group'
+import Cell from 'vux-components/cell'
 
 export default {
   components: {
-    Tabbar,
-    TabbarItem
+    Group,
+    Cell
   },
   data() {
-    return {
-      // note: changing this line won't causes changes
-      // with hot-reload because the reloaded component
-      // preserves its current state and we are modifying
-      // its initial state.
-      msg: '你好'
-    }
+
   }
 }
 </script>

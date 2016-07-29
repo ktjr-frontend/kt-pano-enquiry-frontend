@@ -1,7 +1,11 @@
-var users
+var sessions
+var registrations
+var cards
 
 export default function setResources(resource) {
-  users = resource('sessions')
+  sessions = resource('sessions')
+  registrations = resource('registrations{/content}')
+  cards = resource('cards{/content}')
 }
 
-export { users }
+export { sessions, registrations, cards }

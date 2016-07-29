@@ -2,13 +2,59 @@
   background: white;
   .popup {
     padding: 0.322061rem;
-    .head{
+    .head {
       height: 0.966184rem;
       line-height: 0.966184rem;
-      .title{
+      .title {
         color: #9da5b7;
         font-size: 0.354267rem;
       }
     }
+  }
+}
+
+.vux-header {
+  background: #727e9c;
+  position: relative;
+  .vux-header-left {
+    top: 50%;
+    transform: translateY(-50%);
+    .vux-header-back:before {
+      position: static;
+    }
+  }
+  .vux-header-title,
+  h1 {
+    height: 1.207729rem; //150px
+    line-height: 1.207729rem;
+    font-size: 0.402576rem; //50px
+  }
+}
+
+.weui_cell {
+  &:active {
+    .with_arrow:after {
+      border-color: #4380dd;
+    }
+  }
+  &.kt-cell {
+    padding: 0.563607rem 0.402576rem; //70px 50px
+  }
+  .kt-cell-content {
+    font-size: 0.322061rem; // 40px
+    color: #c5c9d2;
+  }
+  .weui_cell_primary {
+    font-size: 0.402576rem; //50px
+    color: #737e9c;
+  }
+  .icon-circle {
+    margin-right: 0.402576rem;
+    border: 1px solid #e8ecf3;
+    border-radius: 50%;
+    width: 1.771337rem; // 220px
+    height: 1.771337rem;
+    text-align: center;
+    line-height: 1.771337rem;
   }
 }

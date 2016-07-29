@@ -5,8 +5,8 @@
 
         <div class="form-group" v-for="field in fields">
           <div class="input input-withicon" v-validate-class :class="{'not-empty': !!user[field.name]}">
-            <i class="icon-enquiry" :class="field.iconName"></i>
-            <input initial="off" @input="validate(field.name)" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
+            <i class="icon-pano" :class="field.iconName"></i>
+            <input autocomplete="off" initial="off" @input="validate(field.name)" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
               <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
               <i class="weui_icon weui_icon_warn" @click="showError(field.name)"></i>
@@ -33,7 +33,6 @@
         </flexbox>
       </form>
 
-      <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
     </validator>
   </div>
   <!-- 忘记密码提示 -->
@@ -42,6 +41,7 @@
     <p><img src="../assets/images/weixin.jpg" width="100%" /></p>
   </alert>
 
+  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
 </template>
 
 <script>
@@ -51,10 +51,12 @@ import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import Vue from 'vue'
 import {
-  users
+  sessions
 } from '../common/resources'
 import {
-  updateUser
+  updateUser,
+  showLoadingStatus,
+  hideLoadingStatus
 } from '../vuex/actions'
 
 export default {
@@ -66,7 +68,9 @@ export default {
   },
   vuex: {
     actions: {
-      updateUser
+      updateUser,
+      showLoadingStatus,
+      hideLoadingStatus
     }
   },
   methods: {
@@ -89,15 +93,16 @@ export default {
           this.toast.text = '内容有误'
           this.toast.show = true
         } else {
-          users.save(this.user).then((res) => {
+          this.showLoadingStatus()
+          sessions.save(this.user).then((res) => {
             let token = window.localStorage.token = res.json().token
             Vue.http.headers.common['Authorization'] = token
 
             // 获取用户信息
-            users.get().then((res) => {
-              console.log(res.json().account)
-              this.updateUser(res.json().account)
-
+            sessions.get().then((res) => {
+              this.hideLoadingStatus()
+              let user = res.json().account
+              this.updateUser(user)
               this.$router.go({
                 name: 'enquiry'
               })
@@ -129,7 +134,7 @@ export default {
         name: 'mobile',
         placeholder: '请输入用户名（手机号码）',
         type: 'text',
-        iconName: 'icon-user',
+        iconName: 'icon-man-solid',
         validate: {
           required: true,
           mobile: true
@@ -138,7 +143,7 @@ export default {
         name: 'password',
         placeholder: '请输入密码',
         type: 'password',
-        iconName: 'icon-lock',
+        iconName: 'icon-lock-solid',
         validate: {
           required: true
         }

@@ -1,12 +1,12 @@
 <template>
   <div class="form-container register-container">
     <validator name="registerValidation">
-      <form action="" novalidate @submit="onSubmit($event)">
-
+      <form autocomplete="off" action="" novalidate @submit="onSubmit($event)">
+        <input type="password" class="dn" name="password" />
         <div class="form-group" v-for="field in fields">
           <div class="input" v-validate-class :class="{'not-empty': !!user[field.name]}">
-            <i class="icon-enquiry" :class="field.iconName"></i>
-            <input @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
+            <i class="icon-pano" :class="field.iconName"></i>
+            <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
               <button :disabled="captchaCountdown.show" v-if="field.name === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
                 <span>{{captchaCountdown.text}}</span>
@@ -58,19 +58,16 @@
           </flexbox-item>
         </flexbox>
 
-
       </form>
 
-      <!-- 验证错误信息提示 -->
-      <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
     </validator>
   </div>
 
-  <!-- 忘记密码提示 -->
-  <alert :show.sync="alert.forgetPassword" title="提示" button-text="知道了">
-    <p style="text-align:center;">如忘记密码，请联系我们的微信小秘书：</p>
-    <p><img src="../assets/images/weixin.jpg" width="100%" /></p>
+  <alert :show.sync="alert.registerSuccess" title="提示" button-text="好的">
+    <p style="text-align:center;">您以成功注册</p>
   </alert>
+  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
+  <!-- 验证错误信息提示 -->
 </template>
 
 <script>
@@ -80,6 +77,15 @@ import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import Popup from 'vux-components/popup'
 import Countdown from 'vux-components/countdown'
+import {
+  sessions,
+  registrations
+} from '../common/resources'
+import {
+  updateUser,
+  showLoadingStatus,
+  hideLoadingStatus
+} from '../vuex/actions'
 
 export default {
   components: {
@@ -90,6 +96,13 @@ export default {
     Countdown,
     Popup
   },
+  vuex: {
+    actions: {
+      updateUser,
+      showLoadingStatus,
+      hideLoadingStatus
+    }
+  },
   methods: {
     clearField(name) {
       this.user[name] = ''
@@ -98,21 +111,50 @@ export default {
       this.toast.text = this.$registerValidation.errors.find((e) => e.field === name).message
       this.toast.show = true
     },
-    validate: function(name) {
+    validate(name) {
       if (this.$registerValidation[name].invalid && this.$registerValidation[name].touched) {
         this.$validate(name)
       }
     },
-    getCaptcha: function() {
+    getCaptcha() {
+      if (!this.user.mobile || this.$registerValidation.mobile.invalid) {
+        this.toast.text = '手机号码有误'
+        this.toast.show = true
+        return
+      }
       this.captchaCountdown.show = true
       this.captchaCountdown.start = true
       this.captchaCountdown.text = '等待'
+      registrations.get({
+        content: 'captcha',
+        mobile: this.user.mobile,
+        channel: 'sms'
+      }).catch((res) => {
+        this.toast.text = res.json().error
+        this.toast.show = true
+        this.captchaCountdown.show = false
+        this.captchaCountdown.start = false
+        this.captchaCountdown.text = '短信获取'
+      })
     },
-    captchaCountdownFinish: function() {
+    captchaCountdownFinish() {
       this.captchaCountdown.time = 59
       this.captchaCountdown.show = false
       this.captchaCountdown.start = false
       this.captchaCountdown.text = '短信获取'
+    },
+    onRegisterSuccess() {
+      sessions.save({
+        mobile: this.user.mobile,
+        password: this.user.password
+      }).then((res) => {
+        let user = res.json().account
+        this.updateUser(user)
+
+        this.$router.go({
+          name: 'enquiry'
+        })
+      })
     },
     onSubmit(event) {
       event.preventDefault()
@@ -121,7 +163,11 @@ export default {
           this.toast.text = '内容有误'
           this.toast.show = true
         } else {
-          // todo
+          this.showLoadingStatus()
+          registrations.save().then(() => {
+            this.hideLoadingStatus()
+            this.registerSuccess = true
+          })
         }
       })
     }
@@ -196,7 +242,7 @@ export default {
         show: false
       },
       alert: {
-        forgetPassword: false
+        registerSuccess: false
       },
       fields: [{
         name: 'name',

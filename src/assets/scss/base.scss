@@ -11,6 +11,9 @@ body {
   min-height: 100%;
   color: #737e9c;
   font-size: 0.354267rem;
+  overflow: hidden;
+  position: relative;
+  // padding-bottom: 0.805153rem;
 }
 
 em {
@@ -22,6 +25,10 @@ em {
 }
 
 [v-cloak] {
+  display: none;
+}
+
+.dn {
   display: none;
 }
 

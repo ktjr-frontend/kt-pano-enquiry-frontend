@@ -20,6 +20,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-lock-solid:before {
+  content: "\e90a";
+}
+
+.icon-man-solid:before {
+  content: "\e90b";
+}
+
 .icon-house:before {
   content: "\e900";
 }

@@ -1,0 +1,36 @@
+.tabbar {
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.288245rem;
+  line-height: 1.288245rem; // 160px;
+  display: flex;
+  background: white;
+  border-top: 1px solid #e9ecf1;
+  .tab {
+    flex: 1;
+    border-right: 1px solid #e9ecf1;
+    text-align: center;
+    a {
+      text-align: center;
+      font-size: 0.322061rem; //40px
+      color: #737e9c;
+      .icon-pano {
+        vertical-align: middle;
+        color: #dde1f0;
+        margin-right: 0.161031rem; //20px
+      }
+      &:active,
+      &:hover,
+      &.v-link-active {
+        text-decoration: none;
+        color: #4380dd;
+        .icon-pano {
+          color: #4380dd;
+        }
+      }
+    }
+  }
+}

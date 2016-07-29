@@ -5,6 +5,7 @@ import createLogger from 'vuex/logger'
 
 const debug = process.env.NODE_ENV !== 'production'
 const state = {
+  loadingStatus: false,
   user: {
     mobile: '',
     name: '',

@@ -9,11 +9,17 @@ module.exports = {
   plugins: [
     'html'
   ],
+  env: {
+    'browser': true,
+    'node': true,
+    'jasmine': true
+  },
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'space-before-function-paren': 0,
+    "spaced-comment": [0, "never"],
     'indent': [2, 2, {
       'SwitchCase': 1
     }],

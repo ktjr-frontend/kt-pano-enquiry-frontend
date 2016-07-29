@@ -1,3 +1,26 @@
+input::-moz-placeholder {
+  color: #c5c9d2;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder {
+  color: #c5c9d2;
+}
+
+input::-webkit-input-placeholder {
+  color: #c5c9d2;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:active,
+input:-webkit-autofill:focus {
+  background-color: !important;
+  color: #737e9c!important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: #737e9c!important;
+}
+
 .form-container {
   padding: 1.36876rem 0.402576rem;
   &.register-container {
@@ -30,10 +53,12 @@
     position: relative;
     &.input-withicon {
       padding-left: 1.127214rem;
-      .icon-enquiry {
+      .icon-pano {
         position: absolute;
-        left: 0.241546rem;
-        color: #f5be6c;
+        left: 0.362319rem; //45px
+        color: #dde1f0;
+        top: 50%;
+        transform: translateY(-50%);
       }
     }
     .inset-button {
@@ -115,6 +140,7 @@
     border: 0;
     -webkit-appearance: none;
   }
+  .btn,
   button,
   input[type="button"] {
     padding-left: 0.563607rem;
@@ -128,6 +154,12 @@
     border-radius: 0.040258rem;
     border: 0;
     -webkit-appearance: none;
+    &.btn-gray {
+      background: #b7bed1;
+      &:active {
+        background: darken(#b7bed1, 10%);
+      }
+    }
     &[disabled] {
       color: #c5c9d2;
     }
