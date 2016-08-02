@@ -1,16 +1,16 @@
 <template>
   <div class="form-container">
     <validator name="loginValidation">
-      <form action="" novalidate @submit="onSubmit($event)">
+      <form action="" novalidate @submit.prevent="onSubmit($event)">
 
         <div class="form-group" v-for="field in fields">
           <div class="input input-withicon" v-validate-class :class="{'not-empty': !!user[field.name]}">
             <i class="icon-pano" :class="field.iconName"></i>
             <input autocomplete="off" initial="off" @input="validate(field.name)" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
-              <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" @click="showError(field.name)"></i>
-              <i class="weui_icon weui_icon_success"></i>
+              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
+              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
+              <!-- <i class="weui_icon weui_icon_success"></i> -->
             </div>
           </div>
         </div>
@@ -27,7 +27,7 @@
           </flexbox-item>
           <flexbox-item>
             <div class="text-right">
-              <a @click.prevent="alert.forgetPassword = true">忘记密码？</a>
+              <a @click.prevent="forgetPassword()">忘记密码？</a>
             </div>
           </flexbox-item>
         </flexbox>
@@ -35,40 +35,34 @@
 
     </validator>
   </div>
-  <!-- 忘记密码提示 -->
-  <alert :show.sync="alert.forgetPassword" title="提示" button-text="知道了">
-    <p style="text-align:center;">如忘记密码，请联系我们的微信小秘书：</p>
-    <p><img src="../assets/images/weixin.jpg" width="100%" /></p>
-  </alert>
 
-  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
 </template>
 
 <script>
-import Alert from 'vux-components/alert'
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
-import Toast from 'vux-components/toast'
 import Vue from 'vue'
 import {
   sessions
 } from '../common/resources'
 import {
   updateUser,
+  showAlert,
+  showToast,
   showLoadingStatus,
   hideLoadingStatus
 } from '../vuex/actions'
 
 export default {
   components: {
-    Alert,
     Flexbox,
-    FlexboxItem,
-    Toast
+    FlexboxItem
   },
   vuex: {
     actions: {
       updateUser,
+      showAlert,
+      showToast,
       showLoadingStatus,
       hideLoadingStatus
     }
@@ -77,21 +71,30 @@ export default {
     clearField(name) {
       this.user[name] = ''
     },
-    showError(name) {
-      this.toast.text = this.$loginValidation.errors.find((e) => e.field === name).message
-      this.toast.show = true
+    forgetPassword() {
+      let weixin = require('../assets/images/weixin.jpg')
+      let content = `<p style="text-align:center;">如忘记密码，请联系我们的微信小秘书：</p>
+                  <p><img src="${weixin}" width="100%" /></p>`
+      this.showAlert({
+        content: content
+      })
     },
-    validate: function(name) {
+    showError(name) {
+      this.showToast({
+        text: this.$loginValidation.errors.find((e) => e.field === name).message
+      })
+    },
+    validate(name) {
       if (this.$loginValidation[name].invalid && this.$loginValidation[name].touched) {
         this.$validate(name)
       }
     },
-    onSubmit(event) {
-      event.preventDefault()
+    onSubmit() {
       this.$validate(true, () => {
         if (this.$loginValidation.invalid) {
-          this.toast.text = '内容有误'
-          this.toast.show = true
+          this.showToast({
+            text: '内容有误'
+          })
         } else {
           this.showLoadingStatus()
           sessions.save(this.user).then((res) => {
@@ -108,8 +111,10 @@ export default {
               })
             })
           }, (res) => {
-            this.toast.text = res.json().error || '登录失败'
-            this.toast.show = true
+            this.hideLoadingStatus()
+            this.showToast({
+              text: res.json().error || '登录失败'
+            })
           })
         }
       })
@@ -120,15 +125,6 @@ export default {
       user: {
         mobile: '',
         password: ''
-      },
-      toast: {
-        time: 1000,
-        type: 'warn',
-        text: '内容有误',
-        show: false
-      },
-      alert: {
-        forgetPassword: false
       },
       fields: [{
         name: 'mobile',

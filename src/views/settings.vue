@@ -1,44 +1,42 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-
-  </div>
-  <div class="tabbar">
-    <div class="tab" v-for="tab in tabs" :class="{'active': tab.active}">
-      <a v-link="tab.link">
-        <i class="icon-pano" :class="tab.icon"></i>{{tab.name}}
-      </a>
-    </div>
+  <div class="settings">
+    <group>
+      <cell title="姓名" :value="user.name"></cell>
+      <cell title="手机号码" :value="user.mobile.toString()"></cell>
+    </group>
+    <group>
+      <cell title="工作邮箱" :value="user.email"></cell>
+      <cell title="公司名称" :value="user.company"></cell>
+      <cell title="部门" :value="user.department"></cell>
+      <cell title="职位" :value="user.job"></cell>
+      <cell title="地址" :value="user.address"></cell>
+    </group>
+    <button class="mt-40" @click="logOut()">退出登录</button>
   </div>
 </template>
 
 <script>
+import Group from 'vux-components/group'
+import Cell from 'vux-components/cell'
+import {
+  user
+} from '../vuex/getters'
+import {
+  logOut
+} from '../vuex/actions'
+
 export default {
-  data() {
-    return {
-      tabs: [{
-        active: true,
-        name: '询价',
-        icon: 'icon-search',
-        link: {
-          name: 'enquiry'
-        }
-      }, {
-        active: false,
-        name: '我',
-        icon: 'icon-man',
-        link: {
-          name: 'settings'
-        }
-      }]
+  components: {
+    Group,
+    Cell
+  },
+  vuex: {
+    getters: {
+      user
+    },
+    actions: {
+      logOut
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1 {
-  color: #42b983;
-}
-</style>

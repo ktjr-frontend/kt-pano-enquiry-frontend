@@ -1,31 +1,9 @@
-html {
-  height: 100%;
-}
-
-a {
-  text-decoration: none;
-}
-
-body {
-  background: #eff1f8;
-  min-height: 100%;
-  color: #737e9c;
-  font-size: 0.354267rem;
-  overflow: hidden;
-  position: relative;
-  // padding-bottom: 0.805153rem;
-}
-
-em {
-  font-weight: normal;
-  color: #f5be6c;
-  a {
-    color: #f5be6c;
-  }
-}
-
 [v-cloak] {
   display: none;
+}
+
+.mt-40 {
+  margin-top: 0.322061rem;
 }
 
 .dn {

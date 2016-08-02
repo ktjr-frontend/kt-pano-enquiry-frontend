@@ -1,0 +1,36 @@
+.card-container {
+  text-align: center;
+}
+
+.card {
+  height: 3.220612rem; //400px
+  width: 3.220612rem;
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 0.080515rem;
+  &:active{
+    background: #f0f0f0;
+  }
+  .content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  p {
+    color: #999ea5;
+    font-size: 0.322061rem; //40px
+  }
+  .icon-pano {
+    height: 1.610306rem;
+    line-height: 1.610306rem;
+    width: 1.610306rem; //200px
+    display: inline-block;
+    border-radius: 50%;
+    font-size: 0.925926rem;
+    margin-bottom: 0.402576rem;
+    &:before {
+      opacity: 0.5;
+      color: white;
+    }
+  }
+}

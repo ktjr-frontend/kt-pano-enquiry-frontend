@@ -29,11 +29,7 @@
       </form>
     </validator>
   </div>
-  <alert :show.sync="alert.uploadSuccess" title="提示" button-text="好的">
-    <p style="text-align:center;">名片上传图成功</p>
-  </alert>
 
-  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
 </template>
 
 <script>
@@ -42,9 +38,15 @@ import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import {
+  updateUser,
+  showAlert,
+  showToast,
   showLoadingStatus,
   hideLoadingStatus
 } from '../vuex/actions'
+import {
+  user
+} from '../vuex/getters'
 import {
   cards
 } from '../common/resources'
@@ -57,22 +59,20 @@ export default {
     Toast
   },
   vuex: {
+    getters: {
+      user
+    },
     actions: {
+      updateUser,
+      showAlert,
+      showToast,
       showLoadingStatus,
       hideLoadingStatus
     }
   },
   data() {
     return {
-      toast: {
-        time: 1000,
-        type: 'warn',
-        text: '内容有误',
-        show: false
-      },
-      alert: {
-        uploadSuccess: false
-      },
+
       card: {
         file: null,
         previewUrl: '',
@@ -100,22 +100,26 @@ export default {
           default:
             cssClass = ''
         }
-        console.log(cssClass)
         return cssClass
       }
     }
   },
   methods: {
+    showPreview(url) {
+      this.card.previewUrl = url
+      this.card.previewing = false
+    },
     cardOnChange(name, event) {
       this.validate(name)
       let file = event.target
       let reader = new FileReader()
       reader.addEventListener('load', () => {
-        this.card.previewUrl = reader.result
-        this.card.previewing = false
+        this.hideLoadingStatus()
+        this.showPreview(reader.result)
       })
 
       if (file.files[0]) {
+        this.showLoadingStatus()
         this.previewing = true
         setTimeout(function() {
           reader.readAsDataURL(file.files[0])
@@ -135,18 +139,37 @@ export default {
       event.preventDefault()
       this.$validate(true, () => {
         if (this.$cardValidation.invalid) {
-          this.toast.text = '内容有误'
-          this.toast.show = true
+          this.showToast({
+            text: '内容有误'
+          })
         } else {
           this.showLoadingStatus()
           let form = document.forms.namedItem('cardForm')
           let fromData = new FormData(form)
 
           cards.save(fromData).then((res) => {
-            this.hideLoadingStatus()
-            this.alert.uploadingSuccess = true
+            cards.update({
+              content: 'confirm'
+            }).then((res) => {
+              this.hideLoadingStatus()
+              this.showAlert({
+                content: '名片上传图成功'
+              })
+              this.updateUser(Object.assign({}, this.user, res.json().data.user))
+              this.$router.go({
+                name: 'enquiry'
+              })
+            }, (res) => {
+              this.hideLoadingStatus()
+              this.showToast({
+                text: res.json().error || '保存失败'
+              })
+            })
           }, (res) => {
-            this.toast.text = res.json().error || '保存失败'
+            this.hideLoadingStatus()
+            this.showToast({
+              text: res.json().error || '保存失败'
+            })
           })
         }
       })

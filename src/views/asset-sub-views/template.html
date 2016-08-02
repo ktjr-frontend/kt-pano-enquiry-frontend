@@ -1,0 +1,58 @@
+<div class="filters">
+  <div class="body-head">
+    <p class="sub-title">请尽量精确输入您的资产情况，以便为您推荐最合理的利率值和最合适的平台：</p>
+  </div>
+  <validator name="enquiryValidation">
+    <form action="" novalidate @submit.prevent="onSubmit($event)">
+      <div class="weui_cells vux-no-group-title" v-for="group in filtersByType">
+        <div class="weui_cell weui_select_after" v-for="field in group" :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}" v-validate-class>
+
+          <div class="weui_cell_hd">
+            <label class="weui_label" :style="{width: (field.name.length + 1 + (!!field.tip)*1) + 'em'}">
+              {{field.name}}
+              <i v-if="field.tip" class="icon-pano icon-question tip-icon" @click="showTip(field.tip)"></i>
+            </label>
+            <!-- checkbox组 -->
+            <div v-if="field.type === 'checkboxs'">
+                <div class="clfix mt-40">
+                  <div class="checkbox-label" v-for="cb in field.options">
+                    <input autocomplete="off" v-model="filter[field.key]" :id="'as_' + cb.key" :value="cb.value" :field="field.key" v-validate="field.validate" type="checkbox">
+                    <label :for="'as_' + cb.key">{{cb.value}}</label>
+                  </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="weui_cell_bd weui_cell_primary">
+            <!-- input类型 -->
+            <div v-if="field.type === 'input'">
+              <input class="weui_input" v-model="filter[field.key]" type="text" :field="field.key" v-validate="field.validate">
+            </div>
+            <!-- select类型 -->
+            <div v-if="field.type === 'select'">
+              <select class="weui_select" v-model="filter[field.key]" @change="updateView(field.key)" :class="{'empty': !filter[field.key]}" :field="field.key" :name="field.key" v-validate="field.validate">
+                <option value="" selected>请选择</option>
+                <option v-for="o in field.options" :value="o.key">{{o.value}}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- switch类型 -->
+          <div class="weui_cell_ft">
+            <div v-if="field.type === 'switch'">
+              <input @change="updateView()" v-model="filter[field.key]" class="weui_switch" type="checkbox">
+            </div>
+            <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.key)"></i>
+            <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.key)"></i>
+            <span>{{field.unit}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="weiui_buttons_kt">
+        <button type="submit">立即查询</button>
+        <p class="text-center mt-40 color-unimportant">查询结果由开通PANO系统模型提供</p>
+      </div>
+    </form>
+  </validator>
+</div>

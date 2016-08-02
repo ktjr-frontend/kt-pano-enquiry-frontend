@@ -1,7 +1,7 @@
 <template>
   <div class="enquiry-type">
     <group>
-      <cell title="资产类" @click="click" is-link class="kt-cell">
+      <cell title="资产类" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-man"></i>
         </div>
@@ -9,7 +9,7 @@
       </cell>
     </group>
     <group>
-      <cell title="资管类" @click="click" is-link class="kt-cell">
+      <cell title="资管类" @click="showAssetManageAlert()" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-man"></i>
         </div>
@@ -22,14 +22,31 @@
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
+import {
+  showAlert
+} from '../vuex/actions'
 
 export default {
   components: {
     Group,
     Cell
   },
-  data() {
-
+  vuex: {
+    actions: {
+      showAlert
+    }
+  },
+  methods: {
+    goTo(name) {
+      this.$router.go({
+        name: name
+      })
+    },
+    showAssetManageAlert() {
+      this.showAlert({
+        content: '资管类的询价功能正在开发中，敬请期待'
+      })
+    }
   }
 }
 </script>

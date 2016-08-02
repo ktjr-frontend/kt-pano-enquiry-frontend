@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <x-header v-show="tabVisible" :left-options="header.leftOptions">{{title}}</x-header>
+    <x-header v-show="headVisible" :left-options="header.leftOptions">{{title}}</x-header>
     <router-view></router-view>
     <div class="tabbar" v-show="tabVisible">
       <div class="tab" v-for="tab in tabs" :class="{'active': tab.active}">
@@ -13,6 +13,13 @@
   <div class="logo" :class="{'no-tabbar': !tabVisible}">
     <img src="./assets/images/logo2.svg" alt="开通PANO">
   </div>
+
+  <alert :show.sync="alert.show" :title="alert.title" :button-text="alert.buttonText">
+    {{{alert.content}}}
+  </alert>
+
+  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
+
   <loading :show="loadingStatus" :text="'加载中...'"></loading>
 </template>
 
@@ -20,8 +27,12 @@
 import store from './vuex/store'
 import XHeader from 'vux-components/x-header'
 import Loading from 'vux-components/loading'
+import Alert from 'vux-components/alert'
+import Toast from 'vux-components/toast'
 import {
-  loadingStatus
+  loadingStatus,
+  toast,
+  alert
 } from './vuex/getters'
 import _ from 'lodash'
 
@@ -32,7 +43,9 @@ import {
 export default {
   components: {
     XHeader,
-    Loading
+    Loading,
+    Alert,
+    Toast
   },
   data() {
     return {
@@ -61,15 +74,20 @@ export default {
   },
   computed: {
     tabVisible() {
-      _.includes(['login', 'register', 'perfect'], this.$route.name)
+      return !_.includes(['login', 'register', 'perfect'], this.$route.name)
+    },
+    headVisible() {
+      return !_.includes(['login', 'register'], this.$route.name)
     },
     title() {
-      return this.$route.title
+      return this.$route.title.text
     }
   },
   vuex: {
     getters: {
-      loadingStatus
+      loadingStatus,
+      toast,
+      alert
     },
     actions: {
       updateUser
@@ -88,8 +106,10 @@ export default {
 @import './assets/fonts/style.css';
 @import './assets/scss/vux.scss';
 @import './assets/scss/base.scss';
+@import './assets/scss/common.scss';
 @import './assets/scss/form.scss';
 @import './assets/scss/tabbar.scss';
+@import './assets/scss/card.scss';
 .logo {
   height: 0.724638rem;
   line-height: 0.724638rem; //90px
@@ -114,6 +134,7 @@ body.overflow-height {
   .logo {
     position: static;
     margin: 0 0.402576rem; //0 50px
+    margin-bottom: 1.288245rem;
     left: 0;
     right: 0;
     margin-top: 0.402576rem;

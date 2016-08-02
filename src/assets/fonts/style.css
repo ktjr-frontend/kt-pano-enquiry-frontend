@@ -20,6 +20,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-question-bold:before {
+  content: "\e90c";
+}
+
+.icon-question:before {
+  content: "\e90d";
+}
+
 .icon-lock-solid:before {
   content: "\e90a";
 }

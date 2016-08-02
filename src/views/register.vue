@@ -1,7 +1,7 @@
 <template>
   <div class="form-container register-container">
     <validator name="registerValidation">
-      <form autocomplete="off" action="" novalidate @submit="onSubmit($event)">
+      <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
         <input type="password" class="dn" name="password" />
         <div class="form-group" v-for="field in fields">
           <div class="input" v-validate-class :class="{'not-empty': !!user[field.name]}">
@@ -10,7 +10,7 @@
             <div class="status">
               <button :disabled="captchaCountdown.show" v-if="field.name === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
                 <span>{{captchaCountdown.text}}</span>
-                <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="captchaCountdownFinish"></countdown>
+                <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
               </button>
               <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
               <i class="weui_icon weui_icon_warn" @click="showError(field.name)"></i>
@@ -19,7 +19,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <!--<div class="form-group">
           <button @click.prevent="assetTypes.show = true" class="btn-left-right cell">
             <span class="left">关注金融资产类型</span>
             <span class="right">
@@ -28,7 +28,7 @@
             <i class="weui_cell_ft with_arrow"></i>
             </span>
           </button>
-          <!-- 金融资产类型 -->
+          <!~~ 金融资产类型 ~~>
           <popup :show.sync="assetTypes.show">
             <div class="popup">
               <div class="head">
@@ -44,7 +44,7 @@
               </div>
             </div>
           </popup>
-        </div>
+        </div>-->
 
         <div class="form-group">
           <button type="submit">立即注册</button>
@@ -63,11 +63,6 @@
     </validator>
   </div>
 
-  <alert :show.sync="alert.registerSuccess" title="提示" button-text="好的">
-    <p style="text-align:center;">您以成功注册</p>
-  </alert>
-  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
-  <!-- 验证错误信息提示 -->
 </template>
 
 <script>
@@ -83,6 +78,8 @@ import {
 } from '../common/resources'
 import {
   updateUser,
+  showAlert,
+  showToast,
   showLoadingStatus,
   hideLoadingStatus
 } from '../vuex/actions'
@@ -99,6 +96,8 @@ export default {
   vuex: {
     actions: {
       updateUser,
+      showAlert,
+      showToast,
       showLoadingStatus,
       hideLoadingStatus
     }
@@ -107,9 +106,21 @@ export default {
     clearField(name) {
       this.user[name] = ''
     },
+    startCountDown() {
+      this.captchaCountdown.show = true
+      this.captchaCountdown.start = true
+      this.captchaCountdown.text = '等待'
+    },
+    resetCountDown() {
+      this.captchaCountdown.time = 59
+      this.captchaCountdown.show = false
+      this.captchaCountdown.start = false
+      this.captchaCountdown.text = '短信获取'
+    },
     showError(name) {
-      this.toast.text = this.$registerValidation.errors.find((e) => e.field === name).message
-      this.toast.show = true
+      this.showToast({
+        text: this.$registerValidation.errors.find((e) => e.field === name).message
+      })
     },
     validate(name) {
       if (this.$registerValidation[name].invalid && this.$registerValidation[name].touched) {
@@ -118,31 +129,25 @@ export default {
     },
     getCaptcha() {
       if (!this.user.mobile || this.$registerValidation.mobile.invalid) {
-        this.toast.text = '手机号码有误'
-        this.toast.show = true
+        this.showToast({
+          text: '手机号码有误'
+        })
         return
       }
-      this.captchaCountdown.show = true
-      this.captchaCountdown.start = true
-      this.captchaCountdown.text = '等待'
+
+      this.startCountDown()
       registrations.get({
         content: 'captcha',
         mobile: this.user.mobile,
         channel: 'sms'
       }).catch((res) => {
-        this.toast.text = res.json().error
-        this.toast.show = true
-        this.captchaCountdown.show = false
-        this.captchaCountdown.start = false
-        this.captchaCountdown.text = '短信获取'
+        this.showToast({
+          text: res.json().error || '获取失败'
+        })
+        this.resetCountDown()
       })
     },
-    captchaCountdownFinish() {
-      this.captchaCountdown.time = 59
-      this.captchaCountdown.show = false
-      this.captchaCountdown.start = false
-      this.captchaCountdown.text = '短信获取'
-    },
+
     onRegisterSuccess() {
       sessions.save({
         mobile: this.user.mobile,
@@ -156,17 +161,19 @@ export default {
         })
       })
     },
-    onSubmit(event) {
-      event.preventDefault()
+    onSubmit() {
       this.$validate(true, () => {
         if (this.$registerValidation.invalid) {
-          this.toast.text = '内容有误'
-          this.toast.show = true
+          this.showToast({
+            text: '内容有误'
+          })
         } else {
           this.showLoadingStatus()
-          registrations.save().then(() => {
+          registrations.save(this.user).then(() => {
             this.hideLoadingStatus()
-            this.registerSuccess = true
+            this.showAlert({
+              content: '注册成功'
+            })
           })
         }
       })
@@ -180,12 +187,12 @@ export default {
   data() {
     return {
       user: {
-        name: '',
-        company: '',
-        email: '',
+        // name: '',
+        // company: '',
+        // email: '',
         mobile: '',
         captcha: '',
-        likes: [],
+        // likes: [],
         password: ''
       },
       captchaCountdown: {
@@ -194,7 +201,7 @@ export default {
         time: 59,
         start: false
       },
-      assetTypes: {
+      /*assetTypes: {
         show: false,
         validate: {
           required: true
@@ -234,86 +241,49 @@ export default {
           name: '其 他',
           value: 10
         }]
-      },
-      toast: {
-        time: 1000,
-        type: 'warn',
-        text: '内容有误',
-        show: false
-      },
-      alert: {
-        registerSuccess: false
-      },
-      fields: [{
-        name: 'name',
-        placeholder: '您的真实姓名（提交后不可修改）',
-        type: 'text',
-        iconName: 'icon-user',
-        validate: {
-          required: true,
-          maxlength: 30
-        }
-      }, {
-        name: 'company',
-        placeholder: '您的公司名称',
-        type: 'text',
-        iconName: 'icon-user',
-        validate: {
-          required: true,
-          maxlength: 30
-        }
-      }, {
-        name: 'email',
-        placeholder: '您的邮箱',
-        type: 'text',
-        iconName: 'icon-user',
-        validate: {
-          required: true,
-          email: true,
-          maxlength: 60
-        }
-      }, {
-        name: 'mobile',
-        placeholder: '您的手机号码',
-        type: 'text',
-        iconName: 'icon-user',
-        validate: {
-          required: true,
-          mobile: true
-        }
-      }, {
-        name: 'captcha',
-        placeholder: '请输入验证码',
-        type: 'text',
-        iconName: 'icon-user',
-        validate: {
-          required: true,
-          pattern: {
-            rule: '/^\\d{4}$/',
-            message: '验证码错误'
+      },*/
+
+      fields: [
+        /*{ name: 'name', placeholder: '您的真实姓名（提交后不可修改）', type: 'text', iconName: 'icon-user', validate: { required: true, maxlength: 30 } }, { name: 'company', placeholder: '您的公司名称', type: 'text', iconName: 'icon-user', validate: { required: true, maxlength: 30 } }, { name: 'email', placeholder: '您的邮箱', type: 'text', iconName: 'icon-user', validate: { required: true, email: true, maxlength: 60 } },*/
+        {
+          name: 'mobile',
+          placeholder: '您的手机号码',
+          type: 'text',
+          iconName: 'icon-user',
+          validate: {
+            required: true,
+            mobile: true
+          }
+        }, {
+          name: 'captcha',
+          placeholder: '请输入验证码',
+          type: 'text',
+          iconName: 'icon-user',
+          validate: {
+            required: true,
+            pattern: {
+              rule: '/^\\d{4}$/',
+              message: '验证码错误'
+            }
+          }
+        }, {
+          name: 'password',
+          placeholder: '请输入密码（6~20位，包含字母和数字）',
+          type: 'password',
+          iconName: 'icon-lock',
+          validate: {
+            pattern: {
+              rule: '/^(?=.*\\d)(?=.*[a-z]).{6,20}$/',
+              message: '不能小于6个字符，需包含字母和数字'
+            }
           }
         }
-      }, {
-        name: 'password',
-        placeholder: '请输入密码（6~20位，包含字母和数字）',
-        type: 'password',
-        iconName: 'icon-lock',
-        validate: {
-          pattern: {
-            rule: '/^(?=.*\\d)(?=.*[a-z]).{6,20}$/',
-            message: '不能小于6个字符，需包含字母和数字'
-          }
-        }
-      }]
+      ]
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-.checkbox-label {
-  float: left;
-  margin-bottom: 0.120773rem;
-  margin-right: 0.120773rem;
-}
+
 </style>

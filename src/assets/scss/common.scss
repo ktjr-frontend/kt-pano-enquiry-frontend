@@ -1,0 +1,37 @@
+html {
+  height: 100%;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  background: #eff1f8;
+  min-height: 100%;
+  color: #737e9c;
+  font-size: 0.354267rem;
+  overflow: hidden;
+  position: relative;
+  // padding-bottom: 0.805153rem;
+}
+
+em {
+  font-weight: normal;
+  color: #f5be6c;
+  a {
+    color: #f5be6c;
+  }
+}
+
+.body-head{
+  padding: 0.402576rem 0.402576rem 0;
+  .sub-title{
+    font-size: 0.322061rem;
+    color: #999ea5;
+  }
+}
+
+.color-unimportant{
+  color: #d4d8de
+}

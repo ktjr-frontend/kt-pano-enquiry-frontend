@@ -21,10 +21,72 @@ input:-webkit-autofill:focus {
   -webkit-text-fill-color: #737e9c!important;
 }
 
+form {
+  position: relative;
+  z-index: 9;
+  background: #eff1f8; //和body同一个颜色 为了弹出键盘时候可以遮盖下面的logo
+}
+
 .form-container {
   padding: 1.36876rem 0.402576rem;
   &.register-container {
     padding: 0.644122rem 0.402576rem;
+  }
+}
+
+input {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+.btn,
+button,
+input[type="button"] {
+  padding-left: 0.563607rem;
+  padding-right: 0.281804rem;
+  height: 1.127214rem;
+  width: 100%;
+  color: white;
+  font-size: 0.354267rem;
+  text-align: center;
+  background: #194373;
+  border-radius: 0.040258rem;
+  border: 0;
+  -webkit-appearance: none;
+  &.btn-gray {
+    background: #b7bed1;
+    &:active {
+      background: darken(#b7bed1, 10%);
+    }
+  }
+  &[disabled] {
+    color: #c5c9d2;
+  }
+  &:active {
+    background: darken(#194373, 10%);
+    // box-shadow: inset 0 1px 0 rgba(0, 0, 0, .5);
+  }
+  .with_arrow {
+    float: right;
+    margin-top: -0.016103rem;
+    &:after {
+      border-color: white;
+    }
+  }
+  &.cell {
+    background: #b7bed1;
+  }
+  &.btn-left-right {
+    .left {
+      float: left;
+    }
+    .right {
+      float: right;
+    }
   }
 }
 
@@ -132,64 +194,13 @@ input:-webkit-autofill:focus {
       }
     }
   }
-  input {
-    height: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    -webkit-appearance: none;
-  }
-  .btn,
-  button,
-  input[type="button"] {
-    padding-left: 0.563607rem;
-    padding-right: 0.281804rem;
-    height: 1.127214rem;
-    width: 100%;
-    color: white;
-    font-size: 0.354267rem;
-    text-align: center;
-    background: #60c2b3;
-    border-radius: 0.040258rem;
-    border: 0;
-    -webkit-appearance: none;
-    &.btn-gray {
-      background: #b7bed1;
-      &:active {
-        background: darken(#b7bed1, 10%);
-      }
-    }
-    &[disabled] {
-      color: #c5c9d2;
-    }
-    &:active {
-      background: darken(#60c2b3, 10%);
-      // box-shadow: inset 0 1px 0 rgba(0, 0, 0, .5);
-    }
-    .with_arrow {
-      float: right;
-      margin-top: -0.016103rem;
-      &:after {
-        border-color: white;
-      }
-    }
-    &.cell {
-      background: #b7bed1;
-    }
-    &.btn-left-right {
-      .left {
-        float: left;
-      }
-      .right {
-        float: right;
-      }
-    }
-  }
 }
 
 .checkbox-label {
   $orange: #ffc445;
+  float: left;
+  margin-bottom: 0.120773rem;
+  margin-right: 0.120773rem;
   color: #b6b6b6;
   // color: white;
   font-size: 0.289855rem;
@@ -225,7 +236,7 @@ input:-webkit-autofill:focus {
     // border: 1px solid #f3f5f7;
     border: 2px solid #f3f5f7;
     font-size: 0.289855rem;
-    &:hover {
+    &:active {
       border-color: $orange;
     }
   }
