@@ -17,3 +17,7 @@ export function alert(state) {
 export function assetTypes(state) {
   return state.assetTypes
 }
+
+export function enquiryError(state) {
+  return state.enquiryError
+}

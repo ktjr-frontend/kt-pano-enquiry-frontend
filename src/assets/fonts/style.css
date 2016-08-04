@@ -20,6 +20,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-cloud:before {
+  content: "\e90e";
+}
+
+.icon-earch:before {
+  content: "\e90f";
+}
+
+.icon-meng:before {
+  content: "\e910";
+}
+
+.icon-mobile:before {
+  content: "\e911";
+}
+
 .icon-question-bold:before {
   content: "\e90c";
 }

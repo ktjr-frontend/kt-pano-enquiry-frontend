@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <validator name="loginValidation">
+    <validator name="validation">
       <form action="" novalidate @submit.prevent="onSubmit($event)">
 
         <div class="form-group" v-for="field in fields">
@@ -16,13 +16,13 @@
         </div>
 
         <div class="form-group">
-          <button type="submit">登录</button>
+          <button type="submit" @click="$parent.log({name: '登录'})">登录</button>
         </div>
 
         <flexbox>
           <flexbox-item>
             <div class="text-left">
-              没有账号？<em><a v-link="{name: 'register'}">立即注册</a></em>
+              没有账号？<em><a v-link="{name: 'register'}" @click="$parent.log({name: '立即注册'})">立即注册</a></em>
             </div>
           </flexbox-item>
           <flexbox-item>
@@ -42,78 +42,54 @@
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Vue from 'vue'
+import formMixin from './form-mixin'
 import {
   sessions
 } from '../common/resources'
-import {
-  updateUser,
-  showAlert,
-  showToast,
-  showLoadingStatus,
-  hideLoadingStatus
-} from '../vuex/actions'
 
 export default {
+  mixins: [formMixin],
   components: {
     Flexbox,
     FlexboxItem
   },
-  vuex: {
-    actions: {
-      updateUser,
-      showAlert,
-      showToast,
-      showLoadingStatus,
-      hideLoadingStatus
-    }
-  },
   methods: {
-    clearField(name) {
-      this.user[name] = ''
-    },
     forgetPassword() {
       let weixin = require('../assets/images/weixin.jpg')
       let content = `<p style="text-align:center;">如忘记密码，请联系我们的微信小秘书：</p>
                   <p><img src="${weixin}" width="100%" /></p>`
-      this.showAlert({
+      this.$parent.showAlert({
         content: content
       })
-    },
-    showError(name) {
-      this.showToast({
-        text: this.$loginValidation.errors.find((e) => e.field === name).message
+      this.$parent.log({
+        name: '忘记密码'
       })
-    },
-    validate(name) {
-      if (this.$loginValidation[name].invalid && this.$loginValidation[name].touched) {
-        this.$validate(name)
-      }
     },
     onSubmit() {
       this.$validate(true, () => {
-        if (this.$loginValidation.invalid) {
-          this.showToast({
+        if (this.$validation.invalid) {
+          this.$parent.showToast({
             text: '内容有误'
           })
         } else {
-          this.showLoadingStatus()
+          this.$parent.showLoadingStatus()
           sessions.save(this.user).then((res) => {
             let token = window.localStorage.token = res.json().token
             Vue.http.headers.common['Authorization'] = token
 
             // 获取用户信息
             sessions.get().then((res) => {
-              this.hideLoadingStatus()
+              this.$parent.hideLoadingStatus()
               let user = res.json().account
-              this.updateUser(user)
+              this.$parent.updateUser(user)
               this.$router.go({
                 name: 'enquiry'
               })
             })
           }, (res) => {
-            this.hideLoadingStatus()
-            this.showToast({
-              text: res.json().error || '登录失败'
+            this.$parent.hideLoadingStatus()
+            this.$parent.showAlert({
+              content: res.json().error || '登录失败'
             })
           })
         }

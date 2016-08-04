@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      type: 'government',
       visible: {
         guarantee_subject: false
       },

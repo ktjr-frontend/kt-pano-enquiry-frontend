@@ -22,19 +22,11 @@
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
-import {
-  showAlert
-} from '../vuex/actions'
 
 export default {
   components: {
     Group,
     Cell
-  },
-  vuex: {
-    actions: {
-      showAlert
-    }
   },
   methods: {
     goTo(name) {
@@ -43,7 +35,7 @@ export default {
       })
     },
     showAssetManageAlert() {
-      this.showAlert({
+      this.$parent.showAlert({
         content: '资管类的询价功能正在开发中，敬请期待'
       })
     }

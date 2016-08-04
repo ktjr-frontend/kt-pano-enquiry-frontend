@@ -22,8 +22,8 @@ input:-webkit-autofill:focus {
 }
 
 form {
-  position: relative;
-  z-index: 9;
+  // position: relative;
+  // z-index: 1;
   background: #eff1f8; //和body同一个颜色 为了弹出键盘时候可以遮盖下面的logo
 }
 
@@ -46,9 +46,11 @@ input {
 .btn,
 button,
 input[type="button"] {
-  padding-left: 0.563607rem;
-  padding-right: 0.281804rem;
+  display: inline-block;
+  // padding-left: 0.563607rem;
+  // padding-right: 0.281804rem;
   height: 1.127214rem;
+  line-height: 1.127214rem;
   width: 100%;
   color: white;
   font-size: 0.354267rem;
@@ -61,6 +63,12 @@ input[type="button"] {
     background: #b7bed1;
     &:active {
       background: darken(#b7bed1, 10%);
+    }
+  }
+  &.btn-cyan {
+    background: #78839f;
+    &:active {
+      background: darken(#78839f, 10%);
     }
   }
   &[disabled] {

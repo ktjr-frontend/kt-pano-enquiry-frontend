@@ -13,6 +13,7 @@ export default {
   },
   data() {
     return {
+      type: 'enterprise',
       visible: {
         shareholder_type: false,
         guarantee_subject: false

@@ -24,14 +24,23 @@ em {
   }
 }
 
-.body-head{
+.body-head {
   padding: 0.402576rem 0.402576rem 0;
-  .sub-title{
+  .sub-title {
     font-size: 0.322061rem;
     color: #999ea5;
   }
 }
 
-.color-unimportant{
+.color-unimportant {
   color: #d4d8de
+}
+
+.flex-container {
+  min-height: 500px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }

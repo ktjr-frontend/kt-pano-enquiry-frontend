@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
+    "crypto-js": "^3.1.6",
     "lodash": "^4.14.0",
     "normalize.css": "^4.2.0",
     "vue": "^1.0.21",
@@ -22,7 +23,8 @@
     "vue-touch": "^1.1.0",
     "vue-validator": "^2.1.5",
     "vuex": "^1.0.0-rc.2",
-    "vux": "^0.1.2"
+    "vux": "^0.1.2",
+    "weixin-js-sdk": "^1.0.7"
   },
   "devDependencies": {
     "readline-sync": "^1.4.1",

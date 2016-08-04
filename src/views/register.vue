@@ -1,6 +1,6 @@
 <template>
   <div class="form-container register-container">
-    <validator name="registerValidation">
+    <validator name="validation">
       <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
         <input type="password" class="dn" name="password" />
         <div class="form-group" v-for="field in fields">
@@ -24,7 +24,7 @@
             <span class="left">关注金融资产类型</span>
             <span class="right">
               <span v-show="user.likes.length">{{'已选（' + user.likes.length + '）'}}</span>
-            <i class="weui_icon weui_icon_warn" v-show="$registerValidation.likes.invalid"></i>
+            <i class="weui_icon weui_icon_warn" v-show="$validation.likes.invalid"></i>
             <i class="weui_cell_ft with_arrow"></i>
             </span>
           </button>
@@ -47,22 +47,20 @@
         </div>-->
 
         <div class="form-group">
-          <button type="submit">立即注册</button>
+          <button type="submit" @click="$parent.log({name: '立即注册'})">立即注册</button>
         </div>
 
         <flexbox>
           <flexbox-item>
             <div class="text-right">
-              已有账号？<em><a v-link="{name: 'login'}">请登录</a></em>
+              已有账号？<em><a v-link="{name: 'login'}" @click="$parent.log({name: '请登录'})">请登录</a></em>
             </div>
           </flexbox-item>
         </flexbox>
 
       </form>
-
     </validator>
   </div>
-
 </template>
 
 <script>
@@ -72,19 +70,14 @@ import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import Popup from 'vux-components/popup'
 import Countdown from 'vux-components/countdown'
+import formMixin from './form-mixin'
 import {
   sessions,
   registrations
 } from '../common/resources'
-import {
-  updateUser,
-  showAlert,
-  showToast,
-  showLoadingStatus,
-  hideLoadingStatus
-} from '../vuex/actions'
 
 export default {
+  mixins: [formMixin],
   components: {
     Alert,
     Flexbox,
@@ -93,43 +86,23 @@ export default {
     Countdown,
     Popup
   },
-  vuex: {
-    actions: {
-      updateUser,
-      showAlert,
-      showToast,
-      showLoadingStatus,
-      hideLoadingStatus
-    }
-  },
   methods: {
-    clearField(name) {
-      this.user[name] = ''
-    },
     startCountDown() {
       this.captchaCountdown.show = true
       this.captchaCountdown.start = true
       this.captchaCountdown.text = '等待'
     },
+
     resetCountDown() {
       this.captchaCountdown.time = 59
       this.captchaCountdown.show = false
       this.captchaCountdown.start = false
       this.captchaCountdown.text = '短信获取'
     },
-    showError(name) {
-      this.showToast({
-        text: this.$registerValidation.errors.find((e) => e.field === name).message
-      })
-    },
-    validate(name) {
-      if (this.$registerValidation[name].invalid && this.$registerValidation[name].touched) {
-        this.$validate(name)
-      }
-    },
+
     getCaptcha() {
-      if (!this.user.mobile || this.$registerValidation.mobile.invalid) {
-        this.showToast({
+      if (!this.user.mobile || this.$validation.mobile.invalid) {
+        this.$parent.showToast({
           text: '手机号码有误'
         })
         return
@@ -141,7 +114,7 @@ export default {
         mobile: this.user.mobile,
         channel: 'sms'
       }).catch((res) => {
-        this.showToast({
+        this.$parent.showToast({
           text: res.json().error || '获取失败'
         })
         this.resetCountDown()
@@ -154,7 +127,7 @@ export default {
         password: this.user.password
       }).then((res) => {
         let user = res.json().account
-        this.updateUser(user)
+        this.$parent.updateUser(user)
 
         this.$router.go({
           name: 'enquiry'
@@ -163,17 +136,28 @@ export default {
     },
     onSubmit() {
       this.$validate(true, () => {
-        if (this.$registerValidation.invalid) {
-          this.showToast({
+        if (this.$validation.invalid) {
+          this.$parent.showToast({
             text: '内容有误'
           })
         } else {
-          this.showLoadingStatus()
-          registrations.save(this.user).then(() => {
-            this.hideLoadingStatus()
-            this.showAlert({
-              content: '注册成功'
+          this.$parent.showLoadingStatus()
+          registrations.save({
+            content: 'simplify'
+          }, this.user).then(() => {
+            this.$parent.hideLoadingStatus()
+            sessions.save(this.user).then((res) => {
+              this.$router.go({
+                name: 'perfect'
+              })
             })
+
+            // this.$parent.showAlert({
+            //   content: '注册成功',
+            //   onhide() {
+
+            //   }
+            // })
           })
         }
       })
@@ -285,5 +269,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>

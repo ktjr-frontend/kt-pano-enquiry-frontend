@@ -20,7 +20,7 @@ import FlexboxItem from 'vux-components/flexbox-item'
 import _ from 'lodash'
 import {
   assetTypes
-} from '../vuex/getters'
+} from '../../vuex/getters'
 
 export default {
   components: {

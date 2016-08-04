@@ -2,7 +2,7 @@
   <div class="body-head">
     <p class="sub-title">请尽量精确输入您的资产情况，以便为您推荐最合理的利率值和最合适的平台：</p>
   </div>
-  <validator name="enquiryValidation">
+  <validator name="validation">
     <form action="" novalidate @submit.prevent="onSubmit($event)">
       <div class="weui_cells vux-no-group-title" v-for="group in filtersByType">
         <div class="weui_cell weui_select_after" v-for="field in group" :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}" v-validate-class>

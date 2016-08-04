@@ -15,6 +15,7 @@ export default {
   },
   data() {
     return {
+      type: 'mini_finance',
       visible: {
         financing_grade: true
           // guarantee: false,

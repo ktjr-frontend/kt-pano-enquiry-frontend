@@ -6,14 +6,19 @@ import setValidators from './common/validators'
 import Login from './views/login'
 import Register from './views/register'
 import Perfect from './views/perfect'
-import Enquiry from './views/enquiry'
-import EnquiryAssetTypes from './views/enquiry-asset-types'
+import Home from './views/home'
+import Enquiry from './views/enquiry/enquiry'
+import EnquiryAssetTypes from './views/enquiry/enquiry-asset-types'
+import EnquiryResult from './views/enquiry/enquiry-result'
+import EnquiryError from './views/enquiry/enquiry-error'
 import EnquiryAssetEslate from './views/asset-sub-views/enquiry-asset-eslate'
 import EnquiryAssetGovernment from './views/asset-sub-views/enquiry-asset-government'
 import EnquiryAssetEnterprise from './views/asset-sub-views/enquiry-asset-enterprise'
 import EnquiryAssetSupplyChain from './views/asset-sub-views/enquiry-asset-supply-chain'
 import EnquiryAssetMiniFinance from './views/asset-sub-views/enquiry-asset-mini-finance'
 import Settings from './views/settings'
+import ServiceIntroduce from './views/service-introduce'
+import _ from 'lodash'
 
 // 自定义validator
 Vue.use(Router)
@@ -25,6 +30,12 @@ let router = new Router({
 })
 
 router.map({
+  '/home': {
+    title: { text: '首页' },
+    name: 'home',
+    // needLogin: true,
+    component: Home
+  },
   '/enquiry': {
     title: { text: '选择类型' },
     name: 'enquiry',
@@ -67,6 +78,24 @@ router.map({
     needLogin: true,
     component: EnquiryAssetMiniFinance
   },
+  'enquiry/result': {
+    title: { text: '询价结果' },
+    name: 'enquiryResult',
+    needLogin: true,
+    component: EnquiryResult
+  },
+  'enquiry/error': {
+    title: { text: '询价结果' },
+    name: 'enquiryError',
+    needLogin: true,
+    component: EnquiryError
+  },
+  'serivce_introduce': {
+    title: { text: '开通服务介绍' },
+    name: 'serviceIntroduce',
+    needLogin: true,
+    component: ServiceIntroduce
+  },
   '/settings': {
     title: { text: '我' },
     name: 'settings',
@@ -84,6 +113,7 @@ router.map({
     component: Login
   },
   '/perfect': {
+    needLogin: true,
     name: 'perfect',
     title: { text: '上传名片' },
     component: Perfect
@@ -91,17 +121,16 @@ router.map({
 })
 
 router.redirect({
-  '*': '/enquiry'
+  '*': '/home'
     // '*': '/login'
 })
 
-router.beforeEach(function({ to, abort, next }) {
+router.beforeEach(function({ from, to, abort, next }) {
   let user = JSON.parse(window.localStorage.user || '{}')
-
-  if (to.needLogin && !user.name) {
+  if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
     abort()
-  } else if (user.status === 'initialized') {
+  } else if (to.needLogin && user.status === 'initialized' && !_.includes(['login', 'perfect', 'register'], to.name)) {
     router.go({ name: 'perfect' })
     abort()
   } else {

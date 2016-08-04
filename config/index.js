@@ -18,13 +18,15 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 80,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://dev-pano.ktjr.com',
-        changeOrigin: true,
+        // target: 'http://10.132.1.125:3000',
+        target: 'http://localhost:3005',
+        // target: 'http://dev-pano.ktjr.com',
+        changeOrigin: true
         // pathRewrite: {
         //   '^/api': ''
         // }

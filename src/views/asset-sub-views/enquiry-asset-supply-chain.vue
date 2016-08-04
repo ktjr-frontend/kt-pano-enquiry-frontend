@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      type: 'supply_chain',
       visible: {
         // guarantee: false,
         // developer_type: false,

@@ -3,27 +3,12 @@ import Cell from 'vux-components/cell'
 import XInput from 'vux-components/x-input'
 import Selector from 'vux-components/selector'
 import _ from 'lodash'
+import formMixin from '../form-mixin'
 import {
   pruneParams
 } from '../../common/helpers'
-import {
-  showToast,
-  showAlert
-} from '../../vuex/actions'
-import {
-  assetTypes
-} from '../../vuex/getters'
 
-export default {
-  vuex: {
-    getters: {
-      assetTypes
-    },
-    actions: {
-      showToast,
-      showAlert
-    }
-  },
+let mixin = _.merge({
   components: {
     Group,
     Cell,
@@ -32,34 +17,24 @@ export default {
   },
   methods: {
     showTip(tip) {
-      this.showAlert({
+      this.$parent.showAlert({
         content: tip
       })
     },
-    clearField(key) {
-      this.filter[key] = ''
-    },
-    showError(key) {
-      this.showToast({
-        text: this.$enquiryValidation.errors.find((e) => e.field === key).message
-      })
-    },
-    validate(key) {
-      if (this.$enquiryValidation[key].invalid && this.$enquiryValidation[key].touched) {
-        this.$validate(key)
-      }
-    },
     onSubmit() {
       this.$validate(true, () => {
-        if (this.$enquiryValidation.invalid) {
-          this.showToast({
+        if (this.$validation.invalid) {
+          this.$parent.showToast({
             text: '内容有误'
           })
         } else {
-          this.showLoadingStatus()
+          // this.$parent.showLoadingStatus()
           this.$router.go({
             name: 'enquiryResult',
-            query: pruneParams(this.filter)
+            query: {
+              ...pruneParams(this.filter),
+              type: this.type
+            }
           })
         }
       })
@@ -80,4 +55,7 @@ export default {
       return filterObj
     }
   }
-}
+
+}, formMixin)
+
+export default mixin

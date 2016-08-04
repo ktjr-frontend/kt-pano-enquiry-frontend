@@ -18,7 +18,7 @@
         <div class="form-group">
           <flexbox>
             <flexbox-item>
-              <button class="btn">完成</button>
+              <button class="btn" @click="$parent.log({name: '完成'})">完成</button>
             </flexbox-item>
             <flexbox-item>
               <button class="btn btn-gray" @click.prevent="resetForm()">重新上传</button>
@@ -37,13 +37,7 @@ import Alert from 'vux-components/alert'
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
-import {
-  updateUser,
-  showAlert,
-  showToast,
-  showLoadingStatus,
-  hideLoadingStatus
-} from '../vuex/actions'
+
 import {
   user
 } from '../vuex/getters'
@@ -61,13 +55,6 @@ export default {
   vuex: {
     getters: {
       user
-    },
-    actions: {
-      updateUser,
-      showAlert,
-      showToast,
-      showLoadingStatus,
-      hideLoadingStatus
     }
   },
   data() {
@@ -114,12 +101,15 @@ export default {
       let file = event.target
       let reader = new FileReader()
       reader.addEventListener('load', () => {
-        this.hideLoadingStatus()
+        this.$parent.hideLoadingStatus()
         this.showPreview(reader.result)
+        this.$parent.log({
+          name: '上传名片'
+        })
       })
 
       if (file.files[0]) {
-        this.showLoadingStatus()
+        this.$parent.showLoadingStatus()
         this.previewing = true
         setTimeout(function() {
           reader.readAsDataURL(file.files[0])
@@ -129,6 +119,9 @@ export default {
     resetForm() {
       this.card.previewUrl = ''
       document.forms.namedItem('cardForm').reset()
+      this.$parent.log({
+        name: '重新上传'
+      })
     },
     validate: function(name) {
       if (this.$cardValidation[name].invalid && this.$cardValidation[name].touched) {
@@ -139,35 +132,35 @@ export default {
       event.preventDefault()
       this.$validate(true, () => {
         if (this.$cardValidation.invalid) {
-          this.showToast({
+          this.$parent.showToast({
             text: '内容有误'
           })
         } else {
-          this.showLoadingStatus()
+          this.$parent.showLoadingStatus()
           let form = document.forms.namedItem('cardForm')
           let fromData = new FormData(form)
 
           cards.save(fromData).then((res) => {
             cards.update({
               content: 'confirm'
-            }).then((res) => {
-              this.hideLoadingStatus()
-              this.showAlert({
+            }, {}).then((res) => {
+              this.$parent.hideLoadingStatus()
+              this.$parent.showAlert({
                 content: '名片上传图成功'
               })
-              this.updateUser(Object.assign({}, this.user, res.json().data.user))
+              this.$parent.updateUser(Object.assign({}, this.user, res.json().account))
               this.$router.go({
                 name: 'enquiry'
               })
             }, (res) => {
-              this.hideLoadingStatus()
-              this.showToast({
+              this.$parent.hideLoadingStatus()
+              this.$parent.showToast({
                 text: res.json().error || '保存失败'
               })
             })
           }, (res) => {
-            this.hideLoadingStatus()
-            this.showToast({
+            this.$parent.hideLoadingStatus()
+            this.$parent.showToast({
               text: res.json().error || '保存失败'
             })
           })

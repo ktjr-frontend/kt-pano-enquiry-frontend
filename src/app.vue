@@ -3,7 +3,7 @@
     <x-header v-show="headVisible" :left-options="header.leftOptions">{{title}}</x-header>
     <router-view></router-view>
     <div class="tabbar" v-show="tabVisible">
-      <div class="tab" v-for="tab in tabs" :class="{'active': tab.active}">
+      <div class="tab" v-for="tab in tabs" :span="tab.span" :class="{'active': tab.active}">
         <a v-link="tab.link">
           <i class="icon-pano" :class="tab.icon"></i>{{tab.name}}
         </a>
@@ -29,6 +29,7 @@ import XHeader from 'vux-components/x-header'
 import Loading from 'vux-components/loading'
 import Alert from 'vux-components/alert'
 import Toast from 'vux-components/toast'
+import log from './common/log'
 import {
   loadingStatus,
   toast,
@@ -37,7 +38,11 @@ import {
 import _ from 'lodash'
 
 import {
-  updateUser
+  updateUser,
+  showAlert,
+  showToast,
+  showLoadingStatus,
+  hideLoadingStatus
 } from './vuex/actions'
 
 export default {
@@ -46,6 +51,9 @@ export default {
     Loading,
     Alert,
     Toast
+  },
+  methods: {
+    log
   },
   data() {
     return {
@@ -57,6 +65,7 @@ export default {
       },
       tabs: [{
         active: true,
+        span: 2,
         name: '询价',
         icon: 'icon-search',
         link: {
@@ -64,6 +73,7 @@ export default {
         }
       }, {
         active: false,
+        span: 1,
         name: '我',
         icon: 'icon-man',
         link: {
@@ -74,10 +84,10 @@ export default {
   },
   computed: {
     tabVisible() {
-      return !_.includes(['login', 'register', 'perfect'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'perfect'], this.$route.name)
     },
     headVisible() {
-      return !_.includes(['login', 'register'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'enquiryResult'], this.$route.name)
     },
     title() {
       return this.$route.title.text
@@ -90,7 +100,11 @@ export default {
       alert
     },
     actions: {
-      updateUser
+      updateUser,
+      showAlert,
+      showToast,
+      showLoadingStatus,
+      hideLoadingStatus
     }
   },
   ready: function() {
@@ -110,11 +124,17 @@ export default {
 @import './assets/scss/form.scss';
 @import './assets/scss/tabbar.scss';
 @import './assets/scss/card.scss';
+#app {
+  z-index: 1;
+  position: relative;
+}
+
 .logo {
   height: 0.724638rem;
   line-height: 0.724638rem; //90px
   text-align: center;
   position: absolute;
+  z-index: 0;
   left: 0;
   right: 0;
   bottom: 2.012882rem; // 250px

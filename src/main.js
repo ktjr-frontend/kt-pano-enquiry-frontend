@@ -4,9 +4,11 @@ import VueResource from 'vue-resource'
 import setResources from './common/resources'
 import interceptors from './common/interceptors'
 import VueTouch from 'vue-touch'
+import Filters from './common/filters'
 
 Vue.use(VueResource)
 Vue.use(VueTouch)
+Vue.use(Filters)
 
 // http初始化
 Vue.http.options.root = '/api/v1'

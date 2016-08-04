@@ -14,6 +14,7 @@ export default {
   },
   data() {
     return {
+      type: 'eslate',
       visible: {
         guarantee: false,
         developer_type: false,
