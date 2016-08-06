@@ -7,32 +7,32 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.developer_type = this.filter.rank === 'no_rank'
-      this.visible.guarantee = this.filter.rank === '50top'
-      this.visible.guarantee_subject = this.filter.guarantee
+      this.visible.developer_type = this.filter.developer_order === '无排名'
+      this.visible.guarantee = this.filter.developer_order === '前50强'
+      this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
     return {
-      type: 'eslate',
+      asset_type: '房地产类',
       visible: {
         guarantee: false,
         developer_type: false,
-        guarantee_subject: false
+        trust_party: false
       },
       filter: {
-        amount: '',
-        duration: '',
-        rank: '',
+        asset_amount: '',
+        asset_life: '',
+        developer_order: '',
         developer_type: '',
         guarantee: false,
-        guarantee_subject: []
+        trust_party: []
       },
 
       fields: [{
         name: '*融资规模',
         group: 'group1',
-        key: 'amount',
+        key: 'asset_amount',
         type: 'input',
         format: 'wy',
         validate: {
@@ -46,7 +46,7 @@ export default {
       }, {
         name: '*融资期限',
         group: 'group1',
-        key: 'duration',
+        key: 'asset_life',
         type: 'input',
         validate: {
           required: true,
@@ -59,7 +59,7 @@ export default {
       }, {
         name: '开发商全国排名',
         group: 'group2',
-        key: 'rank',
+        key: 'developer_order',
         type: 'select',
         validate: {
           maxlength: 120
@@ -100,7 +100,7 @@ export default {
       }, {
         name: '第三方担保主体',
         group: 'group3',
-        key: 'guarantee_subject',
+        key: 'trust_party',
         type: 'checkboxs',
         validate: {
           required: true

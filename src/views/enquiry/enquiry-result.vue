@@ -3,32 +3,35 @@
     <spinner type="ios"></spinner>
   </div>
 
-  <div class="enquiry-result" v-show="!$loadingRouteData && enquiry_result.average_rate">
+  <div class="enquiry-result" v-show="!$loadingRouteData && enquiry_result.inquiry_life_asset_rate">
     <section class="head">
       <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
       <div class="circle">
-        <h2>{{enquiry_result.average_rate | percent 1}}<span class="unit">%</span></h2>
+        <h2>{{enquiry_result.inquiry_life_asset_rate}}<span class="unit">%</span></h2>
         <p>参考利率值</p>
       </div>
     </section>
+
     <section class="head-footer">
       为您推荐互联网金融平台：
     </section>
+
     <section class="results">
-      <group v-for="item in enquiry_result.results">
-        <cell :title="item.name" class="kt-md-cell">
+      <group v-for="item in enquiry_result.inquiry_tactics_data">
+        <cell :title="item.platform" class="kt-md-cell">
           <div class="icon-circle" slot="icon">
             <img :src="item.logo">
           </div>
-          <div slot="after-title" class="kt-cell-content">{{item.desc}}</div>
+          <div slot="after-title" class="kt-cell-content">{{item.recomm_reason}}</div>
           <div slot="value" class="value">
             <h3>参考利率</h3>
             <p>
-              <strong>{{item.rate | percent 1 '%'}}</strong>
+              <strong>{{item.rate | append '%'}}</strong>
             </p>
           </div>
         </cell>
       </group>
+
       <group>
         <cell title="" class="kt-md-cell feedback">
           <div slot="icon">
@@ -36,12 +39,13 @@
             <a @click="feedback(0)"><i class="icon-pano icon-sad not-satisfied"></i>不满意</a>
           </div>
           <div slot="value">
-            <button class="share">分享</button>
+            <button class="share" @click="openShare()">分享</button>
           </div>
         </cell>
       </group>
+
       <group>
-        <cell v-link="{name: 'serviceIntroduce'}" is-link class="service-introdution">
+        <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: 'log'})" is-link class="service-introdution">
           <div slot="after-title">
             <h3>开通资产推介服务</h3>
             <p>开通可为您提供资产推介全流程服务，帮助您与合适的互联网金融 平台达成交易，千分之一费用，如有意向请与我们联系。
@@ -66,45 +70,105 @@ import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
 import Spinner from 'vux-components/spinner'
 import {
-  enquiries,
-  feedbacks
+  enquiries
 } from '../../common/resources'
 import {
-  showAlert,
-  showToast,
   showSuccessToast,
   showErrorToast,
   updateEnquiryError
 } from '../../vuex/actions'
 import wx from 'weixin-js-sdk'
-// import SHA1 from 'crypto-js/sha1'
+import Utils from '../../common/utils'
 export default {
   ready: function() {
-    // this.$http.jsonp('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx304dfaa11415f925&secret=APPSECRET')
+    this.updateSignature()
 
-    // console.log(SHA1('jsapi_ticket=sM4AOVdWfPE4DxkXGEs8VMCPGGVi4C3VM0P37wVUCFvkVAy_90u5h9nbSlYy3-Sl-HhTdfl2fzFy1AOcHKP7qg&noncestr=Wm3WZYTPz0wzccnW&timestamp=1414587457&url=http://mp.weixin.qq.com?params=value').toString())
-
-    wx.onMenuShareAppMessage({
-      title: 'hahah', // 分享标题
-      desc: 'ddddd', // 分享描述
-      link: '', // 分享链接
-      imgUrl: '../../assets/images/weixin.jpg', // 分享图标
-      type: '', // 分享类型,music、video或link，不填默认为link
-      dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-      success: function() {
-        // 用户确认分享后执行的回调函数
-
-      },
-      cancel: function() {
-        // 用户取消分享后执行的回调函数
-
+    // 签名失效
+    wx.error((res) => {
+      if (this.retryTime > 2) {
+        return
       }
+
+      ++this.retryTime
+      this.updateSignature({
+        // force: 1
+      })
+    })
+
+    wx.ready(() => {
+      let host = location.protocol + '//' + location.host
+      let imgUrl = host + require('../../assets/images/favicon-material.png')
+      let shareOptions = {
+        title: '这里是分享标题', // 分享标题
+        desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事', // 分享描述
+        link: host + '/enquiry/share?key=' + this.enquiry_result.params_key, // 分享链接
+        imgUrl: imgUrl // 分享图标
+          // type: '', // 分享类型,music、video或link，不填默认为link
+          // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+      }
+
+      // 分享给朋友
+      wx.onMenuShareAppMessage({
+        ...shareOptions,
+        success() {
+          // 用户确认分享后执行的回调函数
+          this.logShare('朋友', '确定')
+        },
+        cancel() {
+          this.logShare('朋友', '取消')
+        }
+      })
+
+      // 分享到朋友圈
+      wx.onMenuShareTimeline({
+        ...shareOptions,
+        success() {
+          this.logShare('朋友圈', '确定')
+        },
+        cancel() {
+          this.logShare('朋友圈', '取消')
+        }
+      })
+
+      // 分享到QQ
+      wx.onMenuShareQQ({
+        ...shareOptions,
+        success() {
+          // 用户确认分享后执行的回调函数
+          this.logShare('QQ', '确定')
+        },
+        cancel() {
+          this.logShare('QQ', '取消')
+        }
+      })
+
+      // 分享到腾讯微博
+      wx.onMenuShareWeibo({
+        ...shareOptions,
+        success() {
+          // 用户确认分享后执行的回调函数
+          this.logShare('腾讯微博', '确定')
+        },
+        cancel() {
+          this.logShare('腾讯微博', '取消')
+        }
+      })
+
+      // 分享到QQ空间
+      wx.onMenuShareQZone({
+        ...shareOptions,
+        success() {
+          // 用户确认分享后执行的回调函数
+          this.logShare('QQ空间', '确定')
+        },
+        cancel() {
+          this.logShare('QQ空间', '取消')
+        }
+      })
     })
   },
   vuex: {
     actions: {
-      showAlert,
-      showToast,
       showSuccessToast,
       showErrorToast,
       updateEnquiryError
@@ -123,12 +187,15 @@ export default {
         query
       }
     }) {
-      // this.showLoadingStatus()
-      let p = enquiries.get(query).then((res) => {
+      let p = enquiries.get({
+        content: 'search',
+        snapshot: 1,
+        ...query
+      }).then((res) => {
         let data = res.json()
 
-        if (!data.average_rate) {
-          this.updateEnquiryError(data.enquiry_error)
+        if (!data.inquiry_life_asset_rate) {
+          this.updateEnquiryError(data.inquiry_tactics_data.canot_publish)
           this.$router.replace({
             name: 'enquiryError'
           })
@@ -143,16 +210,86 @@ export default {
     }
   },
   methods: {
+    updateSignature(params, callback) {
+      this.signature.timestamp = (+new Date() / 1000 | 0)
+      this.signature.nonceStr = Utils.uniqeId(16)
+      let p = params || {}
+      enquiries.get({
+        content: 'get_wx_tokens',
+        ...this.signature,
+        ...p
+      }).then((res) => {
+        let data = res.json()
+        wx.config({
+          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          appId: 'wx304dfaa11415f925', // 必填，公众号的唯一标识
+          timestamp: this.signature.timestamp, // 必填，生成签名的时间戳
+          nonceStr: this.signature.nonceStr, // 必填，生成签名的随机串
+          signature: data.get_wx_tokens, // 必填，签名，见附录1
+          jsApiList: [ // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone',
+            'hideOptionMenu',
+            'showOptionMenu',
+            'hideMenuItems',
+            'showMenuItems',
+            'hideAllNonBaseMenuItem',
+            'showAllNonBaseMenuItem',
+            'closeWindow'
+          ]
+        })
+        callback && callback()
+      })
+    },
+    logShare(to, action) {
+      this.$parent.log({
+        name: '分享',
+        to: to || '未知',
+        action: action || '未知'
+      })
+    },
+    openShare() {
+      this.$parent.log({
+        name: '分享按钮'
+      })
+
+      /*this.$router.go({
+        name: 'enquiryShare',
+        query: {
+          key: this.enquiry_result.params_key
+        }
+      })*/
+      wx.showOptionMenu()
+      wx.showMenuItems({
+        menuList: [ // 要显示的菜单项，所有menu项见附录3
+          'menuItem:share:appMessage',
+          'menuItem:share:timeline',
+          'menuItem:share:qq',
+          'menuItem:share:weiboApp',
+          // 'menuItem:share:facebook',
+          'menuItem:share:QZone'
+        ]
+      })
+    },
     feedback(value) {
-      feedbacks.save({
-        type: value
+      this.$parent.log({
+        key: this.enquiry_result.params_key,
+        name: value ? '满意' : '不满意'
       }).then((res) => {
         if (value === 1) {
-          this.showAlert({
+          this.$parent.showAlert({
             content: '快点把这么好的询价系统分享给好友吧！'
           })
         } else {
-          this.showSuccessToast('感谢您的反馈！')
+          let weixin = require('../../assets/images/weixin.jpg')
+          let content = `<p style="text-align:center;">快找PANO酱吐槽下哪里不满意吧</p>
+                  <p><img src="${weixin}" width="100%" /></p>`
+          this.$parent.showAlert({
+            content: content
+          })
         }
       }, (res) => {
         this.showErrorToast(res.json().error || '反馈失败！')
@@ -161,10 +298,17 @@ export default {
   },
   data() {
     return {
+      retryTime: 0,
       winH: window.innerHeight,
+      signature: {
+        timestamp: '',
+        nonceStr: '',
+        url: location.href
+      },
       enquiry_result: {
-        average_rate: 0,
-        results: []
+        params_key: '',
+        inquiry_life_asset_rate: 0,
+        inquiry_tactics_data: []
       }
     }
   }
@@ -219,7 +363,7 @@ export default {
     margin-top: -0.362319rem;
   }
   .feedback {
-    .share{
+    .share {
       width: 1.771337rem; //220px
       height: 0.724638rem; //90px
       line-height: 0.724638rem; //90px

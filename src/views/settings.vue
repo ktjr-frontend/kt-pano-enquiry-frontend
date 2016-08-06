@@ -11,7 +11,9 @@
       <cell title="职位" :value="user.job"></cell>
       <cell title="地址" :value="user.address"></cell>
     </group>
-    <button class="mt-40" @click="logOut()">退出登录</button>
+    <div class="buttons">
+      <button @click="logOutWithLog()">退出登录</button>
+    </div>
   </div>
 </template>
 
@@ -30,6 +32,14 @@ export default {
     Group,
     Cell
   },
+  methods: {
+    logOutWithLog() {
+      this.$parent.log({
+        name: '退出登录'
+      })
+      this.logOut()
+    }
+  },
   vuex: {
     getters: {
       user
@@ -40,3 +50,8 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+.buttons{
+  padding: 0.322061rem; //40px
+}
+</style>

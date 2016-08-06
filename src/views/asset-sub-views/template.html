@@ -32,7 +32,7 @@
             <div v-if="field.type === 'select'">
               <select class="weui_select" v-model="filter[field.key]" @change="updateView(field.key)" :class="{'empty': !filter[field.key]}" :field="field.key" :name="field.key" v-validate="field.validate">
                 <option value="" selected>请选择</option>
-                <option v-for="o in field.options" :value="o.key">{{o.value}}</option>
+                <option v-for="o in field.options" :value="o.value">{{o.value}}</option>
               </select>
             </div>
           </div>
@@ -50,7 +50,7 @@
       </div>
 
       <div class="weiui_buttons_kt">
-        <button type="submit">立即查询</button>
+        <button type="submit" @click="$parent.log({name: '立即查询'})">立即查询</button>
         <p class="text-center mt-40 color-unimportant">查询结果由开通PANO系统模型提供</p>
       </div>
     </form>

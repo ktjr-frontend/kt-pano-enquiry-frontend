@@ -7,29 +7,30 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.shareholder_type = !this.filter.finance_subject_listed
-      this.visible.guarantee_subject = this.filter.guarantee
+      this.visible.company_borrow_shareholder_type = !this.filter.company_borrow_on_market
+      this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
     return {
-      type: 'enterprise',
+      asset_type: '企业借款类',
       visible: {
-        shareholder_type: false,
-        guarantee_subject: false
+        company_borrow_shareholder_type: false,
+        trust_party: false
       },
       filter: {
-        amount: '',
-        finance_subject_listed: true,
-        duration: '',
+        asset_amount: '',
+        company_borrow_shareholder_type: '',
+        company_borrow_on_market: true,
+        asset_life: '',
         guarantee: false,
-        guarantee_subject: []
+        trust_party: []
       },
 
       fields: [{
         name: '*融资规模',
         group: 'group1',
-        key: 'amount',
+        key: 'asset_amount',
         type: 'input',
         format: 'wy',
         validate: {
@@ -43,7 +44,7 @@ export default {
       }, {
         name: '*融资期限',
         group: 'group1',
-        key: 'duration',
+        key: 'asset_life',
         type: 'input',
         validate: {
           required: true,
@@ -56,7 +57,7 @@ export default {
       }, {
         name: '融资主体为上市公司',
         group: 'group2',
-        key: 'finance_subject_listed',
+        key: 'company_borrow_on_market',
         type: 'switch',
         validate: {
           maxlength: 120
@@ -64,7 +65,7 @@ export default {
       }, {
         name: '股东类型',
         group: 'group2',
-        key: 'shareholder_type',
+        key: 'company_borrow_shareholder_type',
         type: 'select',
         validate: {
           maxlength: 120
@@ -93,7 +94,7 @@ export default {
       }, {
         name: '第三方担保主体',
         group: 'group3',
-        key: 'guarantee_subject',
+        key: 'trust_party',
         type: 'checkboxs',
         validate: {
           required: true

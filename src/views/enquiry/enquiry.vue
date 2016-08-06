@@ -1,7 +1,7 @@
 <template>
   <div class="enquiry-type">
     <group>
-      <cell title="资产类" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
+      <cell title="资产类" @click="$parent.log({name: '资产类'})" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-man"></i>
         </div>
@@ -35,6 +35,9 @@ export default {
       })
     },
     showAssetManageAlert() {
+      this.$parent.log({
+        name: '资管类'
+      })
       this.$parent.showAlert({
         content: '资管类的询价功能正在开发中，敬请期待'
       })

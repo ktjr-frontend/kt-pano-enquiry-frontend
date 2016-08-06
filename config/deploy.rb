@@ -15,8 +15,8 @@ if ENV['stage'].nil?
   exit
 end
 
-set :common_repository, 'git@github.ktjr.com:Kaitong/kt-frontend-common.git'
-set :repository, 'git@github.ktjr.com:Kaitong/kt-pano-enquiry-frontend.git'
+# set :common_repository, 'git@github.ktjr.com:Kaitong/kt-frontend-common.git'
+set :repository, 'git@github.ktjr.com:luxueyan/kt-pano-enquiry-frontend.git'
 # set :repository, 'git@github.kaitongamc.com:Kaitong/kt-pano-frontend.git'
 # set :branch, 'master'
 
@@ -100,31 +100,31 @@ task :deploy => :environment do
   end
 end
 
-namespace :common_project do
-  task :clone => :environment do
-    queue! %[git clone -b #{common_branch} #{common_repository} --depth=1]
-    queue %{echo "通用模块clone完成,使用分支#{common_branch}"}
-    queue! %[rm app/common && mv kt-frontend-common/app ./app/common -f]
-    queue %{echo "通用模块移动组装完成---mv kt-frontend-common/app ./app/common"}
-  end
-end
+# namespace :common_project do
+#   task :clone => :environment do
+#     queue! %[git clone -b #{common_branch} #{common_repository} --depth=1]
+#     queue %{echo "通用模块clone完成,使用分支#{common_branch}"}
+#     queue! %[rm app/common && mv kt-frontend-common/app ./app/common -f]
+#     queue %{echo "通用模块移动组装完成---mv kt-frontend-common/app ./app/common"}
+#   end
+# end
 
-namespace :grunt do
-  task :setup => :environment do
-    queue! %[npm install -g grunt-cli]
-  end
+# namespace :grunt do
+#   task :setup => :environment do
+#     queue! %[npm install -g grunt-cli]
+#   end
 
-  task :build => :environment do
-    queue! %[grunt build]
-  end
-end
+#   task :build => :environment do
+#     queue! %[grunt build]
+#   end
+# end
 
-namespace :bower do
-  task :install => :environment do
-    queue! %[npm install]
-    queue! %[bower install]
-  end
-end
+# namespace :bower do
+#   task :install => :environment do
+#     queue! %[npm install]
+#     queue! %[bower install]
+#   end
+# end
 
 namespace :deploy do
   desc "Link backend compiled assets to dist/assets"

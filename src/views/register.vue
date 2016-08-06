@@ -47,7 +47,7 @@
         </div>-->
 
         <div class="form-group">
-          <button type="submit" @click="$parent.log({name: '立即注册'})">立即注册</button>
+          <button @click="$parent.log({name: '立即注册'})">立即注册</button>
         </div>
 
         <flexbox>
@@ -101,6 +101,10 @@ export default {
     },
 
     getCaptcha() {
+      this.$parent.log({
+        name: '短信获取'
+      })
+
       if (!this.user.mobile || this.$validation.mobile.invalid) {
         this.$parent.showToast({
           text: '手机号码有误'

@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <x-header v-show="headVisible" :left-options="header.leftOptions">{{title}}</x-header>
+    <x-header v-show="headVisible" :left-options="header.leftOptions" @on-click-back="onClickBack()">{{title}}</x-header>
     <router-view></router-view>
     <div class="tabbar" v-show="tabVisible">
       <div class="tab" v-for="tab in tabs" :span="tab.span" :class="{'active': tab.active}">
-        <a v-link="tab.link">
+        <a v-link="tab.link" @click="log({name: tab.name})">
           <i class="icon-pano" :class="tab.icon"></i>{{tab.name}}
         </a>
       </div>
     </div>
   </div>
-  <div class="logo" :class="{'no-tabbar': !tabVisible}">
+  <div class="logo-bottom" :class="{'no-tabbar': !tabVisible}">
     <img src="./assets/images/logo2.svg" alt="开通PANO">
   </div>
 
@@ -53,12 +53,19 @@ export default {
     Toast
   },
   methods: {
+    /*onClickBack() {
+      this.log({
+        name: '返回'
+      })
+      history.back()
+    },*/
     log
   },
   data() {
     return {
       header: {
         leftOptions: {
+          // preventGoBack: true,
           backText: '',
           showBack: !!window.history.length
         }
@@ -84,10 +91,10 @@ export default {
   },
   computed: {
     tabVisible() {
-      return !_.includes(['home', 'login', 'register', 'perfect'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare'], this.$route.name)
     },
     headVisible() {
-      return !_.includes(['home', 'login', 'register', 'enquiryResult'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'enquiryResult', 'enquiryShare'], this.$route.name)
     },
     title() {
       return this.$route.title.text
@@ -109,6 +116,12 @@ export default {
   },
   ready: function() {
     this.updateUser(JSON.parse(window.localStorage.user || '{}'))
+    window.onpopstate = (e) => {
+      console.log(e)
+      this.log({
+        name: '返回'
+      })
+    }
   },
   store,
   replace: false
@@ -129,7 +142,7 @@ export default {
   position: relative;
 }
 
-.logo {
+.logo-bottom {
   height: 0.724638rem;
   line-height: 0.724638rem; //90px
   text-align: center;
@@ -151,7 +164,7 @@ export default {
 }
 
 body.overflow-height {
-  .logo {
+  .logo-bottom {
     position: static;
     margin: 0 0.402576rem; //0 50px
     margin-bottom: 1.288245rem;

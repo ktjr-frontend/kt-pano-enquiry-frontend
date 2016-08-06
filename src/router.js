@@ -10,6 +10,7 @@ import Home from './views/home'
 import Enquiry from './views/enquiry/enquiry'
 import EnquiryAssetTypes from './views/enquiry/enquiry-asset-types'
 import EnquiryResult from './views/enquiry/enquiry-result'
+import EnquiryShare from './views/enquiry/enquiry-share'
 import EnquiryError from './views/enquiry/enquiry-error'
 import EnquiryAssetEslate from './views/asset-sub-views/enquiry-asset-eslate'
 import EnquiryAssetGovernment from './views/asset-sub-views/enquiry-asset-government'
@@ -30,7 +31,7 @@ let router = new Router({
 })
 
 router.map({
-  '/home': {
+  '/index': {
     title: { text: '首页' },
     name: 'home',
     // needLogin: true,
@@ -84,6 +85,12 @@ router.map({
     needLogin: true,
     component: EnquiryResult
   },
+  'enquiry/share': {
+    title: { text: '询价结果' },
+    name: 'enquiryShare',
+    // needLogin: true,
+    component: EnquiryShare
+  },
   'enquiry/error': {
     title: { text: '询价结果' },
     name: 'enquiryError',
@@ -121,7 +128,7 @@ router.map({
 })
 
 router.redirect({
-  '*': '/home'
+  '*': '/index'
     // '*': '/login'
 })
 
@@ -140,10 +147,23 @@ router.beforeEach(function({ from, to, abort, next }) {
 
 router.afterEach(function({ to }) {
   document.title = to.title.text || document.title
-  document.querySelector('.logo').style.display = 'none'
+  document.querySelector('.logo-bottom').style.display = 'none'
+
+  // hack ios title not update bug
+  let iframe = document.createElement('iframe')
+  iframe.classList.add('dn')
+  iframe.src = require('./assets/images/weixin.jpg')
+  document.body.appendChild(iframe)
+  iframe.onload = () => {
+    setTimeout(() => {
+      iframe.onload = null
+      document.body.removeChild(iframe)
+    }, 10)
+  }
 
   // 动态解决logo的位置问题
   setTimeout(function() {
+    window.scrollTo(0, 0)
     let wH = window.innerHeight
     let aH = document.querySelector('#app').offsetHeight
     if (aH + 150 >= wH) {
@@ -151,7 +171,7 @@ router.afterEach(function({ to }) {
     } else {
       document.body.classList.remove('overflow-height')
     }
-    document.querySelector('.logo').style.display = 'block'
+    document.querySelector('.logo-bottom').style.display = 'block'
   }, 100)
 })
 

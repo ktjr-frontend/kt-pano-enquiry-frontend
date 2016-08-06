@@ -22,15 +22,17 @@ export default {
   route: {
     activate({
       to,
+      next,
       abort
     }) {
       let user = JSON.parse(window.localStorage.user || '{}')
       if (user.status) {
-        abort()
+        // abort()
         this.$router.go({
           name: 'enquiry'
         })
       }
+      next()
     }
   },
   components: {
@@ -62,7 +64,7 @@ export default {
     .sub-title {
       color: #c5ccd8;
       padding: 0.144928rem; //18px
-      border: 1px solid #c5ccd8;
+      // border: 1px solid #c5ccd8;
     }
   }
   .buttons {

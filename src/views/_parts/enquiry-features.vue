@@ -11,16 +11,16 @@
     </section>
     <section>
       <div class="left">
-        <h3>精准强大的运算系统模型</h3>
-        <p>多维度数据透视分析，一站式实现从查询内容分析、数据收集、数据处理到数据展现的整个过程</p>
+        <i class="icon-pano icon-mobile"></i>
       </div>
       <div class="right">
-        <i class="icon-pano icon-earch"></i>
+        <h3>精准强大的运算系统模型</h3>
+        <p>多维度数据透视分析，一站式实现从查询内容分析、数据收集、数据处理到数据展现的整个过程</p>
       </div>
     </section>
     <section>
       <div class="left">
-        <i class="icon-pano icon-mobile"></i>
+        <i class="icon-pano icon-earch"></i>
       </div>
       <div class="right">
         <h3>十年金融专业团队运营支撑</h3>
@@ -39,22 +39,20 @@
     align-items: center;
     background: white;
     min-height: 4.025765rem; //500px
-    padding: 0 0.402576rem; //50px
+    padding: 0 0.885668rem; //100px
     &:nth-of-type(2) {
-      background: #f8f9fb;
       .left {
-        width: auto;
+        order: 1;
         text-align: right;
-        flex: 1;
       }
-      .right {
-        text-align: center;
-        width: 2.254428rem; //280px
+      .right{
+        text-align: right;
       }
+      background: #f8f9fb;
     }
     .icon-pano {
       color: $blue;
-      font-size: 0.966184rem; // 120px
+      font-size: 1.207729rem; // 120px
     }
     h3 {
       font-size: 0.402576rem; //50px
@@ -66,8 +64,11 @@
       line-height: 1.2em;
     }
     .left {
-      text-align: center;
-      width: 2.254428rem; //280px
+      text-align: left;
+      width: 1.449275rem; //180px
+    }
+    .right{
+      flex: 1;
     }
   }
 }

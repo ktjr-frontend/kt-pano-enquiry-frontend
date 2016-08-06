@@ -33,7 +33,7 @@ let mixin = _.merge({
             name: 'enquiryResult',
             query: {
               ...pruneParams(this.filter),
-              type: this.type
+              asset_type: this.asset_type
             }
           })
         }

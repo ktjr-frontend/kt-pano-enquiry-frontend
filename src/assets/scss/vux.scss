@@ -55,10 +55,16 @@
 
 .weui_cells {
   margin-top: 0.362319rem; //45px
+  &:after,&:before{
+    border-color: #f4f6fa;
+  }
 }
 
 .weui_cell {
   font-size: 0.402576rem; //50px
+  &:before{
+    border-color: #f4f6fa;
+  }
   &:active {
     .with_arrow:after {
       border-color: #4380dd;

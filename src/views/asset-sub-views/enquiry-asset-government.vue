@@ -9,29 +9,29 @@ export default {
     updateView() {
       // this.visible.developer_type = this.filter.rank === 'no_rank'
       // this.visible.guarantee = this.filter.rank === '50top'
-      this.visible.guarantee_subject = this.filter.guarantee
+      this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
     return {
-      type: 'government',
+      asset_type: '政信类',
       visible: {
-        guarantee_subject: false
+        trust_party: false
       },
       filter: {
-        amount: '',
-        duration: '',
-        finance_rank: '',
-        local_finance_budget: '',
-        finance_letters: '',
+        asset_amount: '',
+        asset_life: '',
+        gov_trusty_level: '',
+        gov_trusty_income: '',
+        gov_trusty_letter: '',
         guarantee: false,
-        guarantee_subject: []
+        trust_party: []
       },
 
       fields: [{
         name: '*融资规模',
         group: 'group1',
-        key: 'amount',
+        key: 'asset_amount',
         type: 'input',
         format: 'wy',
         validate: {
@@ -45,7 +45,7 @@ export default {
       }, {
         name: '*融资期限',
         group: 'group1',
-        key: 'duration',
+        key: 'asset_life',
         type: 'input',
         validate: {
           required: true,
@@ -58,7 +58,7 @@ export default {
       }, {
         name: '融资主体评级',
         group: 'group2',
-        key: 'finance_rank',
+        key: 'gov_trusty_level',
         type: 'select',
         tip: '待定',
         validate: {
@@ -77,13 +77,13 @@ export default {
           key: 'AA-',
           value: 'AA-'
         }, {
-          key: '无评级',
-          value: 'no_grade'
+          key: 'no_grade',
+          value: '无评级'
         }]
       }, {
         name: '地方财政公共预算收入',
         group: 'group2',
-        key: 'local_finance_budget',
+        key: 'gov_trusty_income',
         type: 'select',
         tip: '待定',
         validate: {
@@ -102,7 +102,7 @@ export default {
       }, {
         name: '可提供财政兜底函',
         group: 'group2',
-        key: 'finance_letters',
+        key: 'gov_trusty_letter',
         type: 'switch',
         validate: {
           maxlength: 120
@@ -118,7 +118,7 @@ export default {
       }, {
         name: '第三方担保主体',
         group: 'group3',
-        key: 'guarantee_subject',
+        key: 'trust_party',
         type: 'checkboxs',
         validate: {
           required: true

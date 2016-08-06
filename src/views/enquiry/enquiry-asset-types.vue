@@ -3,7 +3,7 @@
     <flexbox v-for="group in listByType">
       <flexbox-item v-for="item in group">
         <div class="card-container">
-          <div class="card" v-link="{name: item.component}">
+          <div class="card" v-link="{name: item.component}" @click="$parent.log({name: item.name})">
             <div class="content">
               <i class="icon-pano" :class="item.icon" :style="{background:item.color}"></i>
               <p>{{item.name}}</p>

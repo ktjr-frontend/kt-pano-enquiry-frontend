@@ -7,35 +7,31 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.financing_grade = this.filter.developer_type !== 'other'
-        // this.visible.developer_type = this.filter.rank === 'no_rank'
-        // this.visible.guarantee = this.filter.rank === '50top'
-        // this.visible.guarantee_subject = this.filter.guarantee
+      this.visible.small_loan_fin_exp = this.filter.small_loan_shareholder_type !== 'other'
     }
   },
   data() {
     return {
-      type: 'mini_finance',
+      asset_type: '小微金融类',
       visible: {
-        financing_grade: true
+        small_loan_fin_exp: true
           // guarantee: false,
-          // developer_type: false,
+          // small_loan_shareholder_type: false,
           // guarantee_subject: false
       },
       filter: {
-        amount: '',
-        duration: '',
-        rank: '',
-        developer_type: '',
-        financing_grade: '',
-        company_age: '',
-        asset_type: '',
-        overdue_rate: ''
+        asset_amount: '',
+        asset_life: '',
+        small_loan_shareholder_type: '',
+        small_loan_fin_exp: '',
+        small_loan_company_age: '',
+        small_loan_asset_type: '',
+        small_loan_bad_rate: ''
       },
       fields: [{
         name: '*融资规模',
         group: 'group1',
-        key: 'amount',
+        key: 'asset_amount',
         type: 'input',
         format: 'wy',
         validate: {
@@ -49,7 +45,7 @@ export default {
       }, {
         name: '*融资期限',
         group: 'group1',
-        key: 'duration',
+        key: 'asset_life',
         type: 'input',
         validate: {
           required: true,
@@ -62,7 +58,7 @@ export default {
       }, {
         name: '股东类型',
         group: 'group2',
-        key: 'developer_type',
+        key: 'small_loan_shareholder_type',
         type: 'select',
         validate: {
           maxlength: 120
@@ -83,7 +79,7 @@ export default {
       }, {
         name: '融资经历',
         group: 'group2',
-        key: 'financing_grade',
+        key: 'small_loan_fin_exp',
         type: 'select',
         validate: {
           maxlength: 120
@@ -101,7 +97,7 @@ export default {
       }, {
         name: '公司经营年限',
         group: 'group2',
-        key: 'company_age',
+        key: 'small_loan_company_age',
         type: 'select',
         validate: {
           maxlength: 120
@@ -116,7 +112,7 @@ export default {
       }, {
         name: '*资产种类',
         group: 'group2',
-        key: 'asset_type',
+        key: 'small_loan_asset_type',
         type: 'select',
         validate: {
           required: true
@@ -144,7 +140,7 @@ export default {
         name: '时点不良率',
         tip: '不良贷款率指贷款中不良贷款的占比，是一个时点指标，不良率=不良贷款余额/总贷款余额',
         group: 'group2',
-        key: 'overdue_rate',
+        key: 'small_loan_bad_rate',
         type: 'input',
         validate: {
           // required: true,

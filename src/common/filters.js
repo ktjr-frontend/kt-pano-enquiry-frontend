@@ -5,5 +5,8 @@ export default {
     Vue.filter('percent', (value, decimal, unit) => {
       return _.isNumber(value) ? value.toFixed(decimal || 2) + (unit || '') : ''
     })
+    Vue.filter('append', (value, str) => {
+      return value + str
+    })
   }
 }

@@ -23,9 +23,9 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://10.132.1.125:3000',
-        target: 'http://localhost:3005',
-        // target: 'http://dev-pano.ktjr.com',
+        // target: 'http://10.132.1.172:3000',
+        // target: 'http://localhost:3005',
+        target: 'http://dev-pano.ktjr.com',
         changeOrigin: true
         // pathRewrite: {
         //   '^/api': ''
