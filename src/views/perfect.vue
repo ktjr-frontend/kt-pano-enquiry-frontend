@@ -133,14 +133,14 @@ export default {
       this.$validate(true, () => {
         if (this.$cardValidation.invalid) {
           this.$parent.showToast({
-            text: '内容有误'
+            text: '请先上传名片'
           })
         } else {
           this.$parent.showLoadingStatus()
           let form = document.forms.namedItem('cardForm')
-          let fromData = new FormData(form)
+          let formData = new FormData(form)
 
-          cards.save(fromData).then((res) => {
+          cards.save(formData).then((res) => {
             cards.update({
               content: 'confirm'
             }, {}).then((res) => {

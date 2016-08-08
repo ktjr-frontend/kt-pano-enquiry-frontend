@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import Alert from 'vux-components/alert'
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
@@ -149,10 +150,16 @@ export default {
             content: 'simplify'
           }, this.user).then(() => {
             sessions.save(this.user).then((res) => {
-              this.$parent.hideLoadingStatus()
-              this.$parent.updateUser(res.json().account)
-              this.$router.go({
-                name: 'perfect'
+              let token = window.localStorage.token = res.json().token
+              Vue.http.headers.common['Authorization'] = token
+
+              sessions.get().then((res) => {
+                this.$parent.hideLoadingStatus()
+                let user = res.json().account
+                this.$parent.updateUser(user)
+                this.$router.go({
+                  name: 'perfect'
+                })
               })
             }, (res) => {
               this.$parent.hideLoadingStatus()
