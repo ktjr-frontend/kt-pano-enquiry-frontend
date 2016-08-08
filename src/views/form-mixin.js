@@ -8,9 +8,11 @@ export default {
         text: this.$validation.errors.find((e) => e.field === name).message
       })
     },
-    validate(name) {
+    validate(name, callback) {
       if (this.$validation[name].invalid && this.$validation[name].touched) {
-        this.$validate(name)
+        this.$validate(name, function() {
+          callback && callback()
+        })
       }
     }
   }

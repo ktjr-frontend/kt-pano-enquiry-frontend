@@ -13,12 +13,18 @@ export default {
     }
   },
   data() {
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterGovernmentCache || '{}')
+
+    setTimeout(() => {
+      this.updateView()
+    }, 10)
+
     return {
-      asset_type: '政信类',
+      asset_type: '政府投资平台类',
       visible: {
         trust_party: false
       },
-      filter: {
+      filter: Object.assign({
         asset_amount: '',
         asset_life: '',
         gov_trusty_level: '',
@@ -26,7 +32,7 @@ export default {
         gov_trusty_letter: '',
         guarantee: false,
         trust_party: []
-      },
+      }, lastSaved),
 
       fields: [{
         name: '*融资规模',
@@ -60,7 +66,7 @@ export default {
         group: 'group2',
         key: 'gov_trusty_level',
         type: 'select',
-        tip: '待定',
+        tip: '国家发改委、证监会或人民银行认可的评级机构评级',
         validate: {
           maxlength: 120
         },
@@ -140,10 +146,10 @@ export default {
           value: '央企'
         }, {
           key: 'land_agent',
-          value: '大型房地产商'
+          value: '其他政府平台'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }]
 

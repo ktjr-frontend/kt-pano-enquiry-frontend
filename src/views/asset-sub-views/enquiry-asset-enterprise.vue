@@ -12,20 +12,26 @@ export default {
     }
   },
   data() {
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEslateCache || '{}')
+
+    setTimeout(() => {
+      this.updateView()
+    }, 10)
+
     return {
       asset_type: '企业借款类',
       visible: {
         company_borrow_shareholder_type: false,
         trust_party: false
       },
-      filter: {
+      filter: Object.assign({
         asset_amount: '',
         company_borrow_shareholder_type: '',
         company_borrow_on_market: true,
         asset_life: '',
         guarantee: false,
         trust_party: []
-      },
+      }, lastSaved),
 
       fields: [{
         name: '*融资规模',
@@ -81,7 +87,7 @@ export default {
           value: '上市公司'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }, {
         name: '第三方担保',
@@ -119,7 +125,7 @@ export default {
           value: '大型房地产商'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }]
 

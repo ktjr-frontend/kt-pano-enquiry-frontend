@@ -7,10 +7,16 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.small_loan_fin_exp = this.filter.small_loan_shareholder_type !== 'other'
+      this.visible.small_loan_fin_exp = this.filter.small_loan_shareholder_type === '其他'
     }
   },
   data() {
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterMiniFinanceCache || '{}')
+
+    setTimeout(() => {
+      this.updateView()
+    }, 10)
+
     return {
       asset_type: '小微金融类',
       visible: {
@@ -19,7 +25,7 @@ export default {
           // small_loan_shareholder_type: false,
           // guarantee_subject: false
       },
-      filter: {
+      filter: Object.assign({
         asset_amount: '',
         asset_life: '',
         small_loan_shareholder_type: '',
@@ -27,7 +33,7 @@ export default {
         small_loan_company_age: '',
         small_loan_asset_type: '',
         small_loan_bad_rate: ''
-      },
+      }, lastSaved),
       fields: [{
         name: '*融资规模',
         group: 'group1',
@@ -74,7 +80,7 @@ export default {
           value: '上市公司'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }, {
         name: '融资经历',
@@ -134,7 +140,7 @@ export default {
           value: '线下现金贷'
         }, {
           key: '5',
-          value: '其他'
+          value: '其它'
         }]
       }, {
         name: '时点不良率',

@@ -1,6 +1,6 @@
 <div class="filters">
   <div class="body-head">
-    <p class="sub-title">请尽量精确输入您的资产情况，以便为您推荐最合理的利率值和最合适的平台：</p>
+    <p class="sub-title">请尽可能准确地填写以下资产相关信息，以便为您推荐最适合的利率和发行平台。</p>
   </div>
   <validator name="validation">
     <form action="" novalidate @submit.prevent="onSubmit($event)">
@@ -10,7 +10,7 @@
           <div class="weui_cell_hd">
             <label class="weui_label" :style="{width: (field.name.length + 1 + (!!field.tip)*1) + 'em'}">
               {{field.name}}
-              <i v-if="field.tip" class="icon-pano icon-question tip-icon" @click="showTip(field.tip)"></i>
+              <i v-if="field.tip" class="icon-pano icon-info tip-icon" @click="showTip(field.tip)"></i>
             </label>
             <!-- checkbox组 -->
             <div v-if="field.type === 'checkboxs'">
@@ -31,7 +31,7 @@
             <!-- select类型 -->
             <div v-if="field.type === 'select'">
               <select class="weui_select" v-model="filter[field.key]" @change="updateView(field.key)" :class="{'empty': !filter[field.key]}" :field="field.key" :name="field.key" v-validate="field.validate">
-                <option value="" selected>请选择</option>
+                <option value="">请选择</option>
                 <option v-for="o in field.options" :value="o.value">{{o.value}}</option>
               </select>
             </div>
@@ -51,7 +51,7 @@
 
       <div class="weiui_buttons_kt">
         <button type="submit" @click="$parent.log({name: '立即查询'})">立即查询</button>
-        <p class="text-center mt-40 color-unimportant">查询结果由开通PANO系统模型提供</p>
+        <p class="text-center mt-40 color-unimportant">数据结果由开通PANO互金资产模型提供</p>
       </div>
     </form>
   </validator>

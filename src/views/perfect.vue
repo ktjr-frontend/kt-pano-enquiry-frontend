@@ -146,7 +146,7 @@ export default {
             }, {}).then((res) => {
               this.$parent.hideLoadingStatus()
               this.$parent.showAlert({
-                content: '名片上传图成功'
+                content: '名片上传成功！快来开启询价吧！'
               })
               this.$parent.updateUser(Object.assign({}, this.user, res.json().account))
               this.$router.go({
@@ -157,11 +157,6 @@ export default {
               this.$parent.showToast({
                 text: res.json().error || '保存失败'
               })
-            })
-          }, (res) => {
-            this.$parent.hideLoadingStatus()
-            this.$parent.showToast({
-              text: res.json().error || '保存失败'
             })
           })
         }

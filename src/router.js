@@ -27,7 +27,7 @@ Vue.use(VueValidator) //这个插件的注入要和路由放到一起 不然报�
 setValidators(Vue.validator)
 
 let router = new Router({
-  history: true
+  // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
 router.map({
@@ -86,7 +86,7 @@ router.map({
     component: EnquiryResult
   },
   'enquiry/share': {
-    title: { text: '询价结果' },
+    title: { text: '开通金融PANO询价系统' },
     name: 'enquiryShare',
     // needLogin: true,
     component: EnquiryShare

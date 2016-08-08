@@ -5,7 +5,7 @@
     <div class="tabbar" v-show="tabVisible">
       <div class="tab" v-for="tab in tabs" :span="tab.span" :class="{'active': tab.active}">
         <a v-link="tab.link" @click="log({name: tab.name})">
-          <i class="icon-pano" :class="tab.icon"></i>{{tab.name}}
+          <i class="icon-pano" :class="tab.icon" :style="tab.style"></i>{{tab.name}}
         </a>
       </div>
     </div>
@@ -53,19 +53,19 @@ export default {
     Toast
   },
   methods: {
-    /*onClickBack() {
+    onClickBack() {
       this.log({
         name: '返回'
       })
       history.back()
-    },*/
+    },
     log
   },
   data() {
     return {
       header: {
         leftOptions: {
-          // preventGoBack: true,
+          preventGoBack: true,
           backText: '',
           showBack: !!window.history.length
         }
@@ -82,9 +82,12 @@ export default {
         active: false,
         span: 1,
         name: '我',
-        icon: 'icon-man',
+        icon: 'icon-man2',
         link: {
           name: 'settings'
+        },
+        style: {
+          fontWeight: 'bolder'
         }
       }]
     }
@@ -116,12 +119,11 @@ export default {
   },
   ready: function() {
     this.updateUser(JSON.parse(window.localStorage.user || '{}'))
-    window.onpopstate = (e) => {
-      console.log(e)
-      this.log({
-        name: '返回'
-      })
-    }
+      // window.onpopstate = (e) => {
+      //   this.log({
+      //     name: '返回'
+      //   })
+      // }
   },
   store,
   replace: false
@@ -152,7 +154,7 @@ export default {
   right: 0;
   bottom: 2.012882rem; // 250px
   &.no-tabbar {
-    border-top: 1px solid #c9cedc;
+    border-top: 1px solid #d9deea;
     left: 0.402576rem; //50px
     right: 0.402576rem;
     bottom: 0; // 90px

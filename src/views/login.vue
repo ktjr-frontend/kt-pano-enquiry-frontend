@@ -56,11 +56,13 @@ export default {
   methods: {
     forgetPassword() {
       let weixin = require('../assets/images/weixin.jpg')
-      let content = `<p style="text-align:center;">如忘记密码，请联系我们的微信小秘书：</p>
-                  <p><img src="${weixin}" width="100%" /></p>`
+      let content = `<p style="text-align:center;">您可发送邮件至<em>HelloPANO@ktjr.com</em>或联系下方『PANO微信小秘书』</p>
+                    <p><img src="${weixin}" width="60%" /></p>`
+
       this.$parent.showAlert({
         content: content
       })
+
       this.$parent.log({
         name: '忘记密码'
       })
@@ -89,7 +91,14 @@ export default {
           }, (res) => {
             this.$parent.hideLoadingStatus()
             this.$parent.showAlert({
-              content: res.json().error || '登录失败'
+              content: (() => {
+                if (res.json().error.indexOf('无权限') > -1) {
+                  let weixin = require('../assets/images/weixin.jpg')
+                  return `<p style="text-align:center;">很抱歉，您暂无权限查看该页面。</p><p>如有问题可联系『PANO微信小秘书』</p>
+                    <p><img src="${weixin}" width="60%" /></p>`
+                }
+                return res.json().error || '抱歉，服务器繁忙！'
+              })()
             })
           })
         }

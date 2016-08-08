@@ -104,27 +104,26 @@ export default {
       this.$parent.log({
         name: '短信获取'
       })
-
-      if (!this.user.mobile || this.$validation.mobile.invalid) {
-        this.$parent.showToast({
-          text: '手机号码有误'
-        })
-        return
-      }
-
-      this.startCountDown()
-      registrations.get({
-        content: 'captcha',
-        mobile: this.user.mobile,
-        channel: 'sms'
-      }).catch((res) => {
-        this.$parent.showToast({
-          text: res.json().error || '获取失败'
-        })
-        this.resetCountDown()
+      this.$validate('mobile', () => {
+        if (this.$validation.mobile.invalid) {
+          this.$parent.showToast({
+            text: '请正确输入11位手机号码'
+          })
+        } else {
+          this.startCountDown()
+          registrations.get({
+            content: 'captcha',
+            mobile: this.user.mobile,
+            channel: 'sms'
+          }).catch((res) => {
+            this.$parent.showToast({
+              text: res.json().error || '获取失败'
+            })
+            this.resetCountDown()
+          })
+        }
       })
     },
-
     onRegisterSuccess() {
       sessions.save({
         mobile: this.user.mobile,
@@ -149,19 +148,23 @@ export default {
           registrations.save({
             content: 'simplify'
           }, this.user).then(() => {
-            this.$parent.hideLoadingStatus()
             sessions.save(this.user).then((res) => {
+              this.$parent.hideLoadingStatus()
+              this.$parent.updateUser(res.json().account)
               this.$router.go({
                 name: 'perfect'
               })
+            }, (res) => {
+              this.$parent.hideLoadingStatus()
+              this.$parent.showToast({
+                text: res.json().error || '抱歉，注册失败！'
+              })
             })
-
-            // this.$parent.showAlert({
-            //   content: '注册成功',
-            //   onhide() {
-
-            //   }
-            // })
+          }, (res) => {
+            this.$parent.hideLoadingStatus()
+            this.$parent.showToast({
+              text: res.json().error || '抱歉，注册失败！'
+            })
           })
         }
       })

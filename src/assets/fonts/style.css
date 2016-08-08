@@ -20,6 +20,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-asset:before {
+  content: "\e912";
+}
+
+.icon-info:before {
+  content: "\e913";
+}
+
+.icon-man2:before {
+  content: "\e914";
+}
+
+.icon-ob:before {
+  content: "\e915";
+}
+
 .icon-cloud:before {
   content: "\e90e";
 }

@@ -8,7 +8,7 @@
       <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
       <div class="circle">
         <h2>{{enquiry_result.inquiry_life_asset_rate}}<span class="unit">%</span></h2>
-        <p>参考利率值</p>
+        <p>参考利率值<i class="icon-pano icon-question" @click="$parent.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
       </div>
     </section>
 
@@ -38,7 +38,7 @@
             <a @click="feedback(1)"><i class="icon-pano icon-smile satisfied"></i>满意</a>
             <a @click="feedback(0)"><i class="icon-pano icon-sad not-satisfied"></i>不满意</a>
           </div>
-          <div slot="value">
+          <div slot="value" v-show="isWeixin">
             <button class="share" @click="openShare()">分享</button>
           </div>
         </cell>
@@ -48,7 +48,7 @@
         <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: 'log'})" is-link class="service-introdution">
           <div slot="after-title">
             <h3>开通资产推介服务</h3>
-            <p>开通可为您提供资产推介全流程服务，帮助您与合适的互联网金融 平台达成交易，千分之一费用，如有意向请与我们联系。
+            <p>开通金融为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持，包括但不限于资产意向发布、在线推介、在线询价协商、多平台登记结算支持、跨平台发行及转让、信息披露等，如有意向可通过以下方式与我们联系。
             </p>
             <div class="contact">
               <ul>
@@ -59,6 +59,15 @@
                 </li>
               </ul>
             </div>
+          </div>
+        </cell>
+      </group>
+      <group>
+        <cell link="https://pano.ktjr.com" @click="$parent.log({name: 'log'})" is-link class="service-introdution">
+          <div slot="after-title">
+            <h3>开通PANO</h3>
+            <p>汇集国内主流互金平台金融产品发行信息，助您快速全面了解市场最新数据，解除您逐日跟踪各大平台的烦恼。
+            </p>
           </div>
         </cell>
       </group>
@@ -101,21 +110,21 @@ export default {
       let shareOptions = {
         title: '这里是分享标题', // 分享标题
         desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事', // 分享描述
-        link: host + '/enquiry/share?key=' + this.enquiry_result.params_key, // 分享链接
+        link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
         imgUrl: imgUrl // 分享图标
           // type: '', // 分享类型,music、video或link，不填默认为link
           // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
       }
+      let _self = this
 
       // 分享给朋友
       wx.onMenuShareAppMessage({
         ...shareOptions,
         success() {
-          // 用户确认分享后执行的回调函数
-          this.logShare('朋友', '确定')
+          _self.logShare('朋友', '确定')
         },
         cancel() {
-          this.logShare('朋友', '取消')
+          _self.logShare('朋友', '取消')
         }
       })
 
@@ -123,10 +132,10 @@ export default {
       wx.onMenuShareTimeline({
         ...shareOptions,
         success() {
-          this.logShare('朋友圈', '确定')
+          _self.logShare('朋友圈', '确定')
         },
         cancel() {
-          this.logShare('朋友圈', '取消')
+          _self.logShare('朋友圈', '取消')
         }
       })
 
@@ -134,11 +143,10 @@ export default {
       wx.onMenuShareQQ({
         ...shareOptions,
         success() {
-          // 用户确认分享后执行的回调函数
-          this.logShare('QQ', '确定')
+          _self.logShare('QQ', '确定')
         },
         cancel() {
-          this.logShare('QQ', '取消')
+          _self.logShare('QQ', '取消')
         }
       })
 
@@ -146,11 +154,10 @@ export default {
       wx.onMenuShareWeibo({
         ...shareOptions,
         success() {
-          // 用户确认分享后执行的回调函数
-          this.logShare('腾讯微博', '确定')
+          _self.logShare('腾讯微博', '确定')
         },
         cancel() {
-          this.logShare('腾讯微博', '取消')
+          _self.logShare('腾讯微博', '取消')
         }
       })
 
@@ -158,11 +165,10 @@ export default {
       wx.onMenuShareQZone({
         ...shareOptions,
         success() {
-          // 用户确认分享后执行的回调函数
-          this.logShare('QQ空间', '确定')
+          _self.logShare('QQ空间', '确定')
         },
         cancel() {
-          this.logShare('QQ空间', '取消')
+          _self.logShare('QQ空间', '取消')
         }
       })
     })
@@ -175,8 +181,6 @@ export default {
     }
   },
   components: {
-    // Flexbox,
-    // FlexboxItem,
     Group,
     Cell,
     Spinner
@@ -221,7 +225,7 @@ export default {
       }).then((res) => {
         let data = res.json()
         wx.config({
-          debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+          debug: process.env.NODE_ENV !== 'production', // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
           appId: 'wx304dfaa11415f925', // 必填，公众号的唯一标识
           timestamp: this.signature.timestamp, // 必填，生成签名的时间戳
           nonceStr: this.signature.nonceStr, // 必填，生成签名的随机串
@@ -238,7 +242,7 @@ export default {
             'showMenuItems',
             'hideAllNonBaseMenuItem',
             'showAllNonBaseMenuItem',
-            'closeWindow'
+            'closeWinpdow'
           ]
         })
         callback && callback()
@@ -256,13 +260,17 @@ export default {
         name: '分享按钮'
       })
 
+      this.$parent.showAlert({
+        content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
+      })
+
       /*this.$router.go({
         name: 'enquiryShare',
         query: {
           key: this.enquiry_result.params_key
         }
       })*/
-      wx.showOptionMenu()
+      /*wx.showAllNonBaseMenuItem()
       wx.showMenuItems({
         menuList: [ // 要显示的菜单项，所有menu项见附录3
           'menuItem:share:appMessage',
@@ -272,7 +280,7 @@ export default {
           // 'menuItem:share:facebook',
           'menuItem:share:QZone'
         ]
-      })
+      })*/
     },
     feedback(value) {
       this.$parent.log({
@@ -281,12 +289,12 @@ export default {
       }).then((res) => {
         if (value === 1) {
           this.$parent.showAlert({
-            content: '快点把这么好的询价系统分享给好友吧！'
+            content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
           })
         } else {
           let weixin = require('../../assets/images/weixin.jpg')
-          let content = `<p style="text-align:center;">快找PANO酱吐槽下哪里不满意吧</p>
-                  <p><img src="${weixin}" width="100%" /></p>`
+          let content = `<p style="text-align:center;">感谢您的评价，我们将努力变得更好！如您还有其他的意见建议，可扫描下方二维码联系我们。</p>
+                  <p><img src="${weixin}" width="60%" /></p>`
           this.$parent.showAlert({
             content: content
           })
@@ -298,12 +306,13 @@ export default {
   },
   data() {
     return {
+      isWeixin: Utils.isWeixin(),
       retryTime: 0,
       winH: window.innerHeight,
       signature: {
         timestamp: '',
         nonceStr: '',
-        url: location.href
+        url: location.href.split('#')[0]
       },
       enquiry_result: {
         params_key: '',
@@ -327,7 +336,7 @@ export default {
   .head {
     text-align: center;
     height: 5.47504rem; //680px
-    background: linear-gradient(to bottom, #304366, #296993);
+    background: linear-gradient(to bottom, #304366, #2e7bad);
     .logo-white {
       margin: 0.523349rem 0; //65px
       width: 3.94525rem; //490px
@@ -339,12 +348,16 @@ export default {
       height: 3.059581rem; //380px
       border: 0.185185rem solid rgba(52, 146, 211, .15); //23px
       color: white;
+      .icon-question {
+        font-size: .8em;
+        margin-left: .5em;
+      }
       h2 {
         font-size: 0.966184rem; //120px
         font-family: Arial;
-        margin: 0.563607rem 0 0.322061rem;
+        margin: 0.563607rem 0 0.322061rem 0.241546rem;
         .unit {
-          font-size: 0.644122rem; //80px
+          font-size: 0.563607rem; //70px
         }
       }
       p {
@@ -395,6 +408,7 @@ export default {
   .service-introdution {
     h3 {
       text-align: center;
+      color: #737e9c;
       margin-bottom: 0.161031rem; //20px
     }
     p {
@@ -405,7 +419,7 @@ export default {
     }
     .contact {
       padding: 0.161031rem 0;
-      color: #c5c9d2;
+      color: #acb1bd;
       line-height: 0.563607rem;
       margin-top: 0.161031rem; //20px
       border-top: 1px solid #f4f6fa;

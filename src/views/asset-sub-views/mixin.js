@@ -21,6 +21,27 @@ let mixin = _.merge({
         content: tip
       })
     },
+    cacheFilter() {
+      switch (this.asset_type) {
+        case '供应链类':
+          window.sessionStorage.enquriyFilterSupplyChainCache = JSON.stringify(this.filter)
+          break
+        case '小微金融类':
+          window.sessionStorage.enquiryFilterMiniFinanceCache = JSON.stringify(this.filter)
+          break
+        case '政府投资平台类':
+          window.sessionStorage.enquiryFilterGovernmentCache = JSON.stringify(this.filter)
+          break
+        case '房地产类':
+          window.sessionStorage.enquiryFilterEslateCache = JSON.stringify(this.filter)
+          break
+        case '企业借款类':
+          window.sessionStorage.enquiryFilterEnterpriseCache = JSON.stringify(this.filter)
+          break
+        default:
+          console.log('cache filter erro')
+      }
+    },
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
@@ -28,6 +49,8 @@ let mixin = _.merge({
             text: '内容有误'
           })
         } else {
+          this.cacheFilter()
+
           // this.$parent.showLoadingStatus()
           this.$router.go({
             name: 'enquiryResult',

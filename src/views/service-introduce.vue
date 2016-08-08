@@ -2,9 +2,9 @@
   <div class="service-introduce">
     <group v-for="item in services">
       <cell :title="item.name" class="kt-cell">
-        <div class="icon-circle" slot="icon">
+       <!--  <div class="icon-circle" slot="icon">
           <i class="icon-pano" :class="item.icon"></i>
-        </div>
+        </div> -->
         <div slot="after-title" class="kt-cell-content">{{item.desc}}</div>
       </cell>
     </group>
@@ -24,15 +24,15 @@ export default {
       services: [{
         icon: '',
         name: '全流程服务',
-        desc: '为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持，包括但不限于资产意向发布、在线推介、在线询价协商、多平台登记结算支持、跨平台发行及转让、信息披露等。同时，配备专业的投行团队和交易市场运营团队，提供标准的全流程服务。'
+        desc: '为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持，包括但不限于资产意向发布、在线推介与询价协商、多平台登记结算支持等等。'
       }, {
         icon: '',
         name: '资金聚合',
-        desc: '全面覆盖主流的互联网金融平台，为金融资产在与传统金融市场资金的匹配之外提供补充性资金渠道，同时，跨平台的资金聚合能力也使大额融资项目在互联网分散销售成为可能。'
+        desc: '全面覆盖主流互金平台，为金融资产提供传统金融市场资金匹配之外的补充性资金渠道，使大额融资项目在互联网分散销售成为可能。'
       }, {
         icon: '',
         name: '互联网发行',
-        desc: '跟踪互联网渠道对金融资产的配置偏好和风险判断，及时反映互联网资金价格信息，提供金融资产在互联网平台上发行流通的合规性解决方案及系统支持。'
+        desc: '跟踪互联网渠道对金融资产的配置偏好、风险判断及价格信息，提供金融资产在互金平台发行流通的合规性解决方案及系统支持。'
       }, {
         icon: '',
         name: '最优价格',

@@ -11,6 +11,12 @@ export default {
     }
   },
   data() {
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterSupplyChainCache || '{}')
+
+    setTimeout(() => {
+      this.updateView()
+    }, 10)
+
     return {
       asset_type: '供应链类',
       visible: {
@@ -18,7 +24,7 @@ export default {
         // supply_link_company_type: false,
         trust_party: false
       },
-      filter: {
+      filter: Object.assign({
         asset_amount: '',
         asset_life: '',
         supply_link_company_type: '',
@@ -26,7 +32,7 @@ export default {
         supply_link_company_can_assure: false,
         guarantee: false,
         trust_party: []
-      },
+      }, lastSaved),
 
       fields: [{
         name: '*融资规模',
@@ -74,7 +80,7 @@ export default {
           value: '上市公司'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }, {
         name: '核心企业可以确权',
@@ -128,7 +134,7 @@ export default {
           value: '大型房地产商'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }]
 

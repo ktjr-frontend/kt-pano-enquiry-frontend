@@ -8,26 +8,32 @@ export default {
   methods: {
     updateView() {
       this.visible.developer_type = this.filter.developer_order === '无排名'
-      this.visible.guarantee = this.filter.developer_order === '前50强'
+      // this.visible.guarantee = this.filter.developer_order === '前50强'
       this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEslateCache || '{}')
+
+    setTimeout(() => {
+      this.updateView()
+    }, 10)
+
     return {
       asset_type: '房地产类',
       visible: {
-        guarantee: false,
-        developer_type: false,
+        guarantee: true,
+        developer_type: true,
         trust_party: false
       },
-      filter: {
+      filter: Object.assign({
         asset_amount: '',
         asset_life: '',
         developer_order: '',
         developer_type: '',
         guarantee: false,
         trust_party: []
-      },
+      }, lastSaved),
 
       fields: [{
         name: '*融资规模',
@@ -90,7 +96,7 @@ export default {
           value: '上市公司'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }, {
         name: '第三方担保',
@@ -125,7 +131,7 @@ export default {
           value: '大型房地产商'
         }, {
           key: 'other',
-          value: '其他'
+          value: '其它'
         }]
       }]
 

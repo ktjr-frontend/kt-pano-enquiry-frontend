@@ -13,6 +13,14 @@
   }
 }
 
+.weui_dialog {
+  background: white;
+}
+
+.weui_dialog_bd {
+  line-height: 1.2;
+}
+
 .vux-fade-transition {
   &.weui_dialog_alert,
   &.vux-toast {
@@ -55,15 +63,25 @@
 
 .weui_cells {
   margin-top: 0.362319rem; //45px
-  &:after,&:before{
-    border-color: #f4f6fa;
+  &:after,
+  &:before {
+    border-color: #d9deea;
   }
+}
+
+.vux-header .vux-header-title,
+.vux-header h1 {
+  margin-left: 88px;
 }
 
 .weui_cell {
   font-size: 0.402576rem; //50px
-  &:before{
-    border-color: #f4f6fa;
+  &:before,
+  &:after {
+    border-color: #d9deea;
+  }
+  .with_arrow:after {
+    border-color: #acb1bd;
   }
   &:active {
     .with_arrow:after {
@@ -88,13 +106,14 @@
     .kt-cell-content {
       font-size: 0.289855rem; //36px
       margin-top: 0.161031rem; //20px
+      // margin-bottom: 0.161031rem;
       line-height: 1.2em;
     }
     .value {
       // margin-top: 0.120773rem; //15px
       h3 {
         font-size: 0.289855rem; //36px
-        color: #d8dbe1;
+        color: #acb1bd;
       }
       p {
         margin-top: 0.161031rem; //20px
@@ -114,7 +133,8 @@
   }
   .kt-cell-content {
     font-size: 0.322061rem; // 40px
-    color: #c5c9d2;
+    margin-top: 0.161031rem;
+    color: #acb1bd;
   }
   .weui_cell_primary {
     position: relative;
@@ -156,6 +176,21 @@
   .weui_icon {
     display: none;
     vertical-align: 2px;
+  }
+  .weui_switch {
+    width: 48px;
+    height: 28px;
+  }
+  .weui_switch:after,
+  .weui_switch:before {
+    height: 26px;
+    border-radius: 13px;
+  }
+  .weui_switch:after {
+    width: 26px;
+  }
+  .weui_switch:before {
+    width: 46px;
   }
   .weui_switch:checked {
     background-color: #83a4c3;
