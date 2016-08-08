@@ -212,7 +212,7 @@ export default {
           flex: none;
           order: 1;
           &:after {
-            left: -0.144928rem;
+            left: -0.154928rem;
             background: url('../../assets/images/bubble-arrow2.png') no-repeat;
             background-size: contain;
           }

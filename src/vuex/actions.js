@@ -64,7 +64,7 @@ export function showAlert({ dispatch }, alert) {
   let alertObj = alert
   if (typeof alert === 'string') {
     alertObj = {
-      text: alert
+      content: alert
     }
   }
   dispatch('SHOW_ALERT', alertObj)
