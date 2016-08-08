@@ -56,7 +56,7 @@ router.map({
     component: EnquiryAssetEslate
   },
   'enquiry/obligatory_right/government': {
-    title: { text: '政府投资平台类' },
+    title: { text: '政信类' },
     name: 'enquiryAssetGovernment',
     needLogin: true,
     component: EnquiryAssetGovernment
@@ -136,10 +136,10 @@ router.beforeEach(function({ from, to, abort, next }) {
   let user = JSON.parse(window.localStorage.user || '{}')
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
-    abort()
+    // abort()
   } else if (to.needLogin && user.status === 'initialized' && !_.includes(['login', 'perfect', 'register'], to.name)) {
     router.go({ name: 'perfect' })
-    abort()
+    // abort()
   } else {
     next()
   }

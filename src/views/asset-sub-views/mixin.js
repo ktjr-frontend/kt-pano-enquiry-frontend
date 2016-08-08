@@ -30,7 +30,7 @@ let mixin = _.merge({
         case '小微金融类':
           window.sessionStorage.enquiryFilterMiniFinanceCache = JSON.stringify(this.filter)
           break
-        case '政府投资平台类':
+        case '政信类':
           window.sessionStorage.enquiryFilterGovernmentCache = JSON.stringify(this.filter)
           break
         case '房地产类':

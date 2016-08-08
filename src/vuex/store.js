@@ -16,7 +16,7 @@ const state = {
     icon: 'icon-house',
     color: '#a1b5cd'
   }, {
-    name: '政府投资平台类',
+    name: '政信类',
     value: 'government',
     component: 'enquiryAssetGovernment',
     type: 'obligatory_right',

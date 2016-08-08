@@ -20,7 +20,7 @@ export default {
     }, 10)
 
     return {
-      asset_type: '政府投资平台类',
+      asset_type: '政信类',
       visible: {
         trust_party: false
       },

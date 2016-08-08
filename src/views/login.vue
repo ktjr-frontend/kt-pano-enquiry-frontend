@@ -84,9 +84,11 @@ export default {
               this.$parent.hideLoadingStatus()
               let user = res.json().account
               this.$parent.updateUser(user)
-              this.$router.go({
-                name: 'enquiry'
-              })
+              setTimeout(() => {
+                this.$router.go({
+                  name: 'enquiry'
+                })
+              }, 10)
             })
           }, (res) => {
             this.$parent.hideLoadingStatus()
