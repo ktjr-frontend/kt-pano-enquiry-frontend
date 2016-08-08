@@ -6,7 +6,7 @@
         <span>询价系统</span>
       </h2>
       <h3 class="sub-title">
-        —— 专业精准的互金平台资产发行询价系统
+        专业精准的互金平台资产发行询价系统
       </h3>
     </section>
     <section>
@@ -15,7 +15,7 @@
       </div>
       <div class="right">
         <h3>覆盖互金市场几十家主流平台数据</h3>
-        <p>汇集国内主流互金平台金融产品发行信息，强大的市场数据库，让数据分析更简单。</p>
+        <p>汇集国内主流互金平台资产发行信息，强大的市场数据库，让数据分析更简单</p>
       </div>
     </section>
     <section>
@@ -24,7 +24,7 @@
       </div>
       <div class="right">
         <h3>精准强大的运算系统模型</h3>
-        <p>多维度数据透视分析，一站式实现从查询内容分析、数据收集、数据处理到数据展现的整个过程</p>
+        <p>多维度数据透视分析，一站式实现从查询内容分析到数据处理展现的整个过程</p>
       </div>
     </section>
     <section>
@@ -33,7 +33,7 @@
       </div>
       <div class="right">
         <h3>十年金融专业团队运营支撑</h3>
-        <p>专业的投行团队和交易市场运营团队，助力提供标准的金融资产互联网发行全流程服务</p>
+        <p>专业的投行团队和交易市场运营团队，助力提供金融资产互联网发行全流程服务</p>
       </div>
     </section>
   </div>
@@ -64,8 +64,20 @@
     h3.sub-title {
       color: #c5ccd8;
       font-size: 0.322061rem;
-      padding: 0.144928rem; //18px
+      position: relative;
+      margin: 0;
+      padding: 0.144928rem 0 0.144928rem 2em; //18px
       // border: 1px solid #c5ccd8;
+      &:before {
+        content: '';
+        display: block;
+        height: 0;
+        border-top: 1px solid white;
+        width: 2em;
+        left: -.5em;
+        position: absolute;
+        top: 50%;
+      }
     }
   }
   section {
@@ -74,7 +86,7 @@
     justify-content: center;
     align-items: center;
     background: white;
-    min-height: 3.220612rem; //500px
+    min-height: 3.220612rem; //400px
     padding: 0 0.885668rem; //100px
     &:nth-of-type(3) {
       .left {

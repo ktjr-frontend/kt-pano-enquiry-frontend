@@ -34,8 +34,25 @@ export default {
 <style lang="scss">
 .home {
   font-size: 0.322061rem; //40px
+  // .buttons {
+  //   padding: 0.161031rem 0.402576rem; //20px 50px
+  // }
   .buttons {
-    padding: 0.161031rem 0.402576rem; //20px 50px
+    display: flex;
+    background: white;
+    // height: 1.288245rem;
+    // line-height: 1.288245rem;
+    padding: 0.241546rem 0.402576rem; //50px
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .btn {
+      flex: 1;
+      display: block;
+      margin: 0 0.241546rem;
+    }
+    // margin: 0.322061rem 0.402576rem; //40px 50px
   }
 }
 </style>

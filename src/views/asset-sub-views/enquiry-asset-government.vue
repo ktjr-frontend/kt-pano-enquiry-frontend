@@ -91,7 +91,7 @@ export default {
         group: 'group2',
         key: 'gov_trusty_income',
         type: 'select',
-        tip: '待定',
+        tip: '公共财政预算收入是指政府凭借国家政治权力，以社会管理者身份筹集以税收为主体的财政收入。',
         validate: {
           maxlength: 120
         },

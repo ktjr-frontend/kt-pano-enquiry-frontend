@@ -21,6 +21,7 @@ let mixin = _.merge({
         content: tip
       })
     },
+
     cacheFilter() {
       switch (this.asset_type) {
         case '供应链类':
@@ -79,6 +80,12 @@ let mixin = _.merge({
     }
   }
 
-}, formMixin)
+}, formMixin, {
+  methods: {
+    clearField(name) {
+      this.filter[name] = ''
+    }
+  }
+})
 
 export default mixin

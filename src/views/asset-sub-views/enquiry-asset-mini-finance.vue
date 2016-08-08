@@ -7,7 +7,7 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.small_loan_fin_exp = this.filter.small_loan_shareholder_type === '其他'
+      this.visible.small_loan_fin_exp = this.filter.small_loan_shareholder_type === '其它'
     }
   },
   data() {
@@ -20,7 +20,7 @@ export default {
     return {
       asset_type: '小微金融类',
       visible: {
-        small_loan_fin_exp: true
+        small_loan_fin_exp: false
           // guarantee: false,
           // small_loan_shareholder_type: false,
           // guarantee_subject: false

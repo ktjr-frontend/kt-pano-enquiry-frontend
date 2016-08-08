@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <div class="logo-bottom" :class="{'no-tabbar': !tabVisible}">
+  <div class="logo-bottom" :class="{'no-tabbar': !tabVisible, 'dn-imp': !logoBottomVisible}">
     <img src="./assets/images/logo2.svg" alt="开通PANO">
   </div>
 
@@ -93,6 +93,9 @@ export default {
     }
   },
   computed: {
+    logoBottomVisible() {
+      return !_.includes(['home', 'login', 'perfect', 'enquiryShare'], this.$route.name)
+    },
     tabVisible() {
       return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare'], this.$route.name)
     },

@@ -101,7 +101,7 @@
       }
     }
     .weui_cell_bd {
-      font-size: 0.322061rem; //40px
+      font-size: 0.354267rem; //40px
     }
     .kt-cell-content {
       font-size: 0.289855rem; //36px
@@ -140,6 +140,10 @@
     position: relative;
     font-size: 0.402576rem; //50px
     color: #737e9c;
+    margin-right: .5em;
+    input {
+      direction: rtl;
+    }
   }
   .weui_cell_ft {
     font-size: 0.402576rem;

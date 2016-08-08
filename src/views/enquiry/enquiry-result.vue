@@ -8,7 +8,7 @@
       <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
       <div class="circle">
         <h2>{{enquiry_result.inquiry_life_asset_rate}}<span class="unit">%</span></h2>
-        <p>参考利率值<i class="icon-pano icon-question" @click="$parent.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
+        <p>参考利率值<i class="icon-pano icon-info" @click="$parent.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
       </div>
     </section>
 
@@ -35,7 +35,7 @@
       <group>
         <cell title="" class="kt-md-cell feedback">
           <div slot="icon">
-            <a @click="feedback(1)"><i class="icon-pano icon-smile satisfied"></i>满意</a>
+            <a @click="feedback(1)"><i class="icon-pano icon-smile not-satisfied"></i>满意</a>
             <a @click="feedback(0)"><i class="icon-pano icon-sad not-satisfied"></i>不满意</a>
           </div>
           <div slot="value" v-show="isWeixin">
@@ -63,7 +63,7 @@
         </cell>
       </group>
       <group>
-        <cell link="https://pano.ktjr.com" @click="$parent.log({name: 'log'})" is-link class="service-introdution">
+        <cell link="https://pano.ktjr.com" @click="$parent.log({name: 'log'})" is-link class="service-introdution" style="padding-bottom: 15px">
           <div slot="after-title">
             <h3>开通PANO</h3>
             <p>汇集国内主流互金平台金融产品发行信息，助您快速全面了解市场最新数据，解除您逐日跟踪各大平台的烦恼。
@@ -108,8 +108,8 @@ export default {
       let host = location.protocol + '//' + location.host
       let imgUrl = host + require('../../assets/images/favicon-material.png')
       let shareOptions = {
-        title: '这里是分享标题', // 分享标题
-        desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事', // 分享描述
+        title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
+        desc: '【开通PANO询价系统】一键查询互金平台资产发行，基于几十家互金平台资产信息，价格、平台统统告诉你！', // 分享描述
         link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
         imgUrl: imgUrl // 分享图标
           // type: '', // 分享类型,music、video或link，不填默认为link
@@ -348,8 +348,9 @@ export default {
       height: 3.059581rem; //380px
       border: 0.185185rem solid rgba(52, 146, 211, .15); //23px
       color: white;
-      .icon-question {
+      .icon-pano {
         font-size: .8em;
+        vertical-align: super;
         margin-left: .5em;
       }
       h2 {
@@ -404,24 +405,33 @@ export default {
   }
   .not-satisfied {
     color: #dde1f0;
+    &:active {
+      color: #ffd388;
+    }
   }
   .service-introdution {
     h3 {
       text-align: center;
       color: #737e9c;
-      margin-bottom: 0.161031rem; //20px
+      font-size: 0.354267rem; //44px
+      margin: 0.161031rem 0; //20px
     }
     p {
-      color: #c5c9d2;
+      color: #acb1bd;
     }
     .weui_cell_ft {
       align-self: flex-start;
+      position: absolute;
+      right: 15px;
+    }
+    .weui_cell_primary {
+      margin-right: 0;
     }
     .contact {
       padding: 0.161031rem 0;
       color: #acb1bd;
       line-height: 0.563607rem;
-      margin-top: 0.161031rem; //20px
+      margin-top: 0.362319rem; //30px
       border-top: 1px solid #f4f6fa;
       .weixin-qrcode {
         display: block;

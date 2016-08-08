@@ -45,6 +45,9 @@
           <p>{{item.platform}}</p>
         </div>
       </div>
+      <div class="head-footer">
+        原来互金平台资产询价可以如此简单靠谱!!
+      </div>
     </section>
     <!-- <section class="head">
       <p>我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。原来互金平台资产询价可以如此简单靠谱：</p>
@@ -155,6 +158,12 @@ export default {
     background: white;
     padding: 0.402576rem; //50px
     box-shadow: 0 0 35px 5px rgba(0, 0, 0, .14);
+    .head-footer {
+      text-align: center;
+      padding-top: 0.241546rem;//30px
+      margin-top: 0.362319rem; //45px
+      border-top: 1px solid #f8f9fb;
+    }
     .chat-list {
       li {
         display: flex;
@@ -244,7 +253,7 @@ export default {
       }
     }
   }
-  .titles {
+  /* .titles {
     background: #f8f9fb;
     display: flex;
     align-items: center;
@@ -268,7 +277,7 @@ export default {
       // padding: 0.144928rem; //18px
       // border: 1px solid #c5ccd8;
     }
-  }
+  } */
   .contact {
     text-align: center;
     padding: 0 0.402576rem; //50px
@@ -283,7 +292,7 @@ export default {
     }
     .foot {
       border-top: 1px solid #f4f6fa;
-      color: #c5c9d2;
+      color: #adb1bc;
       line-height: 3em;
     }
   }
