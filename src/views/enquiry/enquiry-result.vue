@@ -45,7 +45,7 @@
       </group>
 
       <group>
-        <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: 'log'})" is-link class="service-introdution">
+        <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: '产品介绍页'})" is-link class="service-introdution">
           <div slot="after-title">
             <h3>开通资产推介服务</h3>
             <p>开通金融为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持，包括但不限于资产意向发布、在线推介、在线询价协商、多平台登记结算支持、跨平台发行及转让、信息披露等，如有意向可通过以下方式与我们联系。
@@ -63,7 +63,7 @@
         </cell>
       </group>
       <group>
-        <cell link="https://pano.ktjr.com" @click="$parent.log({name: 'log'})" is-link class="service-introdution" style="padding-bottom: 15px">
+        <cell link="https://pano.ktjr.com" @click="$parent.log({name: '开通PANO'})" is-link class="service-introdution" style="padding-bottom: 15px">
           <div slot="after-title">
             <h3>开通PANO</h3>
             <p>汇集国内主流互金平台金融产品发行信息，助您快速全面了解市场最新数据，解除您逐日跟踪各大平台的烦恼。
@@ -89,90 +89,9 @@ import {
 import wx from 'weixin-js-sdk'
 import Utils from '../../common/utils'
 export default {
-  ready: function() {
-    this.updateSignature()
+  /*ready: function() {
 
-    // 签名失效
-    wx.error((res) => {
-      if (this.retryTime > 2) {
-        return
-      }
-
-      ++this.retryTime
-      this.updateSignature({
-        // force: 1
-      })
-    })
-
-    wx.ready(() => {
-      let host = location.protocol + '//' + location.host
-      let imgUrl = host + require('../../assets/images/share-icon.jpg')
-      let shareOptions = {
-        title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
-        desc: '【开通PANO询价系统】一键查询互金平台资产发行，价格、平台统统告诉你！', // 分享描述
-        link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
-        imgUrl: imgUrl // 分享图标
-          // type: '', // 分享类型,music、video或link，不填默认为link
-          // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-      }
-      let _self = this
-
-      // 分享给朋友
-      wx.onMenuShareAppMessage({
-        ...shareOptions,
-        success() {
-          _self.logShare('朋友', '确定')
-        },
-        cancel() {
-          _self.logShare('朋友', '取消')
-        }
-      })
-
-      // 分享到朋友圈
-      wx.onMenuShareTimeline({
-        ...shareOptions,
-        success() {
-          _self.logShare('朋友圈', '确定')
-        },
-        cancel() {
-          _self.logShare('朋友圈', '取消')
-        }
-      })
-
-      // 分享到QQ
-      wx.onMenuShareQQ({
-        ...shareOptions,
-        success() {
-          _self.logShare('QQ', '确定')
-        },
-        cancel() {
-          _self.logShare('QQ', '取消')
-        }
-      })
-
-      // 分享到腾讯微博
-      wx.onMenuShareWeibo({
-        ...shareOptions,
-        success() {
-          _self.logShare('腾讯微博', '确定')
-        },
-        cancel() {
-          _self.logShare('腾讯微博', '取消')
-        }
-      })
-
-      // 分享到QQ空间
-      wx.onMenuShareQZone({
-        ...shareOptions,
-        success() {
-          _self.logShare('QQ空间', '确定')
-        },
-        cancel() {
-          _self.logShare('QQ空间', '取消')
-        }
-      })
-    })
-  },
+  },*/
   vuex: {
     actions: {
       showSuccessToast,
@@ -205,6 +124,88 @@ export default {
           })
         }
 
+        this.updateSignature({}, () => {
+          // 签名失效
+          wx.error((res) => {
+            if (this.retryTime > 2) {
+              return
+            }
+
+            ++this.retryTime
+            this.updateSignature({
+              // force: 1
+            })
+          })
+
+          wx.ready(() => {
+            let host = location.protocol + '//' + location.host
+            let imgUrl = host + require('../../assets/images/share-icon.jpg')
+            let shareOptions = {
+              title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
+              desc: '【开通PANO询价系统】一键查询互金平台资产发行，价格、平台统统告诉你！', // 分享描述
+              link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
+              imgUrl: imgUrl // 分享图标
+                // type: '', // 分享类型,music、video或link，不填默认为link
+                // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+            }
+            let _self = this
+            alert(JSON.stringify(shareOptions))
+              // 分享给朋友
+            wx.onMenuShareAppMessage({
+              ...shareOptions,
+              success() {
+                _self.logShare('朋友', '确定')
+              },
+              cancel() {
+                _self.logShare('朋友', '取消')
+              }
+            })
+
+            // 分享到朋友圈
+            wx.onMenuShareTimeline({
+              ...shareOptions,
+              success() {
+                _self.logShare('朋友圈', '确定')
+              },
+              cancel() {
+                _self.logShare('朋友圈', '取消')
+              }
+            })
+
+            // 分享到QQ
+            wx.onMenuShareQQ({
+              ...shareOptions,
+              success() {
+                _self.logShare('QQ', '确定')
+              },
+              cancel() {
+                _self.logShare('QQ', '取消')
+              }
+            })
+
+            // 分享到腾讯微博
+            wx.onMenuShareWeibo({
+              ...shareOptions,
+              success() {
+                _self.logShare('腾讯微博', '确定')
+              },
+              cancel() {
+                _self.logShare('腾讯微博', '取消')
+              }
+            })
+
+            // 分享到QQ空间
+            wx.onMenuShareQZone({
+              ...shareOptions,
+              success() {
+                _self.logShare('QQ空间', '确定')
+              },
+              cancel() {
+                _self.logShare('QQ空间', '取消')
+              }
+            })
+          })
+        })
         return {
           enquiry_result: data
         }

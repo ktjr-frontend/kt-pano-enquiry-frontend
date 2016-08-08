@@ -125,7 +125,7 @@ export default {
         },
         options: [{
           key: '0',
-          value: '房抵押借款'
+          value: '房屋抵押借款'
         }, {
           key: '1',
           value: '车辆融资'
