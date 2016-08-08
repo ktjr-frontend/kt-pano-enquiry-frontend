@@ -78,7 +78,7 @@
       </div>
     </group> -->
     <enquiry-features></enquiry-features>
-    <group>
+    <group style="margin-bottom:1.288245rem;">
       <div class="contact">
         <h3>您也可以关注微信二维码，轻松开启资产询价之旅</h3>
         <img src="../../assets/images/weixin.jpg" class="qrcode" alt="微信PANO" />

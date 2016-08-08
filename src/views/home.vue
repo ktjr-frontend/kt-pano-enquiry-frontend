@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <enquiry-features></enquiry-features>
+    <enquiry-features style="margin-bottom:1.288245rem;"></enquiry-features>
     <section class="buttons">
       <a v-link="{name: 'login'}" class="btn mt-40">登录</a>
       <a v-link="{name: 'register'}" class="btn btn-cyan mt-40">注册</a>
