@@ -97,7 +97,7 @@ export default {
       return !_.includes(['home', 'login', 'perfect', 'enquiryShare'], this.$route.name)
     },
     tabVisible() {
-      return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare', 'enquiryAssetEslate', 'enquiryAssetGovernment', 'enquiryAssetEnterprise', 'enquiryAssetSupplyChain', 'enquiryAssetMiniFinance'], this.$route.name)
     },
     headVisible() {
       return !_.includes(['home', 'login', 'register', 'enquiryResult', 'enquiryShare'], this.$route.name)
@@ -176,6 +176,9 @@ body.overflow-height {
     left: 0;
     right: 0;
     margin-top: 0.402576rem;
+    &.no-tabbar {
+      margin-bottom: 0;
+    }
   }
 }
 </style>

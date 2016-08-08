@@ -5,7 +5,7 @@
   <div class="enquire-share" v-show="!$loadingRouteData">
     <section class="head">
       <div class="chat-list">
-        <li>
+        <div class="item">
           <div class="message">
             <div class="bubble">
               我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。
@@ -14,27 +14,27 @@
           <div class="icon">
             <img src="../../assets/images/icon-user.jpg" alt="用户头像">
           </div>
-        </li>
-        <li class="me">
+        </div>
+        <div class="me item">
           <div class="message">
             <div class="bubble">
-              为你推荐的利率为： <em>{{inquiry_life_asset_rate.res.inquiry_life_asset_rate}}</em>%
+              为你推荐的利率为： <em>{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
             </div>
           </div>
           <div class="icon">
             <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像">
           </div>
-        </li>
-        <li class="me">
+        </div>
+        <div class="me item">
           <div class="message">
             <div class="bubble">
-              为你推荐的利率为： <em>{{inquiry_life_asset_rate.res.inquiry_life_asset_rate}}</em>%
+              为你推荐在如下平台发行：
             </div>
           </div>
           <div class="icon">
             <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像">
           </div>
-        </li>
+        </div>
 
       </div>
       <div class="insts">
@@ -120,6 +120,8 @@ export default {
         return {
           enquiry_result: data
         }
+      }, (res) => {
+        this.$parent.showAlert('抱歉，服务器繁忙！')
       })
 
       return p
@@ -160,13 +162,15 @@ export default {
     box-shadow: 0 0 35px 5px rgba(0, 0, 0, .14);
     .head-footer {
       text-align: center;
-      padding-top: 0.241546rem;//30px
+      padding-top: 0.241546rem; //30px
       margin-top: 0.362319rem; //45px
       border-top: 1px solid #f8f9fb;
     }
     .chat-list {
-      li {
+      .item {
         display: flex;
+        // justify-content: center;
+        align-items: center;
         margin-bottom: 0.161031rem;
       }
       .message {
@@ -202,10 +206,11 @@ export default {
           max-width: 100%;
         }
       }
-      li.me {
+      .item.me {
         .message {
           background: #f1c57c;
           flex: none;
+          order: 1;
           &:after {
             left: -0.144928rem;
             background: url('../../assets/images/bubble-arrow2.png') no-repeat;
@@ -215,7 +220,6 @@ export default {
         .icon {
           margin-right: 0.322061rem; //40px
           margin-left: 0;
-          order: -1;
         }
       }
     }

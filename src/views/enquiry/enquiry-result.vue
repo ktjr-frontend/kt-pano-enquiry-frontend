@@ -106,7 +106,7 @@ export default {
 
     wx.ready(() => {
       let host = location.protocol + '//' + location.host
-      let imgUrl = host + require('../../assets/images/favicon-material.png')
+      let imgUrl = host + require('../../assets/images/share-icon.jpg')
       let shareOptions = {
         title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
         desc: '【开通PANO询价系统】一键查询互金平台资产发行，基于几十家互金平台资产信息，价格、平台统统告诉你！', // 分享描述
