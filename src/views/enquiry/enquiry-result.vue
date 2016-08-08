@@ -149,8 +149,8 @@ export default {
                 // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
             }
             let _self = this
-            alert(JSON.stringify(shareOptions))
-              // 分享给朋友
+
+            // 分享给朋友
             wx.onMenuShareAppMessage({
               ...shareOptions,
               success() {
