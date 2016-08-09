@@ -4,7 +4,7 @@
       <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
         <input type="password" class="dn" name="password" />
         <div class="form-group" v-for="field in fields">
-          <div class="input" v-validate-class :class="{'not-empty': !!user[field.name]}">
+          <div class="input" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus" :class="{'not-empty': !!user[field.name]}">
             <i class="icon-pano" :class="field.iconName"></i>
             <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
@@ -71,7 +71,7 @@ import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import Popup from 'vux-components/popup'
 import Countdown from 'vux-components/countdown'
-import formMixin from './form-mixin'
+import formMixin from '../mixins/form-mixin'
 import {
   sessions,
   registrations
@@ -141,9 +141,10 @@ export default {
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
-          this.$parent.showToast({
-            text: '内容有误'
-          })
+          this.showError(this.fields[0].name)
+          // this.$parent.showToast({
+          //   text: '内容有误'
+          // })
         } else {
           this.$parent.showLoadingStatus()
           registrations.save({

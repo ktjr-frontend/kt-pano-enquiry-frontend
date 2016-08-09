@@ -11,7 +11,7 @@
             <p>{{enquiryError}}</p>
             <div class="contact">
               <ul>
-                <li>邮箱：pano@ktjr.com</li>
+                <li>邮箱：HelloPANO@ktjr.com</li>
                 <li>
                   PANO微信小秘书：
                   <img class="weixin-qrcode" src="../../assets/images/weixin.jpg" alt="weixin小秘书">

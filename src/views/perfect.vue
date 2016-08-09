@@ -15,7 +15,7 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-show="card">
           <flexbox>
             <flexbox-item>
               <button class="btn" @click="$parent.log({name: '完成'})">完成</button>
@@ -155,7 +155,7 @@ export default {
             }, (res) => {
               this.$parent.hideLoadingStatus()
               this.$parent.showToast({
-                text: res.json().error || '保存失败'
+                text: res.json().error || '抱歉，服务器繁忙！'
               })
             })
           })

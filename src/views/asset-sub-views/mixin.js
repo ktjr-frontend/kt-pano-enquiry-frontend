@@ -3,7 +3,7 @@ import Cell from 'vux-components/cell'
 import XInput from 'vux-components/x-input'
 import Selector from 'vux-components/selector'
 import _ from 'lodash'
-import formMixin from '../form-mixin'
+import formMixin from '../../mixins/form-mixin'
 import {
   pruneParams
 } from '../../common/helpers'

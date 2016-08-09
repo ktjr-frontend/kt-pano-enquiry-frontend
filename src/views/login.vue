@@ -4,7 +4,7 @@
       <form action="" novalidate @submit.prevent="onSubmit($event)">
 
         <div class="form-group" v-for="field in fields">
-          <div class="input input-withicon" v-validate-class :class="{'not-empty': !!user[field.name]}">
+          <div class="input input-withicon" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus" :class="{'not-empty': !!user[field.name]}">
             <i class="icon-pano" :class="field.iconName"></i>
             <input autocomplete="off" initial="off" @input="validate(field.name)" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
@@ -42,7 +42,7 @@
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Vue from 'vue'
-import formMixin from './form-mixin'
+import formMixin from '../mixins/form-mixin'
 import {
   sessions
 } from '../common/resources'
@@ -70,9 +70,10 @@ export default {
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
-          this.$parent.showToast({
-            text: '内容有误'
-          })
+          this.showError(this.fields[0].name)
+          // this.$parent.showToast({
+          //   text: '内容有误'
+          // })
         } else {
           this.$parent.showLoadingStatus()
           sessions.save(this.user).then((res) => {
@@ -115,6 +116,7 @@ export default {
       },
       fields: [{
         name: 'mobile',
+        text: '手机号',
         placeholder: '请输入用户名（手机号码）',
         type: 'text',
         iconName: 'icon-man-solid',
@@ -124,6 +126,7 @@ export default {
         }
       }, {
         name: 'password',
+        text: '密码',
         placeholder: '请输入密码',
         type: 'password',
         iconName: 'icon-lock-solid',

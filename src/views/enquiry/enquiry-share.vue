@@ -10,6 +10,7 @@
             <div class="bubble">
               我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。
             </div>
+            <div class="arrow"></div>
           </div>
           <div class="icon">
             <img src="../../assets/images/icon-user.jpg" alt="用户头像">
@@ -20,6 +21,7 @@
             <div class="bubble">
               为你推荐的利率为： <em>{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
             </div>
+            <div class="arrow"></div>
           </div>
           <div class="icon">
             <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像">
@@ -30,6 +32,7 @@
             <div class="bubble">
               为你推荐在如下平台发行：
             </div>
+            <div class="arrow"></div>
           </div>
           <div class="icon">
             <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像">
@@ -40,7 +43,7 @@
       <div class="insts">
         <div class="item" v-for="item in enquiry_result.res.inquiry_tactics_data">
           <div class="icon-body">
-            <img :src="item.logo" alt="京东金融">
+            <img :src="item.logo" :alt="item.platform">
           </div>
           <p>{{item.platform}}</p>
         </div>
@@ -49,34 +52,6 @@
         原来互金平台资产询价可以如此简单靠谱!!
       </div>
     </section>
-    <!-- <section class="head">
-      <p>我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。原来互金平台资产询价可以如此简单靠谱：</p>
-    </section>
-    <section class="head-footer">
-      开通PANO为我推荐的利率为：<em>{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
-    </section>
-    <section class="refer-institutions">
-      <h3>开通PANO为我推荐在如下平台发行：</h3>
-      <div class="insts">
-        <div class="item" v-for="item in enquiry_result.res.inquiry_tactics_data">
-          <div class="icon-body">
-            <img :src="item.logo" alt="京东金融">
-          </div>
-          <p>{{item.platform}}</p>
-        </div>
-      </div>
-    </section> -->
-    <!-- <group>
-      <div class="titles">
-        <h2 class="title">
-        <img class="head-logo" src="../../assets/images/logo2.svg" alt="logo">
-        <span>询价系统</span>
-      </h2>
-        <h3 class="sub-title">
-        —— 专业精准的互金平台资产发行询价系统
-      </h3>
-      </div>
-    </group> -->
     <enquiry-features></enquiry-features>
     <group style="margin-bottom:1.288245rem;">
       <div class="contact">
@@ -167,6 +142,8 @@ export default {
       border-top: 1px solid #f8f9fb;
     }
     .chat-list {
+      $width: 8px; // arrow width
+      $height: 12px; // arrow height
       .item {
         display: flex;
         // justify-content: center;
@@ -185,17 +162,39 @@ export default {
         align-self: center;
         line-height: 1.2;
         position: relative;
-        &:after {
+        .arrow {
+          position: absolute;
+          right: -$width + 1px;
+          width: $width;
+          height: $height;
+          overflow: hidden;
+          transform: translateY(-50%) rotate(15deg);
+          top: 50%;
+          &:before {
+            content: '';
+            display: block;
+            box-sizing: border-box;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: $width * 2;
+            height: $height * 2;
+            border: 0 solid #a1b5cd;
+            border-width: $height * 0.6 0;
+            border-radius: 50%;
+          }
+        }
+        /* &:after {
           content: '';
           position: absolute;
-          top: 50%;
+          top: 80%;
           transform: translateY(-50%);
           height: 0.201288rem;
           width: 0.201288rem;
           right: -0.177134rem;
           background: url('../../assets/images/bubble-arrow.png') no-repeat;
           background-size: contain;
-        }
+        } */
       }
       .icon {
         margin-left: 0.322061rem; //40px
@@ -211,11 +210,21 @@ export default {
           background: #f1c57c;
           flex: none;
           order: 1;
-          &:after {
+          .arrow {
+            transform: translateY(-50%) rotate(-15deg);
+            left: -$width + 1px;
+            &:before {
+              bottom: 0;
+              left: 0;
+              border-color: #f1c57c;
+              border-radius: 50%;
+            }
+          }
+          /* &:after {
             left: -0.154928rem;
             background: url('../../assets/images/bubble-arrow2.png') no-repeat;
             background-size: contain;
-          }
+          } */
         }
         .icon {
           margin-right: 0.322061rem; //40px
@@ -257,31 +266,7 @@ export default {
       }
     }
   }
-  /* .titles {
-    background: #f8f9fb;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 1.811594rem; //225px
-    .title {
-      font-size: 0.322061rem; // 40px
-      color: #474650;
-      margin-bottom: 0.161031rem; //100px
-    }
-    .head-logo {
-      vertical-align: -.15em;
-      position: static;
-      height: 0.362319rem; //45px
-      margin-right: 0.241546rem;
-    }
-    .sub-title {
-      color: #737e9c;
-      font-size: 0.289855rem; //36px
-      // padding: 0.144928rem; //18px
-      // border: 1px solid #c5ccd8;
-    }
-  } */
+
   .contact {
     text-align: center;
     padding: 0 0.402576rem; //50px
@@ -302,14 +287,11 @@ export default {
   }
   .buttons {
     background: white;
-    height: 1.288245rem;
-    line-height: 1.288245rem;
-    padding: 0 0.402576rem; //50px
+    padding: 0.402576rem; //50px
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    // margin: 0.322061rem 0.402576rem; //40px 50px
   }
 }
 </style>

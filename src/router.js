@@ -20,6 +20,7 @@ import EnquiryAssetMiniFinance from './views/asset-sub-views/enquiry-asset-mini-
 import Settings from './views/settings'
 import ServiceIntroduce from './views/service-introduce'
 import _ from 'lodash'
+import log from './common/log'
 
 // 自定义validator
 Vue.use(Router)
@@ -160,6 +161,9 @@ router.afterEach(function({ to }) {
       document.body.removeChild(iframe)
     }, 10)
   }
+
+  // url跟踪
+  log()
 
   // 动态解决logo的位置问题
   setTimeout(function() {

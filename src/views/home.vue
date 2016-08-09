@@ -9,6 +9,7 @@
 </template>
 <script>
 import EnquiryFeatures from './_parts/enquiry-features'
+
 export default {
   route: {
     activate({
