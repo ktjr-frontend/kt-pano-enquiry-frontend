@@ -200,7 +200,7 @@
     background-color: #83a4c3;
     border-color: #83a4c3;
   }
-  &.weui_cell_input.not-empty {
+  &.weui_cell_input.not-empty.focus {
     .weui_icon_clear {
       display: inline;
     }

@@ -4,10 +4,11 @@ export default {
     Vue.directive('kt-toggle-onfucusblur', {
       params: ['toggleClass', 'child'],
       bind() {
-        this.el.querySelector(this.params.child).addEventListener('focus', () => {
+        let input = this.el.querySelector(this.params.child)
+        input && input.addEventListener('focus', () => {
           this.el.classList.add(this.params.toggleClass)
         })
-        this.el.querySelector(this.params.child).addEventListener('blur', () => {
+        input && input.addEventListener('blur', () => {
           this.el.classList.remove(this.params.toggleClass)
         })
       }

@@ -18,6 +18,7 @@
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import _ from 'lodash'
+import log from '../../common/log'
 import {
   assetTypes
 } from '../../vuex/getters'
@@ -33,11 +34,7 @@ export default {
     }
   },
   methods: {
-    log(name) {
-      this.$parent.log({
-        name: name
-      })
-    }
+    log // 调用不了$parent.log,被flexitem 截断了父子关系
   },
   computed: {
     listByType: function() {

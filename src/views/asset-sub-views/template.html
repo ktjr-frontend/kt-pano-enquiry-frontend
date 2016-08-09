@@ -5,7 +5,7 @@
   <validator name="validation">
     <form action="" novalidate @submit.prevent="onSubmit($event)">
       <div class="weui_cells vux-no-group-title" v-for="group in filtersByType">
-        <div class="weui_cell weui_select_after" v-for="field in group" :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}" v-validate-class>
+        <div class="weui_cell weui_select_after" v-for="field in group" :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus">
 
           <div class="weui_cell_hd">
             <label class="weui_label" :style="{width: (field.name.length + 1 + (!!field.tip)*1) + 'em'}">
