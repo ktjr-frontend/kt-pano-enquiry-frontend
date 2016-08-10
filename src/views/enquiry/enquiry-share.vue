@@ -22,7 +22,7 @@
         <div class="me item">
           <div class="message">
             <div class="bubble">
-              开通PANO为你推荐的利率为： <em class="em-fs em-orange">{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
+              开通PANO为你推荐的利率为：<em class="em-fs em-orange">{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
             </div>
             <div class="arrow"></div>
           </div>
@@ -235,7 +235,7 @@ export default {
     }
     em {
       display: inline-block;
-      margin: 0 5px;
+      // margin: 0 5px;
       font-weight: bolder;
       color: #4380dd;
       &.em-fs {

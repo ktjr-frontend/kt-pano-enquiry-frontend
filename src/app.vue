@@ -120,14 +120,6 @@ export default {
       hideLoadingStatus
     }
   },
-  ready: function() {
-    this.updateUser(JSON.parse(window.localStorage.user || '{}'))
-      // window.onpopstate = (e) => {
-      //   this.log({
-      //     name: '返回'
-      //   })
-      // }
-  },
   store,
   replace: false
 }
