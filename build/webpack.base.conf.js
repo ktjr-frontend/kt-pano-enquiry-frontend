@@ -36,6 +36,11 @@ module.exports = {
       loader: 'eslint',
       include: projectRoot,
       exclude: /node_modules/
+    }, {
+      test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+      loader: 'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false',
+      include: projectRoot,
+      exclude: /node_modules/
     }],
     loaders: [{
       test: /\.vue$/,
@@ -72,5 +77,18 @@ module.exports = {
   },
   vue: {
     loaders: utils.cssLoaders()
+  },
+  imageWebpackLoader: {
+    pngquant: {
+      quality: "65-90",
+      speed: 4
+    },
+    svgo: {
+      plugins: [{
+        removeViewBox: false
+      }, {
+        removeEmptyAttrs: false
+      }]
+    }
   }
 }

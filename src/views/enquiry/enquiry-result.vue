@@ -34,9 +34,9 @@
 
       <group>
         <cell title="" class="kt-md-cell feedback">
-          <div slot="icon">
-            <a @click="feedback(1)"><i class="icon-pano icon-smile not-satisfied"></i>满意</a>
-            <a @click="feedback(0)"><i class="icon-pano icon-sad not-satisfied"></i>不满意</a>
+          <div slot="icon" :class="{'satisfied': feedbackStyle.satisfied === 1, 'not-satisfied': feedbackStyle.satisfied === 0}">
+            <a @click="feedback(1)"><i class="icon-pano icon-smile feedback-icon"></i>满意</a>
+            <a @click="feedback(0)"><i class="icon-pano icon-sad feedback-icon"></i>不满意</a>
           </div>
           <div slot="value" v-show="isWeixin">
             <button class="share" @click="openShare()">分享</button>
@@ -48,7 +48,7 @@
         <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: '产品介绍页'})" is-link class="service-introdution">
           <div slot="after-title">
             <h3>开通资产推介服务</h3>
-            <p>开通金融为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持，包括但不限于资产意向发布、在线推介、在线询价协商、多平台登记结算支持、跨平台发行及转让、信息披露等，如有意向可通过以下方式与我们联系。
+            <p>开通金融拥有十年金融专业运营团队，具备丰富的互联网金融渠道发行经验，熟知各大互金平台偏好特性，致力于为金融资产互联网渠道发行提供一站式系统及运营解决方案。想获得更精确的报价，或了解推荐平台的资产偏好与风控标准，可通过以下邮箱或二维码联系我们。
             </p>
             <div class="contact">
               <ul>
@@ -170,6 +170,7 @@ export default {
         key: this.enquiry_result.params_key,
         name: value ? '满意' : '不满意'
       }).then((res) => {
+        this.feedbackStyle.satisfied = value
         if (value === 1) {
           this.$parent.showAlert({
             content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
@@ -192,6 +193,9 @@ export default {
       isWeixin: Utils.isWeixin(),
       retryTime: 0,
       winH: window.innerHeight,
+      feedbackStyle: { //  data名称不能和methods 重复
+        satisfied: null
+      },
       signature: {
         timestamp: '',
         nonceStr: '',
@@ -273,7 +277,7 @@ export default {
       }
       &:active {
         color: #304366;
-        .not-satisfied {
+        .feedback-icon {
           color: #ffd388;
         }
       }
@@ -285,11 +289,26 @@ export default {
         margin-right: 0.281804rem; //35px
       }
     }
+    .satisfied {
+      a {
+        .feedback-icon {
+          &.icon-smile {
+            color: #ffd388;
+          }
+        }
+      }
+    }
+    .not-satisfied {
+      a {
+        .feedback-icon {
+          &.icon-sad {
+            color: #ffd388;
+          }
+        }
+      }
+    }
   }
-  .satisfied {
-    color: #ffd388;
-  }
-  .not-satisfied {
+  .feedback-icon {
     color: #dde1f0;
     &:active {
       color: #ffd388;

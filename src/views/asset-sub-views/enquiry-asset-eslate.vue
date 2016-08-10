@@ -8,7 +8,7 @@ export default {
   methods: {
     updateView() {
       this.visible.developer_type = this.filter.developer_order === '无排名'
-      // this.visible.guarantee = this.filter.developer_order === '前50强'
+        // this.visible.guarantee = this.filter.developer_order === '前50强'
       this.visible.trust_party = this.filter.guarantee
     }
   },
@@ -40,9 +40,14 @@ export default {
         group: 'group1',
         key: 'asset_amount',
         type: 'input',
+        subType: 'number',
         format: 'wy',
         validate: {
           required: true,
+          min: {
+            rule: 100,
+            message: '融资规模最少为100万元'
+          },
           pattern: {
             rule: '/^\\d+$/',
             message: '请填写数字'
@@ -54,8 +59,13 @@ export default {
         group: 'group1',
         key: 'asset_life',
         type: 'input',
+        subType: 'number',
         validate: {
           required: true,
+          min: {
+            rule: 1,
+            message: '融资期限不能为0'
+          },
           pattern: {
             rule: '/^\\d+$/',
             message: '请填写数字'
@@ -99,12 +109,12 @@ export default {
           value: '其它'
         }]
       }, {
-        name: '第三方担保',
+        name: '担保措施',
         group: 'group3',
         key: 'guarantee',
         type: 'switch'
       }, {
-        name: '第三方担保主体',
+        name: '担保主体',
         group: 'group3',
         key: 'trust_party',
         type: 'checkboxs',

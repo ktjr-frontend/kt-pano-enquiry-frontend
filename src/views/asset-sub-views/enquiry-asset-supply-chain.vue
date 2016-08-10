@@ -39,6 +39,7 @@ export default {
         group: 'group1',
         key: 'asset_amount',
         type: 'input',
+        subType: 'number',
         format: 'wy',
         validate: {
           required: true,
@@ -53,6 +54,7 @@ export default {
         group: 'group1',
         key: 'asset_life',
         type: 'input',
+        subType: 'number',
         validate: {
           required: true,
           pattern: {

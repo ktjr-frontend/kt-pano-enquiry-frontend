@@ -141,7 +141,7 @@ export default {
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
-          this.showError(this.fields[0].name)
+          this.showFirstError()
           // this.$parent.showToast({
           //   text: '内容有误'
           // })

@@ -15,6 +15,13 @@ let mixin = _.merge({
     XInput,
     Selector
   },
+  watch: {
+    'filter.guarantee': function(val) {
+      if (!val) {
+        this.filter.trust_party = []
+      }
+    }
+  },
   methods: {
     showTip(tip) {
       this.$parent.showAlert({
@@ -46,9 +53,10 @@ let mixin = _.merge({
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
-          this.$parent.showToast({
+          this.showFirstError()
+          /*this.$parent.showToast({
             text: '内容有误'
-          })
+          })*/
         } else {
           this.cacheFilter()
 

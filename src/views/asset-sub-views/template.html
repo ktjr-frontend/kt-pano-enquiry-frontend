@@ -26,7 +26,7 @@
           <div class="weui_cell_bd weui_cell_primary">
             <!-- input类型 -->
             <div v-if="field.type === 'input'">
-              <input class="weui_input" v-model="filter[field.key]" type="text" :field="field.key" v-validate="field.validate">
+              <input class="weui_input" v-model="filter[field.key]" :type="field.subType || 'text'" :field="field.key" v-validate="field.validate">
             </div>
             <!-- select类型 -->
             <div v-if="field.type === 'select'">

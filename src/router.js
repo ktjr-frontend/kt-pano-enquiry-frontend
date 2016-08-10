@@ -137,10 +137,10 @@ router.beforeEach(function({ from, to, abort, next }) {
   let user = JSON.parse(window.localStorage.user || '{}')
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
-    // abort()
+      // abort()
   } else if (to.needLogin && user.status === 'initialized' && !_.includes(['login', 'perfect', 'register'], to.name)) {
     router.go({ name: 'perfect' })
-    // abort()
+      // abort()
   } else {
     next()
   }
@@ -163,7 +163,9 @@ router.afterEach(function({ to }) {
   }
 
   // url跟踪
+  // if (to.name !== 'enquiryShare') {
   log()
+    // }
 
   // 动态解决logo的位置问题
   setTimeout(function() {
