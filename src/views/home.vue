@@ -6,7 +6,7 @@
         <span>询价系统</span>
       </h2>
       <h3 class="sub-title">
-        专业精准的互金平台资产发行询价系统
+        查价格、找平台，1分钟搞定互联网渠道资产发行第一步
       </h3>
     </section>
     <enquiry-features style="margin-bottom:1.288245rem;"></enquiry-features>
@@ -69,9 +69,9 @@ export default {
       font-size: 0.322061rem;
       position: relative;
       margin: 0;
-      padding: 0.144928rem 0 0.144928rem 2em; //18px
+      padding: 0.144928rem 0 0.144928rem; //18px
       // border: 1px solid #c5ccd8;
-      &:before {
+      /* &:before {
         content: '';
         display: block;
         height: 0;
@@ -80,7 +80,7 @@ export default {
         left: -.5em;
         position: absolute;
         top: 50%;
-      }
+      } */
     }
   }
   .buttons {
