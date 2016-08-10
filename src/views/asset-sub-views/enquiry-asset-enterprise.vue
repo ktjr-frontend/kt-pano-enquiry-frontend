@@ -12,7 +12,7 @@ export default {
     }
   },
   data() {
-    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEnterPriseCache || '{}')
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEnterpriseCache || '{}')
 
     setTimeout(() => {
       this.updateView()

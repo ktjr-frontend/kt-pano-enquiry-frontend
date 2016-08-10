@@ -9,15 +9,6 @@
           <p class="content">
             我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。
           </p>
-          <!-- <div class="message">
-            <div class="bubble">
-              我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。
-            </div>
-            <div class="arrow"></div>
-          </div>
-          <div class="icon">
-            <img src="../../assets/images/icon-user.jpg" alt="用户头像">
-          </div> -->
         </div>
         <div class="me item">
           <div class="message">
@@ -53,10 +44,9 @@
           <p>{{item.platform}}</p>
         </div>
       </div>
-      <div class="praise">
+      <!-- <div class="praise">
         原来互金平台资产询价可以如此简单靠谱!!
-      </div>
-
+      </div> -->
     </section>
     <section class="head-footer">
       <h2 class="title">
@@ -89,8 +79,10 @@ import EnquiryFeatures from '../_parts/enquiry-features'
 import {
   enquiries
 } from '../../common/resources'
+import wxMixin from '../../mixins/wx-mixin'
 
 export default {
+  mixins: [wxMixin],
   components: {
     Group,
     Spinner,
@@ -107,6 +99,17 @@ export default {
         ...query
       }).then((res) => {
         let data = res.json()
+
+        // 初始化微信jssdk
+        let host = location.protocol + '//' + location.host
+        let imgUrl = host + require('../../assets/images/share-icon.jpg')
+        this.wxInit({
+          title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
+          desc: '【开通PANO询价系统】一键查询互金平台资产发行，价格、平台统统告诉你！', // 分享描述
+          // link: host + '#!/enquiry/share?key=' + encodeURIComponent(query.key), // 分享链接
+          imgUrl: imgUrl // 分享图标
+        })
+
         return {
           enquiry_result: data
         }
@@ -137,7 +140,7 @@ export default {
 }
 </script>
 <style lang="scss">
-@import '../../assets/fonts/hannotate/hannotate.css';
+// @import '../../assets/fonts/hannotate/hannotate.css';
 .enquire-share {
   .weui_cells {
     font-size: 0.322061rem; //40px
@@ -162,7 +165,7 @@ export default {
       .content {
         text-align: center;
         font-size: 0.402576rem; //50px
-        line-height: 1.2;
+        line-height: 1.3;
         color: white;
         flex: 1;
         margin-bottom: 0.402576rem; //50px
@@ -275,7 +278,7 @@ export default {
         max-height: 80%;
       }
     }
-    .praise {
+    /* .praise {
       position: relative;
       font-family: 'hannotate';
       text-align: center;
@@ -286,11 +289,11 @@ export default {
         content: '';
         width: 100%;
         height: 1px;
-        background: linear-gradient(to right, #304366 0%, #475e87 50%,  #304366 100%);
+        background: linear-gradient(to right, #304366 0%, #475e87 50%, #304366 100%);
         position: absolute;
         top: 0;
       }
-    }
+    } */
   }
   .head-footer {
     background: white;

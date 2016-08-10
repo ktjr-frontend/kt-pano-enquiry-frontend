@@ -32,7 +32,7 @@ let mixin = _.merge({
     cacheFilter() {
       switch (this.asset_type) {
         case '供应链类':
-          window.sessionStorage.enquriyFilterSupplyChainCache = JSON.stringify(this.filter)
+          window.sessionStorage.enquiryFilterSupplyChainCache = JSON.stringify(this.filter)
           break
         case '小微金融类':
           window.sessionStorage.enquiryFilterMiniFinanceCache = JSON.stringify(this.filter)

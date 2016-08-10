@@ -164,7 +164,7 @@ body.overflow-height {
   .logo-bottom {
     position: static;
     margin: 0 0.402576rem; //0 50px
-    margin-bottom: 1.288245rem;
+    margin-bottom: 1.588245rem;
     left: 0;
     right: 0;
     margin-top: 0.402576rem;
