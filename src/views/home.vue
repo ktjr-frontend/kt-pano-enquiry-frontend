@@ -3,7 +3,7 @@
     <section class="head">
       <h2 class="title">
         <img class="head-logo" src="../assets/images/logo.svg" alt="logo">
-        <span>询价系统</span>
+        <span>询价服务</span>
       </h2>
       <h3 class="sub-title">
         查价格、找平台，1分钟搞定互联网渠道资产发行第一步

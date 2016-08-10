@@ -51,7 +51,7 @@
     <section class="head-footer">
       <h2 class="title">
           <img class="head-logo" src="../../assets/images/logo2.svg" alt="logo">
-          <span>询价系统</span>
+          <span>询价服务</span>
         </h2>
       <h3 class="sub-title">
           查价格、找平台，1分钟搞定互联网渠道资产发行第一步
@@ -61,7 +61,7 @@
     <group style="margin-bottom:1.788245rem;">
       <div class="contact">
         <h3>您也可以关注微信二维码，轻松开启资产询价之旅</h3>
-        <img src="../../assets/images/weixin.jpg" class="qrcode" alt="微信PANO" />
+        <img src="../../assets/images/weixin-pano.jpg" class="qrcode" alt="微信PANO" />
         <div class="foot">
           联系邮箱：HelloPANO@ktjr.com
         </div>

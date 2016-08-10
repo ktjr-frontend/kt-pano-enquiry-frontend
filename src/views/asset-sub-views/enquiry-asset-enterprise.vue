@@ -42,6 +42,10 @@ export default {
         format: 'wy',
         validate: {
           required: true,
+          min: {
+            rule: 100,
+            message: '融资规模最少为100万元'
+          },
           pattern: {
             rule: '/^\\d+$/',
             message: '请填写数字'
@@ -56,6 +60,10 @@ export default {
         subType: 'number',
         validate: {
           required: true,
+          min: {
+            rule: 1,
+            message: '融资期限不能为0'
+          },
           pattern: {
             rule: '/^\\d+$/',
             message: '请填写数字'
