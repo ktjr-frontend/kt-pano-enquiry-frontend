@@ -31,7 +31,7 @@ export default {
           let host = location.protocol + '//' + location.host
           let imgUrl = host + require('../assets/images/share-icon.jpg')
           let shareOptions = Object.assign({
-            title: '轻松搞定互金平台资产发行，是一种怎样的体验？', // 分享标题
+            title: '我的资产在互联网渠道的价格还不错，你也来试试？', // 分享标题
             desc: '【开通PANO询价系统】一键查询互金平台资产发行，价格、平台统统告诉你！', // 分享描述
             // link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
             imgUrl: imgUrl // 分享图标
