@@ -28,7 +28,6 @@ let mixin = _.merge({
         content: tip
       })
     },
-
     cacheFilter() {
       switch (this.asset_type) {
         case '供应链类':

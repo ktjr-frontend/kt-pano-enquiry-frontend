@@ -131,6 +131,9 @@
       }
     }
   }
+  .weui_input {
+    color: black;
+  }
   .kt-cell-content {
     font-size: 0.322061rem; // 40px
     margin-top: 0.161031rem;
@@ -165,11 +168,11 @@
   }
   .weui_select {
     &.empty {
-      color: #999ea5;
+      color: #c5c9d2;
     }
     // direction: rtl;
     &:invalid {
-      color: #999ea5;
+      color: #c5c9d2;
     }
   }
   .weui_icon_warn {
@@ -178,6 +181,7 @@
     }
   }
   .weui_icon {
+    line-height: 1em;
     display: none;
     vertical-align: 2px;
   }
@@ -218,3 +222,26 @@
 .weiui_buttons_kt {
   padding: 0.402576rem; //50px
 }
+
+.weui_cell_select {
+  .weui_cell_ft {
+    .arrow{
+      display: inline-block;
+      transform: rotate(45deg);
+      height: 6px;
+      width: 6px;
+      border-width: 2px 2px 0 0;
+      border-color: #c8c8cd;
+      border-style: solid;
+      position: relative;
+      top: -4px;
+      margin-right: 20px;
+    }
+  }
+  .weui_cell_bd {
+    &:after {
+      display: none;
+    }
+  }
+}
+

@@ -138,6 +138,90 @@ export default {
   .weui_cells {
     font-size: 0.322061rem; //40px
   }
+  .chat-list {
+    $width: 8px; // arrow width
+    $height: 12px; // arrow height
+    padding: 0.402576rem 0.885668rem; //50px 110px
+    .item {
+      display: flex;
+      // justify-content: center;
+      align-items: center;
+      margin-bottom: 0.402576rem; //50px
+    }
+    .content {
+      text-align: center;
+      font-size: 0.402576rem; //50px
+      line-height: 1.3;
+      color: white;
+      flex: 1;
+      margin-bottom: 0.402576rem; //50px
+    }
+    .message {
+      color: white;
+      flex: 1;
+      background: #a1b5cd;
+      border-radius: 100px;
+      padding: 0 0.402576rem; //50px
+      display: flex;
+      align-items: center;
+      height: 0.966184rem; //120px
+      align-self: center;
+      line-height: 1.2;
+      position: relative;
+      .arrow {
+        position: absolute;
+        right: -$width + 1px;
+        width: $width;
+        height: $height;
+        overflow: hidden;
+        transform: translateY(-50%) rotate(15deg);
+        top: 50%;
+        &:before {
+          content: '';
+          display: block;
+          box-sizing: border-box;
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: $width * 2;
+          height: $height * 2;
+          border: 0 solid #a1b5cd;
+          border-width: $height * 0.6 0;
+          border-radius: 50%;
+        }
+      }
+    }
+    .icon {
+      margin-left: 0.322061rem; //40px
+      width: 0.764895rem; //95px
+      height: 0.764895rem; //95px
+      .icon-pano {
+        font-size: 0.724638rem;
+        color: white;
+      }
+    }
+    .item.me {
+      .message {
+        background: #253a61;
+        flex: none;
+        order: 1;
+        .arrow {
+          transform: translateY(-50%) rotate(-15deg);
+          left: -$width + 1px;
+          &:before {
+            bottom: 0;
+            left: 0;
+            border-color: #253a61;
+            border-radius: 50%;
+          }
+        }
+      }
+      .icon {
+        margin-right: 0.322061rem; //40px
+        margin-left: 0;
+      }
+    }
+  }
   .head {
     line-height: 1.8em;
     font-size: 0.289855rem; //36px
@@ -145,90 +229,6 @@ export default {
     background: #304366 url('../../assets/images/wave-bg2.jpg') center bottom no-repeat;
     background-size: 100% 1.489533rem; //185px
     padding: 0.402576rem 0.402576rem 1.610306rem 0.402576rem; //50px 200px
-    .chat-list {
-      $width: 8px; // arrow width
-      $height: 12px; // arrow height
-      padding: 0.402576rem 0.885668rem; //50px 110px
-      .item {
-        display: flex;
-        // justify-content: center;
-        align-items: center;
-        margin-bottom: 0.402576rem; //50px
-      }
-      .content {
-        text-align: center;
-        font-size: 0.402576rem; //50px
-        line-height: 1.3;
-        color: white;
-        flex: 1;
-        margin-bottom: 0.402576rem; //50px
-      }
-      .message {
-        color: white;
-        flex: 1;
-        background: #a1b5cd;
-        border-radius: 100px;
-        padding: 0 0.402576rem; //50px
-        display: flex;
-        align-items: center;
-        height: 0.966184rem; //120px
-        align-self: center;
-        line-height: 1.2;
-        position: relative;
-        .arrow {
-          position: absolute;
-          right: -$width + 1px;
-          width: $width;
-          height: $height;
-          overflow: hidden;
-          transform: translateY(-50%) rotate(15deg);
-          top: 50%;
-          &:before {
-            content: '';
-            display: block;
-            box-sizing: border-box;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: $width * 2;
-            height: $height * 2;
-            border: 0 solid #a1b5cd;
-            border-width: $height * 0.6 0;
-            border-radius: 50%;
-          }
-        }
-      }
-      .icon {
-        margin-left: 0.322061rem; //40px
-        width: 0.764895rem; //95px
-        height: 0.764895rem; //95px
-        .icon-pano {
-          font-size: 0.724638rem;
-          color: white;
-        }
-      }
-      .item.me {
-        .message {
-          background: #253a61;
-          flex: none;
-          order: 1;
-          .arrow {
-            transform: translateY(-50%) rotate(-15deg);
-            left: -$width + 1px;
-            &:before {
-              bottom: 0;
-              left: 0;
-              border-color: #253a61;
-              border-radius: 50%;
-            }
-          }
-        }
-        .icon {
-          margin-right: 0.322061rem; //40px
-          margin-left: 0;
-        }
-      }
-    }
     em {
       display: inline-block;
       // margin: 0 5px;

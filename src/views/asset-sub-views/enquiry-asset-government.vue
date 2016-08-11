@@ -2,6 +2,8 @@
 
 <script>
 import mixin from './mixin'
+import commonFilter from './common-filter'
+import _ from 'lodash'
 
 export default {
   mixins: [mixin],
@@ -34,44 +36,7 @@ export default {
         trust_party: []
       }, lastSaved),
 
-      fields: [{
-        name: '*融资规模',
-        group: 'group1',
-        key: 'asset_amount',
-        type: 'input',
-        subType: 'number',
-        format: 'wy',
-        validate: {
-          required: true,
-          min: {
-            rule: 100,
-            message: '融资规模最少为100万元'
-          },
-          pattern: {
-            rule: '/^\\d+$/',
-            message: '请填写数字'
-          }
-        },
-        unit: '万元'
-      }, {
-        name: '*融资期限',
-        group: 'group1',
-        key: 'asset_life',
-        type: 'input',
-        subType: 'number',
-        validate: {
-          required: true,
-          min: {
-            rule: 1,
-            message: '融资期限不能为0'
-          },
-          pattern: {
-            rule: '/^\\d+$/',
-            message: '请填写数字'
-          }
-        },
-        unit: '个月'
-      }, {
+      fields: _.concat(commonFilter, [{
         name: '融资主体评级',
         group: 'group2',
         key: 'gov_trusty_level',
@@ -161,8 +126,7 @@ export default {
           key: 'other',
           value: '其它'
         }]
-      }]
-
+      }])
     }
   }
 }
