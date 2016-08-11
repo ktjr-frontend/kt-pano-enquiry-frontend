@@ -87,7 +87,7 @@ router.map({
     component: EnquiryResult
   },
   'enquiry/share': {
-    title: { text: '开通金融PANO询价系统' },
+    title: { text: '开通金融PANO询价服务' },
     name: 'enquiryShare',
     // needLogin: true,
     component: EnquiryShare

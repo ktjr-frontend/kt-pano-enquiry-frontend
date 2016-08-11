@@ -54,9 +54,9 @@ let mixin = _.merge({
       this.$validate(true, () => {
         if (this.$validation.invalid) {
           this.showFirstError()
-          /*this.$parent.showToast({
-            text: '内容有误'
-          })*/
+            /*this.$parent.showToast({
+              text: '内容有误'
+            })*/
         } else {
           this.cacheFilter()
 
@@ -73,6 +73,11 @@ let mixin = _.merge({
     }
   },
   computed: {
+    maxFieldWidth() {
+      return _.max(this.fields.map((v) => {
+        return v.name.length + !!v.tip * 1
+      })) + 1
+    },
     filtersByType() {
       let fields = this.fields.filter((f) => {
         if (!this.visible[f.key] && !_.isUndefined(this.visible[f.key])) {

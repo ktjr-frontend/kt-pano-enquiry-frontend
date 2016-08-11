@@ -120,6 +120,9 @@ export default {
       hideLoadingStatus
     }
   },
+  ready() {
+    this.updateUser(JSON.parse(window.localStorage.user || '{}'), true)
+  },
   store,
   replace: false
 }

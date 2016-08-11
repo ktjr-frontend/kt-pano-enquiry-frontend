@@ -1,13 +1,16 @@
 import { router } from '../router'
 
-export function updateUser({ dispatch }, user) {
-  window.localStorage.user = JSON.stringify(user)
+export function updateUser({ dispatch }, user, soft) {
+  if (!soft) {
+    window.localStorage.user = JSON.stringify(user)
+  }
   dispatch('UPDATE_USER', user)
 }
 
 export function logOut({ dispatch }) {
   router.go({ name: 'login' })
   window.localStorage.user = '{}'
+  delete window.localStorage.token
   dispatch('LOG_OUT')
 }
 

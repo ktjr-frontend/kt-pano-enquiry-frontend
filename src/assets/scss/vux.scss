@@ -141,9 +141,9 @@
     font-size: 0.402576rem; //50px
     color: #737e9c;
     margin-right: .5em;
-    input {
-      direction: rtl;
-    }
+    // input {
+    //   direction: rtl;
+    // }
   }
   .weui_cell_ft {
     font-size: 0.402576rem;
@@ -167,7 +167,7 @@
     &.empty {
       color: #999ea5;
     }
-    direction: rtl;
+    // direction: rtl;
     &:invalid {
       color: #999ea5;
     }
