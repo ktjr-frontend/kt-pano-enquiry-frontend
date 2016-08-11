@@ -71,9 +71,6 @@ export default {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
           this.showFirstError()
-          // this.$parent.showToast({
-          //   text: '内容有误'
-          // })
         } else {
           this.$parent.showLoadingStatus()
           sessions.save(this.user).then((res) => {

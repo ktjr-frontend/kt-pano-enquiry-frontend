@@ -46,20 +46,16 @@ let mixin = _.merge({
           window.sessionStorage.enquiryFilterEnterpriseCache = JSON.stringify(this.filter)
           break
         default:
-          console.log('cache filter erro')
+          console.warn('cache filter error')
       }
     },
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
           this.showFirstError()
-            /*this.$parent.showToast({
-              text: '内容有误'
-            })*/
         } else {
           this.cacheFilter()
 
-          // this.$parent.showLoadingStatus()
           this.$router.go({
             name: 'enquiryResult',
             query: {

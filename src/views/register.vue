@@ -142,9 +142,6 @@ export default {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
           this.showFirstError()
-          // this.$parent.showToast({
-          //   text: '内容有误'
-          // })
         } else {
           this.$parent.showLoadingStatus()
           registrations.save({
@@ -178,11 +175,6 @@ export default {
       })
     }
   },
-  /* watch: {
-    'assetTypes.show': function(newValue) {
-      console.log(newValue)
-    }
-  },*/
   data() {
     return {
       user: {

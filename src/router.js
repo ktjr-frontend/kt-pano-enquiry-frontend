@@ -163,9 +163,9 @@ router.afterEach(function({ to }) {
   }
 
   // url跟踪
-  // if (to.name !== 'enquiryShare') {
-  log()
-    // }
+  log({
+    path: to.path
+  })
 
   // 动态解决logo的位置问题
   setTimeout(function() {
