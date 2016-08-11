@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     logoBottomVisible() {
-      return !_.includes(['home', 'login', 'perfect', 'enquiryShare'], this.$route.name)
+      return !_.includes(['home', 'perfect', 'enquiryShare'], this.$route.name)
     },
     tabVisible() {
       return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare', 'enquiryAssetEslate', 'enquiryAssetGovernment', 'enquiryAssetEnterprise', 'enquiryAssetSupplyChain', 'enquiryAssetMiniFinance'], this.$route.name)
