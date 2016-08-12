@@ -43,7 +43,7 @@ export default {
         key: 'developer_order',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120 // hack invalid validate
         },
         options: [{
           key: '50top',

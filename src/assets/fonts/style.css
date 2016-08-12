@@ -20,6 +20,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-add:before {
+  content: "\e916";
+}
+
+.icon-delete:before {
+  content: "\e917";
+}
+
 .icon-asset:before {
   content: "\e912";
 }

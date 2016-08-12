@@ -45,6 +45,9 @@ let mixin = _.merge({
         case '企业借款类':
           window.sessionStorage.enquiryFilterEnterpriseCache = JSON.stringify(this.filter)
           break
+        case '资管类':
+          window.sessionStorage.enquiryFilterAssetManage = JSON.stringify(this.filter)
+          break
         default:
           console.warn('cache filter error')
       }
@@ -84,6 +87,11 @@ let mixin = _.merge({
       let filterObj = _.groupBy(fields, (f) => {
         return f.group
       })
+
+      _.each(filterObj, function(v) {
+        v.title = v[0].title || ''
+      })
+
       return filterObj
     }
   }

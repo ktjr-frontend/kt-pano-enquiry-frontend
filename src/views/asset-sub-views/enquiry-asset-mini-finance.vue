@@ -127,7 +127,7 @@ export default {
           // required: true,
           pattern: {
             rule: '/^(|\\d+(\\.\\d+)?)$/',
-            message: '请填写数字'
+            message: '时点不良率请填写数字'
           }
         },
         unit: '%'

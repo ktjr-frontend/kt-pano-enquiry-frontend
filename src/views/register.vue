@@ -239,7 +239,7 @@ export default {
         {
           name: 'mobile',
           placeholder: '您的手机号码',
-          type: 'text',
+          type: 'number',
           iconName: 'icon-user',
           validate: {
             required: true,
@@ -248,7 +248,7 @@ export default {
         }, {
           name: 'captcha',
           placeholder: '请输入验证码',
-          type: 'text',
+          type: 'number',
           iconName: 'icon-user',
           validate: {
             required: true,

@@ -50,3 +50,25 @@
 .text-center {
   text-align: center;
 }
+
+.flex {
+  display: flex;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ov-h{
+  overflow: hidden;
+}
+
+.va-r1{
+  vertical-align: -.1em;
+}

@@ -17,6 +17,7 @@ import EnquiryAssetGovernment from './views/asset-sub-views/enquiry-asset-govern
 import EnquiryAssetEnterprise from './views/asset-sub-views/enquiry-asset-enterprise'
 import EnquiryAssetSupplyChain from './views/asset-sub-views/enquiry-asset-supply-chain'
 import EnquiryAssetMiniFinance from './views/asset-sub-views/enquiry-asset-mini-finance'
+import EnquiryAssetManage from './views/asset-manage-views'
 import Settings from './views/settings'
 import ServiceIntroduce from './views/service-introduce'
 import _ from 'lodash'
@@ -79,6 +80,12 @@ router.map({
     name: 'enquiryAssetMiniFinance',
     needLogin: true,
     component: EnquiryAssetMiniFinance
+  },
+  'enquiry/asset_manage/index': {
+    title: { text: '资管类' },
+    name: 'enquiryAssetManage',
+    needLogin: true,
+    component: EnquiryAssetManage
   },
   'enquiry/result': {
     title: { text: '询价结果' },

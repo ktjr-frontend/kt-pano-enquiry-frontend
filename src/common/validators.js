@@ -7,7 +7,7 @@ export default function setValidators(validator) {
     }
   }, {
     name: 'required',
-    message: '不能为空',
+    message: '必填项不能为空',
     check: validator('required')
   }, {
     name: 'email',

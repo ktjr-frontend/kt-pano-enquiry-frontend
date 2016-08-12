@@ -115,7 +115,7 @@ export default {
         name: 'mobile',
         text: '手机号',
         placeholder: '请输入用户名（手机号码）',
-        type: 'text',
+        type: 'number',
         iconName: 'icon-man-solid',
         validate: {
           required: true,

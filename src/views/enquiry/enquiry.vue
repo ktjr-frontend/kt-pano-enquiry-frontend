@@ -9,7 +9,7 @@
       </cell>
     </group>
     <group>
-      <cell title="资管类" @click="showAssetManageAlert()" is-link class="kt-cell">
+      <cell title="资管类" @click="$parent.log({name: '资管类'})" v-link="{name:'enquiryAssetManage'}" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-asset"></i>
         </div>
@@ -33,15 +33,15 @@ export default {
       this.$router.go({
         name: name
       })
-    },
-    showAssetManageAlert() {
+    }
+    /*showAssetManageAlert() {
       this.$parent.log({
         name: '资管类'
       })
       this.$parent.showAlert({
         content: '资管类资产询价功能正在筹备中，敬请期待！'
       })
-    }
+    }*/
   }
 }
 </script>

@@ -1,4 +1,3 @@
-// import Router from 'vue-router'
 import store from '../vuex/store'
 import {
   logOut,

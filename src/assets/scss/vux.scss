@@ -74,8 +74,34 @@
   margin-left: 88px;
 }
 
+.weui_cells_title {
+  padding: 0 0.402576rem; //50px
+  font-size: 0.289855rem; //36px
+  margin-top: 1.5em;
+  color: #adb1bc;
+}
+
+.weui_cell_bd {
+  .weui_cell {
+    padding: 0.120773rem 0 0.120773rem 0.201288rem; //15px 25px
+    &.weui_cell_select {
+      padding: 0 0 0 0.201288rem;
+    }
+  }
+}
+
 .weui_cell {
+  padding: 0.2657rem 0.402576rem; //33px 50px
   font-size: 0.402576rem; //50px
+  .wrapper,
+  .inner-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    &.flex-column {
+      flex-direction: column;
+    }
+  }
   &:before,
   &:after {
     border-color: #d9deea;
@@ -87,6 +113,10 @@
     .with_arrow:after {
       border-color: #4380dd;
     }
+  }
+  &.weui_cell_select {
+    line-height: 1em;
+    padding: 0 0.402576rem;
   }
   &.kt-cell {
     padding: 0.563607rem 0.402576rem; //70px 50px
@@ -128,6 +158,35 @@
     .weui_cell_ft {
       div {
         height: 30px;
+      }
+    }
+  }
+  .weui_cell_hd {
+    .weui_cells_radio {
+      margin-bottom: -0.241546rem;
+      .weui_cell{
+        padding-right: 0.120773rem;
+      }
+      .weui_cell_bd {
+        font-size: 0.322061rem; //40px
+        color: #999ea5;
+      }
+      .weui_check {
+        display: none;
+      }
+      .weui_icon_checked {
+        &:before {
+          display: none;
+          font-size: 0.289855rem;
+          color: #1a4371;
+          font-family: 'pano';
+          content: '\E906';
+        }
+      }
+      .weui_check:checked + .weui_icon_checked {
+        &:before {
+          display: block;
+        }
       }
     }
   }
@@ -216,6 +275,7 @@
   }
   .tip-icon {
     font-size: .8em;
+    pointer-events: initial;
   }
 }
 
@@ -225,7 +285,7 @@
 
 .weui_cell_select {
   .weui_cell_ft {
-    .arrow{
+    .arrow {
       display: inline-block;
       transform: rotate(45deg);
       height: 6px;
@@ -234,8 +294,8 @@
       border-color: #c8c8cd;
       border-style: solid;
       position: relative;
-      top: -4px;
-      margin-right: 20px;
+      top: -2px;
+      margin-right: 6px;
     }
   }
   .weui_cell_bd {
