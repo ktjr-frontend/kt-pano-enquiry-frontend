@@ -132,6 +132,14 @@ export default {
           pattern: {
             rule: '/^(|\\d+(\\.\\d+)?)$/',
             message: '时点不良率请填写数字'
+          },
+          min: {
+            rule: 0,
+            message: '时点不良率不能小于0'
+          },
+          max: {
+            rule: 100,
+            message: '时点不良率不能大于100'
           }
         },
         unit: '%'

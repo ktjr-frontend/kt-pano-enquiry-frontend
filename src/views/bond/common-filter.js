@@ -9,7 +9,7 @@ export default [{
   validate: {
     required: {
       rule: true,
-      message: '融资规模不能为空'
+      message: '融资规模需要填正整数'
     },
     min: {
       rule: 100,
@@ -17,7 +17,7 @@ export default [{
     },
     pattern: {
       rule: '/^\\d+$/',
-      message: '融资规模需要填数字'
+      message: '融资规模需要填正整数'
     }
   },
   unit: '万元'
@@ -35,11 +35,11 @@ export default [{
     },
     min: {
       rule: 1,
-      message: '融资期限不能为0'
+      message: '融资期限不能小于1个月'
     },
     pattern: {
       rule: '/^\\d+$/',
-      message: '融资期限需要填数字'
+      message: '融资期限需要填整数'
     }
   },
   unit: '个月'

@@ -168,9 +168,13 @@ export default {
         format: 'wy',
         placeholder: '不少于0万元',
         validate: {
+          min: {
+            rule: 1,
+            message: '请正确填写产品存量规模'
+          },
           pattern: {
             rule: '/^\\d+?$/',
-            message: '请正确填写产品存量'
+            message: '请正确填写产品存量规模'
           }
         },
         unit: '万元'
