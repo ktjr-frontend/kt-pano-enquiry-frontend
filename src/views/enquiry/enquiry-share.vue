@@ -357,7 +357,7 @@ export default {
     .insts {
       margin: 0 0.483092rem; // 50px
       display: flex;
-      padding: 0 0.805153rem; //100px
+      // padding: 0 0.805153rem; //100px
       .item {
         flex: 1;
         text-align: center;
