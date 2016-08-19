@@ -71,7 +71,7 @@
           </div>
           <p>{{item.platform}}</p>
         </div>
-        <div class="item" v-if="!platformList.length" transition="slideUp">
+        <div class="item" v-if="!platformList.length" transition="zoomIn">
           <div class="icon-body">
             <i class="icon-pano icon-meng"></i>
           </div>
@@ -217,7 +217,9 @@ export default {
     return {
       activeIndex: 0,
       enquiry_result: {
-        params: {},
+        params: {
+          asset_life: []
+        },
         res: {
           inquiry_life_asset_rate: 0,
           inquiry_tactics_data: []
@@ -247,7 +249,7 @@ export default {
       &.swiper {
         margin: -0.161031rem -0.805153rem 0.241546rem; //-20px 100px 30px
       }
-      &:last-of-type{
+      &:last-of-type {
         margin-bottom: 0;
       }
     }
