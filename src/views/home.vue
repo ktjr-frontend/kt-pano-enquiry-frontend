@@ -10,26 +10,42 @@
       </h3>
     </section>
     <enquiry-features style="margin-bottom:1.288245rem;"></enquiry-features>
-    <section class="buttons">
+    <section class="buttons" v-if="!user.mobile">
       <a v-link="{name: 'login'}" class="btn mt-40">登录</a>
       <a v-link="{name: 'register'}" class="btn btn-cyan mt-40">注册</a>
+    </section>
+    <section class="buttons" v-if="user.mobile">
+      <a v-link="{name: 'enquiry'}" class="btn mt-40">去询价</a>
     </section>
   </div>
 </template>
 <script>
 import EnquiryFeatures from './_parts/enquiry-features'
+import {
+  router
+} from '../router'
+import {
+  user
+} from '../vuex/getters'
 
 export default {
+  vuex: {
+    getters: {
+      user
+    }
+  },
   route: {
-    activate({
+    canActivate({ // 在切换前判断
       to,
       next,
       abort
     }) {
       let user = JSON.parse(window.localStorage.user || '{}')
+
+      // 这里abort掉当前路由的切换，并用全局router替换历史记录，避免闪烁
       if (user.status) {
-        // abort()
-        this.$router.go({
+        abort()
+        router.replace({
           name: 'enquiry'
         })
       }

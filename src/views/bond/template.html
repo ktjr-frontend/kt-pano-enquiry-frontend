@@ -1,6 +1,6 @@
 <div class="filters">
   <div class="body-head">
-    <p class="sub-title">请尽可能准确地填写以下资产相关信息，以便为您推荐最适合的利率和发行平台。</p>
+    <p class="sub-title">{{subTitle}}</p>
   </div>
   <validator name="validation">
     <form action="" novalidate @submit.prevent="onSubmit($event)">
@@ -21,9 +21,10 @@
                 <div v-if="field.type === 'checkboxs'">
                   <div class="clfix mt-40">
                     <div class="checkbox-label" v-for="cb in field.options">
-                      <input autocomplete="off" v-model="filter[field.key]" :id="'as_' + cb.key" :value="cb.value" :field="field.key" v-validate="field.validate" type="checkbox">
-                      <label :for="'as_' + cb.key">{{cb.value}}</label>
+                      <input autocomplete="off" v-model="filter[field.key]" :id="field.key + '_' + cb.key" :value="cb.value" :field="field.key" v-validate="field.validate" type="checkbox">
+                      <label :for="field.key + '_' + cb.key">{{cb.value}}</label>
                     </div>
+                    <div class="check-all" v-if="field.hasCheckAll" @click="checkAll(field)">全选</div>
                   </div>
                 </div>
 
@@ -75,12 +76,12 @@
       </section>
 
       <!-- 组合动态表单-特殊处理 -->
-      <section class="select-input-section" v-if="selectInputField">
+      <!--<section class="select-input-section" v-if="selectInputField">
         <div class="weui_cells_title">{{selectInputField.title}}</div>
         <div class="weui_cells vux-no-group-title" v-for="cl in selectInputField.combineList">
           <div class="weui_cell weui_select_after">
 
-            <!-- input和select 组合样式 -->
+            <!~~ input和select 组合样式 ~~>
             <div class="wrapper flex-column select-input-cell">
               <div class="inner-wrapper">
                 <div class="weui_cell_hd">
@@ -96,14 +97,14 @@
                         <i v-if="op.tip" class="icon-pano icon-info tip-icon" @click="showTip(op.tip)"></i>
                       </label>
                       <div class="weui_cell_bd weui_cell_primary" style="width: 100%">
-                        <!-- select类型 -->
+                        <!~~ select类型 ~~>
                         <div v-if="op.type === 'select'">
                           <select class="weui_select" v-model="filter['si_' + cl.id + '_' + opIndex]" :class="{'empty': !filter['si_' + cl.id + '_' + opIndex]}" :field="'si_' + cl.id + '_' + opIndex" :name="'si_' + cl.id + '_' + opIndex" v-validate="selectInputField.validate.select">
-                            <option value="" selected>请选择</option>
+                            <option value="" :selected="!filter['si_' + cl.id + '_' + opIndex]">请选择</option>
                             <option v-for="o in assetLifeList" :value="o.value">{{o.value}}</option>
                           </select>
                         </div>
-                        <!-- input类型 -->
+                        <!~~ input类型 ~~>
                         <div v-if="op.type === 'input'">
                           <input class="weui_input" v-model="filter['si_' + cl.id + '_' + opIndex]" :type="op.subType || 'text'" :field="'si_' + cl.id + '_' + opIndex" v-validate="selectInputField.validate.input" :placeholder="op.placeholder">
                         </div>
@@ -128,7 +129,7 @@
             <i class="icon-pano icon-add va-r1"></i> 添加期限 - 收益率值
           </span>
         </div>
-      </section>
+      </section>-->
 
       <div class="weiui_buttons_kt">
         <button type="submit" @click="$parent.log({name: '立即查询'})">立即查询</button>

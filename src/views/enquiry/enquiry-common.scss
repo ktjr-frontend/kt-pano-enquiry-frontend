@@ -1,0 +1,40 @@
+.rate-swiper {
+  margin-top: 0.402576rem; //50px
+  width: 100%;
+  .vux-swiper-slide {
+    transform: scale(0.7);
+    opacity: 0.5;
+    transition: transform .3s ease;
+    &.vux-swiper-slide-active {
+      transform: none;
+      opacity: 1;
+    }
+  }
+  .swiper-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    em {
+      font-size: 0.354267rem; // 44px
+    }
+    h3 {
+      margin-bottom: 0.402576rem; //50px
+    }
+    .rate {
+      line-height: 1;
+      margin-bottom: 0.5em;
+      position: relative;
+      .icon-info{
+        position: absolute;
+        top: 0;
+        right: -3px;
+      }
+      span {
+        color: white;
+        font-size: 1.127214rem; //140px
+      }
+    }
+  }
+}

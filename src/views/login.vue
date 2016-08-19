@@ -87,6 +87,10 @@ export default {
                   name: 'enquiry'
                 })
               }, 10)
+            }, (res) => {
+              this.$parent.showAlert({
+                content: res.json().error || '抱歉，获取用户信息失败！'
+              })
             })
           }, (res) => {
             this.$parent.hideLoadingStatus()

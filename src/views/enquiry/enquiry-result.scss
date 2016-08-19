@@ -1,0 +1,139 @@
+@import './enquiry-common.scss';
+
+.enquiry-result {
+  font-size: 0.322061rem; //40px
+  .weui_cell,
+  .weui_cell_primary {
+    font-size: 0.322061rem; //40px
+  }
+  .weui_cell_primary {
+    margin-right: 0.161031rem; //20px
+  }
+  .head {
+    text-align: center;
+    height: 5.47504rem; //680px
+    background: linear-gradient(to bottom, #304366, #2e7bad);
+    .logo-white {
+      margin: 0.523349rem 0; //65px
+      width: 3.94525rem; //490px
+    }
+    .circle {
+      border-radius: 50%;
+      margin: 0 auto;
+      width: 3.059581rem; //380px
+      height: 3.059581rem; //380px
+      border: 0.185185rem solid rgba(52, 146, 211, .15); //23px
+      color: white;
+      .icon-pano {
+        font-size: .8em;
+        vertical-align: super;
+        margin-left: .5em;
+      }
+      h2 {
+        font-size: 0.966184rem; //120px
+        font-family: Arial;
+        margin: 0.563607rem 0 0.322061rem 0.241546rem;
+        .unit {
+          font-size: 0.563607rem; //70px
+        }
+      }
+      p {
+        font-size: 0.322061rem; //40px
+      }
+    }
+  }
+  .head-footer {
+    text-align: center;
+    line-height: 0.925926rem; //115px
+    height: 0.925926rem; //115px
+    background: #304366;
+    color: white;
+  }
+  .results {
+    margin-top: -0.362319rem;
+  }
+  .feedback {
+    .share {
+      width: 1.771337rem; //220px
+      height: 0.724638rem; //90px
+      line-height: 0.724638rem; //90px
+      border-radius: 100px;
+    }
+    a {
+      &:hover {
+        text-decoration: none;
+        // color: #304366;
+      }
+      &:active {
+        color: #304366;
+        .feedback-icon {
+          color: #ffd388;
+        }
+      }
+      margin-right: 0.805153rem; //100px
+      .icon-pano {
+        margin-right: 0.281804rem; //35px
+        font-size: 0.450886rem;
+        vertical-align: -.15em;
+        margin-right: 0.281804rem; //35px
+      }
+    }
+    .satisfied {
+      a {
+        .feedback-icon {
+          &.icon-smile {
+            color: #ffd388;
+          }
+        }
+      }
+    }
+    .not-satisfied {
+      a {
+        .feedback-icon {
+          &.icon-sad {
+            color: #ffd388;
+          }
+        }
+      }
+    }
+  }
+  .feedback-icon {
+    color: #dde1f0;
+    &:active {
+      color: #ffd388;
+    }
+  }
+  .service-introdution {
+    h3 {
+      text-align: center;
+      color: #737e9c;
+      font-size: 0.354267rem; //44px
+      margin: 0.161031rem 0; //20px
+    }
+    p {
+      color: #acb1bd;
+    }
+    .weui_cell_ft {
+      align-self: flex-start;
+      position: absolute;
+      right: 15px;
+    }
+    .weui_cell_primary {
+      margin-right: 0;
+    }
+    .contact {
+      padding: 0.161031rem 0;
+      color: #acb1bd;
+      line-height: 0.563607rem;
+      margin-top: 0.362319rem; //30px
+      border-top: 1px solid #f4f6fa;
+      .weixin-qrcode {
+        display: block;
+        margin: -1.55em auto 0;
+        width: 2.012882rem; //250px
+        vertical-align: top;
+        // margin-left: 0.402576rem;
+      }
+    }
+  }
+}

@@ -1,31 +1,28 @@
 <template>
-  <div class="flex-container" :style="{height: winH + 'px'}" v-show="$loadingRouteData">
-    <spinner type="ios"></spinner>
-  </div>
-  <div class="enquire-share" v-show="!$loadingRouteData">
+  <kt-loading :visible="$loadingRouteData"></kt-loading>
+
+  <div class="enquire-share">
     <section class="head">
       <div class="chat-list">
         <div class="item">
-          <p class="content">
-            我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产。
+          <p class="content" v-if="$route.query.mark !== 'search_am'">
+            我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产
+          </p>
+          <p class="content" v-if="$route.query.mark === 'search_am'">
+            我在<em>开通PANO</em>查询了一个<em>{{enquiry_result.params.credit_manager_type}}</em>产品，期限为<em>{{enquiry_result.params.asset_life.join('，')}}</em>
           </p>
         </div>
+
         <div class="me item">
           <div class="message">
             <div class="bubble">
-              开通PANO为你推荐的利率为：<em class="em-fs em-orange">{{enquiry_result.res.inquiry_life_asset_rate}}</em>%
-            </div>
-            <div class="arrow"></div>
-          </div>
-          <div class="icon">
-            <div class="icon-pano icon-mans"></div>
-            <!-- <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像"> -->
-          </div>
-        </div>
-        <div class="me item">
-          <div class="message">
-            <div class="bubble">
-              开通PANO为你推荐在如下平台发行：
+              <span v-if="$route.query.mark !== 'search_am'">
+                开通PANO为我推荐的利率为：
+                <em class="em-fs em-orange">{{enquiry_result.res.inquiry_life_asset_rate | ktNull}}</em>%
+              </span>
+              <span v-if="$route.query.mark === 'search_am'">
+                开通PANO为我查询到的参考利率分别为：
+              </span>
             </div>
             <div class="arrow"></div>
           </div>
@@ -35,19 +32,57 @@
           </div>
         </div>
 
+        <div class="swiper item" v-if="$route.query.mark === 'search_am'">
+          <div class="rate-swiper">
+            <x-swiper v-ref:xswiper direction="horizontal" :prev-button="false" :next-button="false" :autoplay="3000" :centered-slides="true" :slides-per-view="3" @on-slide-change-end="onSlideChangeEnd" @on-click="onClick">
+              <x-swiper-item v-for="item in enquiry_result.res.inquiry_tactics_data">
+                <div class="swiper-item">
+                  <h3><em>{{item.life_group}}</em></h3>
+                  <div class="rate">
+                    <span>{{item.rate | ktNull}}</span><i v-if="item.rate">%</i>
+                  </div>
+                  <p>参考利率</p>
+                </div>
+              </x-swiper-item>
+            </x-swiper>
+          </div>
+        </div>
+
+        <div class="me item">
+          <div class="message">
+            <div class="bubble" v-if="$route.query.mark !== 'search_am'">
+              开通PANO为我推荐在如下平台发行：
+            </div>
+            <div class="bubble" v-if="$route.query.mark === 'search_am'">
+              该期限下，开通PANO为我推荐的发行平台为：
+            </div>
+            <div class="arrow"></div>
+          </div>
+          <div class="icon">
+            <div class="icon-pano icon-mans"></div>
+          </div>
+        </div>
       </div>
+
       <div class="insts">
-        <div class="item" v-for="item in enquiry_result.res.inquiry_tactics_data">
-          <div class="icon-body">
+        <div class="item" v-for="item in platformList" transition="zoomIn" stagger="100">
+          <div class="icon-body" @click="showReason(item.recomm_reason)">
             <img :src="item.logo" :alt="item.platform">
           </div>
           <p>{{item.platform}}</p>
+        </div>
+        <div class="item" v-if="!platformList.length" transition="slideUp">
+          <div class="icon-body">
+            <i class="icon-pano icon-meng"></i>
+          </div>
+          <p>根据我的查询条件，该期限暂无适合发行的平台。</p>
         </div>
       </div>
       <!-- <div class="praise">
         原来互金平台资产询价可以如此简单靠谱!!
       </div> -->
     </section>
+
     <section class="head-footer">
       <h2 class="title">
           <img class="head-logo" src="../../assets/images/logo2.svg" alt="logo">
@@ -57,7 +92,9 @@
           查价格、找平台，1分钟搞定互联网渠道资产发行第一步
       </h3>
     </section>
+
     <enquiry-features></enquiry-features>
+
     <group style="margin-bottom:1.788245rem;">
       <div class="contact">
         <h3>您也可以关注微信二维码，轻松开启资产询价之旅</h3>
@@ -67,27 +104,39 @@
         </div>
       </div>
     </group>
+
     <div class="buttons">
       <button v-link="{name:'register'}" @click="$parent.log({name:'我也要询价'})">我也要询价</button>
     </div>
   </div>
 </template>
+
 <script>
 import Group from 'vux-components/group'
 import Spinner from 'vux-components/spinner'
+import {
+  XSwiper,
+  XSwiperItem
+} from 'vux-components/x-swiper'
+import ktLoading from '../../components/kt-loading'
 import EnquiryFeatures from '../_parts/enquiry-features'
 import {
   enquiries
 } from '../../common/resources'
 import wxMixin from '../../mixins/wx-mixin'
+import _ from 'lodash'
 
 export default {
   mixins: [wxMixin],
   components: {
     Group,
     Spinner,
+    XSwiper,
+    XSwiperItem,
+    ktLoading,
     EnquiryFeatures
   },
+
   route: {
     data({
       to: {
@@ -99,6 +148,12 @@ export default {
         ...query
       }).then((res) => {
         let data = res.json()
+
+        if (!_.isArray(data.res.inquiry_tactics_data) || !data.res.inquiry_tactics_data.length) {
+          this.$router.replace({
+            name: 'enquiryError'
+          })
+        }
 
         // 初始化微信jssdk
         this.wxInit()
@@ -113,14 +168,54 @@ export default {
       return p
     }
   },
+
+  methods: {
+    showReason(reason) {
+      if (reason) {
+        this.$parent.showAlert({
+          title: '推荐理由',
+          content: reason
+        })
+      }
+    },
+    updateSwiper() {
+      if (this.$route.query.mark === 'search_am') {
+        this.$refs.xswiper.swiper.update(true)
+      }
+    },
+    onSlideChangeEnd(swiper) {
+      this.activeIndex = swiper.activeIndex
+    },
+    onClick(swiper) {
+      swiper.slideTo(swiper.clickedIndex)
+    }
+  },
+
+  watch: {
+    'enquiry_result': function(val) {
+      this.$nextTick(() => {
+        this.updateSwiper()
+      })
+    }
+  },
+
   computed: {
+    platformList() {
+      if (this.$route.query.mark === 'search_am') {
+        let activeItem = this.enquiry_result.res.inquiry_tactics_data[this.activeIndex]
+        return activeItem ? activeItem.platforms : []
+      }
+      return this.enquiry_result.res.inquiry_tactics_data
+    },
+
     isHaveGuarantee() {
       return this.enquiry_result.params.guarantee === 'true' ? '有履约保障' : '无履约保障'
     }
   },
+
   data() {
     return {
-      winH: window.innerHeight,
+      activeIndex: 0,
       enquiry_result: {
         params: {},
         res: {
@@ -132,8 +227,10 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 // @import '../../assets/fonts/hannotate/hannotate.css';
+@import './enquiry-common.scss';
 .enquire-share {
   .weui_cells {
     font-size: 0.322061rem; //40px
@@ -141,12 +238,18 @@ export default {
   .chat-list {
     $width: 8px; // arrow width
     $height: 12px; // arrow height
-    padding: 0.402576rem 0.885668rem; //50px 110px
+    padding: 0.402576rem 0.805153rem; //50px 100px
     .item {
       display: flex;
       // justify-content: center;
       align-items: center;
       margin-bottom: 0.402576rem; //50px
+      &.swiper {
+        margin: -0.161031rem -0.805153rem 0.241546rem; //-20px 100px 30px
+      }
+      &:last-of-type{
+        margin-bottom: 0;
+      }
     }
     .content {
       text-align: center;
@@ -223,6 +326,7 @@ export default {
     }
   }
   .head {
+    overflow: hidden;
     line-height: 1.8em;
     font-size: 0.289855rem; //36px
     text-align: left;
@@ -242,10 +346,18 @@ export default {
         color: #f5be6c;
       }
     }
+    .rate-swiper {
+      margin: 0.322061rem 0 0.563607rem; //40px 70px
+    }
+    .swiper-item {
+      em {
+        color: #f5be6c;
+      }
+    }
     .insts {
-      margin: 0.161031rem 0 0.483092rem; //20px 50px
+      margin: 0 0.483092rem; // 50px
       display: flex;
-      padding: 0 0.805153rem;
+      padding: 0 0.805153rem; //100px
       .item {
         flex: 1;
         text-align: center;
@@ -269,6 +381,10 @@ export default {
         margin: auto;
         max-width: 70%;
         max-height: 80%;
+      }
+      .icon-pano {
+        color: #e8ecf3;
+        font-size: 1.207729rem;
       }
     }
     /* .praise {

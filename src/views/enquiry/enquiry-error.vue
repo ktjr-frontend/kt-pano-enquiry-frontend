@@ -24,6 +24,7 @@
     </section>
   </div>
 </template>
+
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
@@ -46,6 +47,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 .enquiry-error {
   margin-top: 0;

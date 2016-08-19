@@ -1,22 +1,42 @@
-<template src="../asset-sub-views/template.html"></template>
+<template src="../bond/template.html"></template>
 
 <script>
-import mixin from '../asset-sub-views/mixin'
-import _ from 'lodash'
+import mixin from '../bond/mixin'
+// import _ from 'lodash'
 
 export default {
   mixins: [mixin],
-  created() {
+  /*created() {
     let opt = _.cloneDeep(this.selectInputSeed)
     opt.id = _.uniqueId()
     this.selectInputField.combineList.push(opt)
-  },
+  },*/
   methods: {
     updateView() {
       // empty
-    },
-    onSubmit() {
-      //todo
+    }
+    /*onSubmit() {
+      this.$validate(true, () => {
+        if (this.$validation.invalid) {
+          this.showFirstError()
+        } else {
+          this.cacheFilter()
+
+          // _.chain(this.filter).map((v, k) => {
+          //   if (k.indexOf('si_') > -1) {
+          //     this.fitler[]
+          //   }
+          // })
+
+          this.$router.go({
+            name: 'enquiryResult',
+            query: {
+              ...this.filter,
+              asset_type: this.asset_type
+            }
+          })
+        }
+      })
     },
     addSelectInputFilter() {
       if (this.selectInputField.combineList.length >= this.assetLifeList.length) {
@@ -34,20 +54,20 @@ export default {
       })
 
       opt && this.selectInputField.combineList.$remove(opt)
-    }
+    }*/
   },
 
   data() {
-    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterSupplyChainCache || '{}')
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterAssetManageCache || '{}')
 
     setTimeout(() => {
       this.updateView()
     }, 10)
 
     return {
-      asset_type: '资管类',
+      subTitle: '请尽可能准确地填写以下产品相关信息，以便为您推荐最适合的利率和发行平台：',
       visible: {},
-      selectInputSeed: {
+      /*selectInputSeed: {
         options: [{
           name: '*期限',
           type: 'select'
@@ -57,13 +77,17 @@ export default {
           unit: '%',
           placeholder: '请填写利率'
         }]
-      },
+      },*/
       filter: Object.assign({
-        custodian_type: '金融机构主动管理',
+        content: 'search_am',
+        asset_type: '资管类',
+        // inquiry_type: '资管类',
+        credit_manager_type: '金融机构主动管理',
         product_invest: [],
-        asset_amount: ''
+        asset_amount: '',
+        asset_life: []
       }, lastSaved),
-      assetLifeList: [{
+      /*assetLifeList: [{
         key: 0,
         value: '1天'
       }, {
@@ -90,11 +114,11 @@ export default {
       }, {
         key: 8,
         value: '超过12个月'
-      }],
+      }],*/
       fields: [{
         name: '*管理人类型',
         group: 'group1',
-        key: 'custodian_type',
+        key: 'credit_manager_type',
         type: 'option',
         validate: {
           required: {
@@ -105,59 +129,95 @@ export default {
         options: [{
           key: '0',
           value: '金融机构主动管理',
-          tip: '提示待定'
+          tip: '实际管理人为信托公司、保险公司、证券公司、期货公司、银行等金融机构'
         }, {
           key: '1',
-          value: '其他资产管理机构',
-          tip: '提示待定'
+          value: '非金融机构类资产管理机构管理',
+          tip: '实际管理人为私募基金管理人、投资管理/咨询公司等非金融机构'
         }]
       }, {
-        name: '产品投向',
+        name: '*产品投向',
         group: 'group2',
         key: 'product_invest',
         type: 'checkboxs',
         validate: {
-          maxlength: 120
+          required: {
+            rule: true,
+            message: '请选择产品投向'
+          }
         },
         options: [{
-          key: '0',
-          value: '票据'
-        }, {
           key: '1',
-          value: '房地产债权'
+          value: '债券类'
         }, {
           key: '2',
-          value: '上市公司债权'
+          value: '股票类'
         }, {
           key: '3',
-          value: '保险资管'
-        }, {
-          key: '4',
-          value: '信托'
-        }, {
-          key: '5',
-          value: '银行理财'
+          value: '非标债权类'
         }, {
           key: 'other',
           value: '其它'
         }]
       }, {
-        name: '产品存量规模',
+        name: '*产品存量规模',
         group: 'group3',
         key: 'asset_amount',
         type: 'input',
         subType: 'number',
         format: 'wy',
-        placeholder: '不少于100万元',
+        placeholder: '不少于0万元',
         validate: {
           pattern: {
-            rule: '/^\\d*?$/',
-            message: '产品存量规模不能为空'
+            rule: '/^\\d+?$/',
+            message: '请正确填写产品存量'
           }
         },
         unit: '万元'
-      }],
-      selectInputField: { //单独从fields提取出来处理
+      }, {
+        name: '*期限',
+        title: '请选择您关注的期限，以便为您推荐最适合的平台（可多选）：',
+        group: 'group4',
+        key: 'asset_life',
+        type: 'checkboxs',
+        hasCheckAll: true,
+        validate: {
+          required: {
+            rule: true,
+            message: '请选择期限'
+          }
+        },
+        options: [{
+          key: 0,
+          value: '1天'
+        }, {
+          key: 1,
+          value: '1周'
+        }, {
+          key: 2,
+          value: '15天'
+        }, {
+          key: 3,
+          value: '1个月'
+        }, {
+          key: 4,
+          value: '2个月'
+        }, {
+          key: 5,
+          value: '3个月'
+        }, {
+          key: 6,
+          value: '6个月'
+        }, {
+          key: 7,
+          value: '12个月'
+        }, {
+          key: 8,
+          value: '超过12个月'
+        }]
+      }]
+
+      /*selectInputField: { //单独从fields提取出来处理
         name: '',
         group: 'group1',
         title: '请尽量给出较全的期限－收益率，以便为您展示对应的推荐利率',
@@ -182,17 +242,16 @@ export default {
           }
         },
         combineList: []
-      }
+      }*/
     }
   }
 }
 </script>
 
 <style lang="scss">
-.select-input-section {
-  .weui_select{
+/* .select-input-section {
+  .weui_select {
     line-height: 2em;
-
     height: 2em;
     width: 100%;
   }
@@ -225,5 +284,5 @@ export default {
     // margin-top: 0.322061rem; //40px
     text-align: right;
   }
-}
+} */
 </style>

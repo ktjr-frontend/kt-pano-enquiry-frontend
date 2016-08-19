@@ -23,7 +23,7 @@ export default {
 
           ++this.retryTime
           this.updateSignature({
-            // force: 1
+            no_cache: true // 不走缓存
           })
         })
 

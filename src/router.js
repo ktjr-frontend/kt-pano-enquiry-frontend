@@ -3,23 +3,6 @@ import Router from 'vue-router'
 import App from './app'
 import VueValidator from 'vue-validator'
 import setValidators from './common/validators'
-import Login from './views/login'
-import Register from './views/register'
-import Perfect from './views/perfect'
-import Home from './views/home'
-import Enquiry from './views/enquiry/enquiry'
-import EnquiryAssetTypes from './views/enquiry/enquiry-asset-types'
-import EnquiryResult from './views/enquiry/enquiry-result'
-import EnquiryShare from './views/enquiry/enquiry-share'
-import EnquiryError from './views/enquiry/enquiry-error'
-import EnquiryAssetEslate from './views/asset-sub-views/enquiry-asset-eslate'
-import EnquiryAssetGovernment from './views/asset-sub-views/enquiry-asset-government'
-import EnquiryAssetEnterprise from './views/asset-sub-views/enquiry-asset-enterprise'
-import EnquiryAssetSupplyChain from './views/asset-sub-views/enquiry-asset-supply-chain'
-import EnquiryAssetMiniFinance from './views/asset-sub-views/enquiry-asset-mini-finance'
-import EnquiryAssetManage from './views/asset-manage-views'
-import Settings from './views/settings'
-import ServiceIntroduce from './views/service-introduce'
 import _ from 'lodash'
 import log from './common/log'
 
@@ -37,101 +20,145 @@ router.map({
     title: { text: '首页' },
     name: 'home',
     // needLogin: true,
-    component: Home
+    component(resolve) {
+      require(['./views/home'], resolve)
+    }
   },
   '/enquiry': {
     title: { text: '选择类型' },
     name: 'enquiry',
     needLogin: true,
-    component: Enquiry
+    component(resolve) {
+      require(['./views/enquiry/index'], resolve)
+    }
   },
   'enquiry/:type': {
     title: { text: '请选择资产类型' },
     name: 'enquiryAssetTypes',
     needLogin: true,
-    component: EnquiryAssetTypes
+    component(resolve) {
+      require(['./views/enquiry/enquiry-asset-types'], resolve)
+    }
   },
   'enquiry/obligatory_right/eslate': {
     title: { text: '房地产类' },
     name: 'enquiryAssetEslate',
     needLogin: true,
-    component: EnquiryAssetEslate
+    component(resolve) {
+      require(['./views/bond/enquiry-asset-eslate'], resolve)
+    }
   },
   'enquiry/obligatory_right/government': {
     title: { text: '政信类' },
     name: 'enquiryAssetGovernment',
     needLogin: true,
-    component: EnquiryAssetGovernment
+    component(resolve) {
+      require(['./views/bond/enquiry-asset-government'], resolve)
+    }
   },
   'enquiry/obligatory_right/enterprise': {
     title: { text: '企业借款类' },
     name: 'enquiryAssetEnterprise',
     needLogin: true,
-    component: EnquiryAssetEnterprise
+    component(resolve) {
+      require(['./views/bond/enquiry-asset-enterprise'], resolve)
+    }
   },
   'enquiry/obligatory_right/supply_chain': {
     title: { text: '供应链类' },
     name: 'enquiryAssetSupplyChain',
     needLogin: true,
-    component: EnquiryAssetSupplyChain
+    component(resolve) {
+      require(['./views/bond/enquiry-asset-supply-chain'], resolve)
+    }
   },
   'enquiry/obligatory_right/mini_finance': {
     title: { text: '小微金融类' },
     name: 'enquiryAssetMiniFinance',
     needLogin: true,
-    component: EnquiryAssetMiniFinance
+    component(resolve) {
+      require(['./views/bond/enquiry-asset-mini-finance'], resolve)
+    }
   },
   'enquiry/asset_manage/index': {
     title: { text: '资管类' },
     name: 'enquiryAssetManage',
     needLogin: true,
-    component: EnquiryAssetManage
+    component(resolve) {
+      require(['./views/asset-manage/index'], resolve)
+    }
   },
   'enquiry/result': {
     title: { text: '询价结果' },
     name: 'enquiryResult',
     needLogin: true,
-    component: EnquiryResult
+    // waitForData: true,
+    component(resolve) {
+      require(['./views/enquiry/enquiry-result'], resolve)
+    }
+  },
+  'enquiry/result/am': {
+    title: { text: '询价结果' },
+    name: 'enquiryAmResult',
+    needLogin: true,
+    // waitForData: true,
+    component(resolve) {
+      require(['./views/enquiry/enquiry-am-result'], resolve)
+    }
   },
   'enquiry/share': {
     title: { text: '开通金融PANO询价服务' },
     name: 'enquiryShare',
     // needLogin: true,
-    component: EnquiryShare
+    component(resolve) {
+      require(['./views/enquiry/enquiry-share'], resolve)
+    }
   },
   'enquiry/error': {
     title: { text: '询价结果' },
     name: 'enquiryError',
     needLogin: true,
-    component: EnquiryError
+    component(resolve) {
+      require(['./views/enquiry/enquiry-error'], resolve)
+    }
   },
   'serivce_introduce': {
     title: { text: '开通服务介绍' },
     name: 'serviceIntroduce',
     needLogin: true,
-    component: ServiceIntroduce
+    component(resolve) {
+      require(['./views/service-introduce'], resolve)
+    }
   },
   '/settings': {
     title: { text: '我' },
     name: 'settings',
     needLogin: true,
-    component: Settings
+    component(resolve) {
+      require(['./views/settings'], resolve)
+    }
   },
   '/register': {
     name: 'register',
     title: { text: '注册' },
-    component: Register
+    component(resolve) {
+      require(['./views/register'], resolve)
+    }
   },
   '/login': {
     name: 'login',
     title: { text: '登录' },
-    component: Login
+    component(resolve) {
+      require(['./views/login'], resolve)
+    }
   },
   '/perfect': {
     needLogin: true,
     name: 'perfect',
     title: { text: '上传名片' },
-    component: Perfect
+    component(resolve) {
+      require(['./views/perfect'], resolve)
+    }
   }
 })
 

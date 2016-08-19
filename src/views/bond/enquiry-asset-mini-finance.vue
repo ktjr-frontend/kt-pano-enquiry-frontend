@@ -20,7 +20,6 @@ export default {
     }, 10)
 
     return {
-      asset_type: '小微金融类',
       visible: {
         small_loan_fin_exp: false
           // guarantee: false,
@@ -28,6 +27,8 @@ export default {
           // guarantee_subject: false
       },
       filter: Object.assign({
+        asset_type: '小微金融类',
+        content: 'search',
         asset_amount: '',
         asset_life: '',
         small_loan_shareholder_type: '',
@@ -96,7 +97,10 @@ export default {
         key: 'small_loan_asset_type',
         type: 'select',
         validate: {
-          required: true
+          required: {
+            rule: true,
+            message: '请选择资产种类'
+          }
         },
         options: [{
           key: '0',

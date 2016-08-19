@@ -202,6 +202,11 @@ input[type="button"] {
       }
     }
   }
+  .input-comment {
+    color: #adb1bc;
+    font-size: 0.289855rem; //36px
+    margin-top: 1em;
+  }
 }
 
 .checkbox-label {
@@ -246,6 +251,17 @@ input[type="button"] {
     font-size: 0.289855rem;
     &:active {
       border-color: $orange;
+    }
+  }
+  & ~ .check-all {
+    float: left;
+    font-size: 0.289855rem; //36px
+    padding: 0.120773rem 0.201288rem;
+    color: white;
+    background: #f2b82c;
+    border: 2px solid #f3f5f7;
+    &:active {
+      background: darken(#f2b82c, 10%);
     }
   }
 }

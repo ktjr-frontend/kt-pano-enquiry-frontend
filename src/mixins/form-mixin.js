@@ -1,20 +1,30 @@
+import _ from 'lodash'
+
 export default {
   methods: {
     clearField(name) {
       this.user[name] = ''
     },
     showError(name) {
+      let validation = this.$validation
       this.$parent.showToast({
-        text: this.$validation.errors.find((e) => e.field === name).message
+        text: _.find(validation.errors, (e) => {
+          return e.field === name
+        }).message
       })
     },
     showFirstError() {
+      if (this.validationFork) {
+        this.updateValidation()
+      }
+      let validation = this.validationFork || this.$validation
       this.$parent.showToast({
-        text: this.$validation.errors[0].message
+        text: validation.errors[0].message
       })
     },
     validate(name, callback) {
-      if (this.$validation[name].invalid && this.$validation[name].touched) {
+      let validation = this.$validation
+      if (validation[name].invalid && validation[name].touched) {
         this.$validate(name, function() {
           callback && callback()
         })

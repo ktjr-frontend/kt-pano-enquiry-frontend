@@ -1,11 +1,11 @@
-import Utils from './utils'
+import Vue from 'vue'
 
 let sessions, registrations, cards, enquiries, sharedEnquiries, feedbacks, signatures, log
 
 let previousRequestMap = {}
 let commonOpts = {
   before(request) {
-    let key = request.url + '?' + Utils.toQueryString(Object.assign({ method: request.method }, request.params))
+    let key = Vue.url(request.url, request.params)
 
     if (previousRequestMap[key]) {
       previousRequestMap[key].abort()

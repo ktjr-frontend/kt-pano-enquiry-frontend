@@ -9,66 +9,82 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
+      // this.visible.developer_type = this.filter.rank === 'no_rank'
+      // this.visible.guarantee = this.filter.rank === '50top'
       this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
-    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterSupplyChainCache || '{}')
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterGovernmentCache || '{}')
 
     setTimeout(() => {
       this.updateView()
     }, 10)
 
     return {
-      asset_type: '供应链类',
       visible: {
-        // guarantee: false,
-        // supply_link_company_type: false,
         trust_party: false
       },
       filter: Object.assign({
+        asset_type: '政信类',
+        content: 'search',
         asset_amount: '',
         asset_life: '',
-        supply_link_company_type: '',
-        supply_link_company_can_auth: false,
-        supply_link_company_can_assure: false,
+        gov_trusty_level: '',
+        gov_trusty_income: '',
+        gov_trusty_letter: '',
         guarantee: false,
         trust_party: []
       }, lastSaved),
 
       fields: _.concat(commonFilter, [{
-        name: '核心企业类型',
+        name: '融资主体评级',
         group: 'group2',
-        key: 'supply_link_company_type',
+        key: 'gov_trusty_level',
         type: 'select',
+        tip: '国家发改委、证监会或人民银行认可的评级机构评级',
         validate: {
           maxlength: 120
         },
         options: [{
-          key: 'country_company',
-          value: '国企'
+          key: 'AAA',
+          value: 'AAA'
         }, {
-          key: 'centre_company',
-          value: '央企'
+          key: 'AA+',
+          value: 'AA+'
         }, {
-          key: 'public_company',
-          value: '上市公司'
+          key: 'AA',
+          value: 'AA'
         }, {
-          key: 'other',
-          value: '其它'
+          key: 'AA-',
+          value: 'AA-'
+        }, {
+          key: 'no_grade',
+          value: '无评级'
         }]
       }, {
-        name: '核心企业可以确权',
+        name: '地方财政公共预算收入',
         group: 'group2',
-        key: 'supply_link_company_can_auth',
-        type: 'switch',
+        key: 'gov_trusty_income',
+        type: 'select',
+        tip: '公共财政预算收入是指政府凭借国家政治权力，以社会管理者身份筹集以税收为主体的财政收入。',
         validate: {
           maxlength: 120
-        }
+        },
+        options: [{
+          key: '<30',
+          value: '30亿以下'
+        }, {
+          key: '31-50',
+          value: '31-50亿'
+        }, {
+          key: '>51',
+          value: '50亿以上'
+        }]
       }, {
-        name: '核心企业可以提供担保',
+        name: '可提供财政兜底函',
         group: 'group2',
-        key: 'supply_link_company_can_assure',
+        key: 'gov_trusty_letter',
         type: 'switch',
         validate: {
           maxlength: 120
@@ -87,7 +103,10 @@ export default {
         key: 'trust_party',
         type: 'checkboxs',
         validate: {
-          required: true
+          required: {
+            rule: true,
+            message: '请选择担保措施'
+          }
         },
         options: [{
           key: 'guarantee_company',
@@ -106,7 +125,7 @@ export default {
           value: '央企'
         }, {
           key: 'land_agent',
-          value: '大型房地产商'
+          value: '其他政府平台'
         }, {
           key: 'other',
           value: '其它'

@@ -14,6 +14,7 @@
     </flexbox>
   </div>
 </template>
+
 <script>
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'

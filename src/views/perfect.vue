@@ -9,13 +9,18 @@
             <div class="btn-file">
               <input v-model="card.file" @change="cardOnChange('file', $event)" type="file" v-validate:file="{required: true}" name="file" id="file">
             </div>
+            <div class="comment" v-show="!card.file">
+              <p>请尽快上传与注册手机号一致的名片信息。
+                <br> 名片信息仅用于认证审核，我们将对您的个人信息严格保密。
+              </p>
+            </div>
             <div class="business-card-preview">
               <img alt="名片预览" :src="card.previewUrl">
             </div>
           </div>
         </div>
 
-        <div class="form-group" v-show="card">
+        <div class="form-group" v-show="card.file">
           <flexbox>
             <flexbox-item>
               <button class="btn" @click="$parent.log({name: '完成'})">完成</button>
@@ -118,6 +123,7 @@ export default {
     },
     resetForm() {
       this.card.previewUrl = ''
+      this.card.file = null
       document.forms.namedItem('cardForm').reset()
       this.$parent.log({
         name: '重新上传'
@@ -146,7 +152,7 @@ export default {
             }, {}).then((res) => {
               this.$parent.hideLoadingStatus()
               this.$parent.showAlert({
-                content: '名片上传成功！快来开启询价吧！'
+                content: '名片上传成功，快去开启您的询价之旅吧！'
               })
               this.$parent.updateUser(Object.assign({}, this.user, res.json().account))
               this.$router.go({
@@ -302,6 +308,12 @@ export default {
         }
       }
     } */
+  }
+  .comment{
+    margin-top: 0.402576rem; //50px
+    line-height: 1.5em;
+    color: #adb1bc;
+    font-size: 0.289855rem; //36px
   }
   &.preparing {
     .card-body {

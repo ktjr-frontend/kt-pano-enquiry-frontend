@@ -4,80 +4,73 @@ var Mock = require('mockjs')
 module.exports = function(app) {
   var apiPrefix = app.get('apiPrefix')
 
-  app.get(apiPrefix + '/enquiries', function(req, res, next) {
-    var data = Mock.mock({
-      'enquiry_error': '@csentence(30,50)',
-      'average_rate|0-100.0-10': 0,
-      'key': '@id',
-      'results|3': [{
-        name: '@cword(4,8)',
-        desc: '@csentence(10, 20)',
-        logo: '@image("200x100")',
-        'rate|1-100.1-10': 1
-      }]
-    })
-    setTimeout(function() {
-      res.json(data)
-    }, 300)
-  })
-
-  app.get(apiPrefix + '/shared_enquiries', function(req, res, next) {
-    var data = Mock.mock({
-      'query': {
-        'amount|100000-1000000': 1,
-        'duration|1-100': 1,
-        'guarantee|1': true,
-        'type|1': ['eslate', 'government', 'enterprise', 'supply_chain', 'mini_finance']
-      },
-      'enquiry_error': '@csentence(30,50)',
-      'average_rate|0-100.0-10': 0,
-      'results|3': [{
-        name: '@cword(4,8)',
-        desc: '@csentence(10, 20)',
-        logo: '@image("200x100")',
-        'rate|1-100.1-10': 1
-      }]
-    })
-    setTimeout(function() {
-      res.json(data)
-    }, 300)
-  })
-
-  app.get(apiPrefix + '/shared_enquiries', function(req, res, next) {
-    var data = Mock.mock({
-      'query': {
-        'amount|100000-1000000': 1,
-        'duration|1-100': 1,
-        'guarantee|1': true,
-        'type|1': ['eslate', 'government', 'enterprise', 'supply_chain', 'mini_finance']
-      },
-      'enquiry_error': '@csentence(30,50)',
-      'average_rate|0-100.0-10': 0,
-      'results|3': [{
-        name: '@cword(4,8)',
-        desc: '@csentence(10, 20)',
-        logo: '@image("200x100")',
-        'rate|1-100.1-10': 1
-      }]
-    })
-    setTimeout(function() {
-      res.json(data)
-    }, 300)
-  })
-
-  app.post(apiPrefix + '/feedbacks', function(req, res, next) {
-    res.json({
-      ok: true
-    })
-  })
-
-  app.get(apiPrefix + '/signatures', function(req, res, next) {
-    res.json({
-      timestamp: +new Date(), // 必填，生成签名的时间戳
-      nonceStr: '@id', // 必填，生成签名的随机串
-      signature: '@guid', // 必填，签名，见附录1
-    })
-  })
-
+  app.get(apiPrefix + '/inquiries/get_wx_tokens', proxyMidWare)
   app.get(apiPrefix + '/shadows', proxyMidWare)
+
+  app.get(apiPrefix + '/inquiries/:content', function(req, res, next) {
+    var data = {}
+    console.log(req.query)
+    if (req.params.content === 'search') {
+      data = Mock.mock({
+        params_key: '@id',
+        // 'canot_publish': '@csentence(30,50)',
+        'inquiry_life_asset_rate|0-100.0-1': 0,
+        'inquiry_tactics_data|3': [{
+          platform: '@cword(4,8)',
+          recomm_reason: '@csentence(10, 20)',
+          logo: '@image("200x100")',
+          'rate|1-100.1': 1
+        }]
+      })
+    } else if (req.params.content === 'res_by_key') {
+      if (req.query.mark === 'search_am') {
+        data = Mock.mock({
+          params: req.query,
+          res: {
+            'inquiry_tactics_data|3': [{
+              'rate|1-100.1': 1,
+              'life_group|+1': ['1天', '1周', '2周'],
+              'platforms|3': [{
+                platform: '@cword(4,8)',
+                'rate|1-100.1': 1,
+                recomm_reason: '@csentence(10, 20)',
+                logo: '@image("200x100")'
+              }]
+            }]
+          }
+        })
+      } else {
+        data = Mock.mock({
+          params: req.query,
+          res: {
+            'inquiry_life_asset_rate|0-100.0-1': 0,
+            'inquiry_tactics_data|3': [{
+              platform: '@cword(4,8)',
+              recomm_reason: '@csentence(10, 20)',
+              logo: '@image("200x100")',
+              'rate|1-100.1': 1
+            }]
+          }
+        })
+      }
+    } else if (req.params.content === 'search_am') {
+      data = Mock.mock({
+        params_key: '@id',
+        'inquiry_tactics_data|3': [{
+          'rate|1-100.1': 1,
+          'life_group|+1': ['1天', '1周', '2周'],
+          'platforms|3': [{
+            platform: '@cword(4,8)',
+            'rate|1-100.1': 1,
+            recomm_reason: '@csentence(10, 20)',
+            logo: '@image("200x100")'
+          }]
+        }]
+      })
+    }
+
+    setTimeout(function() {
+      res.json(data)
+    }, 300)
+  })
 }

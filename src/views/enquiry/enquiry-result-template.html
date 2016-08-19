@@ -1,0 +1,105 @@
+<!-- <div class="flex-container" :style="{height: winH + 'px'}" >
+  <spinner type="ios"></spinner>
+</div> -->
+<kt-loading :visible="$loadingRouteData"></kt-loading>
+
+<div class="enquiry-result">
+  <section class="head">
+    <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
+    <div class="circle" v-if="$route.query.content === 'search'">
+      <h2>{{enquiry_result.inquiry_life_asset_rate}}<span class="unit">%</span></h2>
+      <p>参考利率值<i class="icon-pano icon-info" @click="$parent.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
+    </div>
+
+    <div class="rate-swiper" v-if="$route.query.content === 'search_am'">
+      <x-swiper v-ref:xswiper direction="horizontal" :prev-button="false" :next-button="false" :autoplay="6000" :centered-slides="true" :slides-per-view="3" @on-slide-change-end="onSlideChangeEnd" @on-click="onClick">
+        <x-swiper-item v-for="item in enquiry_result.inquiry_tactics_data">
+          <div class="swiper-item">
+            <h3><em>{{item.life_group}}</em></h3>
+            <div class="rate">
+              <span>{{item.rate | ktNull}}</span><i v-if="item.rate">%</i>
+              <i class="icon-pano icon-info" @click="showRateTips()" v-if="item.rate"></i>
+            </div>
+            <p>参考利率</p>
+          </div>
+        </x-swiper-item>
+      </x-swiper>
+    </div>
+  </section>
+
+  <section class="head-footer">
+    <span v-if="$route.query.content === 'search'">为您推荐互联网金融平台：</span>
+    <span v-if="$route.query.content === 'search_am'">为您推荐该期限价格最优互联网金融平台：</span>
+  </section>
+
+  <section class="results">
+    <group>
+      <cell v-for="item in platformList" transition="slideLeft" stagger="100" :title="item.platform" class="kt-md-cell">
+        <div class="icon-circle" slot="icon">
+          <img :src="item.logo" :alt="item.platform">
+        </div>
+        <div slot="after-title" v-if="item.recomm_reason" class="kt-cell-content">{{{item.recomm_reason}}}</div>
+        <div slot="value" class="value">
+          <h3>参考利率</h3>
+          <p>
+            <strong>{{item.rate | ktAppend '%'}}</strong>
+          </p>
+        </div>
+      </cell>
+
+      <cell class="kt-md-cell" v-if="!platformList.length" transition="slideLeft">
+        <div class="icon-circle" slot="icon">
+          <i class="icon-pano icon-meng"></i>
+        </div>
+        <div slot="after-title" class="kt-cell-content">根据您的查询条件，该期限暂无适合发行的平台。</div>
+        <div slot="value" class="value">
+          <h3>参考利率</h3>
+          <p>
+            <strong>-</strong>
+          </p>
+        </div>
+      </cell>
+    </group>
+
+    <group>
+      <cell title="" class="kt-md-cell feedback">
+        <div slot="icon" :class="{'satisfied': feedbackStyle.satisfied === 1, 'not-satisfied': feedbackStyle.satisfied === 0}">
+          <a @click="feedback(1)"><i class="icon-pano icon-smile feedback-icon"></i>满意</a>
+          <a @click="feedback(0)"><i class="icon-pano icon-sad feedback-icon"></i>不满意</a>
+        </div>
+        <div slot="value" v-show="isWeixin">
+          <button class="share" @click="openShare()">分享</button>
+        </div>
+      </cell>
+    </group>
+
+    <group>
+      <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: '产品介绍页'})" is-link class="service-introdution">
+        <div slot="after-title">
+          <h3>开通资产推介服务</h3>
+          <p>开通金融拥有十年金融专业运营团队，具备丰富的互联网金融渠道发行经验，熟知各大互金平台偏好特性，致力于为金融资产互联网渠道发行提供一站式系统及运营解决方案。想获得更精确的报价，或了解推荐平台的资产偏好与风控标准，可通过以下邮箱或二维码联系我们。
+          </p>
+          <div class="contact">
+            <ul>
+              <li>邮箱：HelloPANO@ktjr.com</li>
+              <li>
+                PANO微信小秘书：
+                <img class="weixin-qrcode" src="../../assets/images/weixin.jpg" alt="weixin小秘书">
+              </li>
+            </ul>
+          </div>
+        </div>
+      </cell>
+    </group>
+
+    <group>
+      <cell @click="openPano()" is-link class="service-introdution" style="padding-bottom: 15px">
+        <div slot="after-title">
+          <h3>开通PANO</h3>
+          <p>汇集国内主流互金平台金融产品发行信息，助您快速全面了解市场最新数据，解除您逐日跟踪各大平台的烦恼。
+          </p>
+        </div>
+      </cell>
+    </group>
+  </section>
+</div>

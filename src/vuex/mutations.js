@@ -12,7 +12,7 @@ const mutations = {
     state.user = {}
   },
   SHOW_ALERT(state, alert) {
-    state.alert = Object.assign({}, state.alert, alert, { show: true })
+    state.alert = Object.assign({}, state.alert, { title: '提示', buttonText: '知道了' }, alert, { show: true })
   },
   SHOW_TOAST(state, toast) {
     state.toast = Object.assign({}, state.toast, { type: 'warn', time: 1000 }, toast, { show: true })

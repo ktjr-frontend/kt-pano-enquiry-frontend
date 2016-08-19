@@ -1,0 +1,116 @@
+/*-----animations-----*/
+
+$dotSize: 1px;
+@keyframes dot {
+  25% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: $dotSize 0 currentColor;
+  }
+  75% {
+    box-shadow: $dotSize 0 currentColor, $dotSize*3 0 currentColor;
+  }
+  100% {
+    box-shadow: $dotSize 0 currentColor, $dotSize*3 0 currentColor, $dotSize*5 0 currentColor;
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+
+/*----transitions----*/
+
+.fade-transition {
+  opacity: 1;
+  max-height: 500px;
+  overflow: hidden;
+  transition: all .5s ease-in-out;
+}
+
+.fade-enter,
+.fade-leave {
+  max-height: 0;
+  opacity: 0;
+}
+
+.slideUp-transition {
+  transform: translateY(0);
+  // opacity: 1;
+  transition: all .5s ease-in-out;
+}
+
+.slideUp-enter {
+  // opacity: 0;
+  transform: translateY(300%);
+}
+
+.slideUp-leave {
+  position: absolute;
+  left: -100%;
+}
+
+.slideLeft-transition {
+  transform: translateX(0);
+  transition: transform .5s ease-in-out;
+}
+
+.slideLeft-enter {
+  transform: translateX(100%);
+}
+
+.slideLeft-leave {
+  position: absolute;
+  left: 100%;
+}
+
+.zoomIn-transition {
+  transform: scale(1);
+  opacity: 1;
+  transition: transform .5s ease-in-out;
+}
+
+.zoomIn-enter {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.zoomIn-leave{
+  position: absolute;
+  left: 100%;
+}
+
+.bounce-transition {
+  display: inline-block; //否则 scale 动画不起作用
+}
+
+.bounce-enter {
+  animation: bounce-in .5s;
+  animation-delay: .5s;
+}
+
+.bounce-leave {
+  animation: bounce-out .5s;
+}

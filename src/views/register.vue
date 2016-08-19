@@ -17,6 +17,7 @@
               <i class="weui_icon weui_icon_success"></i>
             </div>
           </div>
+          <div class="input-comment" v-if="field.comment">{{field.comment}}</div>
         </div>
 
         <!--<div class="form-group">
@@ -240,6 +241,7 @@ export default {
           name: 'mobile',
           placeholder: '您的手机号码',
           type: 'number',
+          comment: '为方便后期实名认证，请使用与名片信息一致的手机号。',
           iconName: 'icon-user',
           validate: {
             required: true,

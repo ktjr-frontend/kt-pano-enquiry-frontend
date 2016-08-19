@@ -31,6 +31,9 @@ import Alert from 'vux-components/alert'
 import Toast from 'vux-components/toast'
 import log from './common/log'
 import {
+  sessions
+} from './common/resources'
+import {
   loadingStatus,
   toast,
   alert
@@ -100,7 +103,7 @@ export default {
       return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare', 'enquiryAssetEslate', 'enquiryAssetGovernment', 'enquiryAssetEnterprise', 'enquiryAssetSupplyChain', 'enquiryAssetMiniFinance'], this.$route.name)
     },
     headVisible() {
-      return !_.includes(['home', 'login', 'register', 'enquiryResult', 'enquiryShare'], this.$route.name)
+      return !_.includes(['home', 'login', 'register', 'enquiryResult', 'enquiryAmResult', 'enquiryShare'], this.$route.name)
     },
     title() {
       return this.$route.title.text
@@ -121,7 +124,23 @@ export default {
     }
   },
   ready() {
-    this.updateUser(JSON.parse(window.localStorage.user || '{}'), true)
+    let noNeedLoginRoutes = ['login', 'register', 'enquiryShare']
+
+    // 获取用户信息
+    if (!_.includes(noNeedLoginRoutes, this.$route.name)) {
+      sessions.get().then((res) => {
+        let user = res.json().account
+        this.updateUser(user)
+
+        /*if (this.$route.name === 'home') {
+          this.$router.go({
+            name: 'enquiry'
+          })
+        }*/
+      })
+    }
+
+    // this.updateUser(JSON.parse(window.localStorage.user || '{}'), true)
   },
   store,
   replace: false
@@ -131,6 +150,7 @@ export default {
 <style lang="scss">
 @import '~vux/dist/vux.css';
 @import './assets/fonts/style.css';
+@import './assets/scss/animate.scss';
 @import './assets/scss/vux.scss';
 @import './assets/scss/base.scss';
 @import './assets/scss/common.scss';

@@ -44,6 +44,7 @@
   background: #194373;
   position: relative;
   .vux-header-left {
+    left: 0.402576rem;
     top: 50%;
     transform: translateY(-50%);
     .vux-header-back {
@@ -125,9 +126,13 @@
     .icon-circle {
       margin-right: 0.483092rem; // 60px
       img {
-        vertical-align: middle;
+        // vertical-align: middle;
         max-width: 70%;
         max-height: 70%;
+      }
+      .icon-pano{
+        color: #e8ecf3;
+        font-size: 1.207729rem;
       }
     }
     .weui_cell_bd {
@@ -218,7 +223,10 @@
     width: 1.771337rem; // 220px
     height: 1.771337rem;
     text-align: center;
-    line-height: 1.771337rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // line-height: 1.771337rem;
     img {
       vertical-align: middle;
       max-width: 70%;

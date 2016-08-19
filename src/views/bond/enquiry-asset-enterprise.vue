@@ -9,53 +9,45 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.developer_type = this.filter.developer_order === '无排名'
-        // this.visible.guarantee = this.filter.developer_order === '前50强'
+      this.visible.company_borrow_shareholder_type = !this.filter.company_borrow_on_market
       this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
-    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEslateCache || '{}')
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEnterpriseCache || '{}')
 
     setTimeout(() => {
       this.updateView()
     }, 10)
 
     return {
-      asset_type: '房地产类',
       visible: {
-        guarantee: true,
-        developer_type: true,
+        company_borrow_shareholder_type: false,
         trust_party: false
       },
       filter: Object.assign({
+        asset_type: '企业借款类',
+        content: 'search',
         asset_amount: '',
+        company_borrow_shareholder_type: '',
+        company_borrow_on_market: true,
         asset_life: '',
-        developer_order: '',
-        developer_type: '',
         guarantee: false,
         trust_party: []
       }, lastSaved),
 
       fields: _.concat(commonFilter, [{
-        name: '开发商全国排名',
+        name: '融资主体为上市公司',
         group: 'group2',
-        key: 'developer_order',
-        type: 'select',
+        key: 'company_borrow_on_market',
+        type: 'switch',
         validate: {
-          maxlength: 120 // hack invalid validate
-        },
-        options: [{
-          key: '50top',
-          value: '前50强'
-        }, {
-          key: 'no_rank',
-          value: '无排名'
-        }]
+          maxlength: 120
+        }
       }, {
-        name: '开发商类型',
+        name: '股东类型',
         group: 'group2',
-        key: 'developer_type',
+        key: 'company_borrow_shareholder_type',
         type: 'select',
         validate: {
           maxlength: 120
@@ -77,7 +69,10 @@ export default {
         name: '担保措施',
         group: 'group3',
         key: 'guarantee',
-        type: 'switch'
+        type: 'switch',
+        validate: {
+          maxlength: 120
+        }
       }, {
         name: '担保主体',
         group: 'group3',

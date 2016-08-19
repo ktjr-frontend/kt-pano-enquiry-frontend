@@ -6,11 +6,16 @@ import interceptors from './common/interceptors'
 import VueTouch from 'vue-touch'
 import Filters from './filters'
 import Directives from './directives'
+import Transions from './common/transitions'
+import Pollyfill from './common/pollyfill'
+
+Pollyfill.setup()
 
 Vue.use(VueResource)
 Vue.use(VueTouch)
 Vue.use(Filters)
 Vue.use(Directives)
+Vue.use(Transions)
 
 // http初始化
 Vue.http.options.root = '/api/v1'

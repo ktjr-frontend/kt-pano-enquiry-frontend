@@ -9,100 +9,86 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      // this.visible.developer_type = this.filter.rank === 'no_rank'
-      // this.visible.guarantee = this.filter.rank === '50top'
+      this.visible.developer_type = this.filter.developer_order === '无排名'
+        // this.visible.guarantee = this.filter.developer_order === '前50强'
       this.visible.trust_party = this.filter.guarantee
     }
   },
   data() {
-    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterGovernmentCache || '{}')
+    let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEslateCache || '{}')
 
     setTimeout(() => {
       this.updateView()
     }, 10)
 
     return {
-      asset_type: '政信类',
       visible: {
+        guarantee: true,
+        developer_type: false,
         trust_party: false
       },
       filter: Object.assign({
+        asset_type: '房地产类',
+        content: 'search',
         asset_amount: '',
         asset_life: '',
-        gov_trusty_level: '',
-        gov_trusty_income: '',
-        gov_trusty_letter: '',
+        developer_order: '',
+        developer_type: '',
         guarantee: false,
         trust_party: []
       }, lastSaved),
 
       fields: _.concat(commonFilter, [{
-        name: '融资主体评级',
+        name: '开发商全国排名',
         group: 'group2',
-        key: 'gov_trusty_level',
+        key: 'developer_order',
         type: 'select',
-        tip: '国家发改委、证监会或人民银行认可的评级机构评级',
+        validate: {
+          maxlength: 120 // hack invalid validate
+        },
+        options: [{
+          key: '50top',
+          value: '前50强'
+        }, {
+          key: 'no_rank',
+          value: '无排名'
+        }]
+      }, {
+        name: '开发商类型',
+        group: 'group2',
+        key: 'developer_type',
+        type: 'select',
         validate: {
           maxlength: 120
         },
         options: [{
-          key: 'AAA',
-          value: 'AAA'
+          key: 'country_company',
+          value: '国企'
         }, {
-          key: 'AA+',
-          value: 'AA+'
+          key: 'centre_company',
+          value: '央企'
         }, {
-          key: 'AA',
-          value: 'AA'
+          key: 'public_company',
+          value: '上市公司'
         }, {
-          key: 'AA-',
-          value: 'AA-'
-        }, {
-          key: 'no_grade',
-          value: '无评级'
+          key: 'other',
+          value: '其它'
         }]
       }, {
-        name: '地方财政公共预算收入',
-        group: 'group2',
-        key: 'gov_trusty_income',
-        type: 'select',
-        tip: '公共财政预算收入是指政府凭借国家政治权力，以社会管理者身份筹集以税收为主体的财政收入。',
-        validate: {
-          maxlength: 120
-        },
-        options: [{
-          key: '<30',
-          value: '30亿以下'
-        }, {
-          key: '31-50',
-          value: '31-50亿'
-        }, {
-          key: '>51',
-          value: '50亿以上'
-        }]
-      }, {
-        name: '可提供财政兜底函',
-        group: 'group2',
-        key: 'gov_trusty_letter',
-        type: 'switch',
-        validate: {
-          maxlength: 120
-        }
-      }, {
-        name: '第三方担保',
+        name: '担保措施',
         group: 'group3',
         key: 'guarantee',
-        type: 'switch',
-        validate: {
-          maxlength: 120
-        }
+        type: 'switch'
       }, {
-        name: '第三方担保主体',
+        name: '担保主体',
         group: 'group3',
         key: 'trust_party',
         type: 'checkboxs',
         validate: {
-          required: true
+          required: {
+            rule: false,
+            message: '请选择担保措施'
+          }
         },
         options: [{
           key: 'guarantee_company',
@@ -121,7 +107,7 @@ export default {
           value: '央企'
         }, {
           key: 'land_agent',
-          value: '其他政府平台'
+          value: '大型房地产商'
         }, {
           key: 'other',
           value: '其它'

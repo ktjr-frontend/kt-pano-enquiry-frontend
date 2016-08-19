@@ -23,7 +23,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'http://10.132.1.24:3000',
+        // target: 'http://10.132.1.176:3000',
         // target: 'http://localhost:3005',
         target: 'http://dev-pano.ktjr.com',
         changeOrigin: true
