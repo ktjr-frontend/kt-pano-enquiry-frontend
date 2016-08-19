@@ -4,7 +4,6 @@
       <form name="cardForm" novalidate @submit="onSubmit($event)">
         <div class="form-group card-container" :class="containerClass">
 
-          <!-- <label class="form-control-label">上传名片</label> -->
           <div class="card-body">
             <div class="btn-file">
               <input v-model="card.file" @change="cardOnChange('file', $event)" type="file" v-validate:file="{required: true}" name="file" id="file">

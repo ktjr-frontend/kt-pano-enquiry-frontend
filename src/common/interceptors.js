@@ -49,7 +49,8 @@ export default [
       } else if (res.status === 200) {
         if (request.cache) {
           let key = Vue.url(request.url, request.params)
-          sessionStorage.setItem(key, res.data)
+          let body = _.isObject(res.body) ? JSON.stringify(res.body) : res.body
+          sessionStorage.setItem(key, body)
         }
       }
     })
