@@ -32,6 +32,7 @@ import Spinner from 'vux-components/spinner'
 import {
   enquiryError
 } from '../../vuex/getters'
+
 export default {
   components: {
     // Flexbox,
@@ -67,6 +68,21 @@ export default {
       margin: 0.322061rem 0;
       font-size: 0.483092rem;
       color: #737e9c;
+      text-align: center;
+    }
+  }
+  .contact {
+    padding: 0.161031rem 0;
+    color: #acb1bd;
+    line-height: 0.563607rem;
+    margin-top: 0.362319rem; //30px
+    border-top: 1px solid #f4f6fa;
+    .weixin-qrcode {
+      display: block;
+      margin: -1.55em auto 0;
+      width: 2.012882rem; //250px
+      vertical-align: top;
+      // margin-left: 0.402576rem;
     }
   }
 }

@@ -130,7 +130,7 @@
         max-width: 70%;
         max-height: 70%;
       }
-      .icon-pano{
+      .icon-pano {
         color: #e8ecf3;
         font-size: 1.207729rem;
       }
@@ -169,7 +169,7 @@
   .weui_cell_hd {
     .weui_cells_radio {
       margin-bottom: -0.241546rem;
-      .weui_cell{
+      .weui_cell {
         padding-right: 0.120773rem;
       }
       .weui_cell_bd {
@@ -285,6 +285,11 @@
     font-size: .8em;
     pointer-events: initial;
   }
+  &.weui_cell_radio {
+    .tip-icon {
+      padding: 15px 15px 15px 0;
+    }
+  }
 }
 
 .weiui_buttons_kt {
@@ -312,4 +317,3 @@
     }
   }
 }
-

@@ -148,13 +148,13 @@ export default {
         },
         options: [{
           key: '1',
-          value: '债券类'
+          value: '纯债权'
         }, {
           key: '2',
-          value: '股票类'
+          value: '股债混合'
         }, {
           key: '3',
-          value: '非标债权类'
+          value: '含非标债权'
         }, {
           key: 'other',
           value: '其它'
@@ -166,10 +166,10 @@ export default {
         type: 'input',
         subType: 'number',
         format: 'wy',
-        placeholder: '不少于0万元',
+        placeholder: '不少于100万元',
         validate: {
           min: {
-            rule: 1,
+            rule: 100,
             message: '请正确填写产品存量规模'
           },
           pattern: {

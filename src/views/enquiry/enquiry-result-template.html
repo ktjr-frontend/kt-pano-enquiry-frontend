@@ -3,7 +3,7 @@
 </div> -->
 <kt-loading :visible="$loadingRouteData"></kt-loading>
 
-<div class="enquiry-result">
+<div class="enquiry-result" v-if="!$loadingRouteData && enquiry_result.inquiry_tactics_data.length">
   <section class="head">
     <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
     <div class="circle" v-if="$route.query.content === 'search'">

@@ -1,7 +1,7 @@
 <template>
   <kt-loading :visible="$loadingRouteData"></kt-loading>
 
-  <div class="enquire-share">
+  <div class="enquire-share" v-if="!$loadingRouteData && enquiry_result.res.inquiry_tactics_data.length">
     <section class="head">
       <div class="chat-list">
         <div class="item">
@@ -106,7 +106,7 @@
     </group>
 
     <div class="buttons">
-      <button v-link="{name:'register'}" @click="$parent.log({name:'我也要询价'})">我也要询价</button>
+      <button v-link="{name: hadLogin ? 'enquiry' : 'register'}" @click="$parent.log({name: '我也要询价'})">我也要询价</button>
     </div>
   </div>
 </template>
@@ -121,7 +121,8 @@ import {
 import ktLoading from '../../components/kt-loading'
 import EnquiryFeatures from '../_parts/enquiry-features'
 import {
-  enquiries
+  enquiries,
+  sessions
 } from '../../common/resources'
 import wxMixin from '../../mixins/wx-mixin'
 import _ from 'lodash'
@@ -135,6 +136,15 @@ export default {
     XSwiperItem,
     ktLoading,
     EnquiryFeatures
+  },
+
+  created() {
+    if (window.localStorage.token) {
+      sessions.get().then((res) => {
+        let user = res.json().account
+        this.$root.updateUser(user)
+      })
+    }
   },
 
   route: {
@@ -178,14 +188,17 @@ export default {
         })
       }
     },
+
     updateSwiper() {
       if (this.$route.query.mark === 'search_am') {
         this.$refs.xswiper.swiper.update(true)
       }
     },
+
     onSlideChangeEnd(swiper) {
       this.activeIndex = swiper.activeIndex
     },
+
     onClick(swiper) {
       swiper.slideTo(swiper.clickedIndex)
     }
@@ -215,6 +228,7 @@ export default {
 
   data() {
     return {
+      hadLogin: !!window.localStorage.token,
       activeIndex: 0,
       enquiry_result: {
         params: {
@@ -468,6 +482,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 99;
   }
 }
 </style>

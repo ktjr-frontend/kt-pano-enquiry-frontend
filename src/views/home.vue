@@ -19,6 +19,7 @@
     </section>
   </div>
 </template>
+
 <script>
 import EnquiryFeatures from './_parts/enquiry-features'
 import {
@@ -57,6 +58,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 .home {
   section.head {

@@ -123,7 +123,7 @@ export default {
       hideLoadingStatus
     }
   },
-  ready() {
+  created() {
     let noNeedLoginRoutes = ['login', 'register', 'enquiryShare']
 
     // 获取用户信息
@@ -131,12 +131,11 @@ export default {
       sessions.get().then((res) => {
         let user = res.json().account
         this.updateUser(user)
-
-        /*if (this.$route.name === 'home') {
-          this.$router.go({
-            name: 'enquiry'
-          })
-        }*/
+          /*if (this.$route.name === 'home') {
+            this.$router.go({
+              name: 'enquiry'
+            })
+          }*/
       })
     }
 
