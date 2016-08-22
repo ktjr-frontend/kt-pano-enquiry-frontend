@@ -33,7 +33,7 @@ export default [
   },
   function(request, next) {
     next((res) => {
-      if (res.status === 419 || res.status === 401) {
+      if (!request.params.noNeedLogin && (res.status === 419 || res.status === 401)) {
         showAlert(store, {
           content: '登录超时，请重新登录后再试！'
         })

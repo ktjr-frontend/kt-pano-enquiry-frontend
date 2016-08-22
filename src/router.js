@@ -92,7 +92,7 @@ router.map({
     title: { text: '询价结果' },
     name: 'enquiryResult',
     needLogin: true,
-    // waitForData: true,
+    waitForData: true,
     component(resolve) {
       require(['./views/enquiry/enquiry-result'], resolve)
     }
@@ -101,7 +101,7 @@ router.map({
     title: { text: '询价结果' },
     name: 'enquiryAmResult',
     needLogin: true,
-    // waitForData: true,
+    waitForData: true,
     component(resolve) {
       require(['./views/enquiry/enquiry-am-result'], resolve)
     }
@@ -212,7 +212,7 @@ router.afterEach(function({ to }) {
       document.body.classList.remove('overflow-height')
     }
     document.querySelector('.logo-bottom').style.display = 'block'
-  }, 100)
+  }, 300)
 })
 
 export default function routerStart() {

@@ -140,7 +140,9 @@ export default {
 
   created() {
     if (window.localStorage.token) {
-      sessions.get().then((res) => {
+      sessions.get({
+        noNeedLogin: true // 不需要登录的标示，拦截器收到此参数不会强行跳转到登录页面
+      }).then((res) => {
         let user = res.json().account
         this.$root.updateUser(user)
       })
