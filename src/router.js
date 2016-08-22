@@ -151,7 +151,7 @@ router.map({
     data: {
       title: '询价结果',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: false,
       tabVisible: true
     },
     name: 'enquiryAmResult',
