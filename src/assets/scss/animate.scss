@@ -45,14 +45,14 @@ $dotSize: 1px;
 
 .fade-transition {
   opacity: 1;
-  max-height: 500px;
-  overflow: hidden;
-  transition: all .5s ease-in-out;
+  // max-height: 500px;
+  // overflow: hidden;
+  transition: all .3s ease;
 }
 
 .fade-enter,
 .fade-leave {
-  max-height: 0;
+  // max-height: 0;
   opacity: 0;
 }
 

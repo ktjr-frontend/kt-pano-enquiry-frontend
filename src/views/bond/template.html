@@ -1,38 +1,38 @@
-<div class="filters">
+<div class="filters" v-cloak>
   <div class="body-head">
-    <p class="sub-title">{{subTitle}}</p>
+    <p class="sub-title" v-cloak>{{subTitle}}</p>
   </div>
   <validator name="validation">
     <form action="" novalidate @submit.prevent="onSubmit($event)">
       <!-- 这里是不包含组合表单 -->
       <section v-for="group in filtersByType">
-        <div class="weui_cells_title" v-if="group.title">{{group.title}}</div>
+        <div class="weui_cells_title" v-if="group.title" v-cloak>{{group.title}}</div>
         <div class="weui_cells vux-no-group-title">
           <div class="weui_cell weui_select_after" v-for="field in group" :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus">
 
             <div class="wrapper" v-if="field.type !== 'select-input'">
               <div class="weui_cell_hd" :style="{width: field.type==='option'?'100%':'auto' }">
-                <label class="weui_label" :style="{width: maxFieldWidth + 'em'}">
+                <label class="weui_label" :style="{width: maxFieldWidth + 'em'}" v-cloak>
                   {{field.name}}
                   <i v-if="field.tip" class="icon-pano icon-info tip-icon" @click="showTip(field.tip)"></i>
                 </label>
 
                 <!-- checkbox组 -->
-                <div v-if="field.type === 'checkboxs'">
+                <div v-if="field.type === 'checkboxs'" v-cloak>
                   <div class="clfix mt-40">
                     <div class="checkbox-label" v-for="cb in field.options">
                       <input autocomplete="off" v-model="filter[field.key]" :id="field.key + '_' + cb.key" :value="cb.value" :field="field.key" v-validate="field.validate" type="checkbox">
-                      <label :for="field.key + '_' + cb.key">{{cb.value}}</label>
+                      <label :for="field.key + '_' + cb.key" v-cloak>{{cb.value}}</label>
                     </div>
-                    <div class="check-all" v-if="field.hasCheckAll" @click="checkAll(field)">全选</div>
+                    <div class="check-all" v-if="field.hasCheckAll" @click="checkAll(field)" v-cloak>全选</div>
                   </div>
                 </div>
 
                 <!-- radio组 -->
-                <div class="weui_cells_radio ov-h" v-show="field.type === 'option'">
+                <div class="weui_cells_radio ov-h" v-show="field.type === 'option'" v-cloak>
                   <label class="weui_cell weui_cell_radio weui_check_label" v-for="op in field.options">
                     <div class="weui_cell_bd weui_cell_primary">
-                      <p>
+                      <p v-cloak>
                         {{op.value}}
                         <i v-if="op.tip" class="icon-pano icon-info tip-icon" @click.prevent="showTip(op.tip)"></i>
                       </p>
@@ -45,22 +45,22 @@
                 </div>
               </div>
 
-              <div class="weui_cell_bd weui_cell_primary" v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'">
+              <div class="weui_cell_bd weui_cell_primary" v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'" >
 
                 <!-- input类型 -->
-                <div v-if="field.type === 'input'">
+                <div v-if="field.type === 'input'" v-cloak>
                   <input class="weui_input" v-model="filter[field.key]" :type="field.subType || 'text'" :field="field.key" v-validate="field.validate" :placeholder="field.placeholder">
                 </div>
                 <!-- select类型 -->
-                <div v-if="field.type === 'select'">
+                <div v-if="field.type === 'select'" v-cloak>
                   <select class="weui_select" v-model="filter[field.key]" @change="updateView(field.key)" :class="{'empty': !filter[field.key]}" :field="field.key" :name="field.key" v-validate="field.validate">
                     <option value="">请选择</option>
-                    <option v-for="o in field.options" :value="o.value">{{o.value}}</option>
+                    <option v-for="o in field.options" :value="o.value" v-cloak>{{o.value}}</option>
                   </select>
                 </div>
               </div>
 
-              <div class="weui_cell_ft">
+              <div class="weui_cell_ft" v-cloak>
                 <!-- switch类型 -->
                 <div v-if="field.type === 'switch'">
                   <input @change="updateView()" v-model="filter[field.key]" class="weui_switch" type="checkbox">
@@ -68,7 +68,7 @@
                 <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.key)"></i>
                 <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.key)"></i>
                 <span class="arrow"></span>
-                <span>{{field.unit}}</span>
+                <span v-cloak>{{field.unit}}</span>
               </div>
             </div>
           </div>

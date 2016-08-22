@@ -1,5 +1,5 @@
 <template>
-  <div class="enquiry-result enquiry-error">
+  <div class="enquiry-error">
     <section class="results">
       <group>
         <cell class="service-introdution">
@@ -51,9 +51,17 @@ export default {
 
 <style lang="scss">
 .enquiry-error {
+  font-size: 0.322061rem; //40px
   margin-top: 0;
   .weui_cells {
     margin: 0.362319rem; //45px
+  }
+  .weui_cell,
+  .weui_cell_primary {
+    font-size: 0.322061rem; //40px
+  }
+  .weui_cell_primary {
+    margin-right: 0.161031rem; //20px
   }
   .results {
     margin-top: 0;
@@ -63,26 +71,38 @@ export default {
       vertical-align: middle;
     }
   }
+
   .service-introdution {
     h3 {
-      margin: 0.322061rem 0;
-      font-size: 0.483092rem;
-      color: #737e9c;
       text-align: center;
+      color: #737e9c;
+      font-size: 0.354267rem; //44px
+      margin: 0.161031rem 0; //20px
     }
-  }
-  .contact {
-    padding: 0.161031rem 0;
-    color: #acb1bd;
-    line-height: 0.563607rem;
-    margin-top: 0.362319rem; //30px
-    border-top: 1px solid #f4f6fa;
-    .weixin-qrcode {
-      display: block;
-      margin: -1.55em auto 0;
-      width: 2.012882rem; //250px
-      vertical-align: top;
-      // margin-left: 0.402576rem;
+    p {
+      color: #acb1bd;
+    }
+    .weui_cell_ft {
+      align-self: flex-start;
+      position: absolute;
+      right: 15px;
+    }
+    .weui_cell_primary {
+      margin-right: 0;
+    }
+    .contact {
+      padding: 0.161031rem 0;
+      color: #acb1bd;
+      line-height: 0.563607rem;
+      margin-top: 0.362319rem; //30px
+      border-top: 1px solid #f4f6fa;
+      .weixin-qrcode {
+        display: block;
+        margin: -1.55em auto 0;
+        width: 2.012882rem; //250px
+        vertical-align: top;
+        // margin-left: 0.402576rem;
+      }
     }
   }
 }

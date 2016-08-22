@@ -170,7 +170,7 @@ export default {
         validate: {
           min: {
             rule: 100,
-            message: '请正确填写产品存量规模'
+            message: '产品存量规模不少于100万元'
           },
           pattern: {
             rule: '/^\\d+?$/',

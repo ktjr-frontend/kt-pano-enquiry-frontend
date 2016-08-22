@@ -16,6 +16,7 @@ import _ from 'lodash'
 import {
   enquiries
 } from '../../common/resources'
+import { updateLogoBottomStyle } from '../../router'
 
 export default {
   vuex: {
@@ -33,6 +34,12 @@ export default {
     XSwiper,
     XSwiperItem,
     ktLoading
+  },
+
+  ready() {
+    setTimeout(() => {
+      updateLogoBottomStyle()
+    }, 1000)
   },
 
   route: {

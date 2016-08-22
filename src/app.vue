@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <x-header v-show="headVisible" :left-options="header.leftOptions" @on-click-back="onClickBack()">{{title}}</x-header>
+    <x-header v-show="$route.data.headVisible" :left-options="header.leftOptions" @on-click-back="onClickBack()">{{title}}</x-header>
     <router-view></router-view>
-    <div class="tabbar" v-show="tabVisible">
+    <div class="tabbar" v-show="$route.data.tabVisible">
       <div class="tab" v-for="tab in tabs" :span="tab.span" :class="{'active': tab.active}">
         <a v-link="tab.link" @click="log({name: tab.name})">
           <i class="icon-pano" :class="tab.icon" :style="tab.style"></i>{{tab.name}}
@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <div class="logo-bottom" :class="{'no-tabbar': !tabVisible, 'dn-imp': !logoBottomVisible}">
+  <div class="logo-bottom" :class="{'no-tabbar': !$route.data.tabVisible, 'dn-imp': !$route.data.logoBottomVisible}">
     <img src="./assets/images/logo2.svg" alt="开通PANO">
   </div>
 
@@ -38,7 +38,6 @@ import {
   toast,
   alert
 } from './vuex/getters'
-import _ from 'lodash'
 
 import {
   updateUser,
@@ -96,17 +95,8 @@ export default {
     }
   },
   computed: {
-    logoBottomVisible() {
-      return !_.includes(['home', 'perfect', 'enquiryShare'], this.$route.name)
-    },
-    tabVisible() {
-      return !_.includes(['home', 'login', 'register', 'perfect', 'enquiryShare', 'enquiryAssetEslate', 'enquiryAssetGovernment', 'enquiryAssetEnterprise', 'enquiryAssetSupplyChain', 'enquiryAssetMiniFinance'], this.$route.name)
-    },
-    headVisible() {
-      return !_.includes(['home', 'login', 'register', 'enquiryResult', 'enquiryAmResult', 'enquiryShare'], this.$route.name)
-    },
     title() {
-      return this.$route.title.text
+      return this.$route.data.title
     }
   },
   vuex: {
@@ -124,22 +114,13 @@ export default {
     }
   },
   created() {
-    let noNeedLoginRoutes = ['login', 'register', 'enquiryShare']
-
     // 获取用户信息
-    if (!_.includes(noNeedLoginRoutes, this.$route.name)) {
+    if (this.$route.needLogin) {
       sessions.get().then((res) => {
         let user = res.json().account
         this.updateUser(user)
-          /*if (this.$route.name === 'home') {
-            this.$router.go({
-              name: 'enquiry'
-            })
-          }*/
       })
     }
-
-    // this.updateUser(JSON.parse(window.localStorage.user || '{}'), true)
   },
   store,
   replace: false

@@ -1,112 +1,114 @@
 <template>
-  <kt-loading :visible="$loadingRouteData"></kt-loading>
+  <div>
+    <kt-loading :visible="$loadingRouteData"></kt-loading>
 
-  <div class="enquire-share" v-if="!$loadingRouteData && enquiry_result.res.inquiry_tactics_data.length">
-    <section class="head">
-      <div class="chat-list">
-        <div class="item">
-          <p class="content" v-if="$route.query.mark !== 'search_am'">
-            我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产
-          </p>
-          <p class="content" v-if="$route.query.mark === 'search_am'">
-            我在<em>开通PANO</em>查询了一个<em>{{enquiry_result.params.credit_manager_type}}</em>产品，期限为<em>{{enquiry_result.params.asset_life.join('，')}}</em>
-          </p>
-        </div>
+    <div class="enquire-share" v-if="!$loadingRouteData && enquiry_result.res.inquiry_tactics_data.length">
+      <section class="head">
+        <div class="chat-list">
+          <div class="item">
+            <p class="content" v-if="$route.query.mark !== 'search_am'" v-cloak>
+              我在<em>开通PANO</em>查询了一个<em><span>{{enquiry_result.params.asset_life}}</span>个月</em>期限且<em>{{isHaveGuarantee}}</em>的<em>{{enquiry_result.params.asset_type}}</em>资产
+            </p>
+            <p class="content" v-if="$route.query.mark === 'search_am'" v-cloak>
+              我在<em>开通PANO</em>查询了一个<em>{{enquiry_result.params.credit_manager_type}}</em>产品，期限为<em>{{enquiry_result.params.asset_life.join('，')}}</em>
+            </p>
+          </div>
 
-        <div class="me item">
-          <div class="message">
-            <div class="bubble">
-              <span v-if="$route.query.mark !== 'search_am'">
+          <div class="me item">
+            <div class="message">
+              <div class="bubble">
+                <span v-if="$route.query.mark !== 'search_am'">
                 开通PANO为我推荐的利率为：
-                <em class="em-fs em-orange">{{enquiry_result.res.inquiry_life_asset_rate | ktNull}}</em>%
+                <em class="em-fs em-orange" v-cloak>{{enquiry_result.res.inquiry_life_asset_rate | ktNull}}</em>%
               </span>
-              <span v-if="$route.query.mark === 'search_am'">
+                <span v-if="$route.query.mark === 'search_am'">
                 开通PANO为我查询到的参考利率分别为：
               </span>
+              </div>
+              <div class="arrow"></div>
             </div>
-            <div class="arrow"></div>
+            <div class="icon">
+              <div class="icon-pano icon-mans"></div>
+              <!-- <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像"> -->
+            </div>
           </div>
-          <div class="icon">
-            <div class="icon-pano icon-mans"></div>
-            <!-- <img src="../../assets/images/icon-ktjr.jpg" alt="用户头像"> -->
-          </div>
-        </div>
 
-        <div class="swiper item" v-if="$route.query.mark === 'search_am'">
-          <div class="rate-swiper">
-            <x-swiper v-ref:xswiper direction="horizontal" :prev-button="false" :next-button="false" :autoplay="3000" :centered-slides="true" :slides-per-view="3" @on-slide-change-end="onSlideChangeEnd" @on-click="onClick">
-              <x-swiper-item v-for="item in enquiry_result.res.inquiry_tactics_data">
-                <div class="swiper-item">
-                  <h3><em>{{item.life_group}}</em></h3>
-                  <div class="rate">
-                    <span>{{item.rate | ktNull}}</span><i v-if="item.rate">%</i>
+          <div class="swiper item" v-if="$route.query.mark === 'search_am'">
+            <div class="rate-swiper">
+              <x-swiper v-ref:xswiper direction="horizontal" :prev-button="false" :next-button="false" :autoplay="3000" :centered-slides="true" :slides-per-view="3" @on-slide-change-end="onSlideChangeEnd" @on-click="onClick">
+                <x-swiper-item v-for="item in enquiry_result.res.inquiry_tactics_data">
+                  <div class="swiper-item">
+                    <h3 v-cloak><em>{{item.life_group}}</em></h3>
+                    <div class="rate">
+                      <span v-cloak>{{item.rate | ktNull}}</span><i v-if="item.rate">%</i>
+                    </div>
+                    <p>参考利率</p>
                   </div>
-                  <p>参考利率</p>
-                </div>
-              </x-swiper-item>
-            </x-swiper>
+                </x-swiper-item>
+              </x-swiper>
+            </div>
+          </div>
+
+          <div class="me item">
+            <div class="message">
+              <div class="bubble" v-if="$route.query.mark !== 'search_am'">
+                开通PANO为我推荐在如下平台发行：
+              </div>
+              <div class="bubble" v-if="$route.query.mark === 'search_am'">
+                该期限下，开通PANO为我推荐的发行平台为：
+              </div>
+              <div class="arrow"></div>
+            </div>
+            <div class="icon">
+              <div class="icon-pano icon-mans"></div>
+            </div>
           </div>
         </div>
 
-        <div class="me item">
-          <div class="message">
-            <div class="bubble" v-if="$route.query.mark !== 'search_am'">
-              开通PANO为我推荐在如下平台发行：
+        <div class="insts">
+          <div class="item" v-for="item in platformList" transition="zoomIn" stagger="100">
+            <div class="icon-body" @click="showReason(item.recomm_reason)">
+              <img :src="item.logo" :alt="item.platform">
             </div>
-            <div class="bubble" v-if="$route.query.mark === 'search_am'">
-              该期限下，开通PANO为我推荐的发行平台为：
+            <p v-cloak>{{item.platform}}</p>
+          </div>
+          <div class="item" v-if="!platformList.length" transition="zoomIn">
+            <div class="icon-body">
+              <i class="icon-pano icon-meng"></i>
             </div>
-            <div class="arrow"></div>
-          </div>
-          <div class="icon">
-            <div class="icon-pano icon-mans"></div>
+            <p>根据我的查询条件，该期限暂无适合发行的平台。</p>
           </div>
         </div>
-      </div>
-
-      <div class="insts">
-        <div class="item" v-for="item in platformList" transition="zoomIn" stagger="100">
-          <div class="icon-body" @click="showReason(item.recomm_reason)">
-            <img :src="item.logo" :alt="item.platform">
-          </div>
-          <p>{{item.platform}}</p>
-        </div>
-        <div class="item" v-if="!platformList.length" transition="zoomIn">
-          <div class="icon-body">
-            <i class="icon-pano icon-meng"></i>
-          </div>
-          <p>根据我的查询条件，该期限暂无适合发行的平台。</p>
-        </div>
-      </div>
-      <!-- <div class="praise">
+        <!-- <div class="praise">
         原来互金平台资产询价可以如此简单靠谱!!
       </div> -->
-    </section>
+      </section>
 
-    <section class="head-footer">
-      <h2 class="title">
+      <section class="head-footer">
+        <h2 class="title">
           <img class="head-logo" src="../../assets/images/logo2.svg" alt="logo">
           <span>询价服务</span>
         </h2>
-      <h3 class="sub-title">
+        <h3 class="sub-title">
           查价格、找平台，1分钟搞定互联网渠道资产发行第一步
       </h3>
-    </section>
+      </section>
 
-    <enquiry-features></enquiry-features>
+      <enquiry-features></enquiry-features>
 
-    <group style="margin-bottom:1.788245rem;">
-      <div class="contact">
-        <h3>您也可以关注微信二维码，轻松开启资产询价之旅</h3>
-        <img src="../../assets/images/weixin-pano.jpg" class="qrcode" alt="微信PANO" />
-        <div class="foot">
-          联系邮箱：HelloPANO@ktjr.com
+      <group style="margin-bottom:1.788245rem;">
+        <div class="contact">
+          <h3>您也可以关注微信二维码，轻松开启资产询价之旅</h3>
+          <img src="../../assets/images/weixin-pano.jpg" class="qrcode" alt="微信PANO" />
+          <div class="foot">
+            联系邮箱：HelloPANO@ktjr.com
+          </div>
         </div>
-      </div>
-    </group>
+      </group>
 
-    <div class="buttons">
-      <button v-link="{name: hadLogin ? 'enquiry' : 'register'}" @click="$parent.log({name: '我也要询价'})">我也要询价</button>
+      <div class="buttons">
+        <button v-link="{name: hadLogin ? 'enquiry' : 'register'}" @click="$parent.log({name: '我也要询价'})">我也要询价</button>
+      </div>
     </div>
   </div>
 </template>

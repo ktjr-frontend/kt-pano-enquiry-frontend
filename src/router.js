@@ -17,7 +17,12 @@ let router = new Router({
 
 router.map({
   '/index': {
-    title: { text: '首页' },
+    data: {
+      title: '首页',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: false
+    },
     name: 'home',
     // needLogin: true,
     component(resolve) {
@@ -25,7 +30,12 @@ router.map({
     }
   },
   '/enquiry': {
-    title: { text: '选择类型' },
+    data: {
+      title: '选择类型',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'enquiry',
     needLogin: true,
     component(resolve) {
@@ -33,7 +43,12 @@ router.map({
     }
   },
   'enquiry/:type': {
-    title: { text: '请选择资产类型' },
+    data: {
+      title: '请选择资产类型',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'enquiryAssetTypes',
     needLogin: true,
     component(resolve) {
@@ -41,7 +56,12 @@ router.map({
     }
   },
   'enquiry/obligatory_right/eslate': {
-    title: { text: '房地产类' },
+    data: {
+      title: '房地产类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetEslate',
     needLogin: true,
     component(resolve) {
@@ -49,7 +69,12 @@ router.map({
     }
   },
   'enquiry/obligatory_right/government': {
-    title: { text: '政信类' },
+    data: {
+      title: '政信类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetGovernment',
     needLogin: true,
     component(resolve) {
@@ -57,7 +82,12 @@ router.map({
     }
   },
   'enquiry/obligatory_right/enterprise': {
-    title: { text: '企业借款类' },
+    data: {
+      title: '企业借款类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetEnterprise',
     needLogin: true,
     component(resolve) {
@@ -65,7 +95,12 @@ router.map({
     }
   },
   'enquiry/obligatory_right/supply_chain': {
-    title: { text: '供应链类' },
+    data: {
+      title: '供应链类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetSupplyChain',
     needLogin: true,
     component(resolve) {
@@ -73,7 +108,12 @@ router.map({
     }
   },
   'enquiry/obligatory_right/mini_finance': {
-    title: { text: '小微金融类' },
+    data: {
+      title: '小微金融类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetMiniFinance',
     needLogin: true,
     component(resolve) {
@@ -81,7 +121,12 @@ router.map({
     }
   },
   'enquiry/asset_manage/index': {
-    title: { text: '资管类' },
+    data: {
+      title: '资管类',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: false
+    },
     name: 'enquiryAssetManage',
     needLogin: true,
     component(resolve) {
@@ -89,7 +134,12 @@ router.map({
     }
   },
   'enquiry/result': {
-    title: { text: '询价结果' },
+    data: {
+      title: '询价结果',
+      logoBottomVisible: true,
+      headVisible: false,
+      tabVisible: true
+    },
     name: 'enquiryResult',
     needLogin: true,
     waitForData: true,
@@ -98,16 +148,26 @@ router.map({
     }
   },
   'enquiry/result/am': {
-    title: { text: '询价结果' },
+    data: {
+      title: '询价结果',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'enquiryAmResult',
     needLogin: true,
-    waitForData: true,
+    waitForData: false,
     component(resolve) {
       require(['./views/enquiry/enquiry-am-result'], resolve)
     }
   },
   'enquiry/share': {
-    title: { text: '开通金融PANO询价服务' },
+    data: {
+      title: '开通金融PANO询价服务',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: false
+    },
     name: 'enquiryShare',
     // needLogin: true,
     component(resolve) {
@@ -115,7 +175,12 @@ router.map({
     }
   },
   'enquiry/error': {
-    title: { text: '询价结果' },
+    data: {
+      title: '询价结果',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'enquiryError',
     needLogin: true,
     component(resolve) {
@@ -123,7 +188,12 @@ router.map({
     }
   },
   'serivce_introduce': {
-    title: { text: '开通服务介绍' },
+    data: {
+      title: '开通服务介绍',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'serviceIntroduce',
     needLogin: true,
     component(resolve) {
@@ -131,7 +201,12 @@ router.map({
     }
   },
   '/settings': {
-    title: { text: '我' },
+    data: {
+      title: '我',
+      logoBottomVisible: true,
+      headVisible: true,
+      tabVisible: true
+    },
     name: 'settings',
     needLogin: true,
     component(resolve) {
@@ -140,14 +215,24 @@ router.map({
   },
   '/register': {
     name: 'register',
-    title: { text: '注册' },
+    data: {
+      title: '注册',
+      logoBottomVisible: true,
+      headVisible: false,
+      tabVisible: false
+    },
     component(resolve) {
       require(['./views/register'], resolve)
     }
   },
   '/login': {
     name: 'login',
-    title: { text: '登录' },
+    data: {
+      title: '登录',
+      logoBottomVisible: true,
+      headVisible: false,
+      tabVisible: false
+    },
     component(resolve) {
       require(['./views/login'], resolve)
     }
@@ -155,7 +240,12 @@ router.map({
   '/perfect': {
     needLogin: true,
     name: 'perfect',
-    title: { text: '上传名片' },
+    data: {
+      title: '上传名片',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: false
+    },
     component(resolve) {
       require(['./views/perfect'], resolve)
     }
@@ -181,7 +271,7 @@ router.beforeEach(function({ from, to, abort, next }) {
 })
 
 router.afterEach(function({ to }) {
-  document.title = to.title.text || document.title
+  document.title = to.data.title || document.title
   document.querySelector('.logo-bottom').style.display = 'none'
 
   // hack ios title not update bug
@@ -204,20 +294,24 @@ router.afterEach(function({ to }) {
   // 动态解决logo的位置问题
   setTimeout(function() {
     window.scrollTo(0, 0)
-    let wH = window.innerHeight
-    let aH = document.querySelector('#app').offsetHeight
-    if (aH + 150 >= wH) {
-      document.body.classList.add('overflow-height')
-    } else {
-      document.body.classList.remove('overflow-height')
-    }
-    document.querySelector('.logo-bottom').style.display = 'block'
-  }, 300)
+    updateLogoBottomStyle()
+  }, 10)
 })
+
+let updateLogoBottomStyle = function() {
+  let wH = window.innerHeight
+  let aH = document.querySelector('#app').offsetHeight
+  if (aH + 150 >= wH) {
+    document.body.classList.add('overflow-height')
+  } else {
+    document.body.classList.remove('overflow-height')
+  }
+  setTimeout(function() { document.querySelector('.logo-bottom').style.display = 'block' }, 10)
+}
 
 export default function routerStart() {
   // 启动路由
   router.start(App, 'body')
 }
 
-export { router }
+export { router, updateLogoBottomStyle }
