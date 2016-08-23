@@ -40,7 +40,7 @@ export default {
     },
     addSelectInputFilter() {
       if (this.selectInputField.combineList.length >= this.assetLifeList.length) {
-        this.$parent.showToast('亲，不能再添加了')
+        this.$root.showToast('亲，不能再添加了')
         return
       }
 
@@ -83,7 +83,7 @@ export default {
         asset_type: '资管类',
         // inquiry_type: '资管类',
         credit_manager_type: '金融机构主动管理',
-        product_invest: [],
+        product_invest: '',
         asset_amount: '',
         asset_life: []
       }, lastSaved),
@@ -139,7 +139,7 @@ export default {
         name: '*产品投向',
         group: 'group2',
         key: 'product_invest',
-        type: 'checkboxs',
+        type: 'select',
         validate: {
           required: {
             rule: true,
@@ -148,13 +148,13 @@ export default {
         },
         options: [{
           key: '1',
-          value: '纯债权'
+          value: '纯债券'
         }, {
           key: '2',
           value: '股债混合'
         }, {
           key: '3',
-          value: '含非标债权'
+          value: '非标债权'
         }, {
           key: 'other',
           value: '其它'

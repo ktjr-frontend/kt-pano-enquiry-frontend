@@ -107,7 +107,7 @@
       </group>
 
       <div class="buttons">
-        <button v-link="{name: hadLogin ? 'enquiry' : 'register'}" @click="$parent.log({name: '我也要询价'})">我也要询价</button>
+        <button v-link="{name: hadLogin ? 'enquiry' : 'register'}" @click="$root.log({name: '我也要询价'})">我也要询价</button>
       </div>
     </div>
   </div>
@@ -176,7 +176,7 @@ export default {
           enquiry_result: data
         }
       }, (res) => {
-        this.$parent.showAlert(res.json().error || '抱歉，服务器繁忙！')
+        this.$root.showAlert(res.json().error || '抱歉，服务器繁忙！')
       })
 
       return p
@@ -186,7 +186,7 @@ export default {
   methods: {
     showReason(reason) {
       if (reason) {
-        this.$parent.showAlert({
+        this.$root.showAlert({
           title: '推荐理由',
           content: reason
         })

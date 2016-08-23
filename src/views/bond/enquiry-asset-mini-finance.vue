@@ -127,6 +127,7 @@ export default {
         group: 'group2',
         key: 'small_loan_bad_rate',
         type: 'input',
+        placeholder: '填写0-100之间的数字',
         validate: {
           // required: true,
           pattern: {

@@ -6,7 +6,7 @@
       <img class="logo-white" src="../../assets/images/logo-white.svg" alt="logo开通PANO">
       <div class="circle" v-if="$route.query.content === 'search'">
         <h2>{{enquiry_result.inquiry_life_asset_rate}}<span class="unit">%</span></h2>
-        <p>参考利率值<i class="icon-pano icon-info" @click="$parent.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
+        <p>参考利率值<i class="icon-pano icon-info" @click="$root.showAlert({content: enquiry_result.res_rate_comment})"></i></p>
       </div>
 
       <div class="rate-swiper" v-if="$route.query.content === 'search_am'">
@@ -72,7 +72,7 @@
       </group>
 
       <group>
-        <cell v-link="{name: 'serviceIntroduce'}" @click="$parent.log({name: '产品介绍页'})" is-link class="service-introdution">
+        <cell v-link="{name: 'serviceIntroduce'}" @click="$root.log({name: '产品介绍页'})" is-link class="service-introdution">
           <div slot="after-title">
             <h3>开通资产推介服务</h3>
             <p>开通金融为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持及运营服务，帮助解决金融资产互联网渠道相关需求。

@@ -16,13 +16,13 @@
         </div>
 
         <div class="form-group">
-          <button type="submit" @click="$parent.log({name: '登录'})">登录</button>
+          <button type="submit" @click="$root.log({name: '登录'})">登录</button>
         </div>
 
         <flexbox>
           <flexbox-item>
             <div class="text-left">
-              没有账号？<em><a v-link="{name: 'register'}" @click="$parent.log({name: '立即注册'})">立即注册</a></em>
+              没有账号？<em><a v-link="{name: 'register'}" @click="$root.log({name: '立即注册'})">立即注册</a></em>
             </div>
           </flexbox-item>
           <flexbox-item>
@@ -59,11 +59,11 @@ export default {
       let content = `<p style="text-align:center;">您可发送邮件至<em>HelloPANO@ktjr.com</em>或联系下方『PANO微信小秘书』</p>
                     <p><img src="${weixin}" width="60%" /></p>`
 
-      this.$parent.showAlert({
+      this.$root.showAlert({
         content: content
       })
 
-      this.$parent.log({
+      this.$root.log({
         name: '忘记密码'
       })
     },
@@ -72,29 +72,29 @@ export default {
         if (this.$validation.invalid) {
           this.showFirstError()
         } else {
-          this.$parent.showLoadingStatus()
+          this.$root.showLoadingStatus()
           sessions.save(this.user).then((res) => {
             let token = window.localStorage.token = res.json().token
             Vue.http.headers.common['Authorization'] = token
 
             // 获取用户信息
             sessions.get().then((res) => {
-              this.$parent.hideLoadingStatus()
+              this.$root.hideLoadingStatus()
               let user = res.json().account
-              this.$parent.updateUser(user)
+              this.$root.updateUser(user)
               setTimeout(() => {
                 this.$router.go({
                   name: 'enquiry'
                 })
               }, 10)
             }, (res) => {
-              this.$parent.showAlert({
+              this.$root.showAlert({
                 content: res.json().error || '抱歉，获取用户信息失败！'
               })
             })
           }, (res) => {
-            this.$parent.hideLoadingStatus()
-            this.$parent.showAlert({
+            this.$root.hideLoadingStatus()
+            this.$root.showAlert({
               content: (() => {
                 if (res.json().error.indexOf('无权限') > -1) {
                   let weixin = require('../assets/images/weixin.jpg')

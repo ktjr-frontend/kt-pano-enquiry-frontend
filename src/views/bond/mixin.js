@@ -24,7 +24,7 @@ let mixin = _.merge({
   },
   methods: {
     showTip(tip) {
-      this.$parent.showAlert({
+      this.$root.showAlert({
         content: tip
       })
     },

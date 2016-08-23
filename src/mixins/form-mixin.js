@@ -7,7 +7,7 @@ export default {
     },
     showError(name) {
       let validation = this.$validation
-      this.$parent.showToast({
+      this.$root.showToast({
         text: _.find(validation.errors, (e) => {
           return e.field === name
         }).message
@@ -18,7 +18,7 @@ export default {
         this.updateValidation()
       }
       let validation = this.validationFork || this.$validation
-      this.$parent.showToast({
+      this.$root.showToast({
         text: validation.errors[0].message
       })
     },

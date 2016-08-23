@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     logOutWithLog() {
-      this.$parent.log({
+      this.$root.log({
         name: '退出登录'
       })
       this.logOut()

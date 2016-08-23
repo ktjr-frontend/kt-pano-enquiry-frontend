@@ -22,7 +22,7 @@
         <div class="form-group" v-show="card.file">
           <flexbox>
             <flexbox-item>
-              <button class="btn" @click="$parent.log({name: '完成'})">完成</button>
+              <button class="btn" @click="$root.log({name: '完成'})">完成</button>
             </flexbox-item>
             <flexbox-item>
               <button class="btn btn-gray" @click.prevent="resetForm()">重新上传</button>
@@ -105,15 +105,15 @@ export default {
       let file = event.target
       let reader = new FileReader()
       reader.addEventListener('load', () => {
-        this.$parent.hideLoadingStatus()
+        this.$root.hideLoadingStatus()
         this.showPreview(reader.result)
-        this.$parent.log({
+        this.$root.log({
           name: '上传名片'
         })
       })
 
       if (file.files[0]) {
-        this.$parent.showLoadingStatus()
+        this.$root.showLoadingStatus()
         this.previewing = true
         setTimeout(function() {
           reader.readAsDataURL(file.files[0])
@@ -124,7 +124,7 @@ export default {
       this.card.previewUrl = ''
       this.card.file = null
       document.forms.namedItem('cardForm').reset()
-      this.$parent.log({
+      this.$root.log({
         name: '重新上传'
       })
     },
@@ -137,11 +137,11 @@ export default {
       event.preventDefault()
       this.$validate(true, () => {
         if (this.$cardValidation.invalid) {
-          this.$parent.showToast({
+          this.$root.showToast({
             text: '请先上传名片'
           })
         } else {
-          this.$parent.showLoadingStatus()
+          this.$root.showLoadingStatus()
           let form = document.forms.namedItem('cardForm')
           let formData = new FormData(form)
 
@@ -149,17 +149,17 @@ export default {
             cards.update({
               content: 'confirm'
             }, {}).then((res) => {
-              this.$parent.hideLoadingStatus()
-              this.$parent.showAlert({
+              this.$root.hideLoadingStatus()
+              this.$root.showAlert({
                 content: '名片上传成功，快去开启您的询价之旅吧！'
               })
-              this.$parent.updateUser(Object.assign({}, this.user, res.json().account))
+              this.$root.updateUser(Object.assign({}, this.user, res.json().account))
               this.$router.go({
                 name: 'enquiry'
               })
             }, (res) => {
-              this.$parent.hideLoadingStatus()
-              this.$parent.showToast({
+              this.$root.hideLoadingStatus()
+              this.$root.showToast({
                 text: res.json().error || '抱歉，服务器繁忙！'
               })
             })

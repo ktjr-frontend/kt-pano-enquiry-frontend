@@ -3,7 +3,7 @@
     <flexbox v-for="group in listByType">
       <flexbox-item v-for="item in group">
         <div class="card-container">
-          <div class="card" v-link="{name: item.component}" @click="log(item.name)">
+          <div class="card" :class="{'placeholder': item.placeholder}" v-link="{name: item.component}" @click="log(item.name)">
             <div class="content">
               <i class="icon-pano" :class="item.icon" :style="{background:item.color}"></i>
               <p>{{item.name}}</p>
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    log // 调用不了$parent.log,被flexitem 截断了父子关系
+    log // 调用不了$root.log,被flexitem 截断了父子关系
   },
   computed: {
     listByType: function() {
@@ -47,9 +47,9 @@ export default {
       })
 
       if (list.length % 2) {
-        list.push([{
+        list.push({
           placeholder: true // 最后一个占位用
-        }])
+        })
       }
 
       let listObj = _.chain(list).groupBy((v) => {
@@ -57,12 +57,12 @@ export default {
         index++
         return group
       }).value()
-
       return listObj
     }
   }
 }
 </script>
+
 <style lang="scss">
 .asset-types {
   margin: 0.322061rem 0;

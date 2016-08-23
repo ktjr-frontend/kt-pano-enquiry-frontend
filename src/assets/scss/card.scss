@@ -11,6 +11,12 @@
   &:active {
     background: #f0f0f0;
   }
+  &.placeholder {
+    user-select: none;
+    &:active {
+      background: none;
+    }
+  }
   .content {
     position: relative;
     top: 50%;

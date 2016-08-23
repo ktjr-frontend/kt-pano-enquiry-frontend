@@ -1,7 +1,7 @@
 <template>
   <div class="enquiry-type">
     <group>
-      <cell title="资产类" @click="$parent.log({name: '资产类'})" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
+      <cell title="资产类" @click="$root.log({name: '资产类'})" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-ob"></i>
         </div>
@@ -9,7 +9,7 @@
       </cell>
     </group>
     <group>
-      <cell title="资管类" @click="$parent.log({name: '资管类'})" v-link="{name:'enquiryAssetManage'}" is-link class="kt-cell">
+      <cell title="资管类" @click="$root.log({name: '资管类'})" v-link="{name:'enquiryAssetManage'}" is-link class="kt-cell">
         <div class="icon-circle" slot="icon">
           <i class="icon-pano icon-asset"></i>
         </div>
@@ -27,21 +27,6 @@ export default {
   components: {
     Group,
     Cell
-  },
-  methods: {
-    goTo(name) {
-      this.$router.go({
-        name: name
-      })
-    }
-    /*showAssetManageAlert() {
-      this.$parent.log({
-        name: '资管类'
-      })
-      this.$parent.showAlert({
-        content: '资管类资产询价功能正在筹备中，敬请期待！'
-      })
-    }*/
   }
 }
 </script>

@@ -9,7 +9,7 @@
             <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
               <button :disabled="captchaCountdown.show" v-if="field.name === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
-                <span>{{captchaCountdown.text}}</span>
+                <span v-cloak>{{captchaCountdown.text}}</span>
                 <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
               </button>
               <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
@@ -17,7 +17,7 @@
               <i class="weui_icon weui_icon_success"></i>
             </div>
           </div>
-          <div class="input-comment" v-if="field.comment">{{field.comment}}</div>
+          <div class="input-comment" v-if="field.comment" v-cloak>{{field.comment}}</div>
         </div>
 
         <!--<div class="form-group">
@@ -48,13 +48,13 @@
         </div>-->
 
         <div class="form-group">
-          <button @click="$parent.log({name: '立即注册'})">立即注册</button>
+          <button @click="$root.log({name: '立即注册'})">立即注册</button>
         </div>
 
         <flexbox>
           <flexbox-item>
             <div class="text-right">
-              已有账号？<em><a v-link="{name: 'login'}" @click="$parent.log({name: '请登录'})">请登录</a></em>
+              已有账号？<em><a v-link="{name: 'login'}" @click="$root.log({name: '请登录'})">请登录</a></em>
             </div>
           </flexbox-item>
         </flexbox>
@@ -103,12 +103,12 @@ export default {
     },
 
     getCaptcha() {
-      this.$parent.log({
+      this.$root.log({
         name: '短信获取'
       })
       this.$validate('mobile', () => {
         if (this.$validation.mobile.invalid) {
-          this.$parent.showToast({
+          this.$root.showToast({
             text: '请正确输入11位手机号码'
           })
         } else {
@@ -118,7 +118,7 @@ export default {
             mobile: this.user.mobile,
             channel: 'sms'
           }).catch((res) => {
-            this.$parent.showToast({
+            this.$root.showToast({
               text: res.json().error || '获取失败'
             })
             this.resetCountDown()
@@ -132,7 +132,7 @@ export default {
         password: this.user.password
       }).then((res) => {
         let user = res.json().account
-        this.$parent.updateUser(user)
+        this.$root.updateUser(user)
 
         this.$router.go({
           name: 'enquiry'
@@ -144,7 +144,7 @@ export default {
         if (this.$validation.invalid) {
           this.showFirstError()
         } else {
-          this.$parent.showLoadingStatus()
+          this.$root.showLoadingStatus()
           registrations.save({
             content: 'simplify'
           }, this.user).then(() => {
@@ -153,22 +153,22 @@ export default {
               Vue.http.headers.common['Authorization'] = token
 
               sessions.get().then((res) => {
-                this.$parent.hideLoadingStatus()
+                this.$root.hideLoadingStatus()
                 let user = res.json().account
-                this.$parent.updateUser(user)
+                this.$root.updateUser(user)
                 this.$router.go({
                   name: 'perfect'
                 })
               })
             }, (res) => {
-              this.$parent.hideLoadingStatus()
-              this.$parent.showToast({
+              this.$root.hideLoadingStatus()
+              this.$root.showToast({
                 text: res.json().error || '抱歉，注册失败！'
               })
             })
           }, (res) => {
-            this.$parent.hideLoadingStatus()
-            this.$parent.showToast({
+            this.$root.hideLoadingStatus()
+            this.$root.showToast({
               text: res.json().error || '抱歉，注册失败！'
             })
           })

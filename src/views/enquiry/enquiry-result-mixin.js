@@ -83,7 +83,7 @@ export default {
 
   methods: {
     openPano() {
-      this.$parent.log({
+      this.$root.log({
         name: '开通PANO'
       })
 
@@ -91,7 +91,7 @@ export default {
     },
 
     logShare(to, action) {
-      this.$parent.log({
+      this.$root.log({
         name: '分享',
         to: to || '未知',
         action: action || '未知'
@@ -99,30 +99,30 @@ export default {
     },
 
     openShare() {
-      this.$parent.log({
+      this.$root.log({
         name: '分享按钮'
       })
 
-      this.$parent.showAlert({
+      this.$root.showAlert({
         content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
       })
     },
 
     feedback(value) {
-      this.$parent.log({
+      this.$root.log({
         key: this.enquiry_result.params_key,
         name: value ? '满意' : '不满意'
       }).then((res) => {
         this.feedbackStyle.satisfied = value
         if (value === 1) {
-          this.$parent.showAlert({
+          this.$root.showAlert({
             content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
           })
         } else {
           let weixin = require('../../assets/images/weixin.jpg')
           let content = `<p style="text-align:center;">感谢您的评价，我们将努力变得更好！如您还有其他的意见建议，可扫描下方二维码联系我们。</p>
                   <p><img src="${weixin}" width="60%" /></p>`
-          this.$parent.showAlert({
+          this.$root.showAlert({
             content: content
           })
         }
