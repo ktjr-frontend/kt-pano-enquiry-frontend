@@ -31,7 +31,7 @@ export default [{
   validate: {
     required: {
       rule: true,
-      message: '融资期限不能为空'
+      message: '融资期限需要填正整数'
     },
     min: {
       rule: 1,

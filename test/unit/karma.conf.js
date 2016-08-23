@@ -2,6 +2,7 @@
 //   http://karma-runner.github.io/0.13/config/configuration-file.html
 // we are also using it with karma-webpack
 //   https://github.com/webpack/karma-webpack
+process.env.PHANTOMJS_BIN = 'node_modules/karma-phantomjs-launcher/node_modules/.bin/phantomjs'
 
 var path = require('path')
 var merge = require('webpack-merge')
@@ -40,14 +41,14 @@ webpackConfig.module.preLoaders.unshift({
 })
 
 // only apply babel for test files when using isparta
-webpackConfig.module.loaders.some(function (loader, i) {
+webpackConfig.module.loaders.some(function(loader, i) {
   if (loader.loader === 'babel') {
     loader.include = path.resolve(projectRoot, 'test/unit')
     return true
   }
 })
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     // to run in additional browsers:
     // 1. install corresponding karma launcher

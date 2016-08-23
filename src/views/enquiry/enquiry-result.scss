@@ -1,5 +1,4 @@
 @import './enquiry-common.scss';
-
 .enquiry-result {
   font-size: 0.322061rem; //40px
   .weui_cell,
@@ -7,7 +6,12 @@
     font-size: 0.322061rem; //40px
   }
   .weui_cell_primary {
-    margin-right: 0.161031rem; //20px
+    margin-right: 0.402576rem; //50px
+    .kt-cell-content {
+      &>p {
+        margin-bottom: .3em;
+      }
+    }
   }
   .head {
     text-align: center;
@@ -27,7 +31,7 @@
       .icon-pano {
         font-size: .8em;
         vertical-align: super;
-        margin-left: .5em;
+        padding: .5em;
       }
       h2 {
         font-size: 0.966184rem; //120px

@@ -22,7 +22,7 @@
                 <em class="em-fs em-orange" v-cloak>{{enquiry_result.res.inquiry_life_asset_rate | ktNull}}</em>%
               </span>
                 <span v-if="$route.query.mark === 'search_am'">
-                开通PANO为我查询到的参考利率分别为：
+                开通PANO为我查询到的参考利率为：
               </span>
               </div>
               <div class="arrow"></div>
