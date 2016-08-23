@@ -243,7 +243,7 @@ router.map({
     data: {
       title: '上传名片',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     component(resolve) {
