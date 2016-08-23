@@ -115,12 +115,12 @@ export default {
   },
   created() {
     // 获取用户信息
-    if (this.$route.needLogin) {
-      sessions.get().then((res) => {
-        let user = res.json().account
-        this.updateUser(user)
-      })
-    }
+    sessions.get({
+      noNeedLogin: !this.$route.needLogin
+    }).then((res) => {
+      let user = res.json().account
+      this.updateUser(user)
+    })
   },
   store,
   replace: false
