@@ -11,7 +11,7 @@ export default {
     })
 
     Vue.filter('ktNull', (value, str) => {
-      return _.isNil(value) ? (str || '-') : value
+      return value || str || '-'
     })
   }
 }
