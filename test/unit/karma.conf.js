@@ -2,7 +2,7 @@
 //   http://karma-runner.github.io/0.13/config/configuration-file.html
 // we are also using it with karma-webpack
 //   https://github.com/webpack/karma-webpack
-process.env.PHANTOMJS_BIN = 'node_modules/karma-phantomjs-launcher/node_modules/.bin/phantomjs'
+// process.env.PHANTOMJS_BIN = 'node_modules/phantomjs-prebuilt/lib/phantom/bin/phantomjs'
 
 var path = require('path')
 var merge = require('webpack-merge')

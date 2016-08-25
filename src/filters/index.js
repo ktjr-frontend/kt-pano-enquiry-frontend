@@ -7,11 +7,11 @@ export default {
     })
 
     Vue.filter('ktAppend', (value, str) => {
-      return value ? (value + str) : '-'
+      return (_.isNil(value) ? '' : value) + str
     })
 
     Vue.filter('ktNull', (value, str) => {
-      return value || str || '-'
+      return _.isNil(value) ? (str || '-') : value
     })
   }
 }

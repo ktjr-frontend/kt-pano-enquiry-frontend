@@ -270,6 +270,14 @@ export default {
               message: '不能小于6个字符，需包含字母和数字'
             }
           }
+        }, {
+          name: 'introducer',
+          placeholder: '邀请人',
+          type: 'text',
+          iconName: 'icon-lock',
+          validate: {
+            maxlength: 50
+          }
         }
       ]
     }

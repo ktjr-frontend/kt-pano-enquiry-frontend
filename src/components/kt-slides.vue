@@ -40,5 +40,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import '~swiper/dist/swiper.css';
+@import '~swiper/dist/css/swiper.css';
 </style>
