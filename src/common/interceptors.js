@@ -33,11 +33,15 @@ export default [
   },
   function(request, next) {
     next((res) => {
-      if (!request.params.noNeedLogin && (res.status === 419 || res.status === 401)) {
-        showAlert(store, {
-          content: '登录超时，请重新登录后再试！'
-        })
-        logOut(store)
+      if (res.status === 419 || res.status === 401) {
+        if (!request.params.noNeedLogin) {
+          showAlert(store, {
+            content: '登录超时，请重新登录后再试！'
+          })
+          logOut(store)
+        } else {
+          logOut(store, true)
+        }
       } else if (res.status === 403) {
         showToast(store, {
           text: res.json().error || '您无此权限'

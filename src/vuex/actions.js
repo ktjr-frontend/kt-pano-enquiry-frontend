@@ -7,8 +7,10 @@ export function updateUser({ dispatch }, user, soft) {
   dispatch('UPDATE_USER', user)
 }
 
-export function logOut({ dispatch }) {
-  router.go({ name: 'login' })
+export function logOut({ dispatch }, soft) {
+  if (!soft) {
+    router.go({ name: 'login' })
+  }
   window.localStorage.user = '{}'
   delete window.localStorage.token
   dispatch('LOG_OUT')
