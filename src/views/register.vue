@@ -272,7 +272,7 @@ export default {
           }
         }, {
           name: 'introducer',
-          placeholder: '邀请人',
+          placeholder: '邀请人（非必填）',
           type: 'text',
           iconName: 'icon-lock',
           validate: {
