@@ -1,4 +1,4 @@
-<template src="./template.html"></template>
+<template src="../_parts/cell-form-template.html"></template>
 
 <script>
 import mixin from './mixin'
@@ -10,7 +10,7 @@ export default {
   methods: {
     updateView() {
       this.visible.company_borrow_shareholder_type = !this.filter.company_borrow_on_market
-      this.visible.trust_party = this.filter.guarantee
+      this.visible.trust_party = this.filter.has_trust_party
     }
   },
   data() {
@@ -32,7 +32,7 @@ export default {
         company_borrow_shareholder_type: '',
         company_borrow_on_market: true,
         asset_life: '',
-        guarantee: false,
+        has_trust_party: false,
         trust_party: []
       }, lastSaved),
 
@@ -45,12 +45,16 @@ export default {
           maxlength: 120
         }
       }, {
-        name: '股东类型',
+        name: '*股东类型',
         group: 'group2',
         key: 'company_borrow_shareholder_type',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择股东类型'
+          }
         },
         options: [{
           key: 'country_company',
@@ -68,18 +72,21 @@ export default {
       }, {
         name: '担保措施',
         group: 'group3',
-        key: 'guarantee',
+        key: 'has_trust_party',
         type: 'switch',
         validate: {
           maxlength: 120
         }
       }, {
-        name: '担保主体',
+        name: '*担保主体',
         group: 'group3',
         key: 'trust_party',
         type: 'checkboxs',
         validate: {
-          required: true
+          required: {
+            rule: true,
+            message: '请选择担保主体'
+          }
         },
         options: [{
           key: 'guarantee_company',

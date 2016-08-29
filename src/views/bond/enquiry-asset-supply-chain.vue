@@ -1,4 +1,4 @@
-<template src="./template.html"></template>
+<template src="../_parts/cell-form-template.html"></template>
 
 <script>
 import mixin from './mixin'
@@ -9,7 +9,7 @@ export default {
   mixins: [mixin],
   methods: {
     updateView() {
-      this.visible.trust_party = this.filter.guarantee
+      this.visible.trust_party = this.filter.has_trust_party
     }
   },
   data() {
@@ -21,8 +21,6 @@ export default {
 
     return {
       visible: {
-        // guarantee: false,
-        // supply_link_company_type: false,
         trust_party: false
       },
       filter: Object.assign({
@@ -33,17 +31,21 @@ export default {
         supply_link_company_type: '',
         supply_link_company_can_auth: false,
         supply_link_company_can_assure: false,
-        guarantee: false,
+        has_trust_party: false,
         trust_party: []
       }, lastSaved),
 
       fields: _.concat(commonFilter, [{
-        name: '核心企业类型',
+        name: '*核心企业类型',
         group: 'group2',
         key: 'supply_link_company_type',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择核心企业类型'
+          }
         },
         options: [{
           key: 'country_company',
@@ -77,20 +79,20 @@ export default {
       }, {
         name: '第三方担保',
         group: 'group3',
-        key: 'guarantee',
+        key: 'has_trust_party',
         type: 'switch',
         validate: {
           maxlength: 120
         }
       }, {
-        name: '第三方担保主体',
+        name: '*第三方担保主体',
         group: 'group3',
         key: 'trust_party',
         type: 'checkboxs',
         validate: {
           required: {
             rule: true,
-            message: '请选择担保措施'
+            message: '请选择担保主体'
           }
         },
         options: [{

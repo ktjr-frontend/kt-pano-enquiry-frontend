@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-let sessions, registrations, cards, enquiries, sharedEnquiries, feedbacks, signatures, log
+let sessions, accounts, registrations, recoveries, cards, enquiries, sharedEnquiries, feedbacks, signatures, log
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -16,13 +16,15 @@ let commonOpts = {
 }
 
 export default function setResources(resource) {
-  sessions = resource('sessions', {}, {}, commonOpts)
-  registrations = resource('registrations{/content}', {}, {}, commonOpts)
-  cards = resource('cards{/content}', {}, {}, commonOpts)
-  enquiries = resource('inquiries{/content}', {}, {}, commonOpts)
-  feedbacks = resource('feedbacks', {}, {}, commonOpts)
-  signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts)
-  log = resource('shadows', {}, {}, commonOpts)
+  sessions = resource('sessions', {}, {}, commonOpts) // 用户信息
+  accounts = resource('accounts{/content}', {}, {}, commonOpts) // 账户信息更改
+  registrations = resource('registrations{/content}', {}, {}, commonOpts) //注册
+  recoveries = resource('recoveries{/content}', {}, {}, commonOpts) //忘记密码
+  cards = resource('cards{/content}', {}, {}, commonOpts) // 上传名片
+  enquiries = resource('inquiries{/content}', {}, {}, commonOpts) // 询价
+  feedbacks = resource('feedbacks', {}, {}, commonOpts) //用户反馈
+  signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) //微信签名
+  log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
 }
 
-export { sessions, registrations, cards, enquiries, feedbacks, sharedEnquiries, signatures, log }
+export { sessions, accounts, registrations, recoveries, cards, enquiries, feedbacks, sharedEnquiries, signatures, log }

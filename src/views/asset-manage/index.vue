@@ -1,4 +1,4 @@
-<template src="../bond/template.html"></template>
+<template src="../_parts/cell-form-template.html"></template>
 
 <script>
 import mixin from '../bond/mixin'

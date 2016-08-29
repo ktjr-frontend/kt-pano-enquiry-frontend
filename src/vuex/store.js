@@ -45,7 +45,7 @@ const state = {
     color: '#ecbfab'
   }],
   toast: {
-    time: 1000,
+    time: 1500,
     type: 'warn',
     text: '内容有误',
     show: false
@@ -54,6 +54,15 @@ const state = {
     show: false,
     title: '提示',
     buttonText: '知道了',
+    content: ''
+  },
+  confirm: {
+    show: false,
+    title: '提示',
+    confirmText: '确定',
+    cancelText: '取消',
+    onConfirm() {},
+    onCancel() {},
     content: ''
   },
   user: {

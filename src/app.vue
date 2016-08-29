@@ -18,6 +18,10 @@
     {{{alert.content}}}
   </alert>
 
+  <confirm :show.sync="confirm.show" :title="confirm.title" :confirm-text="confirm.confirmText" :cancel-text="confirm.cancelText" @on-confirm="confirm.onConfirm()" @on-cancel="confirm.onCancel()">
+    {{{confirm.content}}}
+  </confirm>
+
   <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
 
   <loading :show="loadingStatus" :text="'加载中...'"></loading>
@@ -28,6 +32,7 @@ import store from './vuex/store'
 import XHeader from 'vux-components/x-header'
 import Loading from 'vux-components/loading'
 import Alert from 'vux-components/alert'
+import Confirm from 'vux-components/confirm'
 import Toast from 'vux-components/toast'
 import log from './common/log'
 import {
@@ -36,12 +41,14 @@ import {
 import {
   loadingStatus,
   toast,
-  alert
+  alert,
+  confirm
 } from './vuex/getters'
 
 import {
   updateUser,
   showAlert,
+  showConfirm,
   showToast,
   showLoadingStatus,
   hideLoadingStatus
@@ -52,8 +59,27 @@ export default {
     XHeader,
     Loading,
     Alert,
+    Confirm,
     Toast
   },
+
+  vuex: {
+    getters: {
+      loadingStatus,
+      toast,
+      alert,
+      confirm
+    },
+    actions: {
+      updateUser,
+      showAlert,
+      showConfirm,
+      showToast,
+      showLoadingStatus,
+      hideLoadingStatus
+    }
+  },
+
   methods: {
     onClickBack() {
       this.log({
@@ -63,6 +89,7 @@ export default {
     },
     log
   },
+
   data() {
     return {
       header: {
@@ -94,25 +121,13 @@ export default {
       }]
     }
   },
+
   computed: {
     title() {
       return this.$route.data.title
     }
   },
-  vuex: {
-    getters: {
-      loadingStatus,
-      toast,
-      alert
-    },
-    actions: {
-      updateUser,
-      showAlert,
-      showToast,
-      showLoadingStatus,
-      hideLoadingStatus
-    }
-  },
+
   created() {
     // 获取用户信息
     sessions.get({

@@ -1,4 +1,4 @@
-<template src="./template.html"></template>
+<template src="../_parts/cell-form-template.html"></template>
 
 <script>
 import mixin from './mixin'
@@ -22,9 +22,6 @@ export default {
     return {
       visible: {
         small_loan_fin_exp: false
-          // guarantee: false,
-          // small_loan_shareholder_type: false,
-          // guarantee_subject: false
       },
       filter: Object.assign({
         asset_type: '小微金融类',
@@ -38,12 +35,16 @@ export default {
         small_loan_bad_rate: ''
       }, lastSaved),
       fields: _.concat(commonFilter, [{
-        name: '股东类型',
+        name: '*股东类型',
         group: 'group2',
         key: 'small_loan_shareholder_type',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择股东类型'
+          }
         },
         options: [{
           key: 'country_company',
@@ -59,12 +60,16 @@ export default {
           value: '其它'
         }]
       }, {
-        name: '融资经历',
+        name: '*融资经历',
         group: 'group2',
         key: 'small_loan_fin_exp',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择融资经历'
+          }
         },
         options: [{
           key: 'A',
@@ -77,12 +82,16 @@ export default {
           value: 'C轮及以上'
         }]
       }, {
-        name: '公司经营年限',
+        name: '*公司经营年限',
         group: 'group2',
         key: 'small_loan_company_age',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择公司经营年限'
+          }
         },
         options: [{
           key: '<1',
@@ -122,16 +131,19 @@ export default {
           value: '其它'
         }]
       }, {
-        name: '时点不良率',
+        name: '*时点不良率',
         tip: '不良贷款率指贷款中不良贷款的占比，是一个时点指标，不良率=不良贷款余额/总贷款余额',
         group: 'group2',
         key: 'small_loan_bad_rate',
         type: 'input',
         placeholder: '填写0-100之间的数字',
         validate: {
-          // required: true,
+          required: {
+            rule: true,
+            message: '请填写时点不良率'
+          },
           pattern: {
-            rule: '/^(|\\d+(\\.\\d+)?)$/',
+            rule: '/^(\\d+(\\.\\d+)?)$/',
             message: '时点不良率请填写数字'
           },
           min: {

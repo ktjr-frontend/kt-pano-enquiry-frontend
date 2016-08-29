@@ -27,7 +27,7 @@
           </flexbox-item>
           <flexbox-item>
             <div class="text-right">
-              <a @click.prevent="forgetPassword()">忘记密码？</a>
+              <a v-link="{name: 'forgetPassword1'}" @click="$root.log({name: '忘记密码'})">忘记密码？</a>
             </div>
           </flexbox-item>
         </flexbox>
@@ -54,7 +54,7 @@ export default {
     FlexboxItem
   },
   methods: {
-    forgetPassword() {
+    /*forgetPassword() {
       let weixin = require('../assets/images/weixin.jpg')
       let content = `<p style="text-align:center;">您可发送邮件至<em>HelloPANO@ktjr.com</em>或联系下方『PANO微信小秘书』</p>
                     <p><img src="${weixin}" width="60%" /></p>`
@@ -66,7 +66,7 @@ export default {
       this.$root.log({
         name: '忘记密码'
       })
-    },
+    },*/
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {

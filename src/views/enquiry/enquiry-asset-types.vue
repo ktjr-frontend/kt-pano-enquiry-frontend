@@ -38,7 +38,7 @@ export default {
     log // 调用不了$root.log,被flexitem 截断了父子关系
   },
   computed: {
-    listByType: function() {
+    listByType() {
       let enquiryType = this.$route.params.type
       let colspan = 2
       let index = 0

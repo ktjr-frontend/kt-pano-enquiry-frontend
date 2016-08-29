@@ -100,10 +100,12 @@ export default {
       this.card.previewUrl = url
       this.card.previewing = false
     },
+
     cardOnChange(name, event) {
       this.validate(name)
       let file = event.target
       let reader = new FileReader()
+
       reader.addEventListener('load', () => {
         this.$root.hideLoadingStatus()
         this.showPreview(reader.result)
@@ -115,11 +117,12 @@ export default {
       if (file.files[0]) {
         this.$root.showLoadingStatus()
         this.previewing = true
-        setTimeout(function() {
+        setTimeout(() => {
           reader.readAsDataURL(file.files[0])
         }, 50)
       }
     },
+
     resetForm() {
       this.card.previewUrl = ''
       this.card.file = null
@@ -128,11 +131,13 @@ export default {
         name: '重新上传'
       })
     },
-    validate: function(name) {
+
+    validate(name) {
       if (this.$cardValidation[name].invalid && this.$cardValidation[name].touched) {
         this.$validate(name)
       }
     },
+
     onSubmit(event) {
       event.preventDefault()
       this.$validate(true, () => {
@@ -150,13 +155,26 @@ export default {
               content: 'confirm'
             }, {}).then((res) => {
               this.$root.hideLoadingStatus()
-              this.$root.showAlert({
-                content: '名片上传成功，快去开启您的询价之旅吧！'
-              })
               this.$root.updateUser(Object.assign({}, this.user, res.json().account))
-              this.$router.go({
-                name: 'enquiry'
-              })
+
+              if (!this.$route.query.update) { // 不是更新操作，注册后的上传名片
+                this.$root.showAlert({
+                  content: '名片上传成功，快去开启您的询价之旅吧！'
+                })
+
+                this.$router.go({
+                  name: 'enquiry'
+                })
+              } else { // 如果是更新名片
+                this.$root.showToast({
+                  text: '名片修改成功!',
+                  type: 'text'
+                })
+
+                this.$router.go({
+                  name: 'settings'
+                })
+              }
             }, (res) => {
               this.$root.hideLoadingStatus()
               this.$root.showToast({
@@ -166,27 +184,6 @@ export default {
           })
         }
       })
-
-      // var xhr = new XMLHttpRequest()
-
-      // // 确认完成
-      // var fromData = new FormData(form)
-      // xhr.open('POST', '/api/v1/cards', true)
-      //   // xhr.setRequestHeader('Authorization', token)
-      // xhr.onload = (oev) => {
-      //   var data = JSON.parse(oev.currentTarget.responseText)
-      //   if (xhr.status === 201) {
-      //     this.alert.uploadSuccess = true
-      //   } else {
-      //     this.toast.text = ''
-      //     this.toast.type = 'error'
-      //   }
-      // }
-
-      // this.disabled = true
-      // this.innerHTML = '上传中<i class="dotting"></i>'
-      // this.classList.add('pending')
-      // xhr.send(oData)
     }
   }
 }
@@ -308,7 +305,7 @@ export default {
       }
     } */
   }
-  .comment{
+  .comment {
     margin-top: 0.402576rem; //50px
     line-height: 1.5em;
     color: #adb1bc;

@@ -66,42 +66,28 @@
 
 <script>
 import Vue from 'vue'
-import Alert from 'vux-components/alert'
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
-import Toast from 'vux-components/toast'
 import Popup from 'vux-components/popup'
 import Countdown from 'vux-components/countdown'
 import formMixin from '../mixins/form-mixin'
+import captchaMixin from '../mixins/captcha-mixin'
 import {
   sessions,
   registrations
 } from '../common/resources'
 
 export default {
-  mixins: [formMixin],
+  mixins: [formMixin, captchaMixin],
+
   components: {
-    Alert,
     Flexbox,
     FlexboxItem,
-    Toast,
     Countdown,
     Popup
   },
+
   methods: {
-    startCountDown() {
-      this.captchaCountdown.show = true
-      this.captchaCountdown.start = true
-      this.captchaCountdown.text = '等待'
-    },
-
-    resetCountDown() {
-      this.captchaCountdown.time = 59
-      this.captchaCountdown.show = false
-      this.captchaCountdown.start = false
-      this.captchaCountdown.text = '短信获取'
-    },
-
     getCaptcha() {
       this.$root.log({
         name: '短信获取'
@@ -126,7 +112,7 @@ export default {
         }
       })
     },
-    onRegisterSuccess() {
+    /*onRegisterSuccess() {
       sessions.save({
         mobile: this.user.mobile,
         password: this.user.password
@@ -138,7 +124,7 @@ export default {
           name: 'enquiry'
         })
       })
-    },
+    },*/
     onSubmit() {
       this.$validate(true, () => {
         if (this.$validation.invalid) {
@@ -184,15 +170,11 @@ export default {
         // email: '',
         mobile: '',
         captcha: '',
+        introducer: '',
         // likes: [],
         password: ''
       },
-      captchaCountdown: {
-        text: '短信获取',
-        show: false,
-        time: 59,
-        start: false
-      },
+
       /*assetTypes: {
         show: false,
         validate: {

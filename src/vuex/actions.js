@@ -75,6 +75,18 @@ export function showAlert({ dispatch }, alert) {
   dispatch('SHOW_ALERT', alertObj)
 }
 
+export function showConfirm({ dispatch }, confirm) {
+  let confirmObj = confirm
+  if (typeof confirm === 'string') {
+    confirmObj = {
+      content: confirm
+    }
+  }
+  dispatch('SHOW_CONFIRM', confirmObj)
+}
+
 export function updateEnquiryError({ dispatch }, error) {
-  dispatch('UPDATE_ENQUIRY_ERROR', error)
+  if (error) {
+    dispatch('UPDATE_ENQUIRY_ERROR', error)
+  }
 }

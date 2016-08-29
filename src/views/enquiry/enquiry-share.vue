@@ -226,7 +226,7 @@ export default {
     },
 
     isHaveGuarantee() {
-      return this.enquiry_result.params.guarantee === 'true' ? '有履约保障' : '无履约保障'
+      return this.enquiry_result.params.has_trust_party === 'true' ? '有履约保障' : '无履约保障'
     }
   },
 

@@ -25,7 +25,7 @@ export default {
     validate(name, callback) {
       let validation = this.$validation
       if (validation[name].invalid && validation[name].touched) {
-        this.$validate(name, function() {
+        this.$validate(name, () => {
           callback && callback()
         })
       }

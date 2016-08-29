@@ -45,7 +45,7 @@
                 </div>
               </div>
 
-              <div class="weui_cell_bd weui_cell_primary" v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'" >
+              <div class="weui_cell_bd weui_cell_primary" v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'">
 
                 <!-- input类型 -->
                 <div v-if="field.type === 'input'" v-cloak>
@@ -61,6 +61,10 @@
               </div>
 
               <div class="weui_cell_ft" v-cloak>
+                <button :disabled="captchaCountdown.show" v-if="field.key === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
+                  <span v-cloak>{{captchaCountdown.text}}</span>
+                  <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
+                </button>
                 <!-- switch类型 -->
                 <div v-if="field.type === 'switch'">
                   <input @change="updateView()" v-model="filter[field.key]" class="weui_switch" type="checkbox">
@@ -132,8 +136,8 @@
       </section>-->
 
       <div class="weiui_buttons_kt">
-        <button type="submit" @click="$root.log({name: '立即查询'})">立即查询</button>
-        <p class="text-center mt-40 color-unimportant">数据结果由开通PANO互金资产模型提供</p>
+        <button type="submit" @click="$root.log({name: buttonText})">{{buttonText}}</button>
+        <p class="text-center mt-40 color-unimportant">{{buttonComment}}</p>
       </div>
     </form>
   </validator>

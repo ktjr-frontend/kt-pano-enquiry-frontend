@@ -32,7 +32,7 @@ Vue.http.options.root = '/api/v1'
 Vue.http.headers.common['Authorization'] = window.localStorage.token
 
 // 拦截器统一注入
-interceptors.forEach(function(v) {
+interceptors.forEach((v) => {
   Vue.http.interceptors.push(v)
 })
 

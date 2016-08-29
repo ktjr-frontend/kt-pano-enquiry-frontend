@@ -14,6 +14,10 @@ export function alert(state) {
   return state.alert
 }
 
+export function confirm(state) {
+  return state.confirm
+}
+
 export function assetTypes(state) {
   return state.assetTypes
 }

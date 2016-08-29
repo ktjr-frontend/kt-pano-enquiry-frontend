@@ -1,4 +1,4 @@
-<template src="./template.html"></template>
+<template src="../_parts/cell-form-template.html"></template>
 
 <script>
 import mixin from './mixin'
@@ -10,8 +10,8 @@ export default {
   methods: {
     updateView() {
       this.visible.developer_type = this.filter.developer_order === '无排名'
-        // this.visible.guarantee = this.filter.developer_order === '前50强'
-      this.visible.trust_party = this.filter.guarantee
+      this.visible.trust_party = this.filter.has_trust_party
+      this.visible.developer_level = this.filter.developer_type !== '' && this.filter.developer_type !== '上市公司'
     }
   },
   data() {
@@ -23,10 +23,12 @@ export default {
 
     return {
       visible: {
-        guarantee: true,
+        has_trust_party: true,
         developer_type: false,
+        developer_level: false,
         trust_party: false
       },
+
       filter: Object.assign({
         asset_type: '房地产类',
         content: 'search',
@@ -34,17 +36,22 @@ export default {
         asset_life: '',
         developer_order: '',
         developer_type: '',
-        guarantee: false,
+        developer_level: '',
+        has_trust_party: false,
         trust_party: []
       }, lastSaved),
 
       fields: _.concat(commonFilter, [{
-        name: '开发商全国排名',
+        name: '*开发商全国排名',
         group: 'group2',
         key: 'developer_order',
         type: 'select',
         validate: {
-          maxlength: 120 // hack invalid validate
+          maxlength: 120, // hack invalid validate
+          required: {
+            rule: true,
+            message: '请选择开发商全国排名'
+          }
         },
         options: [{
           key: '50top',
@@ -54,12 +61,16 @@ export default {
           value: '无排名'
         }]
       }, {
-        name: '开发商类型',
+        name: '*开发商类型',
         group: 'group2',
         key: 'developer_type',
         type: 'select',
         validate: {
-          maxlength: 120
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择开发商类型'
+          }
         },
         options: [{
           key: 'country_company',
@@ -75,19 +86,44 @@ export default {
           value: '其它'
         }]
       }, {
+        name: '*评级情况',
+        group: 'group2',
+        key: 'developer_level',
+        type: 'select',
+        validate: {
+          maxlength: 120,
+          required: {
+            rule: true,
+            message: '请选择评级情况'
+          }
+        },
+        options: [{
+          key: '0',
+          value: 'AA及以上'
+        }, {
+          key: '1',
+          value: 'AA以下'
+        }, {
+          key: '2',
+          value: '无'
+        }]
+      }, {
         name: '担保措施',
         group: 'group3',
-        key: 'guarantee',
-        type: 'switch'
+        key: 'has_trust_party',
+        type: 'switch',
+        validate: {
+          maxlength: 120
+        }
       }, {
-        name: '担保主体',
+        name: '*担保主体',
         group: 'group3',
         key: 'trust_party',
         type: 'checkboxs',
         validate: {
           required: {
-            rule: false,
-            message: '请选择担保措施'
+            rule: true,
+            message: '请选择担保主体'
           }
         },
         options: [{

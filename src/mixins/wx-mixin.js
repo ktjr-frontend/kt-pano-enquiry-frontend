@@ -3,15 +3,6 @@ import Utils from '../common/utils'
 import { enquiries } from '../common/resources'
 
 export default {
-  data: function() {
-    return {
-      signature: {
-        timestamp: '',
-        nonceStr: '',
-        url: location.href.split('#')[0]
-      }
-    }
-  },
   methods: {
     wxInit(options) {
       this.updateSignature({}, () => {
@@ -130,6 +121,15 @@ export default {
         })
         callback && callback()
       })
+    }
+  },
+  data() {
+    return {
+      signature: {
+        timestamp: '',
+        nonceStr: '',
+        url: location.href.split('#')[0]
+      }
     }
   }
 }
