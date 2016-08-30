@@ -16,7 +16,7 @@ export default {
     data: {
       title: '忘记密码-手机号校验',
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     name: 'forgetPassword1',
@@ -29,7 +29,7 @@ export default {
     data: {
       title: '忘记密码-设置新密码',
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     name: 'forgetPassword2',
@@ -42,7 +42,7 @@ export default {
     data: {
       title: '修改手机-原手机号校验',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     name: 'changeMobile1',
@@ -55,7 +55,7 @@ export default {
     data: {
       title: '修改手机-新手机号校验',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     name: 'changeMobile2',
@@ -68,7 +68,7 @@ export default {
     data: {
       title: '修改密码',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: true,
       tabVisible: false
     },
     name: 'changePassword',

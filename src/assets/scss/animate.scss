@@ -56,6 +56,18 @@ $dotSize: 1px;
   opacity: 0;
 }
 
+.slideDown-transition {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all .5s ease-in-out;
+}
+
+.slideDown-enter,
+.slideDown-leave {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
 .slideUp-transition {
   transform: translateY(0);
   // opacity: 1;
@@ -97,7 +109,7 @@ $dotSize: 1px;
   transform: scale(0);
 }
 
-.zoomIn-leave{
+.zoomIn-leave {
   position: absolute;
   left: 100%;
 }

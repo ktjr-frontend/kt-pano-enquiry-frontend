@@ -6,6 +6,8 @@ import setValidators from './common/validators'
 import _ from 'lodash'
 import log from './common/log'
 import routers from './routers'
+import { showToast } from './vuex/actions'
+import store from './vuex/store'
 
 // 自定义validator
 Vue.use(Router)
@@ -16,6 +18,21 @@ let router = new Router({
   // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
+let rejectedUserPermits = [
+  'home',
+  'login',
+  'perfect',
+  'settings',
+  'register',
+  'changePassword',
+  'forgetPassword1',
+  'forgetPassword2',
+  'changeMobile1',
+  'changeMobile2'
+]
+
+let initializedUserPermits = ['login', 'perfect', 'register']
+
 router.map(routers)
 
 router.redirect({
@@ -24,10 +41,19 @@ router.redirect({
 
 router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
+
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
       // abort()
-  } else if (to.needLogin && user.status === 'initialized' && !_.includes(['login', 'perfect', 'register'], to.name)) {
+  } else if (to.needLogin && user.status === 'rejected' &&
+    !_.includes(rejectedUserPermits, to.name)) {
+    showToast(store, {
+      text: '您的账户审核不通过，访问被拒绝！'
+    })
+
+    // abort()
+    router.go({ name: 'settings' })
+  } else if (to.needLogin && user.status === 'initialized' && !_.includes(initializedUserPermits, to.name)) {
     router.go({ name: 'perfect' })
       // abort()
   } else {

@@ -198,6 +198,18 @@
   .weui_input {
     color: black;
   }
+  .inset-button{
+    background: none;
+    padding: 0;
+    width: auto;
+    text-align: center;
+    color: #626d8b;
+    border-radius: 50px;
+    border: 1px solid #b7bed1;
+    min-width: 1.932367rem;
+    height: 0.724638rem;
+    line-height: 0.724638rem;
+  }
   .kt-cell-content {
     font-size: 0.322061rem; // 40px
     margin-top: 0.161031rem;

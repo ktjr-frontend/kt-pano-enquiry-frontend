@@ -18,6 +18,10 @@ export function confirm(state) {
   return state.confirm
 }
 
+export function message(state) {
+  return state.message
+}
+
 export function assetTypes(state) {
   return state.assetTypes
 }

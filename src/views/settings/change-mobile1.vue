@@ -35,7 +35,6 @@ export default {
         content: 'prev_captcha',
         channel: 'sms',
         mobile: this.user.mobile
-      }, (res) => {
       }).catch((res) => {
         this.$root.showToast({
           text: res.json().error || '获取失败'
@@ -82,7 +81,7 @@ export default {
     }
 
     return {
-      buttonText: '完成',
+      buttonText: '下一步',
       // buttonComment: '',
       visible: {},
       filter: user,
@@ -92,7 +91,7 @@ export default {
         key: 'captcha',
         placeholder: '请输入验证码',
         type: 'input',
-        subType: 'text',
+        subType: 'number',
         iconName: 'icon-user',
         validate: {
           required: {

@@ -25,6 +25,8 @@
   <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
 
   <loading :show="loadingStatus" :text="'加载中...'"></loading>
+
+  <kt-message :content="message.content" :show.sync="message.show"></kt-message>
 </template>
 
 <script>
@@ -34,6 +36,7 @@ import Loading from 'vux-components/loading'
 import Alert from 'vux-components/alert'
 import Confirm from 'vux-components/confirm'
 import Toast from 'vux-components/toast'
+import KtMessage from './components/kt-message'
 import log from './common/log'
 import {
   sessions
@@ -42,7 +45,8 @@ import {
   loadingStatus,
   toast,
   alert,
-  confirm
+  confirm,
+  message
 } from './vuex/getters'
 
 import {
@@ -51,7 +55,8 @@ import {
   showConfirm,
   showToast,
   showLoadingStatus,
-  hideLoadingStatus
+  hideLoadingStatus,
+  showMessage
 } from './vuex/actions'
 
 export default {
@@ -60,7 +65,8 @@ export default {
     Loading,
     Alert,
     Confirm,
-    Toast
+    Toast,
+    KtMessage
   },
 
   vuex: {
@@ -68,7 +74,8 @@ export default {
       loadingStatus,
       toast,
       alert,
-      confirm
+      confirm,
+      message
     },
     actions: {
       updateUser,
@@ -76,7 +83,8 @@ export default {
       showConfirm,
       showToast,
       showLoadingStatus,
-      hideLoadingStatus
+      hideLoadingStatus,
+      showMessage
     }
   },
 

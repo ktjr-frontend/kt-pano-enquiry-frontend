@@ -65,6 +65,11 @@ const state = {
     onCancel() {},
     content: ''
   },
+  message: {
+    show: false,
+    content: '',
+    onClose() {}
+  },
   user: {
     mobile: '',
     name: '',

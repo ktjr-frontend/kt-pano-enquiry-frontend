@@ -35,6 +35,9 @@ const mutations = {
   SHOW_TEXT_TOTAST(state, toast) {
     state.toast = Object.assign({}, state.toast, { time: 1500 }, toast, { show: true, type: 'text' })
   },
+  SHOW_MESSAGE(state, message) {
+    state.message = Object.assign({}, state.message, { onClose() {} }, message, { show: true })
+  },
   UPDATE_ENQUIRY_ERROR(state, error) {
     state.enquiryError = error
   }

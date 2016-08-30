@@ -85,6 +85,19 @@ export function showConfirm({ dispatch }, confirm) {
   dispatch('SHOW_CONFIRM', confirmObj)
 }
 
+export function showMessage({ dispatch }, message) {
+  let messageObj = message
+  if (typeof message === 'string') {
+    messageObj = {
+      content: message
+    }
+  }
+
+  if (message) {
+    dispatch('SHOW_MESSAGE', messageObj)
+  }
+}
+
 export function updateEnquiryError({ dispatch }, error) {
   if (error) {
     dispatch('UPDATE_ENQUIRY_ERROR', error)

@@ -13,7 +13,7 @@
     </group>
 
     <group class="user-card">
-      <cell title="名片" value="重新认证" is-link @click="changeUserCard()">
+      <cell title="名片" is-link @click="changeUserCard()">
         <div slot="after-title" class="user-card-box">
           <img :src="user.card_url" alt="您的名片" />
         </div>
@@ -24,7 +24,9 @@
       <cell title="修改密码" is-link v-link="{name: 'changePassword'}">
       </cell>
     </group>
+
     <div class="buttons">
+      <!-- <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button> -->
       <button @click="logOutWithLog()">退出登录</button>
     </div>
   </div>
@@ -39,6 +41,7 @@ import {
 import {
   logOut
 } from '../vuex/actions'
+import moment from 'moment'
 
 export default {
   components: {
@@ -46,7 +49,25 @@ export default {
     Cell
   },
 
+  ready() {
+    this.showMessage(this.user.status)
+  },
+
+  watch: {
+    'user.status': function(val) {
+      this.showMessage(val)
+    }
+  },
+
   methods: {
+    showMessage(status) {
+      if (status === 'pended' || status === 'rejected') {
+        this.$root.showMessage({
+          content: this.title
+        })
+      }
+    },
+
     changeUserMobile() {
       let _self = this
       this.$root.log({
@@ -119,6 +140,26 @@ export default {
     actions: {
       logOut
     }
+  },
+
+  computed: {
+    title() {
+      let user = this.user
+      let title = ''
+      user.pended_at_locale = moment(user.pended_at).format('YYYY-MM-DD HH:mm:ss')
+
+      switch (user.status) {
+        case 'pended':
+          title = `您在<em>${user.pended_at_locale}</em>提交的信息正在审核中，审核结果会在1个工作日内以邮件的形式通知，请您耐心等待，如有问题可联系PANO微信小秘书：kaitongpano。`
+          break
+        case 'rejected':
+          title = `很抱歉，您所提交的信息因<em>${user.reason}</em>未能通过认证审核。<em>${user.solution}</em>，感谢您对开通PANO的关注！`
+          break
+        default:
+          title = ''
+      }
+      return title
+    }
   }
 }
 </script>
@@ -126,7 +167,7 @@ export default {
 <style scoped lang="scss">
 .user-card {
   .user-card-box {
-    padding: 0.161031rem 0; //20px
+    padding: 0.241546rem 0.080515rem; //20px
     text-align: center;
     img {
       // max-height: 2.415459rem;
@@ -137,5 +178,18 @@ export default {
 
 .buttons {
   padding: 0.322061rem; //40px
+  button {
+    &:first-child {
+      background: #194373;
+      &:active {
+        background: darken(#194373, 10%)
+      }
+    }
+    margin-bottom: 0.322061rem;
+    background: #b7bed1;
+    &:active {
+      background: darken(#b7bed1, 10%)
+    }
+  }
 }
 </style>

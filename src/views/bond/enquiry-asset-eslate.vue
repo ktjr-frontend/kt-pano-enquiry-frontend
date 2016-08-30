@@ -11,7 +11,7 @@ export default {
     updateView() {
       this.visible.developer_type = this.filter.developer_order === '无排名'
       this.visible.trust_party = this.filter.has_trust_party
-      this.visible.developer_level = this.filter.developer_type !== '' && this.filter.developer_type !== '上市公司'
+      this.visible.rating_level = this.filter.developer_type !== '' && this.filter.developer_type !== '上市公司'
     }
   },
   data() {
@@ -25,7 +25,7 @@ export default {
       visible: {
         has_trust_party: true,
         developer_type: false,
-        developer_level: false,
+        rating_level: false,
         trust_party: false
       },
 
@@ -36,7 +36,7 @@ export default {
         asset_life: '',
         developer_order: '',
         developer_type: '',
-        developer_level: '',
+        rating_level: '',
         has_trust_party: false,
         trust_party: []
       }, lastSaved),
@@ -88,7 +88,7 @@ export default {
       }, {
         name: '*评级情况',
         group: 'group2',
-        key: 'developer_level',
+        key: 'rating_level',
         type: 'select',
         validate: {
           maxlength: 120,
