@@ -23,7 +23,6 @@ export default {
 
     return {
       visible: {
-        has_trust_party: true,
         developer_type: false,
         rating_level: false,
         trust_party: false

@@ -11,6 +11,8 @@ export function logOut({ dispatch }, soft) {
   if (!soft) {
     router.go({ name: 'login' })
   }
+
+  dispatch('HIDE_MESSAGE') //隐藏消息
   window.localStorage.user = '{}'
   delete window.localStorage.token
   dispatch('LOG_OUT')
@@ -96,6 +98,10 @@ export function showMessage({ dispatch }, message) {
   if (message) {
     dispatch('SHOW_MESSAGE', messageObj)
   }
+}
+
+export function hideMessage({ dispatch }) {
+  dispatch('HIDE_MESSAGE')
 }
 
 export function updateEnquiryError({ dispatch }, error) {

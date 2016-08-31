@@ -5,13 +5,13 @@ import {
 } from '../../common/helpers'
 
 let mixin = _.merge({
-  watch: {
+  /*watch: {
     'filter.has_trust_party': function(val) {
       if (!val) {
         this.filter.trust_party = []
       }
     }
-  },
+  },*/
 
   methods: {
     cacheFilter() {
@@ -52,7 +52,7 @@ let mixin = _.merge({
           this.$router.go({
             name: this.filter.content === 'search' ? 'enquiryResult' : 'enquiryAmResult',
             query: {
-              ...pruneParams(this.filter)
+              ...pruneParams(this.filter, this.visible || {})
             }
           })
         }

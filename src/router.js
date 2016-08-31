@@ -45,10 +45,9 @@ router.beforeEach(({ from, to, abort, next }) => {
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
       // abort()
-  } else if (to.needLogin && user.status === 'rejected' &&
-    !_.includes(rejectedUserPermits, to.name)) {
+  } else if (to.needLogin && user.status === 'rejected' && !_.includes(rejectedUserPermits, to.name)) {
     showToast(store, {
-      text: '您的账户审核不通过，访问被拒绝！'
+      text: '由于您未通过认证审核，无权访问该页面！'
     })
 
     // abort()

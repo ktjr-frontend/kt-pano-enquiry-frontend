@@ -8,8 +8,8 @@
             <i class="icon-pano" :class="field.iconName"></i>
             <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
             <div class="status">
-              <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" @click="showError(field.name)"></i>
+              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
+              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
               <i class="weui_icon weui_icon_success"></i>
             </div>
           </div>

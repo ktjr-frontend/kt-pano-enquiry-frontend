@@ -27,7 +27,7 @@
           </flexbox-item>
           <flexbox-item>
             <div class="text-right">
-              <a v-link="{name: 'forgetPassword1'}" @click="$root.log({name: '忘记密码'})">忘记密码？</a>
+              <a v-link="{name: 'forgetPassword1', query:{mobile: user.mobile}}" @click="$root.log({name: '忘记密码'})">忘记密码？</a>
             </div>
           </flexbox-item>
         </flexbox>
@@ -76,6 +76,7 @@ export default {
           sessions.save(this.user).then((res) => {
             let token = window.localStorage.token = res.json().token
             Vue.http.headers.common['Authorization'] = token
+            this.$root.hideMessage()
 
             // 获取用户信息
             sessions.get().then((res) => {
@@ -84,7 +85,7 @@ export default {
               this.$root.updateUser(user)
               setTimeout(() => {
                 this.$router.go({
-                  name: 'enquiry'
+                  name: user.status === 'rejected' ? 'settings' : 'enquiry'
                 })
               }, 10)
             }, (res) => {

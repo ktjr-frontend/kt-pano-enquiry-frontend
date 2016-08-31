@@ -49,20 +49,15 @@ export default {
         } else {
           this.$root.showLoadingStatus()
 
-          accounts.udpate({
+          accounts.update({
             content: 'validate_prev_captcha'
           }, {
             ...this.filter
           }).then(() => {
             this.$root.hideLoadingStatus()
 
-            this.$root.showToast({
-              text: '密码修改成功',
-              type: 'text'
-            })
-
             this.$router.go({
-              name: 'settings'
+              name: 'changeMobile2'
             })
           }, (res) => {
             this.$root.hideLoadingStatus()

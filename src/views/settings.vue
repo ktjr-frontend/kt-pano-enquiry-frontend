@@ -150,7 +150,7 @@ export default {
 
       switch (user.status) {
         case 'pended':
-          title = `您在<em>${user.pended_at_locale}</em>提交的信息正在审核中，审核结果会在1个工作日内以邮件的形式通知，请您耐心等待，如有问题可联系PANO微信小秘书：kaitongpano。`
+          title = `您在<em>${user.pended_at_locale}</em>提交的信息正在审核，审核结果会在1个工作日内以邮件的形式通知，如有问题可联系PANO微信小秘书：kaitongpano。`
           break
         case 'rejected':
           title = `很抱歉，您所提交的信息因<em>${user.reason}</em>未能通过认证审核。<em>${user.solution}</em>，感谢您对开通PANO的关注！`

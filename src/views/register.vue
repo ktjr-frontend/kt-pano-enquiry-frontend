@@ -12,8 +12,8 @@
                 <span v-cloak>{{captchaCountdown.text}}</span>
                 <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
               </button>
-              <i class="weui_icon weui_icon_clear" @click="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" @click="showError(field.name)"></i>
+              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
+              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
               <i class="weui_icon weui_icon_success"></i>
             </div>
           </div>

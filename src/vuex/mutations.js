@@ -38,6 +38,9 @@ const mutations = {
   SHOW_MESSAGE(state, message) {
     state.message = Object.assign({}, state.message, { onClose() {} }, message, { show: true })
   },
+  HIDE_MESSAGE(state) {
+    state.message.show = false
+  },
   UPDATE_ENQUIRY_ERROR(state, error) {
     state.enquiryError = error
   }

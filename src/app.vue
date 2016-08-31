@@ -56,7 +56,8 @@ import {
   showToast,
   showLoadingStatus,
   hideLoadingStatus,
-  showMessage
+  showMessage,
+  hideMessage
 } from './vuex/actions'
 
 export default {
@@ -84,7 +85,8 @@ export default {
       showToast,
       showLoadingStatus,
       hideLoadingStatus,
-      showMessage
+      showMessage,
+      hideMessage
     }
   },
 
