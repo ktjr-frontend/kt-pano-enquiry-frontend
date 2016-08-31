@@ -66,7 +66,7 @@ export default {
           }).then(() => {
             cards.update({
               content: 'confirm'
-            }).then((res) => {
+            }, {}).then((res) => {
               this.$root.hideLoadingStatus()
               this.$root.updateUser(Object.assign({}, this.user, this.filter, res.json().account))
 
