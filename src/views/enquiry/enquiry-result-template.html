@@ -32,7 +32,7 @@
 
     <section class="results">
       <group>
-        <cell v-for="item in platformList" transition="slideLeft" stagger="100" :title="item.platform" class="kt-md-cell">
+        <cell v-for="item in platformList" transition="slideLeft" stagger="100" :title="item.platform" class="kt-md-cell" @click="goInstDetail(item.platform)">
           <div class="icon-circle" slot="icon">
             <img :src="item.logo" :alt="item.platform">
           </div>

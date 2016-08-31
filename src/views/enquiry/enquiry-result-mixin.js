@@ -82,6 +82,17 @@ export default {
   },
 
   methods: {
+    goInstDetail(platform) {
+      this.$root.log({
+        name: platform
+      })
+
+      let token = encodeURIComponent(window.localStorage.token)
+      let isProduction = process.env.NODE_ENV === 'production'
+      let hostName = isProduction ? 'https://pano.ktjr.com' : (location.hostname === 'dev-enquiry.pano.ktjr.com' ? 'http://dev-pano.ktjr.com' : 'http://localhost:8880')
+      window.open(`${hostName}/pano/institutions/${platform}?_t=${token}`, '_blank')
+    },
+
     openPano() {
       this.$root.log({
         name: '开通PANO'

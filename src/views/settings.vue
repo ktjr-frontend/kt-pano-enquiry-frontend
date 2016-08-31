@@ -2,7 +2,8 @@
   <div class="settings">
     <group>
       <cell title="姓名" :value="user.name"></cell>
-      <cell title="手机号码" :value="user.mobile.toString()" is-link @click="changeUserMobile()"></cell>
+      <cell title="手机号码" :value="user.mobile.toString()" v-if="user.status !== 'passed'" is-link @click="changeUserMobile()"></cell>
+      <cell title="手机号码" :value="user.mobile.toString()" v-if="user.status === 'passed'"></cell>
     </group>
     <group>
       <cell title="工作邮箱" :value="user.email"></cell>
@@ -74,7 +75,11 @@ export default {
         name: '修改手机'
       })
 
-      this.$root.showConfirm({
+      _self.$router.go({
+        name: 'changeMobile1'
+      })
+
+      /*this.$root.showConfirm({
         content: '修改手机号后需要重新审核，确定修改手机号吗？',
 
         onConfirm() {
@@ -92,7 +97,7 @@ export default {
             name: '取消修改手机'
           })
         }
-      })
+      })*/
     },
 
     changeUserCard() {
