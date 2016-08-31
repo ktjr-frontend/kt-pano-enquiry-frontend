@@ -89,7 +89,7 @@ export default {
 
       let token = encodeURIComponent(window.localStorage.token)
       let isProduction = process.env.NODE_ENV === 'production'
-      let hostName = isProduction ? 'https://pano.ktjr.com' : (location.hostname === 'dev-enquiry.pano.ktjr.com' ? 'http://dev-pano.ktjr.com' : 'http://localhost:8880')
+      let hostName = isProduction ? (location.hostname === 'dev-enquiry.pano.ktjr.com' ? 'http://dev-pano.ktjr.com' : 'https://pano.ktjr.com') : 'http://localhost:8880'
       window.open(`${hostName}/pano/institutions/${platform}?_t=${token}`, '_blank')
     },
 
