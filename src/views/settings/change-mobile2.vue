@@ -59,12 +59,12 @@ export default {
         } else {
           this.$root.showLoadingStatus()
 
-          accounts.udpate({
+          accounts.update({
             content: 'mobile'
           }, {
             ...this.filter
           }).then(() => {
-            cards.udpate({
+            cards.update({
               content: 'confirm'
             }).then((res) => {
               this.$root.hideLoadingStatus()
