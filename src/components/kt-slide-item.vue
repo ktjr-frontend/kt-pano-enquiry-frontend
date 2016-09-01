@@ -1,7 +1,6 @@
-<template>
-  <div class="swiper-slide">
-    <slot></slot>
-  </div>
+<template lang="jade">
+.swiper-slide
+  slot
 </template>
 <script>
 export default {}

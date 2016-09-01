@@ -1,0 +1,113 @@
+.filters(v-cloak='')
+  .body-head
+    p.sub-title(v-cloak='') {{subTitle}}
+  validator(name='validation')
+    form(action='', novalidate='', @submit.prevent='onSubmit($event)')
+      // 这里是不包含组合表单
+      section(v-for='group in filtersByType')
+        .weui_cells_title(v-if='group.title', v-cloak='') {{group.title}}
+        .weui_cells.vux-no-group-title
+          .weui_cell.weui_select_after(v-for='field in group', :class="{'weui_cell_select': field.type==='select', 'weui_cell_input': field.type === 'input','weui_cell_switch': field.type === 'switch', 'not-empty': !!filter[field.key]}", v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus')
+            .wrapper(v-if="field.type !== 'select-input'")
+              .weui_cell_hd(:style="{width: field.type==='option'?'100%':'auto' }")
+                label.weui_label(:style="{width: maxFieldWidth + 'em'}", v-cloak='')
+                  | {{field.name}}
+                  i.icon-pano.icon-info.tip-icon(v-if='field.tip', @click='showTip(field.tip)')
+
+                // checkbox组
+                div(v-if="field.type === 'checkboxs'", v-cloak='')
+                  .clfix.mt-40
+                    .checkbox-label(v-for='cb in field.options')
+                      input(autocomplete='off', v-model='filter[field.key]', :id="field.key + '_' + cb.key", :value='cb.value', :field='field.key', v-validate='field.validate', type='checkbox')
+                      label(:for="field.key + '_' + cb.key", v-cloak='') {{cb.value}}
+                    .check-all(v-if='field.hasCheckAll', @click='checkAll(field)', v-cloak='') 全选
+                // radio组
+
+                .weui_cells_radio.ov-h(v-show="field.type === 'option'", v-cloak='')
+                  label.weui_cell.weui_cell_radio.weui_check_label(v-for='op in field.options')
+                    .weui_cell_bd.weui_cell_primary
+                      p(v-cloak='')
+                        | {{op.value}}
+                        i.icon-pano.icon-info.tip-icon(v-if='op.tip', @click.prevent='showTip(op.tip)')
+                    .weui_cell_ft
+                      input.weui_check(type='radio', v-model='filter[field.key]', :field='field.key', :value='op.value', v-validate='field.validate')
+                      span.weui_icon_checked
+              .weui_cell_bd.weui_cell_primary(v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'")
+
+                // input类型
+                div(v-if="field.type === 'input'", v-cloak='')
+                  input.weui_input(v-model='filter[field.key]', :type="field.subType || 'text'", :field='field.key', v-validate='field.validate', :placeholder='field.placeholder')
+
+                // select类型
+                div(v-if="field.type === 'select'", v-cloak='')
+                  select.weui_select(v-model='filter[field.key]', @change='updateView(field.key)', :class="{'empty': !filter[field.key]}", :field='field.key', :name='field.key', v-validate='field.validate')
+                    option(value='') 请选择
+                    option(v-for='o in field.options', :value='o.value', v-cloak='') {{o.value}}
+              .weui_cell_ft(v-cloak='')
+                button.inset-button(:disabled='captchaCountdown.show', v-if="field.key === 'captcha'", @click.prevent='getCaptcha()')
+                  span(v-cloak='') {{captchaCountdown.text}}
+                  countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
+
+                // switch类型
+                div(v-if="field.type === 'switch'")
+                  input.weui_switch(@change='updateView()', v-model='filter[field.key]', type='checkbox')
+                i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.key)')
+                i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.key)')
+                span.arrow
+                span(v-cloak='') {{field.unit}}
+      // 组合动态表单-特殊处理
+      //
+        <section class="select-input-section" v-if="selectInputField">
+        <div class="weui_cells_title">{{selectInputField.title}}</div>
+        <div class="weui_cells vux-no-group-title" v-for="cl in selectInputField.combineList">
+        <div class="weui_cell weui_select_after">
+        <!~~ input和select 组合样式 ~~>
+        <div class="wrapper flex-column select-input-cell">
+        <div class="inner-wrapper">
+        <div class="weui_cell_hd">
+        <label class="weui_label" style="width: 1em;">
+        <i class="icon-pano icon-delete" :class="{'disabled': selectInputField.combineList.length <= 1}" @click="deleteSelectInputFilter(cl.id)"></i>
+        </label>
+        </div>
+        <div class="weui_cell_bd weui_cell_primary ov-h" style="margin-right: 0">
+        <div class="weui_cell weui_select_after" v-for="(opIndex, op) in cl.options" :class="{'weui_cell_select': op.type==='select', 'weui_cell_input': op.type === 'input', 'not-empty': !!filter['si_' + cl.id + '_' + opIndex]}" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus">
+        <div class="weui_cell_hd flex-center flex1">
+        <label class="weui_label" :style="{width: (op.name.length + 1) + 'em'}">
+        {{op.name}}
+        <i v-if="op.tip" class="icon-pano icon-info tip-icon" @click="showTip(op.tip)"></i>
+        </label>
+        <div class="weui_cell_bd weui_cell_primary" style="width: 100%">
+        <!~~ select类型 ~~>
+        <div v-if="op.type === 'select'">
+        <select class="weui_select" v-model="filter['si_' + cl.id + '_' + opIndex]" :class="{'empty': !filter['si_' + cl.id + '_' + opIndex]}" :field="'si_' + cl.id + '_' + opIndex" :name="'si_' + cl.id + '_' + opIndex" v-validate="selectInputField.validate.select">
+        <option value="" :selected="!filter['si_' + cl.id + '_' + opIndex]">请选择</option>
+        <option v-for="o in assetLifeList" :value="o.value">{{o.value}}</option>
+        </select>
+        </div>
+        <!~~ input类型 ~~>
+        <div v-if="op.type === 'input'">
+        <input class="weui_input" v-model="filter['si_' + cl.id + '_' + opIndex]" :type="op.subType || 'text'" :field="'si_' + cl.id + '_' + opIndex" v-validate="selectInputField.validate.input" :placeholder="op.placeholder">
+        </div>
+        </div>
+        <div class="weui_cell_ft">
+        <i class="weui_icon weui_icon_clear" v-touch:tap="clearField('si_' + cl.id + '_' + opIndex)"></i>
+        <i class="weui_icon weui_icon_warn" v-touch:tap="showError('si_' + cl.id + '_' + opIndex)"></i>
+        <span class="arrow"></span>
+        <span>{{op.unit}}</span>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <div class="bottom-buttons">
+        <span class="add-select-input" @click="addSelectInputFilter()">
+        <i class="icon-pano icon-add va-r1"></i> 添加期限 - 收益率值
+        </span>
+        </div>
+        </section>
+      .weiui_buttons_kt
+        button(type='submit', @click='$root.log({name: buttonText})') {{buttonText}}
+        p.text-center.mt-40.color-unimportant {{buttonComment}}

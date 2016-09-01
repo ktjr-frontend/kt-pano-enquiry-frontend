@@ -1,32 +1,22 @@
-<template>
-  <div id="app">
-    <x-header v-show="$route.data.headVisible" :left-options="header.leftOptions" @on-click-back="onClickBack()">{{title}}</x-header>
-    <router-view></router-view>
-    <div class="tabbar" v-show="$route.data.tabVisible">
-      <div class="tab" v-for="tab in tabs" :span="tab.span" :class="{'active': tab.active}">
-        <a v-link="tab.link" @click="log({name: tab.name})">
-          <i class="icon-pano" :class="tab.icon" :style="tab.style"></i>{{tab.name}}
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="logo-bottom" :class="{'no-tabbar': !$route.data.tabVisible, 'dn-imp': !$route.data.logoBottomVisible}">
-    <img src="./assets/images/logo2.svg" alt="开通PANO">
-  </div>
+<template lang="jade">
+#app
+  x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()') {{title}}
+  router-view
+  .tabbar(v-show='$route.data.tabVisible')
+    .tab(v-for='tab in tabs', :span='tab.span', :class="{'active': tab.active}")
+      a(v-link='tab.link', @click='log({name: tab.name})')
+        i.icon-pano(:class='tab.icon', :style='tab.style')
+        | {{tab.name}}
+.logo-bottom(:class="{'no-tabbar': !$route.data.tabVisible, 'dn-imp': !$route.data.logoBottomVisible}")
+  img(src='./assets/images/logo2.svg', alt='开通PANO')
+alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText')
+  | {{{alert.content}}}
+confirm(:show.sync='confirm.show', :title='confirm.title', :confirm-text='confirm.confirmText', :cancel-text='confirm.cancelText', @on-confirm='confirm.onConfirm()', @on-cancel='confirm.onCancel()')
+  | {{{confirm.content}}}
+toast(:show.sync='toast.show', :time='toast.time', :type='toast.type') {{toast.text}}
+loading(:show='loadingStatus', :text="'加载中...'")
+kt-message(:content='message.content', :show.sync='message.show')
 
-  <alert :show.sync="alert.show" :title="alert.title" :button-text="alert.buttonText">
-    {{{alert.content}}}
-  </alert>
-
-  <confirm :show.sync="confirm.show" :title="confirm.title" :confirm-text="confirm.confirmText" :cancel-text="confirm.cancelText" @on-confirm="confirm.onConfirm()" @on-cancel="confirm.onCancel()">
-    {{{confirm.content}}}
-  </confirm>
-
-  <toast :show.sync="toast.show" :time="toast.time" :type="toast.type">{{toast.text}}</toast>
-
-  <loading :show="loadingStatus" :text="'加载中...'"></loading>
-
-  <kt-message :content="message.content" :show.sync="message.show"></kt-message>
 </template>
 
 <script>
@@ -48,7 +38,6 @@ import {
   confirm,
   message
 } from './vuex/getters'
-
 import {
   updateUser,
   showAlert,
@@ -59,7 +48,6 @@ import {
   showMessage,
   hideMessage
 } from './vuex/actions'
-
 export default {
   components: {
     XHeader,
@@ -69,7 +57,6 @@ export default {
     Toast,
     KtMessage
   },
-
   vuex: {
     getters: {
       loadingStatus,
@@ -89,7 +76,6 @@ export default {
       hideMessage
     }
   },
-
   methods: {
     onClickBack() {
       this.log({
@@ -99,7 +85,6 @@ export default {
     },
     log
   },
-
   data() {
     return {
       header: {
@@ -131,13 +116,11 @@ export default {
       }]
     }
   },
-
   computed: {
     title() {
       return this.$route.data.title
     }
   },
-
   created() {
     // 获取用户信息
     sessions.get({

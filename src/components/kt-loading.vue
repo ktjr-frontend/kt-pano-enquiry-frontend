@@ -1,12 +1,10 @@
-<template>
-  <div v-el:flex-container class="flex-container" :style="{height: winH + 'px'}" v-show="visible">
-    <spinner type="ios"></spinner>
-  </div>
+<template lang="jade">
+  .flex-container(v-el:flex-container='', :style="{height: winH + 'px'}", v-show='visible')
+    spinner(type='ios')
 </template>
 
 <script>
 import Spinner from 'vux-components/spinner'
-
 export default {
   props: ['visible'],
   components: {

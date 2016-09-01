@@ -1,8 +1,7 @@
-<template>
-  <div class="message" v-show="show" transition="slideDown">
-    <i class="weui_icon weui_icon_clear" @click="close()"></i>
-    <p>{{{content}}}</p>
-  </div>
+<template lang="jade">
+.message(v-show='show', transition='slideDown')
+  i.weui_icon.weui_icon_clear(@click='close()')
+  p {{{content}}}
 </template>
 
 <script>

@@ -1,38 +1,24 @@
-<template>
-  <div class="form-container">
-    <validator name="cardValidation">
-      <form name="cardForm" novalidate @submit="onSubmit($event)">
-        <div class="form-group card-container" :class="containerClass">
-
-          <div class="card-body">
-            <div class="btn-file">
-              <input v-model="card.file" @change="cardOnChange('file', $event)" type="file" v-validate:file="{required: true}" name="file" id="file">
-            </div>
-            <div class="comment" v-show="!card.file">
-              <p>请尽快上传与注册手机号一致的名片信息。
-                <br> 名片信息仅用于认证审核，我们将对您的个人信息严格保密。
-              </p>
-            </div>
-            <div class="business-card-preview">
-              <img alt="名片预览" :src="card.previewUrl">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group" v-show="card.file">
-          <flexbox>
-            <flexbox-item>
-              <button class="btn" @click="$root.log({name: '完成'})">完成</button>
-            </flexbox-item>
-            <flexbox-item>
-              <button class="btn btn-gray" @click.prevent="resetForm()">重新上传</button>
-            </flexbox-item>
-          </flexbox>
-        </div>
-
-      </form>
-    </validator>
-  </div>
+<template lang="jade">
+.form-container
+  validator(name='cardValidation')
+    form(name='cardForm', novalidate='', @submit='onSubmit($event)')
+      .form-group.card-container(:class='containerClass')
+        .card-body
+          .btn-file
+            input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: true}', name='file')
+          .comment(v-show='!card.file')
+            p
+              | 请尽快上传与注册手机号一致的名片信息。
+              br
+              |  名片信息仅用于认证审核，我们将对您的个人信息严格保密。
+          .business-card-preview
+            img(alt='名片预览', :src='card.previewUrl')
+      .form-group(v-show='card.file')
+        flexbox
+          flexbox-item
+            button.btn(@click="$root.log({name: '完成'})") 完成
+          flexbox-item
+            button.btn.btn-gray(@click.prevent='resetForm()') 重新上传
 
 </template>
 

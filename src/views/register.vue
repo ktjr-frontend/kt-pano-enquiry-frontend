@@ -1,67 +1,56 @@
-<template>
-  <div class="form-container register-container">
-    <validator name="validation">
-      <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
-        <input type="password" class="dn" name="password" />
-        <div class="form-group" v-for="field in fields">
-          <div class="input" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus" :class="{'not-empty': !!user[field.name]}">
-            <i class="icon-pano" :class="field.iconName"></i>
-            <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
-            <div class="status">
-              <button :disabled="captchaCountdown.show" v-if="field.name === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
-                <span v-cloak>{{captchaCountdown.text}}</span>
-                <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
-              </button>
-              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
-              <i class="weui_icon weui_icon_success"></i>
-            </div>
-          </div>
-          <div class="input-comment" v-if="field.comment" v-cloak>{{field.comment}}</div>
-        </div>
-
-        <!--<div class="form-group">
-          <button @click.prevent="assetTypes.show = true" class="btn-left-right cell">
-            <span class="left">关注金融资产类型</span>
-            <span class="right">
-              <span v-show="user.likes.length">{{'已选（' + user.likes.length + '）'}}</span>
-            <i class="weui_icon weui_icon_warn" v-show="$validation.likes.invalid"></i>
-            <i class="weui_cell_ft with_arrow"></i>
-            </span>
-          </button>
-          <!~~ 金融资产类型 ~~>
-          <popup :show.sync="assetTypes.show">
-            <div class="popup">
-              <div class="head">
-                <h3 class="title">金融资产类型</h3>
-              </div>
-              <div class="body">
-                <div class="form-group clfix">
-                  <div class="checkbox-label" v-for="assetType in assetTypes.list">
-                    <input @change="validate('likes')" initial="off" detect-change="off" detect-blur="off" v-model="user.likes" :value="assetType.value" :id="'as_' + assetType.value" v-validate:likes="assetTypes.validate" type="checkbox">
-                    <label :for="'as_' + assetType.value">{{assetType.name}}</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </popup>
-        </div>-->
-
+<template lang="jade">
+.form-container.register-container
+  validator(name='validation')
+    form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
+      input.dn(type='password', name='password')
+      .form-group(v-for='field in fields')
+        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!user[field.name]}")
+          i.icon-pano(:class='field.iconName')
+          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
+          .status
+            button.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
+              span(v-cloak='') {{captchaCountdown.text}}
+              countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
+            i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
+            i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
+            i.weui_icon.weui_icon_success
+        .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
+      //
         <div class="form-group">
-          <button @click="$root.log({name: '立即注册'})">立即注册</button>
+        <button @click.prevent="assetTypes.show = true" class="btn-left-right cell">
+        <span class="left">关注金融资产类型</span>
+        <span class="right">
+        <span v-show="user.likes.length">{{'已选（' + user.likes.length + '）'}}</span>
+        <i class="weui_icon weui_icon_warn" v-show="$validation.likes.invalid"></i>
+        <i class="weui_cell_ft with_arrow"></i>
+        </span>
+        </button>
+        <!~~ 金融资产类型 ~~>
+        <popup :show.sync="assetTypes.show">
+        <div class="popup">
+        <div class="head">
+        <h3 class="title">金融资产类型</h3>
         </div>
+        <div class="body">
+        <div class="form-group clfix">
+        <div class="checkbox-label" v-for="assetType in assetTypes.list">
+        <input @change="validate('likes')" initial="off" detect-change="off" detect-blur="off" v-model="user.likes" :value="assetType.value" :id="'as_' + assetType.value" v-validate:likes="assetTypes.validate" type="checkbox">
+        <label :for="'as_' + assetType.value">{{assetType.name}}</label>
+        </div>
+        </div>
+        </div>
+        </div>
+        </popup>
+        </div>
+      .form-group
+        button(@click="$root.log({name: '立即注册'})") 立即注册
+      flexbox
+        flexbox-item
+          .text-right
+            | 已有账号？
+            em
+              a(v-link="{name: 'login'}", @click="$root.log({name: '请登录'})") 请登录
 
-        <flexbox>
-          <flexbox-item>
-            <div class="text-right">
-              已有账号？<em><a v-link="{name: 'login'}" @click="$root.log({name: '请登录'})">请登录</a></em>
-            </div>
-          </flexbox-item>
-        </flexbox>
-
-      </form>
-    </validator>
-  </div>
 </template>
 
 <script>

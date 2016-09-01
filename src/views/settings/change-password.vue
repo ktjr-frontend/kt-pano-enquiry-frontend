@@ -1,4 +1,4 @@
-<template src="../_parts/cell-form-template.html"></template>
+<template src="../_parts/cell-form-template.jade" lang="jade"></template>
 
 <script>
 import cellFormMixin from '../../mixins/cell-form-mixin'

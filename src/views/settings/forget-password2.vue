@@ -1,28 +1,19 @@
-<template>
-  <div class="form-container register-container">
-    <validator name="validation">
-      <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
-        <input type="password" class="dn" name="password" />
-        <div class="form-group" v-for="field in fields">
-          <div class="input" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus" :class="{'not-empty': !!user[field.name]}">
-            <i class="icon-pano" :class="field.iconName"></i>
-            <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
-            <div class="status">
-              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
-              <i class="weui_icon weui_icon_success"></i>
-            </div>
-          </div>
-          <div class="input-comment" v-if="field.comment" v-cloak>{{field.comment}}</div>
-        </div>
-
-        <div class="form-group">
-          <button @click="$root.log({name: '提交'})">提交</button>
-        </div>
-
-      </form>
-    </validator>
-  </div>
+<template lang="jade">
+.form-container.register-container
+  validator(name='validation')
+    form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
+      input.dn(type='password', name='password')
+      .form-group(v-for='field in fields')
+        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!user[field.name]}")
+          i.icon-pano(:class='field.iconName')
+          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
+          .status
+            i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
+            i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
+            i.weui_icon.weui_icon_success
+        .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
+      .form-group
+        button(@click="$root.log({name: '提交'})") 提交
 </template>
 
 <script>

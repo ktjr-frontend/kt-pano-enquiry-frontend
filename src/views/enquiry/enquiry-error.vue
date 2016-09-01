@@ -1,28 +1,20 @@
-<template>
-  <div class="enquiry-error">
-    <section class="results">
-      <group>
-        <cell class="service-introdution">
-          <div slot="after-title">
-            <h3>
-            <i class="icon-pano icon-meng"></i>
-            无法发行
-            </h3>
-            <p>{{enquiryError}}</p>
-            <div class="contact">
-              <ul>
-                <!-- <li>邮箱：HelloPANO@ktjr.com</li> -->
-                <li>
-                  PANO微信小秘书：
-                  <img class="weixin-qrcode" src="../../assets/images/weixin.jpg" alt="weixin小秘书">
-                </li>
-              </ul>
-            </div>
-          </div>
-        </cell>
-      </group>
-    </section>
-  </div>
+<template lang="jade">
+.enquiry-error
+  section.results
+    group
+      cell.service-introdution
+        div(slot='after-title')
+          h3
+            i.icon-pano.icon-meng
+            |             无法发行
+          p {{enquiryError}}
+          .contact
+            ul
+              // <li>邮箱：HelloPANO@ktjr.com</li>
+              li
+                | PANO微信小秘书：
+                img.weixin-qrcode(src='../../assets/images/weixin.jpg', alt='weixin小秘书')
+
 </template>
 
 <script>

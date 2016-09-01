@@ -1,4 +1,4 @@
-<template src="./enquiry-result-template.html"></template>
+<template src="./enquiry-result-template.jade" lang="jade"></template>
 
 <script>
 import wxMixin from '../../mixins/wx-mixin'

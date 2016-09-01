@@ -1,33 +1,24 @@
-<template>
-  <div class="enquiry-features">
-    <section>
-      <div class="left">
-        <i class="icon-pano icon-cloud"></i>
-      </div>
-      <div class="right">
-        <h3>实时获取互联网渠道资产发行价格</h3>
-        <p>收集几十家主流互金平台价格信息，为您的资产找到最优互联网渠道发行价格</p>
-      </div>
-    </section>
-    <section>
-      <div class="left">
-        <i class="icon-pano icon-mobile"></i>
-      </div>
-      <div class="right">
-        <h3>为不同资产精准匹配互金平台</h3>
-        <p>数十万互金平台发行产品数据库，为您的资产找到最适合的互联网发行渠道</p>
-      </div>
-    </section>
-    <section>
-      <div class="left">
-        <i class="icon-pano icon-earch"></i>
-      </div>
-      <div class="right">
-        <h3>提供完善的互金资产发行服务</h3>
-        <p>上百个互联网渠道资产发行落地项目经验，熟知各大互金平台偏好及风控标准</p>
-      </div>
-    </section>
-  </div>
+<template lang="jade">
+.enquiry-features
+  section
+    .left
+      i.icon-pano.icon-cloud
+    .right
+      h3 实时获取互联网渠道资产发行价格
+      p 收集几十家主流互金平台价格信息，为您的资产找到最优互联网渠道发行价格
+  section
+    .left
+      i.icon-pano.icon-mobile
+    .right
+      h3 为不同资产精准匹配互金平台
+      p 数十万互金平台发行产品数据库，为您的资产找到最适合的互联网发行渠道
+  section
+    .left
+      i.icon-pano.icon-earch
+    .right
+      h3 提供完善的互金资产发行服务
+      p 上百个互联网渠道资产发行落地项目经验，熟知各大互金平台偏好及风控标准
+
 </template>
 
 <style lang="scss">

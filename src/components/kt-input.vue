@@ -1,8 +1,7 @@
-<template>
-  <div class="input">
-    <i class="icon-pano" :class="field.iconName"></i>
-    <input :type="field.type" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
-  </div>
+<template lang="jade">
+  .input
+    i.icon-pano(:class='field.iconName')
+    input(:type='field.type', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
 </template>
 
 <script>
@@ -12,5 +11,4 @@ export default {
 </script>
 
 <style lang="scss">
-
 </style>

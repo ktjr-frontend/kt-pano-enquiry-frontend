@@ -1,32 +1,23 @@
-<template>
-  <div class="form-container register-container">
-    <validator name="validation">
-      <form autocomplete="off" action="" novalidate @submit.prevent="onSubmit($event)">
-        <!-- <input type="password" class="dn" name="password" /> -->
-        <div class="form-group" v-for="field in fields">
-          <div class="input" v-validate-class v-kt-toggle-onfucusblur child="input" toggle-class="focus" :class="{'not-empty': !!user[field.name]}">
-            <i class="icon-pano" :class="field.iconName"></i>
-            <input autocomplete="off" @input="validate(field.name)" initial="off" detect-change="off" detect-blur="off" :type="field.type" v-model="user[field.name]" :name="field.name" :placeholder="field.placeholder" :field="field.name" v-validate="field.validate">
-            <div class="status">
-              <button :disabled="captchaCountdown.show" v-if="field.name === 'captcha'" class="inset-button" @click.prevent="getCaptcha()">
-                <span v-cloak>{{captchaCountdown.text}}</span>
-                <countdown v-show="captchaCountdown.show" :start="captchaCountdown.start" :time.sync="captchaCountdown.time" @on-finish="resetCountDown()"></countdown>
-              </button>
-              <i class="weui_icon weui_icon_clear" v-touch:tap="clearField(field.name)"></i>
-              <i class="weui_icon weui_icon_warn" v-touch:tap="showError(field.name)"></i>
-              <i class="weui_icon weui_icon_success"></i>
-            </div>
-          </div>
-          <div class="input-comment" v-if="field.comment" v-cloak>{{field.comment}}</div>
-        </div>
+<template lang="jade">
+.form-container.register-container
+  validator(name='validation')
+    form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
+      // <input type="password" class="dn" name="password" />
+      .form-group(v-for='field in fields')
+        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!user[field.name]}")
+          i.icon-pano(:class='field.iconName')
+          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
+          .status
+            button.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
+              span(v-cloak='') {{captchaCountdown.text}}
+              countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
+            i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
+            i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
+            i.weui_icon.weui_icon_success
+        .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
+      .form-group
+        button(@click="$root.log({name: '下一步'})") 下一步
 
-        <div class="form-group">
-          <button @click="$root.log({name: '下一步'})">下一步</button>
-        </div>
-
-      </form>
-    </validator>
-  </div>
 </template>
 
 <script>

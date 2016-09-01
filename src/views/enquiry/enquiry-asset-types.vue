@@ -1,18 +1,12 @@
-<template>
-  <div class="asset-types">
-    <flexbox v-for="group in listByType">
-      <flexbox-item v-for="item in group">
-        <div class="card-container">
-          <div class="card" :class="{'placeholder': item.placeholder}" v-link="{name: item.component}" @click="log(item.name)">
-            <div class="content">
-              <i class="icon-pano" :class="item.icon" :style="{background:item.color}"></i>
-              <p>{{item.name}}</p>
-            </div>
-          </div>
-        </div>
-      </flexbox-item>
-    </flexbox>
-  </div>
+<template lang="jade">
+.asset-types
+  flexbox(v-for='group in listByType')
+    flexbox-item(v-for='item in group')
+      .card-container
+        .card(:class="{'placeholder': item.placeholder}", v-link='{name: item.component}', @click='log(item.name)')
+          .content
+            i.icon-pano(:class='item.icon', :style='{background:item.color}')
+            p {{item.name}}
 </template>
 
 <script>

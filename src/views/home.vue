@@ -1,23 +1,18 @@
-<template>
-  <div class="home">
-    <section class="head">
-      <h2 class="title">
-        <img class="head-logo" src="../assets/images/logo.svg" alt="logo">
-        <span>询价服务</span>
-      </h2>
-      <h3 class="sub-title">
-        查价格、找平台，1分钟搞定互联网渠道资产发行第一步
-      </h3>
-    </section>
-    <enquiry-features style="margin-bottom:1.288245rem;"></enquiry-features>
-    <section class="buttons" v-if="!user.mobile">
-      <a v-link="{name: 'login'}" class="btn mt-40">登录</a>
-      <a v-link="{name: 'register'}" class="btn btn-cyan mt-40">注册</a>
-    </section>
-    <section class="buttons" v-if="user.mobile">
-      <a v-link="{name: 'enquiry'}" class="btn mt-40">去询价</a>
-    </section>
-  </div>
+<template lang="jade">
+.home
+  section.head
+    h2.title
+      img.head-logo(src='../assets/images/logo.svg', alt='logo')
+      span 询价服务
+    h3.sub-title
+      | 查价格、找平台，1分钟搞定互联网渠道资产发行第一步
+  enquiry-features(style='margin-bottom:1.288245rem;')
+  section.buttons(v-if='!user.mobile')
+    a.btn.mt-40(v-link="{name: 'login'}") 登录
+    a.btn.btn-cyan.mt-40(v-link="{name: 'register'}") 注册
+  section.buttons(v-if='user.mobile')
+    a.btn.mt-40(v-link="{name: 'enquiry'}") 去询价
+
 </template>
 
 <script>

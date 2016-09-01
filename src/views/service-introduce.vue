@@ -1,15 +1,14 @@
-<template>
-  <div class="service-introduce">
-    <group v-for="item in services">
-      <cell :title="item.name" class="kt-cell">
-       <!--  <div class="icon-circle" slot="icon">
-          <i class="icon-pano" :class="item.icon"></i>
-        </div> -->
-        <div slot="after-title" class="kt-cell-content">{{item.desc}}</div>
-      </cell>
-    </group>
-  </div>
+<template lang="jade">
+.service-introduce
+  group(v-for='item in services')
+    cell.kt-cell(:title='item.name')
+      //
+        <div class="icon-circle" slot="icon">
+        <i class="icon-pano" :class="item.icon"></i>
+        </div>
+      .kt-cell-content(slot='after-title') {{item.desc}}
 </template>
+
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
@@ -42,6 +41,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 .service-introduce {
   margin-top: -0.362319rem;

@@ -1,0 +1,75 @@
+div
+  kt-loading(:visible='$loadingRouteData')
+  .enquiry-result
+    section.head
+      img.logo-white(src='../../assets/images/logo-white.svg', alt='logo开通PANO')
+      .circle(v-if="$route.query.content === 'search'")
+        h2
+          | {{enquiry_result.inquiry_life_asset_rate}}
+          span.unit %
+        p
+          | 参考利率值
+          i.icon-pano.icon-info(@click='$root.showAlert({content: enquiry_result.res_rate_comment})')
+      .rate-swiper(v-if="$route.query.content === 'search_am'")
+        x-swiper(v-ref:xswiper='', direction='horizontal', :prev-button='false', :next-button='false', :autoplay='6000', :centered-slides='true', :slides-per-view='3', @on-slide-change-end='onSlideChangeEnd', @on-click='onClick')
+          x-swiper-item(v-for='item in enquiry_result.inquiry_tactics_data')
+            .swiper-item
+              h3
+                em {{item.life_group}}
+              .rate
+                span {{item.rate | ktNull}}
+                i(v-if='item.rate') %
+                i.icon-pano.icon-info(@click='showRateTips()', v-if='item.rate')
+              p 参考利率
+    section.head-footer
+      span(v-if="$route.query.content === 'search'") 为您推荐互联网金融平台：
+      span(v-if="$route.query.content === 'search_am'") 为您推荐该期限价格最优互联网金融平台：
+    section.results
+      group
+        cell.kt-md-cell(v-for='item in platformList', transition='slideLeft', stagger='100', :title='item.platform', @click='goInstDetail(item.platform)')
+          .icon-circle(slot='icon')
+            img(:src='item.logo', :alt='item.platform')
+          .kt-cell-content(slot='after-title', v-if='item.recomm_reason') {{{item.recomm_reason}}}
+          .value(slot='value')
+            h3 参考利率
+            p
+              strong {{item.rate | ktAppend '%'}}
+        cell.kt-md-cell(v-if='!platformList.length', transition='slideLeft')
+          .icon-circle(slot='icon')
+            i.icon-pano.icon-meng
+          .kt-cell-content(slot='after-title') 根据您的查询条件，该期限暂无适合发行的平台。
+          .value(slot='value')
+            h3 参考利率
+            p
+              strong -
+      group
+        cell.kt-md-cell.feedback(title='')
+          div(slot='icon', :class="{'satisfied': feedbackStyle.satisfied === 1, 'not-satisfied': feedbackStyle.satisfied === 0}")
+            a(@click='feedback(1)')
+              i.icon-pano.icon-smile.feedback-icon
+              | 满意
+            a(@click='feedback(0)')
+              i.icon-pano.icon-sad.feedback-icon
+              | 不满意
+          div(slot='value', v-show='isWeixin')
+            button.share(@click='openShare()') 分享
+      group
+        cell.service-introdution(v-link="{name: 'serviceIntroduce'}", @click="$root.log({name: '产品介绍页'})", is-link='')
+          div(slot='after-title')
+            h3 开通资产推介服务
+            p
+              | 开通金融为金融资产的互联网发行、增信、评级、销售、交易提供全流程系统支持及运营服务，帮助解决金融资产互联网渠道相关需求。
+              br
+              |             如有意向请扫描二维码联系我们：
+            .contact
+              ul
+                // <li>邮箱：HelloPANO@ktjr.com</li>
+                li
+                  | PANO微信小秘书：
+                  img.weixin-qrcode(src='../../assets/images/weixin.jpg', alt='weixin小秘书')
+      group
+        cell.service-introdution(@click='openPano()', is-link='', style='padding-bottom: 15px')
+          div(slot='after-title')
+            h3 开通PANO
+            p
+              | 汇集国内主流互金平台金融产品发行信息，助您快速全面了解市场最新数据，解除您逐日跟踪各大平台的烦恼。

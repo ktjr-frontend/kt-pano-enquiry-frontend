@@ -1,36 +1,24 @@
-<template>
-  <div class="settings">
-    <group>
-      <cell title="姓名" :value="user.name"></cell>
-      <cell title="手机号码" :value="user.mobile.toString()" v-if="user.status !== 'passed'" is-link @click="changeUserMobile()"></cell>
-      <cell title="手机号码" :value="user.mobile.toString()" v-if="user.status === 'passed'"></cell>
-    </group>
-    <group>
-      <cell title="工作邮箱" :value="user.email"></cell>
-      <cell title="公司名称" :value="user.company"></cell>
-      <cell title="部门" :value="user.department"></cell>
-      <cell title="职位" :value="user.job"></cell>
-      <cell title="地址" :value="user.address"></cell>
-    </group>
-
-    <group class="user-card">
-      <cell title="名片" is-link @click="changeUserCard()">
-        <div slot="after-title" class="user-card-box">
-          <img :src="user.card_url" alt="您的名片" />
-        </div>
-      </cell>
-    </group>
-
-    <group>
-      <cell title="修改密码" is-link v-link="{name: 'changePassword'}">
-      </cell>
-    </group>
-
-    <div class="buttons">
-      <!-- <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button> -->
-      <button @click="logOutWithLog()">退出登录</button>
-    </div>
-  </div>
+<template lang="jade">
+.settings
+  group
+    cell(title='姓名', :value='user.name')
+    cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status !== 'passed'", is-link='', @click='changeUserMobile()')
+    cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status === 'passed'")
+  group
+    cell(title='工作邮箱', :value='user.email')
+    cell(title='公司名称', :value='user.company')
+    cell(title='部门', :value='user.department')
+    cell(title='职位', :value='user.job')
+    cell(title='地址', :value='user.address')
+  group.user-card
+    cell(title='名片', is-link='', @click='changeUserCard()')
+      .user-card-box(slot='after-title')
+        img(:src='user.card_url', alt='您的名片')
+  group
+    cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}")
+  .buttons
+    // <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button>
+    button(@click='logOutWithLog()') 退出登录
 </template>
 
 <script>

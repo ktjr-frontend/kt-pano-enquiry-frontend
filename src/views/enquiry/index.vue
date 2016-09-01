@@ -1,22 +1,16 @@
-<template>
-  <div class="enquiry-type">
-    <group>
-      <cell title="资产类" @click="$root.log({name: '资产类'})" v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}" is-link class="kt-cell">
-        <div class="icon-circle" slot="icon">
-          <i class="icon-pano icon-ob"></i>
-        </div>
-        <div slot="after-title" class="kt-cell-content">资产类是指产品成立时即对应具体投资标的或指向特定融资人的产品。</div>
-      </cell>
-    </group>
-    <group>
-      <cell title="资管类" @click="$root.log({name: '资管类'})" v-link="{name:'enquiryAssetManage'}" is-link class="kt-cell">
-        <div class="icon-circle" slot="icon">
-          <i class="icon-pano icon-asset"></i>
-        </div>
-        <div slot="after-title" class="kt-cell-content">资管类是指由特定管理人主动管理，产品发行无明确限额的灵活期限产品。</div>
-      </cell>
-    </group>
-  </div>
+<template lang="jade">
+.enquiry-type
+  group
+    cell.kt-cell(title='资产类', @click="$root.log({name: '资产类'})", v-link="{name:'enquiryAssetTypes', params:{type: 'obligatory_right'}}", is-link='')
+      .icon-circle(slot='icon')
+        i.icon-pano.icon-ob
+      .kt-cell-content(slot='after-title') 资产类是指产品成立时即对应具体投资标的或指向特定融资人的产品。
+  group
+    cell.kt-cell(title='资管类', @click="$root.log({name: '资管类'})", v-link="{name:'enquiryAssetManage'}", is-link='')
+      .icon-circle(slot='icon')
+        i.icon-pano.icon-asset
+      .kt-cell-content(slot='after-title') 资管类是指由特定管理人主动管理，产品发行无明确限额的灵活期限产品。
+
 </template>
 
 <script>
