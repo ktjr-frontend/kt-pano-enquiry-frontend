@@ -11,9 +11,10 @@ export default {
     updateView() {
       this.visible.developer_type = this.filter.developer_order === '无排名'
       this.visible.trust_party = this.filter.has_trust_party
-      this.visible.rating_level = this.filter.developer_type !== '' && this.filter.developer_type !== '上市公司'
+      this.visible.rating_level = this.visible.developer_type && this.filter.developer_type !== '' && this.filter.developer_type !== '上市公司'
     }
   },
+
   data() {
     let lastSaved = JSON.parse(window.sessionStorage.enquiryFilterEslateCache || '{}')
 
