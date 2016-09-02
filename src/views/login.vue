@@ -58,38 +58,40 @@ export default {
           this.showFirstError()
         } else {
           this.$root.showLoadingStatus()
-          sessions.save(this.user).then((res) => {
-            let token = window.localStorage.token = res.json().token
-            Vue.http.headers.common['Authorization'] = token
-            this.$root.hideMessage()
+
+          sessions.save(this.user)
+            .then((res) => {
+              let token = window.localStorage.token = res.json().token
+              Vue.http.headers.common['Authorization'] = token
+              this.$root.hideMessage()
+
               // 获取用户信息
-            sessions.get().then((res) => {
+              return sessions.get()
+            })
+            .then((res) => {
               this.$root.hideLoadingStatus()
               let user = res.json().account
               this.$root.updateUser(user)
+
               setTimeout(() => {
                 this.$router.go({
                   name: user.status === 'rejected' ? 'settings' : 'enquiry'
                 })
               }, 10)
-            }, (res) => {
+            })
+            .catch((res) => {
+              this.$root.hideLoadingStatus()
               this.$root.showAlert({
-                content: res.json().error || '抱歉，获取用户信息失败！'
+                content: (() => {
+                  if (res.json().error.indexOf('无权限') > -1) {
+                    let weixin = require('../assets/images/weixin.jpg')
+                    return `<p style="text-align:center;">很抱歉，您暂无权限查看该页面。</p><p>如有问题可联系『PANO微信小秘书』</p>
+                    <p><img src="${weixin}" width="60%" /></p>`
+                  }
+                  return res.json().error || '抱歉，服务器繁忙！'
+                })()
               })
             })
-          }, (res) => {
-            this.$root.hideLoadingStatus()
-            this.$root.showAlert({
-              content: (() => {
-                if (res.json().error.indexOf('无权限') > -1) {
-                  let weixin = require('../assets/images/weixin.jpg')
-                  return `<p style="text-align:center;">很抱歉，您暂无权限查看该页面。</p><p>如有问题可联系『PANO微信小秘书』</p>
-                    <p><img src="${weixin}" width="60%" /></p>`
-                }
-                return res.json().error || '抱歉，服务器繁忙！'
-              })()
-            })
-          })
         }
       })
     }

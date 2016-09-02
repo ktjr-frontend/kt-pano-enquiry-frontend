@@ -123,25 +123,20 @@ export default {
           registrations.save({
             content: 'simplify'
           }, this.user).then(() => {
-            sessions.save(this.user).then((res) => {
-              let token = window.localStorage.token = res.json().token
-              Vue.http.headers.common['Authorization'] = token
+            return sessions.save(this.user)
+          }).then((res) => {
+            let token = window.localStorage.token = res.json().token
+            Vue.http.headers.common['Authorization'] = token
 
-              sessions.get().then((res) => {
-                this.$root.hideLoadingStatus()
-                let user = res.json().account
-                this.$root.updateUser(user)
-                this.$router.go({
-                  name: 'perfect'
-                })
-              })
-            }, (res) => {
+            sessions.get().then((res) => {
               this.$root.hideLoadingStatus()
-              this.$root.showToast({
-                text: res.json().error || '抱歉，注册失败！'
+              let user = res.json().account
+              this.$root.updateUser(user)
+              this.$router.go({
+                name: 'perfect'
               })
             })
-          }, (res) => {
+          }).catch((res) => {
             this.$root.hideLoadingStatus()
             this.$root.showToast({
               text: res.json().error || '抱歉，注册失败！'

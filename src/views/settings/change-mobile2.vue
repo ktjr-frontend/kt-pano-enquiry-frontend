@@ -64,27 +64,22 @@ export default {
           }, {
             ...this.filter
           }).then(() => {
-            cards.update({
+            return cards.update({
               content: 'confirm'
-            }, {}).then((res) => {
-              this.$root.hideLoadingStatus()
-              this.$root.updateUser(Object.assign({}, this.user, this.filter, res.json().account))
+            }, {})
+          }).then((res) => {
+            this.$root.hideLoadingStatus()
+            this.$root.updateUser(Object.assign({}, this.user, this.filter, res.json().account))
 
-              this.$root.showToast({
-                text: '新手机号设置成功！',
-                type: 'text'
-              })
-
-              this.$router.go({
-                name: 'settings'
-              })
-            }).catch((res) => {
-              this.$root.hideLoadingStatus()
-              this.$root.showToast({
-                text: res.json().error || '抱歉，服务器繁忙！'
-              })
+            this.$root.showToast({
+              text: '新手机号设置成功！',
+              type: 'text'
             })
-          }, (res) => {
+
+            this.$router.go({
+              name: 'settings'
+            })
+          }).catch((res) => {
             this.$root.hideLoadingStatus()
             this.$root.showToast({
               text: res.json().error || '抱歉，服务器繁忙！'

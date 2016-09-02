@@ -136,10 +136,13 @@ export default {
           let form = document.forms.namedItem('cardForm')
           let formData = new FormData(form)
 
-          cards.save(formData).then((res) => {
-            cards.update({
-              content: 'confirm'
-            }, {}).then((res) => {
+          cards.save(formData)
+            .then((res) => {
+              return cards.update({
+                content: 'confirm'
+              }, {})
+            })
+            .then((res) => {
               this.$root.hideLoadingStatus()
               this.$root.updateUser(Object.assign({}, this.user, res.json().account))
 
@@ -161,13 +164,13 @@ export default {
                   name: 'settings'
                 })
               }
-            }, (res) => {
+            })
+            .catch((res) => {
               this.$root.hideLoadingStatus()
               this.$root.showToast({
                 text: res.json().error || '抱歉，服务器繁忙！'
               })
             })
-          })
         }
       })
     }

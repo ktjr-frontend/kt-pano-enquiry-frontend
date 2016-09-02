@@ -48,6 +48,7 @@ import {
   showMessage,
   hideMessage
 } from './vuex/actions'
+
 export default {
   components: {
     XHeader,
