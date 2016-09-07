@@ -87,16 +87,8 @@ export default {
         name: platform
       })
 
-      let panoMap = {
-        'dev-enquiry.pano.ktjr.com': 'http://dev-pano.ktjr.com',
-        'stage-enquiry.pano.ktjr.com': 'http://stage-pano.ktjr.com',
-        'pano-enquiry.ktjr.com': 'https://pano.ktjr.com'
-      }
-
-      let token = encodeURIComponent(window.localStorage.token)
-      let isProduction = process.env.NODE_ENV === 'production'
-      let hostName = isProduction ? panoMap[location.hostname] : 'http://localhost:8880'
-      window.open(`${hostName}/pano/institutions/${platform}?_t=${token}`, '_blank')
+      let envParams = Utils.getEnvParams()
+      window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
     },
 
     openPano() {
@@ -104,7 +96,8 @@ export default {
         name: '开通PANO'
       })
 
-      window.open('https://pano.ktjr.com', '_blank')
+      let envParams = Utils.getEnvParams()
+      window.open(`${envParams.hostName}/pano/overview?_t=${envParams.token}`, '_blank')
     },
 
     logShare(to, action) {

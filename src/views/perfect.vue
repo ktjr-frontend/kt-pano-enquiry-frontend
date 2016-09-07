@@ -5,7 +5,7 @@
       .form-group.card-container(:class='containerClass')
         .card-body
           .btn-file
-            input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: true}', name='file')
+            input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: {rule: true, message: "请长传名片"}}', name='file')
           .comment(v-show='!card.file')
             p
               | 请尽快上传与注册手机号一致的名片信息。
@@ -27,7 +27,7 @@ import Alert from 'vux-components/alert'
 import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
-
+import Utils from '../common/utils'
 import {
   user
 } from '../vuex/getters'
@@ -51,10 +51,10 @@ export default {
     return {
 
       card: {
+        img: null, // 供压缩用
         file: null,
         previewUrl: '',
         previewing: false,
-        // containerClass: '',
         uploading: false
       }
     }
@@ -83,8 +83,13 @@ export default {
   },
   methods: {
     showPreview(url) {
-      this.card.previewUrl = url
-      this.card.previewing = false
+      let img = new Image()
+      img.src = url
+      img.onload = () => {
+        this.card.previewUrl = url
+        this.card.previewing = false
+        this.card.img = img
+      }
     },
 
     cardOnChange(name, event) {
@@ -133,8 +138,10 @@ export default {
           })
         } else {
           this.$root.showLoadingStatus()
-          let form = document.forms.namedItem('cardForm')
-          let formData = new FormData(form)
+          // let form = document.forms.namedItem('cardForm')
+          let formData = new FormData()
+          let fileName = Utils.uniqeId(8)
+          formData.append('file', Utils.compressImage(this.card.img), `${fileName}.jpeg`)
 
           cards.save(formData)
             .then((res) => {

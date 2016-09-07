@@ -15,7 +15,7 @@
             i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
             i.weui_icon.weui_icon_success
         .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
-      //
+      //-
         <div class="form-group">
         <button @click.prevent="assetTypes.show = true" class="btn-left-right cell">
         <span class="left">关注金融资产类型</span>
@@ -163,7 +163,10 @@ export default {
       /*assetTypes: {
         show: false,
         validate: {
-          required: true
+          required: {
+            rule: true,
+            message: '请选择您关注的资产类型'
+          }
         },
         // checkedList: [],
         list: [{

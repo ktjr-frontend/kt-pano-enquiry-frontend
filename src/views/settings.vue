@@ -17,7 +17,7 @@
   group
     cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}")
   .buttons
-    // <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button>
+    //- <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button>
     button(@click='logOutWithLog()') 退出登录
 </template>
 

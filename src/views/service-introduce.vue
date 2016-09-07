@@ -2,7 +2,7 @@
 .service-introduce
   group(v-for='item in services')
     cell.kt-cell(:title='item.name')
-      //
+      //-
         <div class="icon-circle" slot="icon">
         <i class="icon-pano" :class="item.icon"></i>
         </div>

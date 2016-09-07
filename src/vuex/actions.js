@@ -3,6 +3,7 @@ import { router } from '../router'
 export function updateUser({ dispatch }, user, soft) {
   if (!soft) {
     window.localStorage.user = JSON.stringify(user)
+    window.localStorage.userMobile = user.mobile
   }
   dispatch('UPDATE_USER', user)
 }

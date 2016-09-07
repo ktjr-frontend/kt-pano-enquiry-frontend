@@ -9,7 +9,7 @@
           .status
             i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
-            // <i class="weui_icon weui_icon_success"></i>
+            //- <i class="weui_icon weui_icon_success"></i>
       .form-group
         button(type='submit', @click="$root.log({name: '登录'})") 登录
       flexbox
@@ -97,9 +97,10 @@ export default {
     }
   },
   data() {
+    let savedUserMobile = window.localStorage.userMobile || ''
     return {
       user: {
-        mobile: '',
+        mobile: savedUserMobile,
         password: ''
       },
       fields: [{
@@ -109,7 +110,10 @@ export default {
         type: 'number',
         iconName: 'icon-man-solid',
         validate: {
-          required: true,
+          required: {
+            rule: true,
+            message: '请填写您的手机号'
+          },
           mobile: true
         }
       }, {
@@ -119,7 +123,10 @@ export default {
         type: 'password',
         iconName: 'icon-lock-solid',
         validate: {
-          required: true
+          required: {
+            rule: true,
+            message: '请输入密码'
+          }
         }
       }]
     }

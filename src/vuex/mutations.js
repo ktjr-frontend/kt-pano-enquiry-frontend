@@ -1,3 +1,5 @@
+import Utils from '../common/utils'
+
 const mutations = {
   UPDATE_USER(state, user) {
     state.user = user
@@ -24,16 +26,16 @@ const mutations = {
     }, confirm, { show: true })
   },
   SHOW_TOAST(state, toast) {
-    state.toast = Object.assign({}, state.toast, { type: 'warn', time: 1500 }, toast, { show: true })
+    state.toast = Object.assign({}, state.toast, { type: 'warn', time: Utils.getReadTime(toast.text) }, toast, { show: true })
   },
   SHOW_SUCCESS_TOTAST(state, toast) {
-    state.toast = Object.assign({}, state.toast, { time: 1500 }, toast, { show: true, type: 'success' })
+    state.toast = Object.assign({}, state.toast, { time: Utils.getReadTime(toast.text) }, toast, { show: true, type: 'success' })
   },
   SHOW_ERROR_TOTAST(state, toast) {
-    state.toast = Object.assign({}, state.toast, { time: 1500 }, toast, { show: true, type: 'error' })
+    state.toast = Object.assign({}, state.toast, { time: Utils.getReadTime(toast.text) }, toast, { show: true, type: 'error' })
   },
   SHOW_TEXT_TOTAST(state, toast) {
-    state.toast = Object.assign({}, state.toast, { time: 1500 }, toast, { show: true, type: 'text' })
+    state.toast = Object.assign({}, state.toast, { time: Utils.getReadTime(toast.text) }, toast, { show: true, type: 'text' })
   },
   SHOW_MESSAGE(state, message) {
     state.message = Object.assign({}, state.message, { onClose() {} }, message, { show: true })
