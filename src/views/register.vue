@@ -273,10 +273,24 @@ export default {
 .weui_cells {
   background: none;
   overflow: initial;
-  .weui_cell {
-    padding-left: 0.563607rem;
+  .weui_cell.weui_check_label {
+    padding-left: 0;
+    p {
+      font-size: 0.289855rem;
+    }
     a {
       pointer-events: initial;
+    }
+    .weui_check:checked+.weui_icon_checked{
+      &:before{
+        color: #737e9c;
+      }
+    }
+    .weui_icon_checked{
+      &:before{
+        font-size: 1em;
+        color: #c9cdd5;
+      }
     }
   }
   &:after,
