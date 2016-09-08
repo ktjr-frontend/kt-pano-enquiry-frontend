@@ -25,7 +25,7 @@
               p
                 | 我已仔细阅读并同意
                 em
-                  a(href='/static/pano-agreement.htm', target='_blank' @click="$root.log({name: '开通PANO用户协议'})") 开通PANO用户协议
+                  a(href='/static/pano-agreement.htm', target='_blank' @click.prevent="checkAgreement()") 开通PANO用户协议
 
 
       //-
@@ -90,6 +90,14 @@ export default {
   },
 
   methods: {
+    checkAgreement() {
+      this.$root.log({
+        name: '开通PANO用户协议'
+      })
+
+      window.sessionStorage.registerUserCache = JSON.stringify(this.user)
+      window.open('/static/pano-agreement.htm', '_blank')
+    },
     getCaptcha() {
       this.$root.log({
         name: '短信获取'
@@ -161,8 +169,9 @@ export default {
   },
 
   data() {
+    let cachedUser = JSON.parse(window.sessionStorage.registerUserCache || '{}')
     return {
-      user: {
+      user: Object.assign({
         // name: '',
         // company: '',
         // email: '',
@@ -172,7 +181,7 @@ export default {
         introducer: '',
         // likes: [],
         password: ''
-      },
+      }, cachedUser),
 
       /*assetTypes: {
         show: false,
@@ -281,13 +290,13 @@ export default {
     a {
       pointer-events: initial;
     }
-    .weui_check:checked+.weui_icon_checked{
-      &:before{
+    .weui_check:checked+.weui_icon_checked {
+      &:before {
         color: #737e9c;
       }
     }
-    .weui_icon_checked{
-      &:before{
+    .weui_icon_checked {
+      &:before {
         font-size: 1em;
         color: #c9cdd5;
       }
