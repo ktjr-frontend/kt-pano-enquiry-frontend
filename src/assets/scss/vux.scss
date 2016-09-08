@@ -296,12 +296,13 @@
   .tip-icon {
     font-size: .8em;
     pointer-events: initial;
+    // margin-left: .3em;
+    padding: 15px 15px 15px .3em;
   }
-  &.weui_cell_radio {
-    .tip-icon {
-      padding: 15px 15px 15px 0;
-    }
-  }
+  // &.weui_cell_radio {
+  //   .tip-icon {
+  //   }
+  // }
 }
 
 .weiui_buttons_kt {

@@ -15,6 +15,19 @@
             i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
             i.weui_icon.weui_icon_success
         .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
+      .form-group
+        .weui_cells.weui_cells_checkbox
+          label.weui_cell.weui_check_label(for='agreement')
+            .weui_cell_hd
+              input#agreement.weui_check(type='checkbox', v-model='user.agreement', v-validate:agreement="{required:{rule: true, message: '请确认阅读开通PANO用户服务协议'}}")
+              i.weui_icon_checked
+            .weui_cell_bd.weui_cell_primary
+              p
+                | 我已仔细阅读并同意
+                em
+                  a(href='/static/pano-agreement.htm', target='_blank' @click="$root.log({name: '开通PANO用户协议'})") 开通PANO用户协议
+
+
       //-
         <div class="form-group">
         <button @click.prevent="assetTypes.show = true" class="btn-left-right cell">
@@ -153,6 +166,7 @@ export default {
         // name: '',
         // company: '',
         // email: '',
+        agreement: true,
         mobile: '',
         captcha: '',
         introducer: '',
@@ -256,4 +270,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.weui_cells {
+  background: none;
+  overflow: initial;
+  .weui_cell {
+    padding-left: 0.563607rem;
+    a {
+      pointer-events: initial;
+    }
+  }
+  &:after,
+  &:before {
+    display: none;
+  }
+}
 </style>
