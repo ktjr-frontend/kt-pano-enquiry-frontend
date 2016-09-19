@@ -258,10 +258,7 @@ export default {
           type: 'password',
           iconName: 'icon-lock',
           validate: {
-            pattern: {
-              rule: '/^(?=.*\\d)(?=.*[a-z]).{6,20}$/',
-              message: '不能小于6个字符，需包含字母和数字'
-            }
+            password: true
           }
         }, {
           name: 'introducer',

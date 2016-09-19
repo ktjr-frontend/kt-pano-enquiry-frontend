@@ -7,7 +7,7 @@
       a(v-link='tab.link', @click='log({name: tab.name})')
         i.icon-pano(:class='tab.icon', :style='tab.style')
         | {{tab.name}}
-.logo-bottom(:class="{'no-tabbar': !$route.data.tabVisible, 'dn-imp': !$route.data.logoBottomVisible}")
+.logo-bottom(:class="{'no-tabbar': !$route.data.tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
   img(src='./assets/images/logo2.svg', alt='开通PANO')
 alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText')
   | {{{alert.content}}}
@@ -109,7 +109,7 @@ export default {
         name: '我',
         icon: 'icon-man2',
         link: {
-          name: 'settings'
+          name: 'profile'
         },
         style: {
           fontWeight: 'bolder'
@@ -138,6 +138,7 @@ export default {
 
 <style lang="scss">
 @import '~vux/dist/vux.css';
+@import './assets/scss/mixins.scss';
 @import './assets/fonts/style.css';
 @import './assets/scss/animate.scss';
 @import './assets/scss/vux.scss';
@@ -146,6 +147,8 @@ export default {
 @import './assets/scss/form.scss';
 @import './assets/scss/tabbar.scss';
 @import './assets/scss/card.scss';
+@import './assets/scss/icons.scss';
+@import './assets/scss/list.scss';
 #app {
   z-index: 1;
   position: relative;
@@ -173,6 +176,7 @@ export default {
 }
 
 body.overflow-height {
+  // padding-bottom: 1.588245rem; // 198px
   .logo-bottom {
     position: static;
     margin: 0 0.402576rem; //0 50px

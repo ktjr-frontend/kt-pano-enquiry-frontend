@@ -262,7 +262,6 @@ export default {
         width: 100%;
         height: 100%;
       }
-      span {}
     }
     .business-card-preview {
       display: none;

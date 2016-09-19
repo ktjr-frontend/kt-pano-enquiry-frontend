@@ -35,6 +35,12 @@
   line-height: 1.5em;
 }
 
+.dn-by-h {
+  overflow: hidden;
+  height: 0!important;
+  padding: 0!important;
+}
+
 .dn-imp {
   display: none!important;
 }
@@ -65,10 +71,10 @@
   align-items: center;
 }
 
-.ov-h{
+.ov-h {
   overflow: hidden;
 }
 
-.va-r1{
+.va-r1 {
   vertical-align: -.1em;
 }

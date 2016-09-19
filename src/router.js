@@ -63,6 +63,7 @@ router.beforeEach(({ from, to, abort, next }) => {
 router.afterEach(({ to }) => {
   document.title = to.data.title || document.title
   document.querySelector('.logo-bottom').style.display = 'none'
+  document.body.setAttribute('page', to.name)
 
   // hack ios title not update bug
   let iframe = document.createElement('iframe')
@@ -92,10 +93,11 @@ let updateLogoBottomStyle = function() {
   let wH = window.innerHeight
   let aH = document.querySelector('#app').offsetHeight
   if (aH + 150 >= wH) {
-    document.body.classList.add('overflow-height')
+    document.body.classList.add('overflow-height') // 判断内容是否高于超过窗口
   } else {
     document.body.classList.remove('overflow-height')
   }
+
   setTimeout(() => { document.querySelector('.logo-bottom').style.display = 'block' }, 10)
 }
 

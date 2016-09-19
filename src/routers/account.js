@@ -1,4 +1,43 @@
 export default {
+  '/profile': {
+    data: {
+      title: '个人信息页',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'profile',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/profile'], resolve)
+    }
+  },
+  '/more_institutions': {
+    data: {
+      title: '关注的挂牌场所',
+      logoBottomVisible: false,
+      headVisible: true,
+      tabVisible: false
+    },
+    name: 'moreInstitutions',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/more_institutions'], resolve)
+    }
+  },
+  '/all_institutions': {
+    data: {
+      title: '关注的互联网金融平台',
+      logoBottomVisible: false,
+      headVisible: true,
+      tabVisible: false
+    },
+    name: 'allInstitutions',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/all_institutions'], resolve)
+    }
+  },
   '/settings': {
     data: {
       title: '我',
@@ -9,7 +48,7 @@ export default {
     name: 'settings',
     needLogin: true,
     component(resolve) {
-      require(['../views/settings'], resolve)
+      require(['../views/settings/settings'], resolve)
     }
   },
   '/forget_password1': {

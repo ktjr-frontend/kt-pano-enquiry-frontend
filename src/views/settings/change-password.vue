@@ -79,10 +79,7 @@ export default {
         iconName: 'icon-user',
         validate: {
           required: true,
-          pattern: {
-            rule: '/^(?=.*\\d)(?=.*[a-z]).{6,20}$/',
-            message: '不能小于6个字符，需包含字母和数字'
-          }
+          password: true
         }
       }, {
         name: '',

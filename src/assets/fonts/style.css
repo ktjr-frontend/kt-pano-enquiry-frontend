@@ -20,6 +20,22 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-edit:before {
+  content: "\e918";
+}
+
+.icon-man-simple:before {
+  content: "\e919";
+}
+
+.icon-ok2:before {
+  content: "\e91a";
+}
+
+.icon-plus:before {
+  content: "\e91b";
+}
+
 .icon-add:before {
   content: "\e916";
 }

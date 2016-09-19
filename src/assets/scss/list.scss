@@ -1,0 +1,136 @@
+.kt-list-normal {
+  text-align: left;
+  font-size: 0.322061rem; //40px
+  $line-color: #3bc5ba;
+  ul {
+    line-height: 1.5em;
+    padding-left: 0.402576rem; //50px
+  }
+  li {
+    padding-bottom: .5em;
+    position: relative;
+    &:before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      left: -0.362319rem; //40px
+      top: .5em;
+      border-radius: 50%;
+      background: $line-color;
+      position: absolute;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      height: 100%;
+      top: .5em;
+      width: 1px;
+      left: -0.362319rem; //39px
+      transform: translateX(2px);
+      background: $line-color;
+    }
+    &:last-of-type:after {
+      display: none;
+    }
+  }
+  p {
+    color: #acb1bd;
+  }
+}
+
+.kt-list {
+  display: flex;
+  align-items: center;
+  min-height: 2.334944rem; //290px
+  // text-align: center;
+  .icon {
+    width: 1.851852rem; //230px
+    height: 1.851852rem;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
+  &.one-line-content {
+    .main {
+      p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+  .main {
+    margin-left: 0.563607rem; //70px
+    flex: 1;
+    min-width: 0;
+    text-align: left;
+    line-height: 0.483092rem; //60px
+    h3 {
+      color: #474650;
+      font-size: 0.322061rem; //40px
+    }
+    p {
+      font-size: 0.289855rem; //36px
+      span.gray {
+        color: #acb1bd;
+      }
+    }
+  }
+  .right {
+    flex-shrink: 0;
+    a {
+      color: #29b9ae;
+      padding-bottom: .1em;
+      border-bottom: 1px solid currentColor;
+    }
+    .icon-pano {
+      font-size: .5em;
+      vertical-align: .2em;
+      margin-right: .2em;
+    }
+  }
+}
+
+.kt-list-column {
+  @include flex;
+  .kt-list-short {
+    flex: 1;
+  }
+}
+
+.kt-list-short {
+  font-size: 0.322061rem; //40px
+  @include flex(column);
+  .icon {
+    width: 1.755233rem; //218px
+    height: 1.755233rem;
+    border-radius: 50%;
+    border: 1px solid #eff2f7;
+    overflow: hidden;
+    @include flex;
+    img {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    margin-bottom: 0.161031rem; //20px
+  }
+  h3 {
+    color: #474650;
+    margin-bottom: 0.161031rem; //20px
+  }
+  a {
+    color: #29b9ae;
+    padding-bottom: .1em;
+    border-bottom: 1px solid currentColor;
+  }
+  .icon-pano {
+    font-size: .5em;
+    vertical-align: .2em;
+    margin-right: .2em;
+  }
+}

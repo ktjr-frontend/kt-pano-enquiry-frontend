@@ -21,6 +21,12 @@ export default function setValidators(validator) {
     check(value, rule) { //rule 是需要比较的“字段字符串”，例如'user.password'
       return value === this._vm.$get(rule)
     }
+  }, {
+    name: 'password',
+    message: '密码要求6~20位，需要包含字母和数字',
+    check(value) {
+      return value.match(/^(?=.*\d)(?=.*[A-z]).{6,20}$/)
+    }
   }]
 
   validators.forEach((v) => {
