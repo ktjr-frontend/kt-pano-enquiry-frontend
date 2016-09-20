@@ -4,19 +4,19 @@ div
   //- 用户基本信息
   .profile
     .head
-      .protrait-container.item
+      .avatar-container.item
         i.icon-pano.icon-edit(v-link='{name: "settings"}')
-        .portrait(:class='{"no-avatar": !user.avatar_url}')
-          img(v-show='user.avatar_url', :src='user.avatar_url')
+        .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
+          img(v-show='user.avatar_url', :src='user.avatar_url', :style='model.avatarStyles')
           i.icon-pano.icon-man-simple(v-else)
       .name.item
         | {{user.name}}
       .company.item
         | {{user.company}}
-      .dj.item(ng-if='user.department || user.job')
-        span.department(ng-if='user.department')
+      .dj.item(v-if='user.department || user.job')
+        span.department(v-if='user.department', :style='{"margin-right": user.job ? "0.483092rem" : 0}')
           | {{user.department}}
-        span.job(ng-if='user.job')
+        span.job(v-if='user.job')
           | {{user.job}}
       .intro-con(@click.prevent='')
         .intro(:class="{'edit': editingIntro}")
@@ -38,7 +38,7 @@ div
           i.icon-pano.icon-plus
           | 选择关注的业务范围
     //- 发行产品
-    .group(v-if='user.institution')
+    .group(v-if='user.institution && info.products.all.length')
       kt-cell(title='参与发行的产品', icon='icon-plus', @on-icon-click='openRelativeProducts()')
         .kt-list-normal(v-if='info.products.selected.length')
           ul
@@ -185,6 +185,7 @@ import {
   user
 } from '../../vuex/getters'
 import _ from 'lodash'
+import Utils from '../../common/utils'
 
 export default {
   mixins: [institutionMixins],
@@ -198,7 +199,11 @@ export default {
       user
     }
   },
-
+  ready() {
+    setTimeout(() => {
+      this.user.job = ''
+    }, 100)
+  },
   route: {
     data() {
       return persons.get({
@@ -243,6 +248,19 @@ export default {
   },
 
   watch: {
+    'user.avatar_url': {
+      handler: function(val) {
+        Utils.getImageInfo(val).then((res) => {
+          this.model.avatarDirection = res.direction
+
+          // 保证头像的cover居中
+          this.model.avatarStyles = {
+            transform: ` ${res.direction === 'portrait' ? 'translateY(-' : 'translateX(-'}${res.widthHeightDiffPercent * 100 / 2}%)`
+          }
+        })
+      },
+      immediate: true
+    },
     'model.businessTypes': {
       handler: function(val) {
         if (val.length > 2) {
@@ -281,7 +299,7 @@ export default {
       if (introLength > 40) {
         let diff = introLength - 40
         this.$root.showToast({
-          text: `不能大于40个字符，您以超出${diff}个字符`
+          text: `不能大于40个字符，您已超出${diff}个字符`
         })
       } else {
         this.$root.showLoadingStatus()
@@ -583,6 +601,8 @@ export default {
     return {
       editingIntro: false,
       model: {
+        avatarDirection: 'portrait',
+        avatarStyles: {},
         customTag: '',
         businessTypes: [],
         assetTypes: [],
@@ -643,7 +663,7 @@ export default {
     .item {
       margin-bottom: 0.161031rem; //30px
     }
-    .protrait-container {
+    .avatar-container {
       position: relative;
       .icon-edit {
         font-size: 0.402576rem;
@@ -653,10 +673,9 @@ export default {
         color: #29b9ae;
       }
     }
-    .portrait {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .avatar {
+      position: relative;
+      z-index: 9;
       box-sizing: border-box;
       border: 0.161031rem solid rgba(52, 146, 211, .15); // 20px
       overflow: hidden;
@@ -664,15 +683,28 @@ export default {
       width: 2.616747rem; //325px
       height: 2.616747rem; //325px
       &.no-avatar {
+        display: flex;
         align-items: flex-end;
+        justify-content: center;
       }
       .icon-pano {
         color: rgba(52, 146, 211, .15);
         font-size: 1.610306rem; //200px
       }
       img {
-        // max-width: 100%;
-        height: 100%;
+        position: absolute;
+      }
+      &.portrait {
+        img {
+          width: 100%;
+          transform: translateY(-20%);
+        }
+      }
+      &.landscape {
+        img {
+          transform: translateX(-20%);
+          height: 100%;
+        }
       }
     }
     .name {
@@ -682,9 +714,9 @@ export default {
       color: #29b9ae;
     }
     .dj {
-      .department {
-        margin-right: 0.483092rem; //60px
-      }
+      // .department {
+      //   margin-right: 0.483092rem; //60px
+      // }
       display: flex;
       align-items: center;
       color: #adc1d2;
@@ -738,7 +770,8 @@ export default {
         transform: translateY(-50%);
         color: #29b9ae;
         &.icon-edit {
-          right: 0;
+          right: -.5em;
+          top: 1.35em;
         }
       }
     }

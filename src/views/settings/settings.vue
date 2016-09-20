@@ -4,8 +4,8 @@
     cell(title='头像', is-link)
       span.avatar
         form(name='avatar')
-          .btn-file
-            img(:src='user.avatar_url', v-if='user.avatar_url')
+          .btn-file(:class='model.avatarDirection')
+            img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
             i.icon-pano.icon-man-simple(v-else)
             input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file')
     cell(title='姓名', :value='user.name')
@@ -49,11 +49,33 @@ export default {
     Cell
   },
 
+  vuex: {
+    getters: {
+      user
+    },
+    actions: {
+      logOut
+    }
+  },
+
   ready() {
     this.showMessage(this.user.status)
   },
 
   watch: {
+    'user.avatar_url': {
+      handler: function(val) {
+        Utils.getImageInfo(val).then((res) => {
+          this.model.avatarDirection = res.direction
+
+          // 保证头像的cover居中
+          this.model.avatarStyles = {
+            transform: ` ${res.direction === 'portrait' ? 'translateY(-' : 'translateX(-'}${res.widthHeightDiffPercent * 100 / 2}%)`
+          }
+        })
+      },
+      immediate: true
+    },
     'user.status': function(val) {
       this.showMessage(val)
     }
@@ -176,15 +198,6 @@ export default {
     }
   },
 
-  vuex: {
-    getters: {
-      user
-    },
-    actions: {
-      logOut
-    }
-  },
-
   computed: {
     title() {
       let user = this.user
@@ -208,6 +221,8 @@ export default {
   data() {
     return {
       model: {
+        avatarStyles: {},
+        avatarDirection: 'portrait',
         avatarFile: null
       }
     }
@@ -231,13 +246,28 @@ export default {
   .btn-file {
     height: 100%;
     width: 100%;
+    position: relative;
+    z-index: 9;
     @include flex();
     .icon-man-simple {
       font-size: 0.644122rem; //80px
     }
     img {
-      // width: 100%;
-      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    &.portrait {
+      img {
+        width: 100%;
+        transform: translateY(-20%);
+      }
+    }
+    &.landscape {
+      img {
+        transform: translateX(-20%);
+        height: 100%;
+      }
     }
     input {
       position: absolute;

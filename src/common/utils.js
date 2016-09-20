@@ -58,6 +58,7 @@ export default {
     let ctx = canvas.getContext('2d')
     let w = img.naturalWidth
     let h = img.naturalHeight
+
     canvas.width = 600
     canvas.height = h / w * 600
     ctx.drawImage(img, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
@@ -73,6 +74,31 @@ export default {
     //canvas.toDataURL 返回的默认格式就是 image/png
     return new Blob([ia], {
       type: 'image/jpeg'
+    })
+  },
+  getImageInfo(url) {
+    return new Promise((resolve, reject) => {
+      let img = new Image()
+
+      img.onload = function() {
+        let imgW = img.naturalWidth
+        let imgH = img.naturalHeight
+        let longSide = Math.max(imgW, imgH)
+        let shortSide = Math.min(imgW, imgH)
+
+        resolve({
+          direction: img.naturalHeight >= img.naturalWidth ? 'portrait' : 'landscape',
+          width: img.naturalWidth,
+          height: img.naturalHeight,
+          widthHeightDiffPercent: (longSide - shortSide) / longSide
+        })
+      }
+
+      img.onerror = function() {
+        reject('图片加载失败！')
+      }
+
+      img.src = url
     })
   },
   HanZiPinYin: {

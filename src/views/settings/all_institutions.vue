@@ -63,14 +63,6 @@ export default {
     }
   },
 
-  methods: {
-
-  },
-
-  computed: {
-
-  },
-
   data() {
     return {
       institutions: [],
