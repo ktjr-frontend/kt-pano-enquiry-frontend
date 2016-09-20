@@ -13,34 +13,32 @@ div
         | {{user.name}}
       .company.item
         | {{user.company}}
-      .dj.item
-        span.department
+      .dj.item(ng-if='user.department || user.job')
+        span.department(ng-if='user.department')
           | {{user.department}}
-        span.job
+        span.job(ng-if='user.job')
           | {{user.job}}
       .intro-con(@click.prevent='')
-        validator(name='validation')
-          form(action='', name='introForm', novalidate='', @submit.prevent='onSubmitIntro()')
-            .intro(:class="{'edit': editingIntro}")
-              i.icon-pano(@click.prevent='editIntro()', v-el:icon-intro, :class="{'icon-edit': !editingIntro, 'icon-ok2': editingIntro}")
-              p(v-show='!editingIntro') {{user.intro || '介绍我的业务'}}
-              textarea(v-show='editingIntro', v-el:intro-textarea, cols='2', rows='2', v-model='user.intro', field='intro', v-validate="{maxlength:{rule: 40, message:'不能超过40个字'}}")
+        .intro(:class="{'edit': editingIntro}")
+          i.icon-pano(@click.prevent='editIntro()', v-el:icon-intro, :class="{'icon-edit': !editingIntro, 'icon-ok2': editingIntro}")
+          p(v-show='!editingIntro') {{user.intro || '介绍我的业务'}}
+          textarea(v-show='editingIntro', v-el:intro-textarea, cols='2', rows='2', v-model='user.intro')
     //- 业务角色和资产类型
     .group
-      kt-cell(title='业务范围', icon='icon-plus' @on-icon-click='openBATypes()')
+      kt-cell(title='业务偏好', icon='icon-plus' @on-icon-click='openBATypes()')
         .kt-list-normal(v-if='info.business_types.selected.length || info.asset_types.selected.length')
           ul
             li(v-if='info.business_types.selected.length')
               h3 业务角色
               p {{selectedBt}}
             li(v-if='info.asset_types.selected.length')
-              h3 资产类型
+              h3 偏好资产
               p {{selectedAt}}
         .default-content(@click='openBATypes()', v-if='!info.business_types.selected.length && !info.asset_types.selected.length')
           i.icon-pano.icon-plus
-          选择关注的业务范围
+          | 选择关注的业务范围
     //- 发行产品
-    .group
+    .group(v-if='user.institution')
       kt-cell(title='参与发行的产品', icon='icon-plus', @on-icon-click='openRelativeProducts()')
         .kt-list-normal(v-if='info.products.selected.length')
           ul
@@ -49,12 +47,12 @@ div
               p {{item.desc}}
         .default-content(@click='openRelativeProducts()', v-if='!info.products.selected.length')
           i.icon-pano.icon-plus
-          参与发行的产品
+          | 参与发行的产品
     //- 关注的互联网金融平台
     .group
       kt-cell(title='关注的互联网金融平台', icon='icon-arrow-right', @on-title-click='$router.go({name: "moreInstitutions"})')
         div(slot='title') 关注的互联网金融平台
-        .kt-list(v-for='item in info.platforms.institutions', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name)')
+        .kt-list(v-for='item in info.platforms.institutions | limitBy 3', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name)')
           .icon
             img(:src='item.logo', :alt='item.name')
           .main
@@ -69,7 +67,7 @@ div
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.platforms.institutions.length', v-link='{name: "moreInstitutions"}')
           i.icon-pano.icon-plus
-          选择要关注的互联网金融平台
+          | 选择要关注的互联网金融平台
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.platforms.recommended.length')
         .kt-list-column
           .kt-list-short(v-for='item in info.platforms.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
@@ -83,7 +81,7 @@ div
       //- 关注的挂牌场所
       kt-cell(title='关注的挂牌场所', icon='icon-arrow-right', @on-title-click='$router.go({name: "moreInstitutions", query:{dimension: "mapped_exchange"}})')
         div(slot='title') 关注的挂牌场所
-        .kt-list(v-for='item in info.institutions.institutions', v-if='info.institutions.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+        .kt-list(v-for='item in info.institutions.institutions | limitBy 3', v-if='info.institutions.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
           .icon
             img(:src='item.logo', :alt='item.name')
           .main
@@ -97,7 +95,7 @@ div
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.institutions.institutions.length', v-link='{name: "moreInstitutions", query:{dimension: "mapped_exchange"}}')
           i.icon-pano.icon-plus
-          选择要关注的挂牌场所
+          | 选择要关注的挂牌场所
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.institutions.recommended.length')
         .kt-list-column
           .kt-list-short(v-for='item in info.institutions.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
@@ -121,24 +119,24 @@ div
           div
             .clfix
               .checkbox-label(v-for='item in info.business_types.all')
-                input(autocomplete='off', v-model='model.businessTypes', :id="'bt_' + item.id", :value='item.id',  type='checkbox')
+                input(autocomplete='off', v-model='model.businessTypes', :id="'bt_' + item.id", :value='item',  type='checkbox')
                 label(:for="'bt_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
                   i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item, "业务角色")')
               .add-button(@click='openCustomTag()', v-if='!businessTypesHasCustomTag')
                 i.icon-pano.icon-plus
-                标签
+                | 标签
       .group
         kt-cell(title='偏好资产')
           //- checkbox组
           div
             .clfix
               .checkbox-label(v-for='item in info.asset_types.all')
-                input(autocomplete='off', v-model='model.assetTypes', :id="'at_' + item.id", :value='item.id',  type='checkbox')
+                input(autocomplete='off', v-model='model.assetTypes', :id="'at_' + item.id", :value='item',  type='checkbox')
                 label(:for="'at_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
                   i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item)')
               .add-button(@click='openCustomTag("偏好资产")', v-if='!assetTypesHasCustomTag')
                 i.icon-pano.icon-plus
-                标签
+                | 标签
   //- 参与发行的产品
   a.vux-popup-mask(href='javascript:void(0)')
   popup(:show.sync='popups.relativeProducts.show', :height='popups.relativeProducts.height', @on-show='initProductData()')
@@ -176,7 +174,6 @@ div
 <script>
 import Popup from 'vux-components/popup'
 import KtCell from '../../components/kt-cell'
-import formMixin from '../../mixins/form-mixin'
 import institutionMixins from './intitution_mixins'
 import {
   accounts,
@@ -190,7 +187,7 @@ import {
 import _ from 'lodash'
 
 export default {
-  mixins: [formMixin, institutionMixins],
+  mixins: [institutionMixins],
   components: {
     Popup,
     KtCell
@@ -208,6 +205,20 @@ export default {
         content: 'info'
       }).then((res) => {
         let data = res.json()
+
+        // 将select内的对象和all中使用同一个对象，保证checkbox的对象比较是相等的，v-model使用对象才能保证用户的选择顺序
+        data.business_types.selected = data.business_types.selected.map(v => {
+          return data.business_types.all.find(va => {
+            return v.id === va.id
+          })
+        })
+
+        data.asset_types.selected = data.asset_types.selected.map(v => {
+          return data.asset_types.all.find(va => {
+            return v.id === va.id
+          })
+        })
+
         data.platforms.institutions.forEach(v => {
           v.is_followed = true
         })
@@ -232,12 +243,21 @@ export default {
   },
 
   watch: {
-    'model.businessTypes': function(val, oldVal) {
-      if (val.length > 2) {
+    'model.businessTypes': {
+      handler: function(val) {
+        if (val.length > 2) {
+          this.$root.showToast({
+            text: '不能大于2个'
+          })
+        }
+      },
+      deep: true
+    },
+    'model.assetTypes': function(val) {
+      if (val.length > 3) {
         this.$root.showToast({
-          text: '不能大于2个'
+          text: '不能大于3个'
         })
-        this.model.businessTypes = oldVal
       }
     }
   },
@@ -246,8 +266,8 @@ export default {
     // 初始化默认业务偏好和资产类型
     initBAData() {
       let data = this.info
-      this.model.businessTypes = _.map(data.business_types.selected, 'id')
-      this.model.assetTypes = _.map(data.asset_types.selected, 'id')
+      this.model.businessTypes = data.business_types.selected
+      this.model.assetTypes = data.asset_types.selected
     },
 
     // 初始化参与发行的产品
@@ -257,27 +277,29 @@ export default {
 
     // 个人业务介绍提交
     onSubmitIntro() {
-      this.$validate(true, () => {
-        if (this.$validation.invalid) {
-          this.showFirstError()
-        } else {
-          this.$root.showLoadingStatus()
+      let introLength = this.$els.introTextarea.value.length
+      if (introLength > 40) {
+        let diff = introLength - 40
+        this.$root.showToast({
+          text: `不能大于40个字符，您以超出${diff}个字符`
+        })
+      } else {
+        this.$root.showLoadingStatus()
 
-          accounts.update({
-            content: 'intro'
-          }, {
-            intro: this.user.intro
-          }).then(() => {
-            this.$root.hideLoadingStatus()
-            this.editingIntro = false
-          }).catch((res) => {
-            this.$root.hideLoadingStatus()
-            this.$root.showToast({
-              text: res.json().error || '抱歉，服务器繁忙！'
-            })
+        accounts.update({
+          content: 'intro'
+        }, {
+          intro: this.user.intro
+        }).then(() => {
+          this.$root.hideLoadingStatus()
+          this.editingIntro = false
+        }).catch((res) => {
+          this.$root.hideLoadingStatus()
+          this.$root.showToast({
+            text: res.json().error || '抱歉，服务器繁忙！'
           })
-        }
-      })
+        })
+      }
     },
 
     // 编辑个人业务内容
@@ -323,9 +345,9 @@ export default {
         return
       }
 
-      if (!this.model.customTag.length || this.model.customTag.length > 30) {
+      if (!this.model.customTag.length || this.model.customTag.length > 10) {
         this.$root.showToast({
-          text: '您正确填写标签名称, 不能大于30个字符'
+          text: '您正确填写标签名称, 不能大于10个字符'
         })
         return
       }
@@ -462,27 +484,27 @@ export default {
       this.$root.showLoadingStatus()
 
       let ap = assetTypes.update({}, {
-        ids: this.model.assetTypes
+        ids: _.map(this.model.assetTypes, 'id')
       })
 
       let bp = businessTypes.update({}, {
-        ids: this.model.businessTypes
+        ids: _.map(this.model.businessTypes, 'id')
       })
 
       // 确保两个保存成功
       Promise.all([ap, bp]).then(() => {
         this.$root.hideLoadingStatus()
 
-        let selectedBts = this.info.business_types.all.filter(v => {
-          return _.includes(this.model.businessTypes, v.id)
-        })
+        // let selectedBts = this.info.business_types.all.filter(v => {
+        //   return _.includes(this.model.businessTypes, v.id)
+        // })
 
-        let selectedAts = this.info.asset_types.all.filter(v => {
-          return _.includes(this.model.assetTypes, v.id)
-        })
+        // let selectedAts = this.info.asset_types.all.filter(v => {
+        //   return _.includes(this.model.assetTypes, v.id)
+        // })
 
-        this.info.business_types.selected = selectedBts
-        this.info.asset_types.selected = selectedAts
+        // this.info.business_types.selected = selectedBts
+        // this.info.asset_types.selected = selectedAts
 
         this.popups.baTypes.show = false
       }).catch(res => {
@@ -680,13 +702,17 @@ export default {
       position: relative;
       display: block;
       margin: 0 0.805153rem; //100px
-      padding: 0 0.563607rem; //70px
+      padding: 0.201288rem 0.563607rem; //25px 70px
       text-align: center;
-      min-height: 0.724638rem;
-      line-height: 0.724638rem; //90px
+      // min-height: 0.724638rem;
+      // line-height: 0.724638rem; //90px
       border-radius: 0.241546rem; //30px
       background: #2b5b83;
       color: #e1e6ec;
+      line-height: 1.5;
+      p {
+        padding-right: .5em;
+      }
       &.edit {
         background: none;
       }

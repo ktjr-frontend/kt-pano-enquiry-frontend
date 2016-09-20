@@ -24,6 +24,8 @@ import {
   persons
 } from '../../common/resources'
 import institutionMixins from './intitution_mixins'
+import _ from 'lodash'
+import Utils from '../../common/utils'
 
 export default {
   mixins: [institutionMixins],
@@ -50,6 +52,12 @@ export default {
         institution_type: query.dimension === 'mapped_exchange' ? 1 : 0
       }).then(res => {
         let data = res.json()
+
+        // 按首字拼音排序
+        data.institutions = _.chain(data.institutions).each(v => {
+          v.pinyin = Utils.HanZiPinYin.get(v.name.slice(0, 1))
+        }).sortBy('pinyin').value()
+
         return data
       })
     }

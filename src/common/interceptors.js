@@ -48,7 +48,7 @@ export default [
         })
       } else if (res.status === 500 || res.status === 502) { // 注释掉是为了接部分接口
         showToast(store, {
-          text: res.json().error || '抱歉！服务器忙。'
+          text: '抱歉！服务器忙。'
         })
       } else if (res.status === 200) {
         if (request.cache) {

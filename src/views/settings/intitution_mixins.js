@@ -30,7 +30,8 @@ export default {
           content: '确定取消关注？',
           onConfirm() {
             _self.$root.log({
-              name: '确定取消关注'
+              name: '确定取消关注',
+              institution: item.name
             })
 
             _self.$root.showLoadingStatus()
@@ -50,11 +51,17 @@ export default {
           },
           onConcel() {
             _self.$root.log({
-              name: '取消取消关注'
+              name: '取消取消关注',
+              institution: item.name
             })
           }
         })
       } else {
+        this.$root.log({
+          name: '关注机构',
+          institution: item.name
+        })
+
         this.$root.showLoadingStatus()
         persons.save({
           content: 'relative_institutions'
