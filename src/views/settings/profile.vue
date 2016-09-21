@@ -4,8 +4,8 @@ div
   //- 用户基本信息
   .profile
     .head
-      .avatar-container.item
-        i.icon-pano.icon-edit(v-link='{name: "settings"}')
+      .avatar-container.item(v-link='{name: "settings"}')
+        i.icon-pano.icon-edit
         .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
           img(v-show='user.avatar_url', :src='user.avatar_url', :style='model.avatarStyles')
           i.icon-pano.icon-man-simple(v-else)
@@ -21,7 +21,7 @@ div
       .intro-con(@click.prevent='')
         .intro(:class="{'edit': editingIntro}")
           i.icon-pano(@click.prevent='editIntro()', v-el:icon-intro, :class="{'icon-edit': !editingIntro, 'icon-ok2': editingIntro}")
-          p(v-show='!editingIntro') {{user.intro || '介绍我的业务'}}
+          p(v-show='!editingIntro', @click.prevent='editIntro()') {{user.intro.trim() || '介绍我的业务'}}
           textarea(v-show='editingIntro', v-el:intro-textarea, cols='2', rows='2', v-model='user.intro')
     //- 业务角色和资产类型
     .group
@@ -199,11 +199,7 @@ export default {
       user
     }
   },
-  ready() {
-    setTimeout(() => {
-      this.user.job = ''
-    }, 100)
-  },
+
   route: {
     data() {
       return persons.get({
@@ -213,30 +209,30 @@ export default {
 
         // 将select内的对象和all中使用同一个对象，保证checkbox的对象比较是相等的，v-model使用对象才能保证用户的选择顺序
         data.business_types.selected = data.business_types.selected.map(v => {
-          return data.business_types.all.find(va => {
+          return _.find(data.business_types.all, va => {
             return v.id === va.id
           })
         })
 
         data.asset_types.selected = data.asset_types.selected.map(v => {
-          return data.asset_types.all.find(va => {
+          return _.find(data.asset_types.all, va => {
             return v.id === va.id
           })
         })
 
-        data.platforms.institutions.forEach(v => {
+        _.each(data.platforms.institutions, v => {
           v.is_followed = true
         })
 
-        data.platforms.recommended.forEach(v => {
+        _.each(data.platforms.recommended, v => {
           v.is_followed = false
         })
 
-        data.institutions.institutions.forEach(v => {
+        _.each(data.institutions.institutions, v => {
           v.is_followed = true
         })
 
-        data.institutions.recommended.forEach(v => {
+        _.each(data.institutions.recommended, v => {
           v.is_followed = false
         })
 
@@ -734,7 +730,7 @@ export default {
       position: relative;
       display: block;
       margin: 0 0.805153rem; //100px
-      padding: 0.201288rem 0.563607rem; //25px 70px
+      padding: 0.080515rem 0.563607rem; //10px 70px
       text-align: center;
       // min-height: 0.724638rem;
       // line-height: 0.724638rem; //90px
@@ -746,7 +742,8 @@ export default {
         padding-right: .5em;
       }
       &.edit {
-        background: none;
+        // background: none;
+        box-shadow: 2px 2px 3px rgba(51, 120, 167, 1), -2px -2px 3px rgba(51, 120, 167, 1);
       }
       textarea {
         width: 100%;
@@ -754,10 +751,11 @@ export default {
         resize: none;
         vertical-align: top;
         // background: none;
-        border: 1px solid #3378a7;
-        background: #2b5b83;
+        border: 0;
+        background: none;
         color: white;
-        padding: .2em .5em;
+        line-height: 1;
+        // padding: 0;
         border-radius: 0;
         box-shadow: none;
         -webkit-appearance: none;
@@ -765,13 +763,13 @@ export default {
       .icon-pano {
         padding: 1em;
         position: absolute;
-        right: -2em;
-        top: 50%;
+        right: -.5em;
+        top: .95em;
         transform: translateY(-50%);
         color: #29b9ae;
         &.icon-edit {
           right: -.5em;
-          top: 1.35em;
+          top: .95em;
         }
       }
     }

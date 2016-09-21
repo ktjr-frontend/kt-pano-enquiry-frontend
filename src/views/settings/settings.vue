@@ -2,12 +2,12 @@
 .settings
   group
     cell(title='头像', is-link)
-      span.avatar
-        form(name='avatar')
+      form(name='avatar')
+        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file')
+        span.avatar
           .btn-file(:class='model.avatarDirection')
             img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
             i.icon-pano.icon-man-simple(v-else)
-            input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file')
     cell(title='姓名', :value='user.name')
     cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status !== 'passed'", is-link='', @click='changeUserMobile()')
     cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status === 'passed'")
@@ -92,41 +92,42 @@ export default {
 
     avatarOnChange(event) {
       let file = event.target
-      let reader = new FileReader()
+        // let reader = new FileReader()
 
-      // fileread 加载完成
-      reader.addEventListener('load', () => {
-        let url = reader.result
-        let img = new Image()
-        img.src = url
+      // // fileread 加载完成
+      // reader.addEventListener('load', () => {
+      //   let url = reader.result
+      //   let img = new Image()
+      //   img.src = url
 
-        // 图片加载完
-        img.onload = () => {
-          let formData = new FormData()
-          let fileName = Utils.uniqeId(8)
+      //   // 图片加载完
+      //   img.onload = () => {
+      let formData = new FormData()
+        // let fileName = Utils.uniqeId(8)
 
-          formData.append('file', Utils.compressImage(img), `${fileName}.jpeg`)
+      formData.append('file', file.files[0])
+      this.$root.showLoadingStatus()
 
-          // 更新头像
-          accounts.update({
-            content: 'avatar'
-          }, formData).then(res => {
-            this.$root.hideLoadingStatus()
-            this.user.avatar_url = res.json().user.avatar_url
-          }).catch(res => {
-            this.$root.hideLoadingStatus()
-            this.$root.showToast({
-              text: '抱歉，服务器繁忙！'
-            })
-            document.forms.namedItem('avatar').reset()
-          })
-        }
+      // 更新头像
+      accounts.update({
+        content: 'avatar'
+      }, formData).then(res => {
+        this.$root.hideLoadingStatus()
+        this.user.avatar_url = res.json().user.avatar_url
+      }).catch(res => {
+        this.$root.hideLoadingStatus()
+        this.$root.showToast({
+          text: '抱歉，服务器繁忙！'
+        })
+        document.forms.namedItem('avatar').reset()
       })
 
-      if (file.files[0]) {
-        this.$root.showLoadingStatus()
-        reader.readAsDataURL(file.files[0])
-      }
+      //   } // })
+
+      // if (file.files[0]) {
+      //   this.$root.showLoadingStatus()
+      //   reader.readAsDataURL(file.files[0])
+      // }
     },
 
     changeUserMobile() {
@@ -232,6 +233,23 @@ export default {
 
 <style scoped lang="scss">
 @import '../../assets/scss/mixins.scss';
+form {
+  display: inline-block;
+  background: none;
+  height: 100%;
+  input {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 99;
+    width: 100%;
+    height: 100%;
+  }
+}
+
 .avatar {
   display: inline-block;
   border-radius: 50%;
@@ -240,9 +258,6 @@ export default {
   width: 2.012882rem; //250px
   overflow: hidden;
   vertical-align: middle;
-  form {
-    height: 100%;
-  }
   .btn-file {
     height: 100%;
     width: 100%;
@@ -268,16 +283,6 @@ export default {
         transform: translateX(-20%);
         height: 100%;
       }
-    }
-    input {
-      position: absolute;
-      opacity: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
     }
   }
 }
