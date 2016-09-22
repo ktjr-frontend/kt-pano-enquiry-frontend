@@ -103,6 +103,22 @@
   }
 }
 
+.kt-list-column {
+  &.count-1 .kt-list-short {
+    width: 100%;
+  }
+  &.count-2 .kt-list-short {
+    width: 50%;
+  }
+  &.count-3,
+  &.count-4,
+  &.count-5 {
+    .kt-list-short {
+      width: 33.33%;
+    }
+  }
+}
+
 .kt-list-short {
   font-size: 0.322061rem; //40px
   min-width: 0; //hack for ellipsis
@@ -120,13 +136,15 @@
     }
     margin-bottom: 0.161031rem; //20px
   }
-  .main{
+  .main {
     width: 100%;
   }
   h3 {
     color: #474650;
     margin-bottom: 0.161031rem; //20px
-    .ellipsis{
+    .ellipsis {
+      text-align: center;
+      padding: 0 .28em;
       display: block;
     }
   }

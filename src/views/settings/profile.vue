@@ -70,7 +70,7 @@ div
           | 选择要关注的互联网金融平台
       //- 为您推荐
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.platforms.recommended.length')
-        .kt-list-column
+        .kt-list-column(:class='"count-" + info.platforms.recommended.length')
           .kt-list-short(v-for='item in info.platforms.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
             .icon
               img(:src='item.logo', :alt='item.name')
@@ -100,7 +100,7 @@ div
           | 选择要关注的挂牌场所
       //- 为您推荐
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.institutions.recommended.length')
-        .kt-list-column
+        .kt-list-column(:class='"count-" + info.platforms.recommended.length')
           .kt-list-short(v-for='item in info.institutions.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
             .icon
               img(:src='item.logo', :alt='item.name')
