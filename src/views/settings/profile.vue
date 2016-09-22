@@ -263,15 +263,13 @@ export default {
       },
       immediate: true
     },
-    'model.businessTypes': {
-      handler: function(val) {
-        if (val.length > 2) {
-          this.$root.showToast({
-            text: '不能大于2个'
-          })
-        }
-      },
-      deep: true
+    'model.businessTypes': function(val) {
+      console.log(val)
+      if (val.length > 2) {
+        this.$root.showToast({
+          text: '不能大于2个'
+        })
+      }
     },
     'model.assetTypes': function(val) {
       if (val.length > 3) {
@@ -435,7 +433,7 @@ export default {
               }).then(() => {
                 _self.$root.hideLoadingStatus()
                 _self.info.business_types.all.$remove(tag)
-                _self.model.businessTypes.$remove(tag.id)
+                _self.model.businessTypes.$remove(tag)
               })
             } else {
               p = assetTypes.delete({
@@ -443,7 +441,7 @@ export default {
               }).then(() => {
                 _self.$root.hideLoadingStatus()
                 _self.info.asset_types.all.$remove(tag)
-                _self.model.assetTypes.$remove(tag.id)
+                _self.model.assetTypes.$remove(tag)
               })
             }
 
