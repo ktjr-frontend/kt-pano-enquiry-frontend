@@ -42,6 +42,7 @@ import {
   persons
 } from '../../common/resources'
 import institutionMixins from './intitution_mixins'
+import _ from 'lodash'
 
 export default {
   mixins: [institutionMixins],
@@ -75,11 +76,11 @@ export default {
   },
   methods: {
     dataAdaptor(data) {
-      data.institutions.forEach(v => {
+      _.each(data.institutions, v => {
         v.is_followed = true
       })
 
-      data.recommended.forEach(v => {
+      _.each(data.recommended, v => {
         v.is_followed = false
       })
     },

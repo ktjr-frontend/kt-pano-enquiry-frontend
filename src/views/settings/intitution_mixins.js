@@ -71,15 +71,19 @@ export default {
             institution: item.name
           })
 
-          // 更新相关机构状态
-          return persons.get({
-            content: 'relative_institutions',
-            need_all: false,
-            institution_type: instType
-          }).then(res => {
-            this.$root.hideLoadingStatus()
-            callback && callback(res.json(), instType)
-          })
+          if (!_.isNil(instType)) {
+            // 更新相关机构状态
+            return persons.get({
+              content: 'relative_institutions',
+              need_all: false,
+              institution_type: instType
+            }).then(res => {
+              this.$root.hideLoadingStatus()
+              callback && callback(res.json(), instType)
+            })
+          } else {
+            this.hideLoadingStatus()
+          }
         }).catch(res => {
           this.$root.hideLoadingStatus()
           this.$root.showToast({

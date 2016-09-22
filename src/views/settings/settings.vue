@@ -113,6 +113,11 @@ export default {
           this.$root.log({
             name: '用户修改头像成功'
           })
+
+          this.$root.showToast({
+            text: '头像修改成功',
+            type: 'text'
+          })
         }).catch(res => {
           this.$root.hideLoadingStatus()
           this.$root.showToast({
