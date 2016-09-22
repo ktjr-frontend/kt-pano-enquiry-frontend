@@ -9,7 +9,7 @@ div
           img(:src='item.logo', :alt='item.name')
         .main
           h3 {{item.name}}
-          p(v-if='item.partners')
+          p(v-if='item.partners || item.asset_types')
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
         .right
@@ -26,7 +26,7 @@ div
           img(:src='item.logo', :alt='item.name')
         .main
           h3 {{item.name}}
-          p(v-if='item.partners')
+          p(v-if='item.partners || item.asset_types')
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
         .right
