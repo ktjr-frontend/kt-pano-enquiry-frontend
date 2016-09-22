@@ -5,7 +5,7 @@ div
   .profile
     .head
       .avatar-container.item(v-link='{name: "settings"}')
-        i.icon-pano.icon-edit
+        i.icon-pano.icon-arrow-right
         .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
           img(v-show='user.avatar_url', :src='user.avatar_url', :style='model.avatarStyles')
           i.icon-pano.icon-man-simple(v-else)
@@ -62,20 +62,22 @@ div
               span(class='gray') {{item.asset_types.join(' ')}}
 
           .right
-            a(@click.stop='toggleAttention(item)')
+            a(@click.stop='toggleAttention(item, 0, update)')
               i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.platforms.institutions.length', v-link='{name: "moreInstitutions"}')
           i.icon-pano.icon-plus
           | 选择要关注的互联网金融平台
+      //- 为您推荐
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.platforms.recommended.length')
         .kt-list-column
           .kt-list-short(v-for='item in info.platforms.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main
-              h3 {{item.name}}
-              a(@click.stop='toggleAttention(item)')
+              h3
+                div.ellipsis {{item.name}}
+              a(@click.stop='toggleAttention(item, 0, update)')
                 i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
                 | {{item.is_followed ? '已关注' : '关注'}}
       //- 关注的挂牌场所
@@ -90,20 +92,22 @@ div
               | 主要合作机构：<br/>
               span(class='gray') {{item.partners.join(' ')}}
           .right
-            a(@click.stop='toggleAttention(item)')
+            a(@click.stop='toggleAttention(item, 1, update)')
               i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.institutions.institutions.length', v-link='{name: "moreInstitutions", query:{dimension: "mapped_exchange"}}')
           i.icon-pano.icon-plus
           | 选择要关注的挂牌场所
+      //- 为您推荐
       kt-cell(title='为您推荐', class='sub-cell', v-if='info.institutions.recommended.length')
         .kt-list-column
           .kt-list-short(v-for='item in info.institutions.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main
-              h3 {{item.name}}
-              a(@click.stop='toggleAttention(item)')
+              h3
+                div.ellipsis {{item.name}}
+              a(@click.stop='toggleAttention(item, 1, update)')
                 i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
                 | {{item.is_followed ? '已关注' : '关注'}}
   //- 设置业务角色和资产类型
@@ -207,7 +211,7 @@ export default {
       }).then((res) => {
         let data = res.json()
 
-        // 将select内的对象和all中使用同一个对象，保证checkbox的对象比较是相等的，v-model使用对象才能保证用户的选择顺序
+        // **将select内的对象和all中使用同一个对象，保证checkbox的对象比较是相等的，v-model使用对象才能保证用户的选择顺序
         data.business_types.selected = data.business_types.selected.map(v => {
           return _.find(data.business_types.all, va => {
             return v.id === va.id
@@ -253,6 +257,8 @@ export default {
           this.model.avatarStyles = {
             transform: ` ${res.direction === 'portrait' ? 'translateY(-' : 'translateX(-'}${res.widthHeightDiffPercent * 100 / 2}%)`
           }
+        }).catch(error => {
+          console.warn(error)
         })
       },
       immediate: true
@@ -508,18 +514,6 @@ export default {
       // 确保两个保存成功
       Promise.all([ap, bp]).then(() => {
         this.$root.hideLoadingStatus()
-
-        // let selectedBts = this.info.business_types.all.filter(v => {
-        //   return _.includes(this.model.businessTypes, v.id)
-        // })
-
-        // let selectedAts = this.info.asset_types.all.filter(v => {
-        //   return _.includes(this.model.assetTypes, v.id)
-        // })
-
-        // this.info.business_types.selected = selectedBts
-        // this.info.asset_types.selected = selectedAts
-
         this.popups.baTypes.show = false
       }).catch(res => {
         this.$root.hideLoadingStatus()
@@ -571,6 +565,25 @@ export default {
           text: res.json().error || '抱歉，服务器繁忙！'
         })
       })
+    },
+
+    // 机构数据适配
+    dataAdaptor(data) {
+      _.each(data.institutions, v => {
+        v.is_followed = true
+      })
+
+      _.each(data.recommended, v => {
+        v.is_followed = false
+      })
+    },
+
+    // 关注切换回调
+    update(data, instType) {
+      this.dataAdaptor(data)
+
+      this.info[instType ? 'institutions' : 'platforms'].institutions = data.institutions
+      this.info[instType ? 'institutions' : 'platforms'].recommended = data.recommended
     }
   },
 
@@ -661,11 +674,11 @@ export default {
     }
     .avatar-container {
       position: relative;
-      .icon-edit {
+      .icon-arrow-right {
         font-size: 0.402576rem;
         position: absolute;
         right: -0.805153rem; //100px
-        top: 0.764895rem; //95px
+        top: 0.966184rem; //120px
         color: #29b9ae;
       }
     }

@@ -71,6 +71,7 @@ const state = {
     onClose() {}
   },
   user: {
+    intro: '',
     mobile: '',
     name: '',
     password: ''

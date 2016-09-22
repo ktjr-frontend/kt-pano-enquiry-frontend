@@ -23,7 +23,7 @@ export default {
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}${paramsStr}`, '_blank')
     },
     // 关注切换
-    toggleAttention(item) {
+    toggleAttention(item, instType, callback) {
       let _self = this
       if (item.is_followed) {
         this.$root.showConfirm({
@@ -57,23 +57,38 @@ export default {
           }
         })
       } else {
-        this.$root.log({
-          name: '关注机构',
-          institution: item.name
-        })
-
         this.$root.showLoadingStatus()
+
         persons.save({
           content: 'relative_institutions'
         }, {
           institution_id: item.id
         }).then(() => {
-          this.$root.hideLoadingStatus()
           item.is_followed = true
+
+          this.$root.log({
+            name: '关注机构成功',
+            institution: item.name
+          })
+
+          // 更新相关机构状态
+          return persons.get({
+            content: 'relative_institutions',
+            need_all: false,
+            institution_type: instType
+          }).then(res => {
+            this.$root.hideLoadingStatus()
+            callback && callback(res.json(), instType)
+          })
         }).catch(res => {
           this.$root.hideLoadingStatus()
           this.$root.showToast({
             text: res.json().error || '抱歉，服务器繁忙！'
+          })
+
+          this.$root.log({
+            name: '关注机构失败',
+            institution: item.name
           })
         })
       }

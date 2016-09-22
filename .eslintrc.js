@@ -12,7 +12,11 @@ module.exports = {
   env: {
     'browser': true,
     'node': true,
+    'es6': true,
     'jasmine': true
+  },
+  globals: {
+    // 'BinaryFile': true
   },
   // add your custom rules here
   'rules': {

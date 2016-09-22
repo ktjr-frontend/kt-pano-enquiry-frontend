@@ -53,7 +53,7 @@ export default {
     }
     return time
   },
-  compressImage(img) {
+  compressImage(img, exifTags) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
     let w = img.naturalWidth
@@ -61,6 +61,27 @@ export default {
 
     canvas.width = 600
     canvas.height = h / w * 600
+
+    // console.log(exifTags, w, h)
+
+    /*if (exifTags) {
+      console.log(exifTags, w, h)
+      switch (exifTags.Orientation) {
+        case 8:
+          ctx.rotate(90 * Math.PI / 180)
+          break
+        case 3:
+          ctx.rotate(180 * Math.PI / 180)
+          break
+        case 6:
+          ctx.rotate(-90 * Math.PI / 180)
+          break
+        case 1:
+          ctx.rotate(-90 * Math.PI / 180)
+          break
+      }
+    }*/
+
     ctx.drawImage(img, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
 
     let data = canvas.toDataURL('image/jpeg')

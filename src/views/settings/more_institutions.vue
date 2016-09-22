@@ -3,7 +3,7 @@ div
   kt-loading(:visible='$loadingRouteData')
   .institutions-list
   .group
-    kt-cell(title='我的关注', icon='icon-arrow-right', @on-title-click='$router.go({name: "allInstitutions", query: $route.query})')
+    kt-cell(title='我的关注', icon='icon-plus', @on-title-click='$router.go({name: "allInstitutions", query: $route.query})')
       .kt-list(v-for='item in institutions', v-if='institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
         .icon
           img(:src='item.logo', :alt='item.name')
@@ -13,7 +13,7 @@ div
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
         .right
-          a(@click.stop='toggleAttention(item)')
+          a(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
       .default-content(v-if='!institutions.length', v-link='{name: "allInstitutions", query: $route.query}')
@@ -30,7 +30,7 @@ div
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
         .right
-          a(@click.stop='toggleAttention(item)')
+          a(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
 
@@ -68,19 +68,27 @@ export default {
       }).then(res => {
         let data = res.json()
 
-        data.institutions.forEach(v => {
-          v.is_followed = true
-        })
-
-        data.recommended.forEach(v => {
-          v.is_followed = false
-        })
-
+        this.dataAdaptor(data)
         return data
       })
     }
   },
-  methods: {},
+  methods: {
+    dataAdaptor(data) {
+      data.institutions.forEach(v => {
+        v.is_followed = true
+      })
+
+      data.recommended.forEach(v => {
+        v.is_followed = false
+      })
+    },
+    update(data) {
+      this.dataAdaptor(data)
+      this.institutions = data.institutions
+      this.recommended = data.recommended
+    }
+  },
 
   computed: {
     dimension() {
@@ -97,5 +105,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>

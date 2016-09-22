@@ -31,6 +31,8 @@
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
+// import EXIF from 'exif-js'
+import lrz from 'lrz'
 import {
   user
 } from '../../vuex/getters'
@@ -91,43 +93,46 @@ export default {
     },
 
     avatarOnChange(event) {
-      let file = event.target
-        // let reader = new FileReader()
-
-      // // fileread 加载完成
-      // reader.addEventListener('load', () => {
-      //   let url = reader.result
-      //   let img = new Image()
-      //   img.src = url
-
-      //   // 图片加载完
-      //   img.onload = () => {
-      let formData = new FormData()
-        // let fileName = Utils.uniqeId(8)
-
-      formData.append('file', file.files[0])
+      let file = event.target.files[0]
       this.$root.showLoadingStatus()
 
-      // 更新头像
-      accounts.update({
-        content: 'avatar'
-      }, formData).then(res => {
-        this.$root.hideLoadingStatus()
-        this.user.avatar_url = res.json().user.avatar_url
-      }).catch(res => {
-        this.$root.hideLoadingStatus()
-        this.$root.showToast({
-          text: '抱歉，服务器繁忙！'
+      lrz(file, {
+        quality: 0.7
+      }).then(rst => {
+        let formData = new FormData()
+        let fileName = Utils.uniqeId(8)
+        formData.append('file', rst.file, `${fileName}.jpeg`)
+
+        // 更新头像
+        accounts.update({
+          content: 'avatar'
+        }, formData).then(res => {
+          this.$root.hideLoadingStatus()
+          this.user.avatar_url = res.json().user.avatar_url
+
+          this.$root.log({
+            name: '用户修改头像成功'
+          })
+        }).catch(res => {
+          this.$root.hideLoadingStatus()
+          this.$root.showToast({
+            text: '抱歉，服务器繁忙！'
+          })
+          document.forms.namedItem('avatar').reset()
+
+          this.$root.log({
+            name: '用户修改头像失败'
+          })
         })
-        document.forms.namedItem('avatar').reset()
+      }).catch(err => {
+        this.$root.log({
+          name: '用户修改头像失败:' + err
+        })
+
+        this.$root.showTotast({
+          text: err || '抱歉，图片处理失败！'
+        })
       })
-
-      //   } // })
-
-      // if (file.files[0]) {
-      //   this.$root.showLoadingStatus()
-      //   reader.readAsDataURL(file.files[0])
-      // }
     },
 
     changeUserMobile() {

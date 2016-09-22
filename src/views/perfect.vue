@@ -28,6 +28,7 @@ import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import Toast from 'vux-components/toast'
 import Utils from '../common/utils'
+import lrz from 'lrz'
 import {
   user
 } from '../vuex/getters'
@@ -49,7 +50,7 @@ export default {
   },
   data() {
     return {
-
+      rst: {},
       card: {
         img: null, // 供压缩用
         file: null,
@@ -94,7 +95,29 @@ export default {
 
     cardOnChange(name, event) {
       this.validate(name)
-      let file = event.target
+      let file = event.target.files[0]
+
+      this.$root.showLoadingStatus()
+      lrz(file, {
+        quality: 0.7 //1 的话方向会错
+      }).then(rst => {
+        this.$root.hideLoadingStatus()
+        this.rst = rst
+        this.showPreview(rst.base64)
+
+        this.$root.log({
+          name: '用户预览名片成功'
+        })
+      }).catch(err => {
+        this.$root.hideLoadingStatus()
+        this.$root.log({
+          name: '用户预览名片失败:' + err
+        })
+
+        this.$root.showToast(err || '抱歉，图片加载失败！')
+      })
+
+      /*
       let reader = new FileReader()
 
       reader.addEventListener('load', () => {
@@ -111,7 +134,7 @@ export default {
         setTimeout(() => {
           reader.readAsDataURL(file.files[0])
         }, 50)
-      }
+      }*/
     },
 
     resetForm() {
@@ -138,10 +161,10 @@ export default {
           })
         } else {
           this.$root.showLoadingStatus()
-          // let form = document.forms.namedItem('cardForm')
+            // let form = document.forms.namedItem('cardForm')
           let formData = new FormData()
           let fileName = Utils.uniqeId(8)
-          formData.append('file', Utils.compressImage(this.card.img), `${fileName}.jpeg`)
+          formData.append('file', this.rst.file, `${fileName}.jpeg`)
 
           cards.save(formData)
             .then((res) => {
@@ -171,11 +194,19 @@ export default {
                   name: 'settings'
                 })
               }
+
+              this.$root.log({
+                name: '用户提交名片成功'
+              })
             })
             .catch((res) => {
               this.$root.hideLoadingStatus()
               this.$root.showToast({
                 text: res.json().error || '抱歉，服务器繁忙！'
+              })
+
+              this.$root.log({
+                name: '用户提交名片失败'
               })
             })
         }

@@ -105,6 +105,7 @@
 
 .kt-list-short {
   font-size: 0.322061rem; //40px
+  min-width: 0; //hack for ellipsis
   @include flex(column);
   .icon {
     width: 1.755233rem; //218px
@@ -114,14 +115,20 @@
     overflow: hidden;
     @include flex;
     img {
-      max-width: 80%;
-      max-height: 80%;
+      max-width: 75%;
+      max-height: 75%;
     }
     margin-bottom: 0.161031rem; //20px
+  }
+  .main{
+    width: 100%;
   }
   h3 {
     color: #474650;
     margin-bottom: 0.161031rem; //20px
+    .ellipsis{
+      display: block;
+    }
   }
   a {
     color: #29b9ae;
