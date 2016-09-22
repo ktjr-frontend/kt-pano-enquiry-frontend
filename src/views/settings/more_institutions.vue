@@ -12,8 +12,8 @@ div
           p(v-if='item.partners || item.asset_types')
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
-        .right
-          a(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
+        .right(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
+          a
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
       .default-content(v-if='!institutions.length', v-link='{name: "allInstitutions", query: $route.query}')
@@ -29,8 +29,8 @@ div
           p(v-if='item.partners || item.asset_types')
             | {{$route.query.dimension === 'mapped_exchange' ? '主要合作机构' : '已发行的资产类型'}}：<br/>
             span(class='gray') {{$route.query.dimension === 'mapped_exchange' ? item.partners.join(' ') : item.asset_types.join(' ')}}
-        .right
-          a(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
+        .right(@click.stop='toggleAttention(item, $route.query.dimension === "mapped_exchange" ? 1 : 0, update)')
+          a
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
 

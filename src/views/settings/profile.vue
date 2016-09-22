@@ -61,8 +61,8 @@ div
               | 已发行资产类型：<br/>
               span(class='gray') {{item.asset_types.join(' ')}}
 
-          .right
-            a(@click.stop='toggleAttention(item, 0, update)')
+          .right(@click.stop='toggleAttention(item, 0, update)')
+            a
               i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.platforms.institutions.length', v-link='{name: "moreInstitutions"}')
@@ -91,8 +91,8 @@ div
             p(v-if='item.partners')
               | 主要合作机构：<br/>
               span(class='gray') {{item.partners.join(' ')}}
-          .right
-            a(@click.stop='toggleAttention(item, 1, update)')
+          .right(@click.stop='toggleAttention(item, 1, update)')
+            a
               i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
               | {{item.is_followed ? '已关注' : '关注'}}
         .default-content(v-if='!info.institutions.institutions.length', v-link='{name: "moreInstitutions", query:{dimension: "mapped_exchange"}}')
