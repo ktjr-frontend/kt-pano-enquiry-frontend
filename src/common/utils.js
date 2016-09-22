@@ -32,7 +32,7 @@ export default {
     let panoMap = {
       'dev-enquiry.pano.ktjr.com': 'http://dev-pano.ktjr.com',
       'stage-enquiry.pano.ktjr.com': 'http://stage-pano.ktjr.com',
-      'pano-enquiry.ktjr.com': 'https://pano.ktjr.com'
+      'pano-enquiry.ktjr.com': 'http://pano.ktjr.com'
     }
 
     let token = encodeURIComponent(window.localStorage.token)
