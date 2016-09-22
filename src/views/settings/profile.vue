@@ -678,7 +678,7 @@ export default {
         font-size: 0.402576rem;
         position: absolute;
         right: -0.805153rem; //100px
-        top: 0.966184rem; //120px
+        top: 0.999184rem; //120px
         color: #29b9ae;
       }
     }
@@ -777,7 +777,7 @@ export default {
         padding: 1em;
         position: absolute;
         right: -.5em;
-        top: .95em;
+        top: 1.25em;
         transform: translateY(-50%);
         color: #29b9ae;
         &.icon-edit {
