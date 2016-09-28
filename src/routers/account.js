@@ -1,7 +1,12 @@
+import Utils from '../common/utils'
+
+let scrollYCache = Utils.getSessionByKey('scrollYCache')
+
 export default {
   '/profile': {
     data: {
       title: '个人信息页',
+      scrollY: scrollYCache.profile || 0,
       logoBottomVisible: false,
       headVisible: false,
       tabVisible: true
@@ -15,6 +20,7 @@ export default {
   '/more_institutions': {
     data: {
       title: '关注的挂牌场所',
+      scrollY: scrollYCache.moreInstitutions || 0,
       logoBottomVisible: false,
       headVisible: true,
       tabVisible: false
@@ -28,6 +34,7 @@ export default {
   '/all_institutions': {
     data: {
       title: '关注的互联网金融平台',
+      scrollY: scrollYCache.allInstitutions || 0,
       logoBottomVisible: false,
       headVisible: true,
       tabVisible: false

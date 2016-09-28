@@ -20,6 +20,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-refresh:before {
+  content: "\e91c";
+}
+
 .icon-edit:before {
   content: "\e918";
 }

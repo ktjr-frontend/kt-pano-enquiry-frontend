@@ -69,9 +69,9 @@ div
           i.icon-pano.icon-plus
           | 选择要关注的互联网金融平台
       //- 为您推荐
-      kt-cell(title='为您推荐', class='sub-cell', v-if='info.platforms.recommended.length')
-        .kt-list-column(:class='"count-" + info.platforms.recommended.length')
-          .kt-list-short(v-for='item in info.platforms.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
+      kt-cell.sub-cell(title='为您推荐', :icon='recommended.platforms.pages > 1 ? "icon-refresh" : ""', @on-icon-click='changeRecommendedBatch(0)', v-if='info.platforms.recommended.length')
+        .kt-list-column(:class='"count-" + recommendedPlatformsCurrent.length')
+          .kt-list-short(v-for='item in recommendedPlatformsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main
@@ -99,9 +99,9 @@ div
           i.icon-pano.icon-plus
           | 选择要关注的挂牌场所
       //- 为您推荐
-      kt-cell(title='为您推荐', class='sub-cell', v-if='info.institutions.recommended.length')
-        .kt-list-column(:class='"count-" + info.platforms.recommended.length')
-          .kt-list-short(v-for='item in info.institutions.recommended | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+      kt-cell.sub-cell(title='为您推荐', :icon='recommended.institutions.pages > 1 ? "icon-refresh" : ""', @on-icon-click='changeRecommendedBatch(1)', v-if='info.institutions.recommended.length')
+        .kt-list-column(:class='"count-" + recommendedInstitutionsCurrent.length')
+          .kt-list-short(v-for='item in recommendedInstitutionsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main
@@ -239,6 +239,11 @@ export default {
         _.each(data.institutions.recommended, v => {
           v.is_followed = false
         })
+
+        let _self = this
+        setTimeout(() => {
+          window.scrollTo(0, _self.$route.data.scrollY || 0)
+        }, 200)
 
         return {
           info: data
@@ -577,11 +582,26 @@ export default {
     },
 
     // 关注切换回调
-    update(data, instType) {
+    update(data, instType) { // 0 平台 1交易所
       this.dataAdaptor(data)
 
       this.info[instType ? 'institutions' : 'platforms'].institutions = data.institutions
       this.info[instType ? 'institutions' : 'platforms'].recommended = data.recommended
+    },
+
+    changeRecommendedBatch(instType) {
+      this.$root.log({
+        name: `换一批${instType ? '交易所' : '互联网平台'}`
+      })
+
+      // 获取机构类型的信息
+      let r = this.recommended[instType ? 'institutions' : 'platforms']
+
+      if (r.page < r.pages - 1) {
+        ++r.page
+      } else {
+        r.page = 0
+      }
     }
   },
 
@@ -601,12 +621,50 @@ export default {
       return _.some(this.info.business_types.all, {
         customized: true
       })
+    },
+    recommendedInstitutionsCurrent() { // 分页取推荐的交易所
+      let r = this.recommended.institutions
+      let insts = this.info.institutions.recommended.slice(0)
+      r.pages = Math.ceil(insts.length / r.pageSize)
+
+      if (r.pages > 1) {
+        // 补全-满足pageSize的整数倍
+        insts = _.concat(insts, insts.slice(0, r.pageSize - insts.length % r.pageSize))
+        return insts.slice(r.page * r.pageSize, (r.page + 1) * r.pageSize)
+      } else {
+        return insts
+      }
+    },
+    recommendedPlatformsCurrent() {
+      let r = this.recommended.platforms
+      let insts = this.info.platforms.recommended.slice(0)
+      r.pages = Math.ceil(insts.length / r.pageSize)
+
+      if (r.pages > 1) {
+        // 补全-满足pageSize的整数倍
+        insts = _.concat(insts, insts.slice(0, r.pageSize - insts.length % r.pageSize))
+        return insts.slice(r.page * r.pageSize, (r.page + 1) * r.pageSize)
+      } else {
+        return insts
+      }
     }
   },
 
   data() {
     return {
       editingIntro: false,
+      recommended: { // 推荐 recommended
+        platforms: {
+          page: 0,
+          pageSize: 3,
+          pages: 0
+        },
+        institutions: {
+          page: 0,
+          pageSize: 3,
+          pages: 0
+        }
+      },
       model: {
         avatarDirection: 'portrait',
         avatarStyles: {},

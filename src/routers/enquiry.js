@@ -1,3 +1,6 @@
+import Utils from '../common/utils'
+
+let scrollYCache = Utils.getSessionByKey('scrollYCache')
 export default {
   '/enquiry': {
     data: {
@@ -113,6 +116,7 @@ export default {
     name: 'enquiryResult',
     needLogin: true,
     waitForData: true,
+    scrollY: scrollY.enquiryResult,
     component(resolve) {
       require(['../views/enquiry/enquiry-result'], resolve)
     }
@@ -120,6 +124,7 @@ export default {
   'enquiry/result/am': {
     data: {
       title: '询价结果',
+      scrollY: scrollYCache.enquiryAmResult || 0,
       logoBottomVisible: true,
       headVisible: false,
       tabVisible: true

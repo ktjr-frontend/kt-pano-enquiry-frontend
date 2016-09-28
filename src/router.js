@@ -42,6 +42,11 @@ router.redirect({
 router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
 
+  // 跳转前记录当前页面位置
+  /*if (from.data) {
+    from.data.scrollY = window.scrollY
+  }*/
+
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
       // abort()
@@ -83,8 +88,8 @@ router.afterEach(({ to }) => {
   })
 
   // 动态解决logo的位置问题
+  window.scrollTo(0, 0)
   setTimeout(() => {
-    window.scrollTo(0, 0)
     updateLogoBottomStyle()
   }, 10)
 })

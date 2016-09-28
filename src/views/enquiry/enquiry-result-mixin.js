@@ -68,6 +68,11 @@ export default {
           link: host + '#!/enquiry/share?mark=' + query.content + '&key=' + encodeURIComponent(data.params_key) // 分享链接
         })
 
+        let _self = this
+        setTimeout(() => {
+          window.scrollTo(0, _self.$route.data.scrollY || 0)
+        }, 200)
+
         return {
           enquiry_result: data
         }
@@ -86,6 +91,11 @@ export default {
       this.$root.log({
         name: platform
       })
+
+      // 跳转前记录当前位置
+      let scrollYCache = Utils.getSessionByKey('scrollYCache')
+      scrollYCache[this.$route.name] = window.scrollY
+      Utils.setSessionByKey('scrollYCache', scrollYCache)
 
       let envParams = Utils.getEnvParams()
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
@@ -114,7 +124,7 @@ export default {
       })
 
       this.$root.showAlert({
-        content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
+        content: '点击右上角，马上分享给你的小伙伴吧！'
       })
     },
 
@@ -126,7 +136,7 @@ export default {
         this.feedbackStyle.satisfied = value
         if (value === 1) {
           this.$root.showAlert({
-            content: '金融的生命在于流动，信息的生命在于分享！点击右上角，马上分享给你的小伙伴吧！'
+            content: '点击右上角，马上分享给你的小伙伴吧！'
           })
         } else {
           let weixin = require('../../assets/images/weixin.jpg')

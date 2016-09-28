@@ -12,6 +12,7 @@ export default {
     }
     return parts.join('&')
   },
+
   uniqeId(length) {
     let text = ''
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -21,6 +22,7 @@ export default {
     }
     return text
   },
+
   isWeixin() {
     var ua = navigator.userAgent.toLowerCase()
     if (ua.match(/.*MicroMessenger/i)) {
@@ -28,6 +30,7 @@ export default {
     }
     return false
   },
+
   getEnvParams() {
     let panoMap = {
       'dev-enquiry.pano.ktjr.com': 'http://dev-pano.ktjr.com',
@@ -44,6 +47,7 @@ export default {
       token
     }
   },
+
   getReadTime(text) {
     let time = 1000
     if (text.length <= 10) {
@@ -53,6 +57,23 @@ export default {
     }
     return time
   },
+
+  getSessionByKey(key) {
+    return JSON.parse(sessionStorage.getItem(key) || '{}')
+  },
+
+  setSessionByKey(key, value) {
+    sessionStorage.setItem(key, JSON.stringify(value || {}))
+  },
+
+  getLocalByKey(key) {
+    return JSON.parse(localStorage.getItem(key) || '{}')
+  },
+
+  setLocalByKey(key, value) {
+    localStorage.setItem(key, JSON.stringify(value || {}))
+  },
+
   compressImage(img, exifTags) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
@@ -97,6 +118,7 @@ export default {
       type: 'image/jpeg'
     })
   },
+
   getImageInfo(url) {
     return new Promise((resolve, reject) => {
       let img = new Image()
@@ -122,6 +144,7 @@ export default {
       img.src = url
     })
   },
+
   HanZiPinYin: {
     // 汉字拼音首字母列表 本列表包含了20902个汉字,用于配合 ToChineseSpell
     //函数使用,本表收录的字符的Unicode编码范围为19968至40869, XDesigner 整理

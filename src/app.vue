@@ -122,6 +122,12 @@ export default {
       return this.$route.data.title
     }
   },
+  /*ready() {
+    window.addEventListener('scroll', () => {
+      this.$route.data.scrollY = window.scrollY
+      console.log(this.$route.data.scrollY)
+    })
+  },*/
   created() {
     // 获取用户信息
     sessions.get({

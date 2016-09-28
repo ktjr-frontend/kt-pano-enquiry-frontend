@@ -8,10 +8,10 @@
           .btn-file(:class='model.avatarDirection')
             img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
             i.icon-pano.icon-man-simple(v-else)
+  group(title='如需修改，请重新提交名片')
     cell(title='姓名', :value='user.name')
     cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status !== 'passed'", is-link='', @click='changeUserMobile()')
     cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status === 'passed'")
-  group
     cell(title='工作邮箱', :value='user.email')
     cell(title='公司名称', :value='user.company')
     cell(title='部门', :value='user.department')
@@ -31,7 +31,6 @@
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
-// import EXIF from 'exif-js'
 import lrz from 'lrz'
 import {
   user

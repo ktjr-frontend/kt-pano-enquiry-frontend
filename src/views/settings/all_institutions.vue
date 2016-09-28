@@ -58,6 +58,11 @@ export default {
           v.pinyin = Utils.HanZiPinYin.get(v.name.slice(0, 1))
         }).sortBy('pinyin').value()
 
+        let _self = this
+        setTimeout(() => {
+          window.scrollTo(0, _self.$route.data.scrollY || 0)
+        }, 200)
+
         return data
       })
     }

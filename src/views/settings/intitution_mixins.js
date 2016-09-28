@@ -18,9 +18,14 @@ export default {
         ...params
       })
 
+      // 跳转前记录当前位置
+      let scrollYCache = Utils.getSessionByKey('scrollYCache')
+      scrollYCache[this.$route.name] = window.scrollY
+      Utils.setSessionByKey('scrollYCache', scrollYCache)
+
       let envParams = Utils.getEnvParams()
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
-      window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}${paramsStr}`, '_blank')
+      window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}${paramsStr}`, '_self')
     },
     // 关注切换
     toggleAttention(item, instType, callback) {

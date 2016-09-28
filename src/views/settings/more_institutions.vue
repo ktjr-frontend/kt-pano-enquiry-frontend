@@ -19,9 +19,9 @@ div
       .default-content(v-if='!institutions.length', v-link='{name: "allInstitutions", query: $route.query}')
         i.icon-pano.icon-plus
         选择要关注的互联网金融平台
-    kt-cell(title='为我推荐', v-if='recommended.length')
+    kt-cell(title='为我推荐', v-if='recommendedCurrent.length', :icon='rPages > 1 ? "icon-refresh" : ""', @on-icon-click='changeBatch()')
       //- div(slot='title', v-link='{name: "allInstitutions"}') 我的关注
-      .kt-list(v-for='item in recommended', v-if='recommended.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+      .kt-list(v-for='item in recommendedCurrent', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
         .icon
           img(:src='item.logo', :alt='item.name')
         .main
@@ -33,7 +33,9 @@ div
           a
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
-
+    //- .foot
+    //-   a.change-batch(@click='changeBatch()')
+    //-     em 换一批
 </template>
 
 <script>
@@ -49,6 +51,7 @@ export default {
   components: {
     KtCell
   },
+
   route: {
     canActivate({
       next,
@@ -57,6 +60,7 @@ export default {
       to.data.title = to.query.dimension !== 'mapped_exchange' ? '关注的互联网金融平台' : '关注的挂牌场所'
       next()
     },
+
     data({
       to: {
         query
@@ -70,10 +74,17 @@ export default {
         let data = res.json()
 
         this.dataAdaptor(data)
+
+        let _self = this
+        setTimeout(() => {
+          window.scrollTo(0, _self.$route.data.scrollY || 0)
+        }, 200)
+
         return data
       })
     }
   },
+
   methods: {
     dataAdaptor(data) {
       _.each(data.institutions, v => {
@@ -83,21 +94,49 @@ export default {
       _.each(data.recommended, v => {
         v.is_followed = false
       })
+
+      this.rPages = Math.ceil(data.recommended.length / this.rPageSize)
+
+      if (this.rPages > 1) {
+        // 补全-满足rPageSize的整数倍
+        data.recommended = _.concat(data.recommended, data.recommended.slice(0, this.rPageSize - data.recommended.length % this.rPageSize))
+      }
     },
+
     update(data) {
       this.dataAdaptor(data)
       this.institutions = data.institutions
       this.recommended = data.recommended
+    },
+
+    // 换一批推荐机构
+    changeBatch() {
+      this.$root.log({
+        name: '换一批'
+      })
+
+      if (this.rPage < this.rPages - 1) {
+        ++this.rPage
+      } else {
+        this.rPage = 0
+      }
     }
   },
 
   computed: {
     dimension() {
       return this.$route.query.dimension
+    },
+    recommendedCurrent() {
+      return this.recommended.slice(this.rPage * this.rPageSize, (this.rPage + 1) * this.rPageSize)
     }
   },
+
   data() {
     return {
+      rPages: 0,
+      rPage: 0,
+      rPageSize: 5,
       institutions: [],
       recommended: []
     }
@@ -106,4 +145,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+/* .foot {
+  text-align: center;
+  padding: 0.322061rem 0; //40px
+  .change-batch {
+    padding: 0 1em;
+  }
+  a {
+    font-size: 0.322061rem;
+  }
+} */
 </style>

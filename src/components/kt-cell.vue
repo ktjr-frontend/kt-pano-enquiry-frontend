@@ -4,7 +4,7 @@
     slot(name='title')
       | {{title}}
     slot(name='icon')
-      i.icon-pano(:class='icon', @click='iconClick($event)')
+      i.icon-pano(:class='icon', @click='iconClick($event)') {{rightText}}
   .content
     slot
     | {{content}}
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ['title', 'icon', 'content', 'class'],
+  props: ['title', 'icon', 'content', 'class', 'rightText'],
   methods: {
     titleClick(e) {
       this.$emit('on-title-click', e)
@@ -55,6 +55,9 @@ export default {
       right: 0;
       top: 50%;
       transform: translateY(-50%);
+      &.icon-refresh{
+        font-size: 0.8em;
+      }
     }
   }
   .weui_cell {
