@@ -602,6 +602,11 @@ export default {
       } else {
         r.page = 0
       }
+
+      Utils.setSessionByKey('profilePageSession', {
+        r_p_page: this.recommended.platforms.page,
+        r_i_page: this.recommended.institutions.page
+      })
     }
   },
 
@@ -651,16 +656,18 @@ export default {
   },
 
   data() {
+    let profilePageSession = Utils.getSessionByKey('profilePageSession')
+
     return {
       editingIntro: false,
       recommended: { // 推荐 recommended
         platforms: {
-          page: 0,
+          page: profilePageSession.r_p_page || 0,
           pageSize: 3,
           pages: 0
         },
         institutions: {
-          page: 0,
+          page: profilePageSession.r_i_page || 0,
           pageSize: 3,
           pages: 0
         }

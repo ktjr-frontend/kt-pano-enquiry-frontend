@@ -87,18 +87,17 @@ export default {
   },
 
   methods: {
-    goInstDetail(platform) {
+    goInstDetail(platform, callback) {
       this.$root.log({
         name: platform
       })
 
       // 跳转前记录当前位置
-      let scrollYCache = Utils.getSessionByKey('scrollYCache')
-      scrollYCache[this.$route.name] = window.scrollY
-      Utils.setSessionByKey('scrollYCache', scrollYCache)
+      Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
       let envParams = Utils.getEnvParams()
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
+      callback && callback()
     },
 
     openPano() {

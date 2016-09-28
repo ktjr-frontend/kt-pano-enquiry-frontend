@@ -45,6 +45,7 @@ import {
 } from '../../common/resources'
 import institutionMixins from './intitution_mixins'
 import _ from 'lodash'
+import Utils from '../../common/utils'
 
 export default {
   mixins: [institutionMixins],
@@ -120,6 +121,10 @@ export default {
       } else {
         this.rPage = 0
       }
+
+      Utils.setSessionByKey('moreInstitutionsPageSession', {
+        rPage: this.rPage
+      })
     }
   },
 
@@ -133,9 +138,10 @@ export default {
   },
 
   data() {
+    let moreInstitutionsPageSession = Utils.getSessionByKey('moreInstitutionsPageSession')
     return {
       rPages: 0,
-      rPage: 0,
+      rPage: moreInstitutionsPageSession.rPage || 0,
       rPageSize: 5,
       institutions: [],
       recommended: []

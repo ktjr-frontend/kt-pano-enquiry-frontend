@@ -62,8 +62,14 @@ export default {
     return JSON.parse(sessionStorage.getItem(key) || '{}')
   },
 
-  setSessionByKey(key, value) {
-    sessionStorage.setItem(key, JSON.stringify(value || {}))
+  setSessionByKey(key, value, valueKey) {
+    if (valueKey) {
+      let cache = this.getSessionByKey(key)
+      cache[valueKey] = value
+      sessionStorage.setItem(key, JSON.stringify(cache))
+    } else {
+      sessionStorage.setItem(key, JSON.stringify(value || {}))
+    }
   },
 
   getLocalByKey(key) {

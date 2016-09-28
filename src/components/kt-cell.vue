@@ -35,6 +35,9 @@ export default {
       color: #29b9ae;
       height: 0.805153rem;
       line-height: 0.805153rem;
+      .icon-pano.icon-refresh{
+        font-size: 1.2em;
+      }
     }
   }
   & + .sub-cell:before {
@@ -48,7 +51,7 @@ export default {
     border-bottom: 1px solid #eff2f7;
     position: relative;
     .icon-pano {
-      font-size: .6em;
+      font-size: .7em;
       color: #29b9ae;
       padding: 1em 0 1em 1em;
       position: absolute;
@@ -56,7 +59,7 @@ export default {
       top: 50%;
       transform: translateY(-50%);
       &.icon-refresh{
-        font-size: 0.8em;
+        font-size: 0.9em;
       }
     }
   }

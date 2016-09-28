@@ -8,9 +8,9 @@
             input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: {rule: true, message: "请长传名片"}}', name='file')
           .comment(v-show='!card.file')
             p
-              | 请尽快上传与注册手机号一致的名片信息。
+              | 请上传与注册手机号一致的名片信息
               br
-              |  名片信息仅用于认证审核，我们将对您的个人信息严格保密。
+              | 如名片信息分布在正反两面，请将正反两张名片摆在一起拍照
           .business-card-preview
             img(alt='名片预览', :src='card.previewUrl')
       .form-group(v-show='card.file')
