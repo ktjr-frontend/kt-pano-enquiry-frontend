@@ -2,8 +2,8 @@ import { router } from '../router'
 
 export function updateUser({ dispatch }, user, soft) {
   if (!soft) {
-    window.localStorage.user = JSON.stringify(user)
-    window.localStorage.userMobile = user.mobile
+    localStorage.user = JSON.stringify(user)
+    localStorage.userMobile = user.mobile
   }
   dispatch('UPDATE_USER', user)
 }
@@ -14,8 +14,11 @@ export function logOut({ dispatch }, soft) {
   }
 
   dispatch('HIDE_MESSAGE') //隐藏消息
-  window.localStorage.user = '{}'
-  delete window.localStorage.token
+  localStorage.user = '{}'
+
+  sessionStorage.clear() // 清楚相关session数据缓存
+
+  delete localStorage.token
   dispatch('LOG_OUT')
 }
 
