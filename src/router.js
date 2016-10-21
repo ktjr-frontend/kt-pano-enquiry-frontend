@@ -36,16 +36,12 @@ let initializedUserPermits = ['login', 'perfect', 'register']
 router.map(routers)
 
 router.redirect({
-  '*': '/index'
+  '*': '/quotation/ob',
+  '/quotation': '/quotation/ob'
 })
 
 router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
-
-  // 跳转前记录当前页面位置
-  /*if (from.data) {
-    from.data.scrollY = window.scrollY
-  }*/
 
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
@@ -94,6 +90,7 @@ router.afterEach(({ to }) => {
   }, 10)
 })
 
+// 底部logo控制
 let updateLogoBottomStyle = function() {
   let wH = window.innerHeight
   let aH = document.querySelector('#app').offsetHeight
@@ -106,8 +103,8 @@ let updateLogoBottomStyle = function() {
   setTimeout(() => { document.querySelector('.logo-bottom').style.display = 'block' }, 10)
 }
 
+// 启动路由
 export default function routerStart() {
-  // 启动路由
   router.start(App, 'body')
 }
 

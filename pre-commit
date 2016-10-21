@@ -5,16 +5,21 @@ var readlineSync = require('../../node_modules/readline-sync/lib/readline-sync.j
 var path = require('path')
 
 exec('git diff --name-only --cached', {
-    cwd: path.resolve(__dirname +  '../..')
+    cwd: path.resolve(__dirname, '../..')
 }, function(err1, stdout1) {
+    if (err1) {
+      console.log(err1)
+      process.exit(-1);
+    }
+
     var names = stdout1.split('\n')
 
     var hasAppStaged = names.some(function(name) {
         return name.match(/src\/.*/g)
     })
 
-    var noDistStaged = names.every(function(name) {
-        return !name.match(/dist\/.*/g)
+    var noDistStaged = !names.some(function(name) {
+        return name.match(/dist\/.*/g)
     })
 
     if (hasAppStaged && noDistStaged) {

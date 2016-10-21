@@ -1,3 +1,19 @@
+.vux-header .vux-header-right {
+  $border-color: #29b9ae;
+  .button {
+    text-align: center;
+    border: 1px solid $border-color;
+    font-size: 0.354267rem; //44px
+    border-radius: 100px;
+    color: white;
+    padding: .1em 1.2em;
+    &:active {
+      border-color: lighten($border-color, 10%);
+      opacity: 1;
+    }
+  }
+}
+
 .vux-popup-dialog {
   background: #eff1f8;
   .popup {

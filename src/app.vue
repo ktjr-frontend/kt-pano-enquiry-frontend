@@ -1,11 +1,13 @@
 <template lang="jade">
 #app
-  x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()') {{title}}
+  x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
+    | {{title}}
+    a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
   router-view
   .tabbar(v-show='$route.data.tabVisible')
     .tab(v-for='tab in tabs', :span='tab.span', :class="{'active': tab.active}")
       a(v-link='tab.link', @click='log({name: tab.name})')
-        i.icon-pano(:class='tab.icon', :style='tab.style')
+        //- i.icon-pano(:class='tab.icon', :style='tab.style')
         | {{tab.name}}
 .logo-bottom(:class="{'no-tabbar': !$route.data.tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
   img(src='./assets/images/logo2.svg', alt='开通PANO')
@@ -84,6 +86,11 @@ export default {
       })
       history.back()
     },
+    wxShare() {
+      this.showAlert({
+        content: '点击右上角，马上分享给你的小伙伴吧！'
+      })
+    },
     log
   },
   data() {
@@ -97,16 +104,16 @@ export default {
       },
       tabs: [{
         active: true,
-        span: 2,
-        name: '询价',
+        span: 1,
+        name: '行情',
         icon: 'icon-search',
         link: {
-          name: 'enquiry'
+          name: 'quotation'
         }
       }, {
         active: false,
         span: 1,
-        name: '我',
+        name: '我的',
         icon: 'icon-man2',
         link: {
           name: 'profile'

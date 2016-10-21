@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
-let sessions, assetTypes, businessTypes, accounts, registrations, recoveries, cards, enquiries, sharedEnquiries, feedbacks, signatures, log, persons
+let sessions, assetTypes, businessTypes, accounts, registrations,
+  recoveries, cards, enquiries, sharedEnquiries, feedbacks,
+  signatures, log, persons, quotes
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -27,7 +29,23 @@ export default function setResources(resource) {
   enquiries = resource('inquiries{/content}', {}, {}, commonOpts) // 询价
   feedbacks = resource('feedbacks', {}, {}, commonOpts) //用户反馈
   signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) //微信签名
+  quotes = resource('quotes{/content}', {}, {}, commonOpts) // 报价板
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
 }
 
-export { sessions, accounts, registrations, recoveries, cards, enquiries, feedbacks, sharedEnquiries, signatures, log, persons, assetTypes, businessTypes }
+export {
+  sessions,
+  accounts,
+  registrations,
+  recoveries,
+  cards,
+  enquiries,
+  feedbacks,
+  sharedEnquiries,
+  signatures,
+  log,
+  persons,
+  assetTypes,
+  businessTypes,
+  quotes
+}

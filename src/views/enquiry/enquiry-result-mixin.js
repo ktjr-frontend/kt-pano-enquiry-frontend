@@ -17,8 +17,10 @@ import {
   enquiries
 } from '../../common/resources'
 import { updateLogoBottomStyle } from '../../router'
+import instDetail from '../../mixins/inst-detail-mixin.js'
 
 export default {
+  mixins: [instDetail],
   vuex: {
     actions: {
       showSuccessToast,
@@ -87,7 +89,7 @@ export default {
   },
 
   methods: {
-    goInstDetail(platform, callback) {
+    /*goInstDetail(platform, callback) {
       this.$root.log({
         name: platform
       })
@@ -98,7 +100,7 @@ export default {
       let envParams = Utils.getEnvParams()
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
       callback && callback()
-    },
+    },*/
 
     openPano() {
       this.$root.log({

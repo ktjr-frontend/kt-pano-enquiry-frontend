@@ -1,18 +1,20 @@
 import {
   persons
 } from '../../common/resources'
-import Utils from '../../common/utils'
+// import Utils from '../../common/utils'
+// import Vue from 'vue'
 import _ from 'lodash'
-import Vue from 'vue'
 import KtLoading from '../../components/kt-loading'
+import instDetail from '../../mixins/inst-detail-mixin.js'
 
 export default {
+  mixins: [instDetail],
   components: {
     KtLoading
   },
   methods: {
     // 查看机构信息
-    goInstDetail(platform, params = {}, callback) {
+    /*goInstDetail(platform, params = {}, callback) {
       this.$root.log({
         name: platform,
         ...params
@@ -25,7 +27,7 @@ export default {
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}${paramsStr}`, '_self')
       callback && callback(params)
-    },
+    },*/
     // 关注切换
     toggleAttention(item, instType, callback) {
       let _self = this

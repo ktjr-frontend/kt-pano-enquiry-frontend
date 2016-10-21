@@ -182,7 +182,7 @@ export default {
                 })
 
                 this.$router.go({
-                  name: 'enquiry'
+                  name: 'quotationOB'
                 })
               } else { // 如果是更新名片
                 this.$root.showToast({

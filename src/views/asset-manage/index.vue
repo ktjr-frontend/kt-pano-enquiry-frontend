@@ -49,7 +49,7 @@ export default {
       this.selectInputField.combineList.push(opt)
     },
     deleteSelectInputFilter(id) {
-      let opt = this.selectInputField.combineList.find((v) => {
+      let opt = _.find(this.selectInputField.combineList, (v) => {
         return v.id === id
       })
 

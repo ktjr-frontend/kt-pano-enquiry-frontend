@@ -15,4 +15,20 @@
       margin-left: .3em;
     }
   }
+  &.icon-arrow-left {
+    &:after {
+      content: " ";
+      display: inline-block;
+      -webkit-transform: rotate(45deg);
+      transform: rotate(45deg);
+      height: 6px;
+      width: 6px;
+      border-width:  0 0 2px 2px;
+      border-color: #c8c8cd;
+      border-style: solid;
+      position: relative;
+      top: -1px;
+      margin-left: .3em;
+    }
+  }
 }

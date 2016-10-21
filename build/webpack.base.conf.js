@@ -76,7 +76,12 @@ module.exports = {
     formatter: require('eslint-friendly-formatter')
   },
   vue: {
-    loaders: utils.cssLoaders()
+    loaders: utils.cssLoaders(),
+    // postcss: [require('autoprefixer')({ browsers: ['Android > 2.3', 'iOS >= 6'] })]
+    autoprefixer: {
+      browsers: ['Android > 2.3', 'iOS >= 6'],
+      cascade: false // 不美化输出 css
+    }
   },
   imageWebpackLoader: {
     pngquant: {

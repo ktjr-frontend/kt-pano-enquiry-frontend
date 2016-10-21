@@ -75,7 +75,7 @@ export default {
 
               setTimeout(() => {
                 this.$router.go({
-                  name: user.status === 'rejected' ? 'settings' : 'enquiry'
+                  name: user.status === 'rejected' ? 'settings' : 'quotationOB'
                 })
               }, 10)
             })
