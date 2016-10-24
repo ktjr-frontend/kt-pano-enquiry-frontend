@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 let sessions, assetTypes, businessTypes, accounts, registrations,
   recoveries, cards, enquiries, sharedEnquiries, feedbacks,
-  signatures, log, persons, quotes
+  signatures, log, persons, quotes, projects
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -30,6 +30,7 @@ export default function setResources(resource) {
   feedbacks = resource('feedbacks', {}, {}, commonOpts) // 用户反馈
   signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) // 微信签名
   quotes = resource('quotes{/content}', {}, {}, commonOpts) // 报价板
+  projects = resource('projectes{/content}', {}, {}, commonOpts) // 项目香港
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
 }
 
@@ -47,5 +48,6 @@ export {
   persons,
   assetTypes,
   businessTypes,
-  quotes
+  quotes,
+  projects
 }

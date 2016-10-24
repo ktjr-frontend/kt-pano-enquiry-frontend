@@ -39,5 +39,17 @@ export default {
         component: resolve => require(['../views/quotation/detail.vue'], resolve)
       }
     }
+  },
+  '/join_inst': {
+    name: 'joinInst',
+    needLogin: true,
+    component: resolve => require(['../views/quotation/join-inst.vue'], resolve),
+    data: {
+      title: '选择对接机构',
+      shareButtonVisible: false,
+      logoBottomVisible: false,
+      headVisible: true,
+      tabVisible: false
+    }
   }
 }

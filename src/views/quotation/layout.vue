@@ -1,10 +1,14 @@
 <template lang="jade">
-.quotation
+.quotation-con(:class='{shared: $route.query.shared}')
+  .top-tips(v-if='$route.query.shared')
+    开通PANO为您报价：
   .tabs(v-if='$route.name !== "quotationDetail"')
     button-tab
-      button-tab-item(v-link='{name:"quotationOB"}', :selected="$route.name === 'quotationOB'") 资产类
-      button-tab-item(v-link='{name:"quotationAM"}', :selected="$route.name === 'quotationAM'") 资管类
+      button-tab-item(v-link='{name:"quotationOB", query: $route.query}', :selected="$route.name === 'quotationOB'") 资产类
+      button-tab-item(v-link='{name:"quotationAM", query: $route.query}', :selected="$route.name === 'quotationAM'") 资管类
+    i.icon-pano.icon-share(@click='wxShare()')
   router-view
+
 </template>
 
 <script>
@@ -15,37 +19,66 @@ export default {
   components: {
     ButtonTab,
     ButtonTabItem
+  },
+  methods: {
+    wxShare() {
+      this.$root.showAlert({
+        content: '点击右上角，马上分享给你的小伙伴吧！'
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss">
-.tabs {
-  background: white;
-  padding: 0.161031rem 0; //20px
-  .vux-button-group {
-    margin: 0 auto;
-    width: 3.623188rem; //415px
-    &>a {
-      font-size: 0.354267rem; //44px
-      color: #737e9c;
-      height: 0.611916rem; //76px
-      line-height: 0.611916rem; //76px
-      border: 1px solid #29b9ae;
-      &.hover,
-      &.vux-button-group-current,
-      &:active {
-        color: white;
-        border-color: #29b9ae;
-        background: #29b9ae;
+$green: #29b9ae;
+.quotation-con {
+  &.shared {
+    padding-bottom: 1.932367rem; //240pxs
+  }
+  .top-tips {
+    height: 0.805153rem;
+    line-height: 0.805153rem; //100px
+    font-size: 0.322061rem; //40px
+    color: white;
+    background: $green;
+    padding: 0 0.402576rem; //50px
+  }
+  .tabs {
+    position: relative;
+    background: white;
+    padding: 0.161031rem 0; //20px
+    .vux-button-group {
+      margin: 0 auto;
+      width: 3.623188rem; //415px
+      &>a {
+        font-size: 0.354267rem; //44px
+        color: #737e9c;
+        height: 0.611916rem; //76px
+        line-height: 0.611916rem; //76px
+        border: 1px solid $green;
+        &.hover,
+        &.vux-button-group-current,
+        &:active {
+          color: white;
+          border-color: $green;
+          background: $green;
+        }
       }
+    }
+    .icon-share {
+      position: absolute;
+      right: 0; // 30px
+      top: 50%;
+      transform: translateY(-50%);
+      color: $green;
+      padding: 0.161031rem;
     }
   }
 }
 
 section.quotation {
   position: relative;
-  $green: #29b9ae;
   .head {
     padding: 0 0.241546rem;
     height: 0.805153rem;
@@ -135,6 +168,9 @@ section.quotation {
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        &:active {
+          background: #f1f6fb;
+        }
       }
       .title {
         font-size: 0.442834rem; //55px

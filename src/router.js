@@ -6,7 +6,7 @@ import setValidators from './common/validators'
 import _ from 'lodash'
 import log from './common/log'
 import routers from './routers'
-import { showToast } from './vuex/actions'
+import { showToast, updateTabVisible } from './vuex/actions'
 import store from './vuex/store'
 
 // 自定义validator
@@ -43,6 +43,8 @@ router.redirect({
 router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
 
+  updateTabVisible(store, to.query.shared ? false : to.data.tabVisible)
+
   if (to.needLogin && !user.status) {
     router.go({ name: 'login' })
       // abort()
@@ -62,7 +64,14 @@ router.beforeEach(({ from, to, abort, next }) => {
 })
 
 router.afterEach(({ to }) => {
-  document.title = to.data.title || document.title
+  let getTitle = function(to) {
+    if (_.includes(['quotationDetail'], to.name)) { // 报价板详情 定制化title
+      return to.query.asset_type + '-' + to.query.group
+    }
+    return to.data.title
+  }
+
+  document.title = getTitle(to) || document.title
   document.querySelector('.logo-bottom').style.display = 'none'
   document.body.setAttribute('page', to.name)
 

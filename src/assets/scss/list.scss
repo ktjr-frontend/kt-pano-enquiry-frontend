@@ -130,12 +130,16 @@
     border-radius: 50%;
     border: 1px solid #eff2f7;
     overflow: hidden;
+    margin-bottom: 0.161031rem; //20px
     @include flex;
     img {
       max-width: 70%;
       max-height: 70%;
     }
-    margin-bottom: 0.161031rem; //20px
+    .icon-pano {
+      font-size: 0.966184rem; //120px
+      margin-right: 0;
+    }
   }
   .main {
     width: 100%;

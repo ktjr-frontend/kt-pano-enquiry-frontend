@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module'
   },
@@ -22,6 +23,8 @@ module.exports = {
   'rules': {
     // allow paren-less arrow functions
     'arrow-parens': 0,
+    // allow async-await
+    'generator-star-spacing': 0,
     'space-before-function-paren': 0,
     "spaced-comment": [0, "never"],
     'indent': [2, 2, {

@@ -6,7 +6,7 @@
       p
         | {{detail.group}}利率：
         em {{detail.min_rate | ktPercent 1}}-{{detail.max_rate | ktPercent 1 '%'}}
-        span.diff 环比{{detail.ring_diff | ktRound | ktPositveNumber | ktAppend '%'}}
+        span.diff 环比{{detail.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
       p.amount(v-if='$route.query.type === "bond"') 近30天成交量:
         span {{detail.total_amount}}
   //- 关注的互联网金融平台
@@ -23,8 +23,14 @@
               .main
                 h3
                   div.ellipsis {{p.name}}
-  .buttons
-    button 对接项目
+            .kt-list-short(v-if='!item.platforms.length')
+              .icon
+                i.icon-pano.icon-meng
+              main
+                h3
+                  div.ellipsis 无合适平台
+  .buttons-footer
+    button(v-link='{name: "joinInst"}') 对接项目
       i.icon-pano.icon-arrow-right
 
 </template>
@@ -61,6 +67,8 @@ export default {
         return {
           detail: res.json().res
         }
+      }).catch(res => {
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
       })
     }
   },
@@ -135,14 +143,7 @@ export default {
   }
 }
 
-.buttons {
-  background: white;
-  padding: 0.362319rem 0.402576rem; // 45px 50px;
-  // border-top: 1px solid #eff2f7;
-  .icon-arrow-right {
-    &:after {
-      border-color: white;
-    }
-  }
+.buttons-footer {
+  background: none;
 }
 </style>

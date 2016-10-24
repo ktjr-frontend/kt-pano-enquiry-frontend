@@ -3,7 +3,7 @@
     kt-loading(:visible='$loadingRouteData')
     .head
       | 数据范围：
-      span {{begin_date | moment 'YYYY-MM-DD'}} ~ {{end_date | moment 'YYYY-MM-DD'}}
+      span {{begin_date}} ~ {{end_date}}
     .table-container
       .table
         .thead
@@ -19,8 +19,11 @@
               div(v-if='td.max_rate' @click='detail(tr.type, td.group)')
                 .title {{td.min_rate | ktPercent 1}}-{{td.max_rate | ktPercent 1 '%'}}
                 .tips
-                  span {{td.ring_diff ? '环比' : '-'}}
-                  span(:class='{asc: td.ring_diff > 0, desc: td.ring_diff < 0, blank: !td.ring_diff}') {{td.ring_diff | ktPositveNumber | ktAppend '%'}}
+                  span {{!isNull(td.ring_diff) ? '环比' : '-'}}
+                  span(:class='{asc: td.ring_diff > 0, desc: td.ring_diff < 0, blank: isNull(td.ring_diff)}') {{td.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
+    .buttons-footer.fixed(v-if='$route.query.shared')
+      button(v-link='{name:"register"}') 火速前往PANO
+        i.icon-pano.icon-arrow-right
 </template>
 
 <script>
@@ -44,19 +47,22 @@ export default {
       return quotes.get({
         content: 'list',
         type: 'bond'
-      }).then(res => res.json().res)
+      }).then(res => res.json().res).catch(res => {
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+      })
     }
   },
 
-  mounted() {
+  ready() {
     // 初始化微信jssdk
     let host = location.protocol + '//' + location.host
     this.wxInit({
-      link: `${host}#!/quotation/ob` // 分享链接
+      link: `${host}#!/quotation/ob?shared=1` // 分享链接
     })
   },
 
   methods: {
+    isNull: _.isNull,
     detail(assetType, group) {
       this.$router.go({
         name: 'quotationDetail',
@@ -78,6 +84,8 @@ export default {
 
   data() {
     return {
+      begin_date: '',
+      end_date: '',
       list: []
     }
   }

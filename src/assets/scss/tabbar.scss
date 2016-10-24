@@ -11,22 +11,34 @@
   border-top: 1px solid #e9ecf1;
   .tab {
     flex: 1;
+    border-right: 1px solid #e9ecf1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &:active {
+      background: #f1f6fb;
+    }
+    span,
+    i {
+      display: block;
+      line-height: 1em;
+    }
     &[span="2"] {
       flex: 2;
     }
     &[span="3"] {
       flex: 3;
     }
-    border-right: 1px solid #e9ecf1;
-    text-align: center;
     a {
       text-align: center;
-      font-size: 0.322061rem; //40px
+      font-size: 0.241546rem; //30px
       color: #acb1bd;
       .icon-pano {
-        // vertical-align: middle;
+        font-size: 2em;
         color: #acb1bd;
-        margin-right: 0.161031rem; //20px
+        margin-bottom: .3em;
       }
       &:active,
       &:hover,
@@ -34,6 +46,7 @@
         text-decoration: none;
         color: #194373;
         .icon-pano {
+          font-weight: bold;
           color: #194373;
         }
       }

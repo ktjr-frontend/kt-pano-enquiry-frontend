@@ -1,15 +1,18 @@
 <template lang="jade">
 #app
-  x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
+  //- x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
   router-view
-  .tabbar(v-show='$route.data.tabVisible')
-    .tab(v-for='tab in tabs', :span='tab.span', :class="{'active': tab.active}")
-      a(v-link='tab.link', @click='log({name: tab.name})')
-        //- i.icon-pano(:class='tab.icon', :style='tab.style')
-        | {{tab.name}}
-.logo-bottom(:class="{'no-tabbar': !$route.data.tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
+  .tabbar(v-show='tabVisible')
+    .tab(v-for='tab in tabs', :span='tab.span', :class="{'active': $route.name === tab.name}")
+      a(v-if='tab.link.name', v-link='tab.link', @click='log({name: tab.name})')
+        i.icon-pano(:class='tab.icon', :style='tab.style')
+        span {{tab.name}}
+      a(v-if='tab.link.jump === "market"', @click='goOverview()')
+        i.icon-pano(:class='tab.icon', :style='tab.style')
+        span {{tab.name}}
+.logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
   img(src='./assets/images/logo2.svg', alt='开通PANO')
 alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText')
   | {{{alert.content}}}
@@ -34,6 +37,7 @@ import {
   sessions
 } from './common/resources'
 import {
+  tabVisible,
   loadingStatus,
   toast,
   alert,
@@ -50,8 +54,10 @@ import {
   showMessage,
   hideMessage
 } from './vuex/actions'
+import instDetail from './mixins/inst-detail-mixin.js'
 
 export default {
+  mixins: [instDetail],
   components: {
     XHeader,
     Loading,
@@ -62,6 +68,7 @@ export default {
   },
   vuex: {
     getters: {
+      tabVisible,
       loadingStatus,
       toast,
       alert,
@@ -79,6 +86,7 @@ export default {
       hideMessage
     }
   },
+
   methods: {
     onClickBack() {
       this.log({
@@ -93,6 +101,7 @@ export default {
     },
     log
   },
+
   data() {
     return {
       header: {
@@ -106,9 +115,25 @@ export default {
         active: true,
         span: 1,
         name: '行情',
-        icon: 'icon-search',
+        icon: 'icon-market',
         link: {
           name: 'quotation'
+        }
+      }, {
+        active: false,
+        span: 1,
+        name: '对接项目',
+        icon: 'icon-project',
+        link: {
+          name: 'joinInst'
+        }
+      }, {
+        active: false,
+        span: 1,
+        name: '市场行情',
+        icon: 'icon-price',
+        link: {
+          jump: 'market'
         }
       }, {
         active: false,
@@ -117,13 +142,11 @@ export default {
         icon: 'icon-man2',
         link: {
           name: 'profile'
-        },
-        style: {
-          fontWeight: 'bolder'
         }
       }]
     }
   },
+
   computed: {
     title() {
       return this.$route.data.title
@@ -182,6 +205,9 @@ export default {
     right: 0.402576rem;
     bottom: 0; // 90px
     padding: 0.402576rem 0;
+    &.dn-by-h {
+      border: 0;
+    }
   }
   img {
     width: 4.267311rem; // 530px
@@ -199,6 +225,23 @@ body.overflow-height {
     margin-top: 0.402576rem;
     &.no-tabbar {
       margin-bottom: 0;
+    }
+  }
+}
+
+.buttons-footer {
+  background: white;
+  padding: 0.362319rem 0.402576rem; // 45px 50px;
+  // border-top: 1px solid #eff2f7;
+  &.fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  .icon-arrow-right {
+    &:after {
+      border-color: white;
     }
   }
 }

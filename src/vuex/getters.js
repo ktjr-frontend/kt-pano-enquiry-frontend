@@ -2,6 +2,10 @@ export function loadingStatus(state) {
   return state.loadingStatus
 }
 
+export function tabVisible(state) {
+  return state.tabVisible
+}
+
 export function user(state) {
   return state.user
 }

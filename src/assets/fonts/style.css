@@ -21,7 +21,27 @@
 }
 
 .icon-refresh:before {
+  content: "\e921";
+}
+
+.icon-checkbox:before {
   content: "\e91c";
+}
+
+.icon-market:before {
+  content: "\e91d";
+}
+
+.icon-price:before {
+  content: "\e91e";
+}
+
+.icon-project:before {
+  content: "\e91f";
+}
+
+.icon-share:before {
+  content: "\e920";
 }
 
 .icon-edit:before {

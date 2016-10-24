@@ -22,6 +22,10 @@ export function logOut({ dispatch }, soft) {
   dispatch('LOG_OUT')
 }
 
+export function updateTabVisible({ dispatch }, visible) {
+  dispatch('UPDATE_TABVISIBLE', visible)
+}
+
 export function showLoadingStatus({ dispatch }) {
   dispatch('SHOW_LOADING_STATUS')
 }

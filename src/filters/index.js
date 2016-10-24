@@ -3,11 +3,12 @@ import moment from 'moment'
 
 export default {
   install(Vue, options) {
+    // 添加百分比
     Vue.filter('ktPercent', (value, decimal, unit) => {
-      return _.isNumber(value) ? value.toFixed(decimal || 2) + (unit || '') : ''
+      return _.isNumber(value) ? _.round(value, decimal || 2) + (unit || '') : ''
     })
 
-    Vue.filter('ktRound', (value, decimal = 2) => {
+    Vue.filter('ktRound', (value, decimal = 0) => {
       return _.round(value, decimal)
     })
 

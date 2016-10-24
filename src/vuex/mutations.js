@@ -4,6 +4,9 @@ const mutations = {
   UPDATE_USER(state, user) {
     state.user = user
   },
+  UPDATE_TABVISIBLE(state, visible) {
+    state.tabVisible = visible
+  },
   SHOW_LOADING_STATUS(state) {
     state.loadingStatus = true
   },

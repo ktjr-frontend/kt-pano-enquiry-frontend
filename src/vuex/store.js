@@ -8,6 +8,7 @@ const state = {
   title: '开通PANO',
   enquiryError: '很遗憾，根据目前提供的信息，系统尚未匹配到适合发行的互联网金融平台。您可通过以下方式提供更详细的信息，我们会安排专业的明星BD帮您评估资产，感谢您的理解与支持！',
   loadingStatus: false,
+  tabVisible: false,
   assetTypes: [{
     name: '房地产类',
     value: 'eslate',
