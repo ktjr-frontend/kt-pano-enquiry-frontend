@@ -23,12 +23,12 @@ export default function setResources(resource) {
   businessTypes = resource('business_types{/id}', {}, {}, commonOpts) // 业务角色
   persons = resource('person{/content}', {}, {}, commonOpts) // 用户详细信息
   accounts = resource('accounts{/content}', {}, {}, commonOpts) // 账户信息更改
-  registrations = resource('registrations{/content}', {}, {}, commonOpts) //注册
-  recoveries = resource('recoveries{/content}', {}, {}, commonOpts) //忘记密码
+  registrations = resource('registrations{/content}', {}, {}, commonOpts) // 注册
+  recoveries = resource('recoveries{/content}', {}, {}, commonOpts) // 忘记密码
   cards = resource('cards{/content}', {}, {}, commonOpts) // 上传名片
   enquiries = resource('inquiries{/content}', {}, {}, commonOpts) // 询价
-  feedbacks = resource('feedbacks', {}, {}, commonOpts) //用户反馈
-  signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) //微信签名
+  feedbacks = resource('feedbacks', {}, {}, commonOpts) // 用户反馈
+  signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) // 微信签名
   quotes = resource('quotes{/content}', {}, {}, commonOpts) // 报价板
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
 }

@@ -19,7 +19,7 @@ Vue.use(Transions)
 
 // http初始化
 Vue.http.options.root = '/api/v1'
-Vue.http.headers.common['Authorization'] = window.localStorage.token
+Vue.http.headers.common['Authorization'] = window.localStorage.token || ''
 
 // 拦截器统一注入
 interceptors.forEach((v) => {
