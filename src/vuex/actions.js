@@ -10,7 +10,7 @@ export function updateUser({ dispatch }, user, soft) {
 
 export function logOut({ dispatch }, soft) {
   if (!soft) {
-    router.go({ name: 'login' })
+    router.replace({ name: 'login' })
   }
 
   dispatch('HIDE_MESSAGE') //隐藏消息

@@ -281,7 +281,6 @@ export default {
       immediate: true
     },
     'model.businessTypes': function(val) {
-      console.log(val)
       if (val.length > 2) {
         this.$root.showToast({
           text: '不能大于2个'

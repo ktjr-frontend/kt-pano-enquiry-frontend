@@ -43,10 +43,8 @@ router.redirect({
 router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
 
-  updateTabVisible(store, to.query.shared ? false : to.data.tabVisible)
-
   if (to.needLogin && !user.status) {
-    router.go({ name: 'login' })
+    router.replace({ name: 'login' })
       // abort()
   } else if (to.needLogin && user.status === 'rejected' && !_.includes(rejectedUserPermits, to.name)) {
     showToast(store, {
@@ -64,6 +62,8 @@ router.beforeEach(({ from, to, abort, next }) => {
 })
 
 router.afterEach(({ to }) => {
+  updateTabVisible(store, to.query.shared ? false : to.data.tabVisible)
+
   let getTitle = function(to) {
     if (_.includes(['quotationDetail'], to.name)) { // 报价板详情 定制化title
       return to.query.asset_type

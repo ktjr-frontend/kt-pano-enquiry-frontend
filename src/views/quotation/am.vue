@@ -163,7 +163,7 @@ export default {
   transform: translateY(-100%);
   .tbody {
     .td-row .td:last-of-type {
-      border-right: 1px solid #eff2f7;
+      border-right: 1px solid #eff2f7!important;
     }
   }
   .swiper-slide {
