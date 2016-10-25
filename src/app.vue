@@ -125,7 +125,10 @@ export default {
         name: '对接项目',
         icon: 'icon-project',
         link: {
-          name: 'joinInst'
+          name: 'joinInst',
+          params: {
+            type: 'add'
+          }
         }
       }, {
         active: false,

@@ -17,7 +17,7 @@
       swiper(:options='swiperOptions' v-ref:swiper)
         swiper-slide(v-for='item in detail.platform_list')
           .kt-list-column(:class='"count-" + item.platforms.length')
-            .kt-list-short(v-for='p in item.platforms', :title='p.name', @click='goInstDetail(item.name)')
+            .kt-list-short(v-for='p in item.platforms', :title='p.name', @click='goInstDetail(p.name)')
               .icon
                 img(:src='p.logo', :alt='p.name')
               .main
@@ -76,20 +76,35 @@ export default {
   methods: {
     swiperGo(index) {
       this.$refs.swiper.swiper.slideTo(index)
+    },
+
+    goInstDetail(name) {
+      window.sessionStorage[this.$route.name + '.slideCache'] = JSON.stringify({
+        activeIndex: this.$refs.swiper.swiper.activeIndex
+      })
+
+      this.$root.goInstDetail(name)
     }
   },
 
   data() {
+    let initialSlide = JSON.parse(window.sessionStorage[this.$route.name + '.slideCache'] || '{}')
+
     return {
       detail: {},
-      swiperActiveIndex: 0,
+      swiperActiveIndex: initialSlide.activeIndex || 0,
       swiperOptions: {
         name: 'detailSwiper',
         slidesPerView: 1,
         spaceBetween: 0,
         onSlideChangeEnd: function(swiper) {
           this.$set('swiperActiveIndex', swiper.activeIndex)
-        }.bind(this)
+        }.bind(this),
+        onInit(swiper) {
+          setTimeout(() => {
+            swiper.slideTo(initialSlide.activeIndex || 0)
+          }, 500)
+        }
       }
     }
   }

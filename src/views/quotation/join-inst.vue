@@ -24,8 +24,9 @@
           | 开通资产推介服务
         p 开通的资产专家为您挑选最合适的平台，并将您的资产推荐给多个匹配平台，为您的金融资产发行提供全流程支持及运营服务。
   .buttons-footer
-    button(@click='next()') 下一步
+    button(v-if='$route.params.type === "add"', @click='next()') 下一步
       i.icon-pano.icon-arrow-right
+    button(v-if='$route.params.type !== "add"', @click='submit()') 提交
 </template>
 
 <script>
@@ -43,14 +44,9 @@ export default {
   },
 
   route: {
-    data({
-      to: {
-        query
-      }
-    }) {
+    data() {
       return projects.get({
-        content: 'platform_list',
-        id: query.id
+        content: 'platform_list'
       }).then(res => {
         return {
           insts: res.json().res
@@ -63,12 +59,22 @@ export default {
     }
   },
 
+  watch: {
+    'model.platform_id' () {
+      if (this.model.platform_id.length > 1) {
+        this.model.platform_id.pop() // 禁止选择多个
+        this.$root.showToast('每天最多只能选择一个机构哦！')
+      }
+    }
+  },
+
   methods: {
     goInstDetail(name) {
       this.cacheModel()
       this.$root.goInstDetail(name)
     },
 
+    // 新建-下一步
     next() {
       if (!this.model.platform_id.length) {
         this.$root.showToast('请选择一个您想对接的机构！')
@@ -82,12 +88,43 @@ export default {
       })
     },
 
+    // 编辑-提交
+    submit() {
+      if (!this.model.platform_id.length) {
+        this.$root.showToast('请选择一个您想对接的机构！')
+        return false
+      } else if (!this.model.platform_id.length > 1) {
+        this.$root.showToast('每天最多只能选择一个机构哦！')
+        return false
+      }
+
+      this.$root.showLoadingStatus()
+      projects.update({}, {
+        project_id: this.$route.params.type,
+        platform_id: this.model.platform_id,
+        kaitong_refer: this.model.kaitong_refer
+      }).then(res => {
+        this.$root.hideLoadingStatus()
+        let wxQrcode = require('../../assets/images/weixin-pano.jpg')
+        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<img src="${wxQrcode}" width="80%"/></div>`
+
+        this.$root.showAlert({
+          content: content
+        })
+      }).catch(res => {
+        this.$root.hideLoadingStatus()
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+      })
+    },
+
+    // 加载更多机构
     moreInst() {
       this.model.instPage++
     },
 
+    // 缓存当前数据
     cacheModel() {
-      window.sessionStorage[this.$route.name + '.' + (this.$route.query.id || 'new') + '.cache'] = JSON.stringify(this.model)
+      window.sessionStorage[this.$route.name + '.' + (this.$route.params.type || 'new') + '.cache'] = JSON.stringify(this.model)
     }
   },
 
@@ -98,8 +135,9 @@ export default {
       })
     }
   },
+
   data() {
-    let cacheModel = JSON.parse(window.sessionStorage[this.$route.name + '.' + (this.$route.query.id || 'new') + '.cache'] || '{"instPage": 1}')
+    let cacheModel = JSON.parse(window.sessionStorage[this.$route.name + '.' + (this.$route.params.type || 'new') + '.cache'] || '{"instPage": 1}')
 
     return {
       model: {

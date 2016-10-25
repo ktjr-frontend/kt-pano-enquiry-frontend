@@ -66,7 +66,7 @@ router.beforeEach(({ from, to, abort, next }) => {
 router.afterEach(({ to }) => {
   let getTitle = function(to) {
     if (_.includes(['quotationDetail'], to.name)) { // 报价板详情 定制化title
-      return to.query.asset_type + '-' + to.query.group
+      return to.query.asset_type
     }
     return to.data.title
   }

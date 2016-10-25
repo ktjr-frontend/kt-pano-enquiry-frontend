@@ -6,7 +6,7 @@ export default {
     subRoutes: {
       '/ob': {
         data: {
-          title: '市场报价板-资产类',
+          title: '开通PANO市场报价板',
           shareButtonVisible: true,
           logoBottomVisible: false,
           headVisible: true,
@@ -17,7 +17,7 @@ export default {
       },
       '/am': {
         data: {
-          title: '市场报价板-资管类',
+          title: '开通PANO市场报价板',
           shareButtonVisible: true,
           logoBottomVisible: false,
           headVisible: true,
@@ -28,7 +28,7 @@ export default {
       },
       '/detail': {
         data: {
-          title: '市场报价板-详情',
+          title: '报价详情',
           shareButtonVisible: false,
           logoBottomVisible: false,
           headVisible: false,
@@ -40,7 +40,7 @@ export default {
       }
     }
   },
-  '/join_inst': {
+  '/join_inst/:type': {
     name: 'joinInst',
     needLogin: true,
     component: resolve => require(['../views/quotation/join-inst.vue'], resolve),

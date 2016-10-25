@@ -69,10 +69,17 @@ $green: #29b9ae;
     .icon-share {
       position: absolute;
       right: 0; // 30px
-      top: 50%;
-      transform: translateY(-50%);
+      top: 0;
+      bottom: 0;
+      line-height: 1.3em;
+      // top: 50%;
+      font-size: 0.402576rem; //50px
+      // transform: translateY(-50%);
       color: $green;
-      padding: 0.161031rem;
+      padding: 0.241546rem; //30px
+      &:active {
+        background: #f1f6fb;
+      }
     }
   }
 }
@@ -163,13 +170,22 @@ section.quotation {
       .td {
         flex: 1;
         width: 33.33%;
+        height: 100%;
         text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        &:active {
-          background: #f1f6fb;
+        border-right: 1px solid #eff2f7;
+        &:last-of-type {
+          border: 0;
+        }
+        .in {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
+          width: 100%;
+          &:active {
+            background: #f1f6fb;
+          }
         }
       }
       .title {
