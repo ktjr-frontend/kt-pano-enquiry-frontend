@@ -58,6 +58,32 @@ export default {
       require(['../views/settings/settings'], resolve)
     }
   },
+  '/my_projects': {
+    data: {
+      title: '我的项目',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'myProjects',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/my_projects.vue'], resolve)
+    }
+  },
+  '/refer_projects': {
+    data: {
+      title: '为我推介项目',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'referProjects',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/refer_projects.vue'], resolve)
+    }
+  },
   '/forget_password1': {
     data: {
       title: '忘记密码-手机号校验',

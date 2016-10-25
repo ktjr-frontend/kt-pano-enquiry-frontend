@@ -275,6 +275,13 @@
   .weui_cell_ft {
     font-size: 0.402576rem;
     color: #999ea5;
+    .tip {
+      font-size: 0.322061rem; // 50px
+      background: #3bc5ba;
+      color: white;
+      border-radius: 1em;
+      padding: .1em .5em;
+    }
   }
   .icon-circle {
     margin-right: 0.402576rem;

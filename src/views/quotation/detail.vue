@@ -6,7 +6,7 @@
       p
         | {{detail.group}}利率：
         em {{detail.min_rate | ktPercent 1}}-{{detail.max_rate | ktPercent 1 '%'}}
-        span.diff 环比{{detail.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
+        span.diff(v-if='!isNull(detail.ring_diff)') 环比{{detail.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
       p.amount(v-if='$route.query.type === "bond"') 近30天成交量:
         span {{detail.total_amount}}
   //- 关注的互联网金融平台
@@ -45,6 +45,7 @@ import KtCell from '../../components/kt-cell.vue'
 import {
   quotes
 } from '../../common/resources.js'
+import _ from 'lodash'
 
 export default {
   components: {
@@ -74,6 +75,7 @@ export default {
   },
 
   methods: {
+    isNull: _.isNull,
     swiperGo(index) {
       this.$refs.swiper.swiper.slideTo(index)
     },

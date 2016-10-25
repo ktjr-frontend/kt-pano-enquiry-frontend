@@ -48,6 +48,14 @@ div
         .default-content(@click='openRelativeProducts()', v-if='!info.products.selected.length')
           i.icon-pano.icon-plus
           | 参与发行的产品
+    //- 我的项目
+    group
+      cell(title='我的项目' is-link=true link='{name: "myProjects"}')
+        span.tip(v-if='info.my_projects.info' slot='value')
+    //- 为我推介项目
+    group(v-if='info.referral_projects && info.referral_projects.list.length')
+      cell(title='为我推介项目' is-link=true link='{name: "referProjects"}')
+        span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 关注的互联网金融平台
     .group
       kt-cell(title='关注的互联网金融平台', icon='icon-arrow-right', @on-title-click='$router.go({name: "moreInstitutions"})')
@@ -177,6 +185,8 @@ div
 
 <script>
 import Popup from 'vux-components/popup'
+import Group from 'vux-components/group'
+import Cell from 'vux-components/cell'
 import KtCell from '../../components/kt-cell'
 import institutionMixins from './intitution_mixins'
 import {
@@ -195,6 +205,8 @@ export default {
   mixins: [institutionMixins],
   components: {
     Popup,
+    Group,
+    Cell,
     KtCell
   },
 
@@ -706,6 +718,13 @@ export default {
         products: {
           all: [],
           selected: []
+        },
+        refer_projects: {
+          info: '',
+          list: []
+        },
+        my_projects: {
+          info: ''
         },
         platforms: {
           institutions: [],
