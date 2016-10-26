@@ -22,7 +22,7 @@
                   span {{!isNull(td.ring_diff) ? '环比' : '-'}}
                   span(:class='{asc: round(td.ring_diff,2) > 0, desc: round(td.ring_diff,2) < 0, blank: isNull(td.ring_diff)}') {{td.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
     .buttons-footer.fixed(v-if='$route.query.shared')
-      button(v-link='{name:"register", params: {type: "add"}}') 火速前往PANO
+      button(@click='goPano()') 火速前往PANO
         i.icon-pano.icon-arrow-right
 </template>
 
@@ -64,6 +64,13 @@ export default {
   methods: {
     isNull: _.isNull,
     round: _.round,
+    goPano() {
+      this.$router.go({
+        name: window.localStorage.token ? 'quotationOB' : 'register',
+        query: {}
+      })
+    },
+
     detail(assetType, group) {
       this.$router.go({
         name: 'quotationDetail',

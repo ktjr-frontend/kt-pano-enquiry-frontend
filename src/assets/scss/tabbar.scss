@@ -47,6 +47,12 @@
         color: #acb1bd;
         margin-bottom: .3em;
       }
+      &:link,
+      &:visited,
+      &:hover,
+      &:focus {
+        color: #acb1bd;
+      }
       &:active {
         background: #f1f6fb;
       }

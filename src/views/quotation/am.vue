@@ -33,7 +33,7 @@
                       span {{!isNull(td.ring_diff) ? '环比' : '-'}}
                       span(:class='{asc: round(td.ring_diff > 0, 2), desc: round(td.ring_diff < 0, 2), blank: isNull(td.ring_diff)}') {{td.ring_diff*100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
     .buttons-footer.fixed(v-if='$route.query.shared')
-      button(v-link='{name:"register", params: {type: "add"}}') 火速前往PANO
+      button(@click='goPano()') 火速前往PANO
         i.icon-pano.icon-arrow-right
 </template>
 
@@ -88,6 +88,12 @@ export default {
   methods: {
     isNull: _.isNull,
     round: _.round,
+    goPano() {
+      this.$router.go({
+        name: window.localStorage.token ? 'quotationAM' : 'register',
+        query: {}
+      })
+    },
     swiperNext() {
       // let swiper = _.find(this.$children, children => children.options && children.options.name === 'amSwiper').swiper
       this.$refs.swiper.swiper.slideNext()
@@ -170,7 +176,7 @@ export default {
     &:last-of-type {
       .tbody {
         .td-row .td:last-of-type {
-          border-right: 0;
+          border-right: 0!important;
         }
       }
     }

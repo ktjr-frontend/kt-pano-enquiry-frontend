@@ -30,7 +30,7 @@
                 h3
                   div.ellipsis 无合适平台
   .buttons-footer
-    button(v-link='{name: "joinInst"}') 对接项目
+    button(v-link='{name: "joinInst", params: {type: "add"}}') 对接项目
       i.icon-pano.icon-arrow-right
 
 </template>
