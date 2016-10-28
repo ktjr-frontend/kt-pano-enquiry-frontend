@@ -71,6 +71,19 @@ export default {
       require(['../views/settings/my_projects.vue'], resolve)
     }
   },
+  '/my_project/:id': {
+    data: {
+      title: '项目信息',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'myProjectDetail',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/my_project_detail.vue'], resolve)
+    }
+  },
   '/refer_projects': {
     data: {
       title: '为我推介项目',
@@ -82,6 +95,19 @@ export default {
     needLogin: true,
     component(resolve) {
       require(['../views/settings/refer_projects.vue'], resolve)
+    }
+  },
+  '/refer_project/:id': {
+    data: {
+      title: '项目信息',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'referProjectDetail',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/refer_project_detail.vue'], resolve)
     }
   },
   '/forget_password1': {

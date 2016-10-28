@@ -21,8 +21,8 @@
                       input(autocomplete='off', v-model='filter[field.key]', :id="field.key + '_' + cb.key", :value='cb.value', :field='field.key', v-validate='field.validate', type='checkbox')
                       label(:for="field.key + '_' + cb.key", v-cloak='') {{cb.value}}
                     .check-all(v-if='field.hasCheckAll', @click='checkAll(field)', v-cloak='') 全选
-                //- radio组
 
+                //- radio组
                 .weui_cells_radio.ov-h(v-show="field.type === 'option'", v-cloak='')
                   label.weui_cell.weui_cell_radio.weui_check_label(v-for='op in field.options')
                     .weui_cell_bd.weui_cell_primary
@@ -34,7 +34,7 @@
                       span.weui_icon_checked
               .weui_cell_bd.weui_cell_primary(v-if="field.type === 'switch' || field.type === 'input' || field.type === 'select'")
 
-                // input类型
+                //- input类型
                 div(v-if="field.type === 'input'", v-cloak='')
                   input.weui_input(v-model='filter[field.key]', :type="field.subType || 'text'", :field='field.key', v-validate='field.validate', :placeholder='field.placeholder')
 

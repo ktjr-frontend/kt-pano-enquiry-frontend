@@ -43,7 +43,19 @@ export default {
   '/join_inst/:type': {
     name: 'joinInst',
     needLogin: true,
-    component: resolve => require(['../views/quotation/join-inst.vue'], resolve),
+    component: resolve => require(['../views/quotation/join_inst.vue'], resolve),
+    data: {
+      title: '选择对接机构',
+      shareButtonVisible: false,
+      logoBottomVisible: false,
+      headVisible: true,
+      tabVisible: false
+    }
+  },
+  '/project_info/:type': {
+    name: 'projectInfo',
+    needLogin: true,
+    component: resolve => require(['../views/quotation/project_info.vue'], resolve),
     data: {
       title: '选择对接机构',
       shareButtonVisible: false,

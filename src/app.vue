@@ -193,6 +193,12 @@ export default {
   position: relative;
 }
 
+body[page="projectInfo"] {
+  #app {
+    position: static; // 避免vux-popup-mask 层级问题
+  }
+}
+
 .logo-bottom {
   height: 0.724638rem;
   line-height: 0.724638rem; //90px

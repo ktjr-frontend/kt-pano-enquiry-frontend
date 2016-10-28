@@ -61,8 +61,8 @@ export default {
 
   watch: {
     'model.platform_id' () {
-      if (this.model.platform_id.length > 1) {
-        this.model.platform_id.pop() // 禁止选择多个
+      if (this.model.platform_id.length > 1 && this.$route.params.type !== 'add') {
+        this.model.platform_id.shift() // 禁止选择多个
         this.$root.showToast('每天最多只能选择一个机构哦！')
       }
     }
@@ -83,7 +83,7 @@ export default {
 
       this.cacheModel()
       this.$router.go({
-        name: 'joinInstForm',
+        name: 'projectInfo',
         query: this.model
       })
     },
@@ -231,6 +231,11 @@ input[type="checkbox"]:checked + label {
         position: absolute;
       }
     }
+    input[type="checkbox"]:checked ~ .inst {
+      p {
+        color: #474650;
+      }
+    }
     .inst {
       display: flex;
       flex-direction: column;
@@ -272,7 +277,7 @@ input[type="checkbox"]:checked + label {
     p {
       margin-top: .5em;
       font-size: 0.289855rem; //36px
-      color: #acb1bd;
+      color: #737e9c;
     }
     label {
       font-size: 0.322061rem; //40px

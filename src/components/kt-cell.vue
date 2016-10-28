@@ -35,7 +35,7 @@ export default {
       color: #29b9ae;
       height: 0.805153rem;
       line-height: 0.805153rem;
-      .icon-pano.icon-refresh{
+      .icon-pano.icon-refresh {
         font-size: 1.2em;
       }
     }
@@ -58,8 +58,37 @@ export default {
       right: 0;
       top: 50%;
       transform: translateY(-50%);
-      &.icon-refresh{
+      &.icon-refresh {
         font-size: 0.9em;
+      }
+    }
+  }
+  .textarea {
+    position: relative;
+    .weui_icon {
+      display: none;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    &.invalid {
+      .weui_icon_warn {
+        right: -1.2em;
+        &:before {
+          font-size: 14px;
+        }
+        display: block;
+      }
+      &.untouched{
+        .weui_icon_warn {
+          display: none;
+        }
+      }
+    }
+    &.not-empty {
+      .weui_icon_clear {
+        display: block;
       }
     }
   }

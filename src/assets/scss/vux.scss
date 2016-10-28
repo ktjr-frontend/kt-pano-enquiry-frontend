@@ -14,6 +14,15 @@
   }
 }
 
+.vux-popup-picker-value {
+  line-height: 1em;
+  vertical-align: -1px;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 80%;
+  text-overflow: ellipsis;
+}
+
 .vux-popup-dialog {
   background: #eff1f8;
   .popup {
@@ -275,6 +284,7 @@
   .weui_cell_ft {
     font-size: 0.402576rem;
     color: #999ea5;
+    min-width: 0;
     .tip {
       font-size: 0.322061rem; // 50px
       background: #3bc5ba;

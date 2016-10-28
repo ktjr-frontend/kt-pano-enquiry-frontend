@@ -4,9 +4,9 @@
     开通PANO为您报价：
   .tabs(v-if='$route.name !== "quotationDetail"')
     button-tab
-      button-tab-item(v-link='{name:"quotationOB", query: $route.query}', :selected="$route.name === 'quotationOB'") 资产类
-      button-tab-item(v-link='{name:"quotationAM", query: $route.query}', :selected="$route.name === 'quotationAM'") 资管类
-    i.icon-pano.icon-share(@click='wxShare()')
+      button-tab-item(v-touch:tap='$router.go({name:"quotationOB", query: $route.query})', :selected="$route.name === 'quotationOB'") 资产类
+      button-tab-item(v-touch:tap='$router.go({name:"quotationAM", query: $route.query})', :selected="$route.name === 'quotationAM'") 资管类
+    i.icon-pano.icon-share(v-touch:tap='wxShare()')
   router-view
 
 </template>
@@ -33,9 +33,9 @@ export default {
 <style lang="scss">
 $green: #29b9ae;
 .quotation-con {
-  &.shared {
-    padding-bottom: 1.932367rem; //240pxs
-  }
+  // &.shared {
+  padding-bottom: 1.932367rem; //240pxs
+  // }
   .top-tips {
     height: 0.805153rem;
     line-height: 0.805153rem; //100px
@@ -47,15 +47,15 @@ $green: #29b9ae;
   .tabs {
     position: relative;
     background: white;
-    padding: 0.161031rem 0; //20px
+    padding: 0.241546rem 0; //30px
     .vux-button-group {
       margin: 0 auto;
-      width: 3.623188rem; //415px
+      width: 3.864734rem; //480px
       &>a {
-        font-size: 0.354267rem; //44px
+        font-size: 0.386473rem; //46px
         color: #737e9c;
-        height: 0.611916rem; //76px
-        line-height: 0.611916rem; //76px
+        height: 0.68438rem; //85px
+        line-height: 0.68438rem; //85px
         border: 1px solid $green;
         &.hover,
         &.vux-button-group-current,
@@ -71,7 +71,7 @@ $green: #29b9ae;
       right: 0; // 30px
       top: 0;
       bottom: 0;
-      line-height: 1.3em;
+      line-height: 1.8em;
       // top: 50%;
       font-size: 0.402576rem; //50px
       // transform: translateY(-50%);
@@ -88,8 +88,8 @@ section.quotation {
   position: relative;
   .head {
     padding: 0 0.241546rem;
-    height: 0.805153rem;
-    line-height: 0.805153rem;
+    height: 0.966184rem;
+    line-height: 0.966184rem;
     color: #adb1bc;
     text-align: right;
     font-size: 0.289855rem; //36px
@@ -105,9 +105,9 @@ section.quotation {
       right: 0;
       padding: 0 0.402576rem 0 0.080515rem; //50px 10px
       background: white;
-      height: 0.764895rem; //95px
+      height: 0.966184rem; //120px
       &:after {
-        top: 0.201288rem; //25px
+        top: 0.289855rem; //25px
         border-width: 1px 1px 0 0;
         border-color: $green;
         &:active {
@@ -120,12 +120,12 @@ section.quotation {
       z-index: 19;
       left: 0; //45px
       top: 0; //30px
-      height: 0.764895rem; //95px
+      height: 0.966184rem; //120px
       background: white;
       padding: 0 0.080515rem 0 0.362319rem; //45px 10px
       margin-left: 0;
       &:after {
-        top: 0.201288rem; //25px
+        top: 0.289855rem; //25px
         border-width: 0 0 1px 1px;
         border-color: $green;
         &:active {
@@ -140,11 +140,11 @@ section.quotation {
   }
   .thead {
     font-size: 0.289855rem; //36px
-    height: 0.764895rem; //95px
+    height: 0.966184rem; //120px
     border-bottom: 1px solid #3bc5ba;
     position: relative;
     color: $green;
-    line-height: 0.764895rem; //95px
+    line-height: 0.966184rem; //120px
     .th-row {
       display: flex;
       .th {

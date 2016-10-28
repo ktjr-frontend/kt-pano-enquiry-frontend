@@ -2,6 +2,15 @@
   display: none;
 }
 
+.blank:after {
+  content: '空';
+  opacity: 0;
+}
+
+.rotate45 {
+  transform: rotate(45deg);
+}
+
 .mt-40 {
   margin-top: 0.322061rem;
 }

@@ -224,7 +224,7 @@ input[type="button"] {
       // border-color: $orange;
       border-color: $orange;
       padding: 0.120773rem 0.201288rem 0.120773rem 0.563607rem;
-      &.has-icon-close{
+      &.has-icon-close {
         padding-right: 2em;
       }
       &:before {
@@ -301,6 +301,18 @@ input[type="button"] {
       font-size: .6em;
       vertical-align: .1em;
       margin-right: .6em;
+    }
+  }
+}
+
+.checkbox-simple {
+  display: inline-block;
+  input {
+    display: none;
+  }
+  input:checked + label {
+    .icon-checkbox {
+      color: #3bc5ba;
     }
   }
 }
