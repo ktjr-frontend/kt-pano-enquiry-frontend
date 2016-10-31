@@ -33,7 +33,7 @@ export default {
       font-size: 0.322061rem; //40px
       border-bottom: 0.032206rem solid #3bc5ba;
       color: #29b9ae;
-      height: 0.805153rem;
+      min-height: 0.805153rem;
       line-height: 0.805153rem;
       .icon-pano.icon-refresh {
         font-size: 1.2em;
@@ -45,7 +45,7 @@ export default {
   }
   .title {
     font-size: 0.402576rem; //50px
-    height: 1.046699rem;
+    min-height: 1.046699rem;
     line-height: 1.046699rem; // 130px
     margin: 0 0.402576rem; //50px
     border-bottom: 1px solid #eff2f7;
@@ -80,7 +80,7 @@ export default {
         }
         display: block;
       }
-      &.untouched{
+      &.untouched {
         .weui_icon_warn {
           display: none;
         }

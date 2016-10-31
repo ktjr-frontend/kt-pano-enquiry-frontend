@@ -201,7 +201,7 @@ section.quotation {
         span.desc {
           color: #35bd62;
         }
-        span.blank {
+        span.blank-hack {
           &:before {
             content: '空'
           }

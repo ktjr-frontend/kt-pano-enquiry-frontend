@@ -27,14 +27,17 @@
             p 不方便传文件？可将文件发送到  helloPANO@ktjr.com<br>（邮件标题格式：项目名称-您的姓名-电话）
       .group
         kt-cell(title='项目详述')
-          .textarea(v-validate-class='', :class='{"not-empty": model.desc}')
+          .textarea(v-validate-class='', :class='{"not-empty": model.desc}', v-kt-textarea-count='model.desc', display-into='.count-box', :max-length='validator.desc.maxlength.rule')
             textarea(placeholder='对项目信息进行更多的介绍', v-model='model.desc', v-validate:desc='validator.desc')
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("desc")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("desc")')
+            span.count-box 0/{{validator.desc.maxlength.rule}}
       .group
         kt-cell(title='*联系方式')
-          .contact-methods
+          input(type='hidden', id='contact_method', v-model='model.contact_method', v-validate:contact_method='validator.contact_method')
+          .contact-methods(v-validate-class='')
             .c-m-head 后续通过什么方式与您进行项目对接？
+              i.weui_icon.weui_icon_warn(v-touch:tap='showError("contact_method")')
             .line
               .checkbox-simple
                 input(id='wx0', type='radio', v-model='model.contact_method', :value='0')
@@ -132,13 +135,17 @@ export default {
     uploadFile(e) {
       let formData = new FormData()
       formData.append('file', e.target.files[0])
+      this.fileUploading = true
+      this.$root.showLoadingStatus()
 
       panoFiles.update({}, formData)
         .then(res => {
           this.model.files.push(res.json().res)
+          this.$root.hideLoadingStatus()
         })
         .catch(res => {
           this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+          this.$root.hideLoadingStatus()
         })
     },
 
@@ -160,7 +167,33 @@ export default {
         if (this.$validation.invalid) {
           this.showFirstError()
         } else {
+          let project = _.cloneDeep(this.model)
+          let savePromise
+          project.files = _.map(this.model.files, 'id')
 
+          this.$root.showLoadingStatus()
+          if (this.$route.params.type === 'add') { // 新建项目
+            project.platform_id = this.$route.query.platform_id
+            project.kaitong_refer = this.$route.query.kaitong_refer
+            savePromise = projects.save({}, project)
+          } else { // 编辑项目
+            savePromise = projects.update({}, project)
+          }
+
+          savePromise.then(res => {
+            this.$root.showAlert({
+              content: '<p>提交成功，我们会尽快为您推送项目。</p><p>之后您每天可为该项目选择一个对接机构，明天记得再来哦 ^_^</p>',
+              onHide: function() {
+                this.$router.go({
+                  name: 'quotationOB'
+                })
+              }.bind(this)
+            })
+            this.$root.hideLoadingStatus()
+          }).catch(res => {
+            this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+            this.$root.hideLoadingStatus()
+          })
         }
       })
     }
@@ -174,11 +207,21 @@ export default {
 
   computed: {
     'wxAccountValidator' () {
-      return {
+      return this.model.contact_method === 0 && !this.user.wx ? {
         required: {
-          rule: this.model.contact_method === 0,
+          rule: true,
           message: '请填写微信账号！'
+        },
+        maxlength: {
+          rule: 50,
+          message: '请填写微信账号，2-50个字符'
+        },
+        minlength: {
+          rule: 2,
+          message: '请填写微信账号，2-50个字符'
         }
+      } : {
+        maxlength: 100 //hack vue-validate bug
       }
     }
   },
@@ -188,11 +231,7 @@ export default {
       model: {
         project_id: null,
         name: '',
-        files: [{
-          id: '1',
-          name: 'ahhahfaf.jpg',
-          url: 'adsfasf'
-        }],
+        files: [],
         asset_type_id: '',
         desc: '',
         wx_account: '',
@@ -339,12 +378,27 @@ textarea {
   padding: 0.402576rem; // 50px
 }
 
+#contact_method {
+  &.invalid.touched {
+    & ~ .contact-methods .weui_icon_warn {
+      display: inline-block;
+    }
+  }
+}
+
 .contact-methods {
+  text-align: left;
   .checkbox-simple {
     vertical-align: middle;
     margin-right: .5em;
   }
-  text-align: left;
+  .weui_icon_warn {
+    vertical-align: 1px;
+    display: none;
+    &:before {
+      font-size: 14px;
+    }
+  }
   .line {
     line-height: 2em;
     input {

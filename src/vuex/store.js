@@ -55,6 +55,8 @@ const state = {
     show: false,
     title: '提示',
     buttonText: '知道了',
+    onHide() {},
+    onShow() {},
     content: ''
   },
   confirm: {

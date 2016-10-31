@@ -11,11 +11,6 @@ export default {
         input && input.addEventListener('blur', () => {
           this.el.classList.remove(this.params.toggleClass)
         })
-      },
-      unbind() {
-        let input = this.el.querySelector(this.params.child)
-        input && input.removeEventlistener('focus')
-        input && input.removeEventlistener('blur')
       }
     })
 

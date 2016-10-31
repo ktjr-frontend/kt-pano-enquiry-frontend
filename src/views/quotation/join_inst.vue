@@ -6,7 +6,7 @@
     ul
       li(v-for='inst in instList', :class='{"row-last": $index % 3 === 2}')
         .in
-          input(id='inst{{$index}}', name='inst{{$index}}', :value='inst.id', type='checkbox', v-model='model.platform_id')
+          input(id='inst{{$index}}', name='inst', :value='inst.id', type='radio', v-model='model.platform_id')
           label(for='inst{{$index}}')
             i.icon-pano.icon-checkbox
           .inst
@@ -59,14 +59,20 @@ export default {
     }
   },
 
-  watch: {
+  // ready() {
+  //   person.get({
+  //     content: 'project_submit'
+  //   })
+  // },
+
+  /*watch: {
     'model.platform_id' () {
-      if (this.model.platform_id.length > 1 && this.$route.params.type !== 'add') {
+      if (this.model.platform_id.length > 1) {
         this.model.platform_id.shift() // 禁止选择多个
-        this.$root.showToast('每天最多只能选择一个机构哦！')
+        // this.$root.showToast('每天最多只能选择一个机构哦！')
       }
     }
-  },
+  },*/
 
   methods: {
     goInstDetail(name) {
@@ -106,7 +112,7 @@ export default {
       }).then(res => {
         this.$root.hideLoadingStatus()
         let wxQrcode = require('../../assets/images/weixin-pano.jpg')
-        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<img src="${wxQrcode}" width="80%"/></div>`
+        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="80%"/></div>`
 
         this.$root.showAlert({
           content: content
@@ -143,7 +149,7 @@ export default {
       model: {
         instPage: 1, // 用于记录加载了几页的机构
         kaitong_refer: true,
-        platform_id: [],
+        platform_id: '',
         ...cacheModel
       },
       insts: []
@@ -178,11 +184,13 @@ $green: #3bc5ba;
   color: #dde1f0;
 }
 
-input[type="checkbox"] {
+input[type="checkbox"],
+input[type="radio"] {
   display: none;
 }
 
-input[type="checkbox"]:checked + label {
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
   .icon-checkbox {
     color: $green;
   }

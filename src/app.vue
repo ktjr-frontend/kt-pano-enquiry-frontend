@@ -14,7 +14,7 @@
         span {{tab.name}}
 .logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
   img(src='./assets/images/logo2.svg', alt='开通PANO')
-alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText')
+alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText', @on-show='alert.onShow()', @on-hide='alert.onHide()')
   | {{{alert.content}}}
 confirm(:show.sync='confirm.show', :title='confirm.title', :confirm-text='confirm.confirmText', :cancel-text='confirm.cancelText', @on-confirm='confirm.onConfirm()', @on-cancel='confirm.onCancel()')
   | {{{confirm.content}}}

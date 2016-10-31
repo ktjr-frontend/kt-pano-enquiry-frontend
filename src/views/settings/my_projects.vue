@@ -1,70 +1,102 @@
 <template lang="jade">
  .my-projects
+  kt-loading(:visible='$loadingRouteData')
   .my-projects-head
     .add(v-link='{name: "joinInst", params: {type: "add"}}')
       i.icon-pano.icon-plus
       | 新增
+  kt-no-data(v-if='!$loadingRouteData && !projects.length')
   .group
       kt-cell(v-for='p in projects', icon='icon-arrow-right', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
         div(slot='title') {{p.name}}
+          .date {{p.updated_at}}
+            span.status(:class='p.status | statusClass')  {{p.status | status}}
         .in-content
-          .status(:class='p.status | statusClass') {{p.status | status}}
-          .in-content-right
+          h5 已推荐平台
+          ul.platform-list.clfix
+            li(v-for='platform in p.platforms') {{platform.name}}
+            li.add-platform(@click='addPlatform(p)')
+              i.icon-pano.icon-plus
+          //- .status(:class='p.status | statusClass') {{p.status | status}}
+          //- .in-content-right
             .button(v-link='{name: "joinInst", params: {type: p.id}}') 新增对接机构
               i.icon-pano.icon-plus
 
 </template>
 
 <script>
+import KtNoData from '../../components/kt-no-data.vue'
 import KtCell from '../../components/kt-cell.vue'
+import KtLoading from '../../components/kt-loading.vue'
 import {
   persons
 } from '../../common/resources.js'
 
 export default {
   components: {
-    KtCell
+    KtNoData,
+    KtCell,
+    KtLoading
   },
-  ready() {
-    persons.get({
-      content: 'projects_submitted'
-    }).then(res => {
-      // this.projects = res.json().res.list
-    }).catch(res => {
-      this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
-    })
+
+  route: {
+    data() {
+      return persons.get({
+        content: 'projects_submitted'
+      }).then(res => {
+        return {
+          projects: res.json().res.list
+        }
+      }).catch(res => {
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+      })
+    }
   },
+
   filters: {
     status(val) {
       let statusMap = {
-        0: '已提交',
-        1: '已推送',
-        2: '已推送',
-        3: '已推送',
-        4: '未推送'
+        'to_audit': '',
+        'audit_passed': '',
+        'dock_passed': '',
+        'dock_failed': '',
+        'audit_failed': '审核不通过'
       }
 
-      return statusMap[val] || '未知'
+      return statusMap[val] || ''
     },
     statusClass(val) {
       let statusClassMap = {
-        0: 'status-ok',
-        1: 'status-ok',
-        2: 'status-ok',
-        3: 'status-ok',
-        4: ''
+        'to_audit': '',
+        'audit_passed': '',
+        'dock_passed': '',
+        'dock_failed': '',
+        'audit_failed': 'status-error'
       }
 
       return statusClassMap[val] || ''
     }
   },
+
+  methods: {
+    addPlatform(project) {
+      if (!project.can_submit_platform) {
+        this.$root.showToast('每天最多只能选择一个机构哦！')
+        return
+      }
+
+      this.$router.go({
+        name: 'joinInst',
+        params: {
+          type: project.id
+        }
+      })
+    }
+  },
+
   data() {
     return {
-      projects: [{
-        id: 0,
-        name: '哈哈哈',
-        status: 0
-      }]
+      projects: []
     }
   }
 }
@@ -73,7 +105,7 @@ export default {
 <style lang="scss">
 .my-projects {
   .my-projects-head {
-    margin: 0 0.402576rem; //50px
+    padding: 0 0.402576rem; //50px
     height: 0.966184rem; //120px
     line-height: 0.966184rem;
     border-bottom: 1px solid #3bc5ba;
@@ -82,26 +114,36 @@ export default {
       color: #3bc5ba;
       .icon-plus {
         font-size: 12px;
-        transform: scale(.8);
+        transform: scale(.6);
         display: inline-block;
         vertical-align: -1px;
         margin-right: .2em;
       }
     }
   }
-  .in-content {
-    display: flex;
-    .status {
-      color: #adb1bc;
-      flex: 1;
-      text-align: left;
-      &.status-ok {
-        color: #3bc5ba;
-      }
-      &.status-error {
-        color: #f05661;
+  .kt-cell {
+    .title {
+      .status {
+        color: #adb1bc;
+        flex: 1;
+        text-align: left;
+        &.status-ok {
+          color: #3bc5ba;
+        }
+        &.status-error {
+          color: #f05661;
+        }
       }
     }
+    .date {
+      font-size: 0.322061rem; //40px
+      color: #adb1bc;
+      margin-top: -1em;
+      line-height: 2em;
+    }
+  }
+  /* .in-content {
+    display: flex;
     .in-content-right {
       text-align: right;
     }
@@ -127,6 +169,42 @@ export default {
         color: #3bc5ba;
         display: inline-block;
         transform: scale(.8);
+      }
+    }
+  } */
+  .kt-cell {
+    .content {
+      padding: 0.080515rem 0.402576rem 0.161031rem; //10px 50px 20px
+    }
+  }
+  .in-content {
+    h5 {
+      font-size: 0.289855rem; //36px
+      line-height: 2.5em;
+      text-align: left;
+      color: #818aa5;
+    }
+    .platform-list {
+      li {
+        margin-right: .5em;
+        margin-bottom: .5em;
+        padding: 2px 5px;
+        color: #3bc5ba;
+        border-radius: 5px;
+        background: #f8f9fb;
+        float: left;
+        &.add-platform {
+          .icon-plus {
+            &:before {
+              display: inline-block;
+              vertical-align: -1px;
+              transform: scale(.6);
+            }
+          }
+          &:active {
+            background: darken(#f8f9fb, 10%);
+          }
+        }
       }
     }
   }

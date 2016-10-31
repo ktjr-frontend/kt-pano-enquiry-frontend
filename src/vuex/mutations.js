@@ -17,7 +17,12 @@ const mutations = {
     state.user = {}
   },
   SHOW_ALERT(state, alert) {
-    state.alert = Object.assign({}, state.alert, { title: '提示', buttonText: '知道了' }, alert, { show: true })
+    state.alert = Object.assign({}, state.alert, {
+      title: '提示',
+      buttonText: '知道了',
+      onShow() {},
+      onHide() {}
+    }, alert, { show: true })
   },
   SHOW_CONFIRM(state, confirm) {
     state.confirm = Object.assign({}, state.confirm, {
