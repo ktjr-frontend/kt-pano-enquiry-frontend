@@ -94,9 +94,14 @@ router.afterEach(({ to }) => {
 
   // 动态解决logo的位置问题
   window.scrollTo(0, 0)
-  setTimeout(() => {
-    updateLogoBottomStyle()
-  }, 10)
+  if (to.data.logoBottomVisible) {
+    setTimeout(() => {
+      updateLogoBottomStyle()
+    }, 10)
+  }
+
+  // 是否有tab
+  document.body.classList.toggle('tab-visible', to.data.tabVisible)
 })
 
 // 底部logo控制

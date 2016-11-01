@@ -102,9 +102,35 @@ export default {
       title: '项目信息',
       logoBottomVisible: false,
       headVisible: false,
-      tabVisible: true
+      tabVisible: false
     },
     name: 'referProjectDetail',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/refer_project_detail.vue'], resolve)
+    }
+  },
+  '/interest_projects': {
+    data: {
+      title: '感兴趣项目',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: true
+    },
+    name: 'interestProjects',
+    needLogin: true,
+    component(resolve) {
+      require(['../views/settings/refer_projects.vue'], resolve)
+    }
+  },
+  '/interest_project/:id': {
+    data: {
+      title: '项目信息',
+      logoBottomVisible: false,
+      headVisible: false,
+      tabVisible: false
+    },
+    name: 'interestProjectDetail',
     needLogin: true,
     component(resolve) {
       require(['../views/settings/refer_project_detail.vue'], resolve)
@@ -113,7 +139,7 @@ export default {
   '/forget_password1': {
     data: {
       title: '忘记密码-手机号校验',
-      logoBottomVisible: true,
+      logoBottomVisible: false,
       headVisible: true,
       tabVisible: false
     },
@@ -126,7 +152,7 @@ export default {
   '/forget_password2': {
     data: {
       title: '忘记密码-设置新密码',
-      logoBottomVisible: true,
+      logoBottomVisible: false,
       headVisible: true,
       tabVisible: false
     },

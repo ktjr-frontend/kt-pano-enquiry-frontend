@@ -5,8 +5,8 @@
     a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
   router-view
   .tabbar(v-show='tabVisible')
-    .tab(v-for='tab in tabs', :span='tab.span', :class="{'active': $route.name === tab.name}")
-      a(v-if='tab.link.name', v-link='tab.link', @click='log({name: tab.name})')
+    .tab(v-for='tab in tabs', :span='tab.span')
+      a(v-if='tab.link.name', v-link='tab.link', @click='log({name: tab.name})', :class="{'active': judgeActive(tab)}")
         i.icon-pano(:class='tab.icon', :style='tab.style')
         span {{tab.name}}
       a(v-if='tab.link.jump === "market"', @click='goOverview()')
@@ -55,6 +55,7 @@ import {
   hideMessage
 } from './vuex/actions'
 import instDetail from './mixins/inst-detail-mixin.js'
+import _ from 'lodash'
 
 export default {
   mixins: [instDetail],
@@ -94,6 +95,18 @@ export default {
       })
       history.back()
     },
+
+    // 判断的当前tab是否季候
+    judgeActive(tab) {
+      let routeName = this.$route.name
+      if (tab.link.name === routeName) {
+        return true
+      } else if (tab.link.activeIncludes) {
+        return _.includes(tab.link.activeIncludes, routeName)
+      }
+      return false
+    },
+
     wxShare() {
       this.showAlert({
         content: '点击右上角，马上分享给你的小伙伴吧！'
@@ -144,7 +157,11 @@ export default {
         name: '我的',
         icon: 'icon-man2',
         link: {
-          name: 'profile'
+          name: 'profile',
+          activeIncludes: [
+            'myProjects', 'myProjectDetail', 'referProjects', 'referProjectDetail',
+            'interestProjects', 'interestProjectDetail', 'settings', 'moreInstitutions', 'allInstitutions'
+          ]
         }
       }]
     }
@@ -223,24 +240,29 @@ body[page="projectInfo"] {
   }
 }
 
-body.overflow-height {
-  // padding-bottom: 1.588245rem; // 198px
-  .logo-bottom {
-    position: static;
-    margin: 0 0.402576rem; //0 50px
-    margin-bottom: 1.588245rem;
-    left: 0;
-    right: 0;
-    margin-top: 0.402576rem;
-    &.no-tabbar {
-      margin-bottom: 0;
+body {
+  &.overflow-height {
+    .logo-bottom {
+      position: static;
+      margin: 0 0.402576rem; //0 50px
+      margin-bottom: 1.588245rem;
+      left: 0;
+      right: 0;
+      margin-top: 0.402576rem;
+      &.no-tabbar {
+        margin-bottom: 0;
+      }
     }
+  }
+  &.tab-visible {
+    padding-bottom: 1.932367rem; //240px
   }
 }
 
 .buttons-footer {
   background: white;
   padding: 0.362319rem 0.402576rem; // 45px 50px;
+  @include flex;
   // border-top: 1px solid #eff2f7;
   &.fixed {
     position: fixed;
@@ -248,9 +270,25 @@ body.overflow-height {
     left: 0;
     right: 0;
   }
+  &.more-than-one {
+    button {
+      margin: 0 0.201288rem; //25px
+    }
+  }
   .icon-arrow-right {
     &:after {
       border-color: white;
+    }
+  }
+  button {
+    &.green {
+      background: #89d7cb;
+      &:active {
+        background: darken(#89d7cb, 10%);
+      }
+    }
+    &.gray{
+      background: rgba(128, 128, 128, 0.45);
     }
   }
 }

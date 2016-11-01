@@ -13,7 +13,9 @@
     }
   }
 }
-
+.vux-popup-picker-header{
+  color: #3bc5ba;
+}
 .vux-popup-picker-value {
   line-height: 1em;
   vertical-align: -1px;
@@ -123,7 +125,7 @@
   margin-top: 0.362319rem; //45px
   &:after,
   &:before {
-    border-color: #d9deea;
+    border-color: #eff2f7;
   }
 }
 
@@ -170,7 +172,7 @@
   }
   &:active {
     .with_arrow:after {
-      border-color: #4380dd;
+      border-color: #3bc5ba;
     }
   }
   &.weui_cell_select {

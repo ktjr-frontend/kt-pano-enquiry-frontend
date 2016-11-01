@@ -57,6 +57,7 @@
         background: #f1f6fb;
       }
       &:active,
+      &.active,
       &.v-link-active {
         text-decoration: none;
         color: #194373;

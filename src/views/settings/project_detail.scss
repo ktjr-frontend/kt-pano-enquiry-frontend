@@ -1,0 +1,159 @@
+@import "../../assets/scss/mixins.scss";
+.project-detail {
+  .head {
+    background: white;
+    color: #3bc5ba;
+    padding: 0.281804rem 0.402576rem; //35px 50px
+    border-bottom: 1px solid #3bc5ba;
+    text-align: center;
+    position: relative;
+    h3 {
+      font-size: 0.402576rem; //50px
+    }
+    .sub-title {
+      font-size: 0.289855rem; //36px
+      color: #adb1bc;
+    }
+    .icon-edit {
+      position: absolute;
+      right: 0;
+      padding: 1em;
+      top: 0;
+      &:active {
+        background: #f8f9fb;
+      }
+    }
+  }
+  .group-title {
+    display: flex;
+    padding: 0 0.402576rem;
+    line-height: 0.966184rem; // 120px
+    margin-bottom: -0.402576rem; //50px
+    .right {
+      flex: 1;
+      text-align: right;
+      color: #adb1bc;
+      font-size: 0.289855rem; // 36px
+    }
+    .left {
+      font-size: 0.402576rem; //50px
+      flex: 1;
+      text-align: left;
+    }
+  }
+  .file-list {
+    margin-top: -.5em;
+  }
+  .kt-list-column {
+    .kt-list-short {
+      &.add-new-inst {
+        .icon {
+          background: #f8f9fb;
+          border-color: #f8f9fb;
+          &:active {
+            background: darken(#f8f9fb, 10%);
+          }
+        }
+        .icon-plus {
+          font-size: 12px;
+          color: #3bc5ba;
+        }
+        .ellipsis {
+          color: #adb1bc;
+          font-size: 0.2657rem; //33px
+        }
+      }
+    }
+  }
+  .kt-cell {
+    .content {
+      text-align: left;
+    }
+    .desc {
+      font-size: 0.289855rem; //36px
+      color: #737e9c;
+    }
+    &.join-inst-list {
+      margin-top: 0.362319rem; //45px
+    }
+  }
+  .profile-card {
+    @include flex;
+    margin-top: -0.241546rem; //30px
+    .card-info {
+      flex: 1;
+      padding: 1em 0 1em 0.241546rem; //30px
+      border-bottom: 1px solid #eff2f7;
+      color: #737e9c;
+    }
+    .name {
+      font-size: 0.362319rem; //45px
+      margin-bottom: .4em;
+    }
+    .institution_name {
+      margin-bottom: .2em;
+      font-size: 0.289855rem; //36px
+    }
+    .job {
+      color: #adc1d2;
+      font-size: 0.289855rem; //36px
+      &.has-all {
+        span {
+          position: relative;
+          &:first-child {
+            padding-right: .8em;
+            &:after {
+              content: '';
+              height: .8em;
+              width: 1px;
+              background: #eaeef4;
+              position: absolute;
+              right: 0;
+              top: .2em;
+            }
+          }
+          &:last-child {
+            padding-left: .8em;
+          }
+        }
+      }
+    }
+    .icon {
+      margin: 0 0.483092rem 0 0.080515rem; // 60px 10px
+      width: 1.771337rem; //220px
+      height: 1.771337rem;
+      border-radius: 50%;
+      background: #f8f9fb;
+      overflow: hidden;
+      &.portrait {
+        img {
+          width: 100%;
+          transform: translateY(-20%);
+        }
+      }
+      &.landscape {
+        img {
+          transform: translateX(-20%);
+          height: 100%;
+        }
+      }
+      @include flex;
+      .icon-meng {
+        font-size: 0.966184rem;
+        color: #adc1d2;
+      }
+    }
+  }
+  .other-info {
+    margin-top: .5em;
+    // margin-bottom: -0.161031rem; // 20px
+    font-size: 0.289855rem; //36px
+    line-height: 1.8em;
+    .asset_types {
+      margin-top: .6em;
+    }
+    .types {
+      color: #acb1bd;
+    }
+  }
+}

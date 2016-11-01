@@ -15,7 +15,7 @@
         h5 已推荐平台
         ul.platform-list.clfix
           li(v-for='platform in p.platforms') {{platform.name}}
-          li.add-platform(@click='addPlatform(p)')
+          li.add-platform(@click='addPlatform(p)', v-if='p.status !== "audit_failed"')
             i.icon-pano.icon-plus
           //- .status(:class='p.status | statusClass') {{p.status | status}}
           //- .in-content-right
@@ -104,6 +104,7 @@ export default {
 
 <style lang="scss">
 .my-projects {
+  // padding-bottom: 1.771337rem; //220px
   .my-projects-head {
     padding: 0 0.402576rem; //50px
     height: 0.966184rem; //120px

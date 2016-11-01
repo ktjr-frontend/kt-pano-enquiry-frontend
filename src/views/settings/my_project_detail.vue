@@ -1,11 +1,13 @@
 <template lang="jade">
-.my-project-detail
+.project-detail
   kt-loading(:visible='$loadingRouteData')
   .head
     h3 {{project.name}}
+    //- .sub-title 待查看
     .icon-pano.icon-edit(v-link='{name:"projectInfo", params:{type: project.id}}')
   .group-title
-    更新时间：{{project.updated_at}}
+    .left
+    .right 更新时间：{{project.updated_at}}
   group
     cell(title='资产类型')
       {{assetTypeName}}
@@ -101,6 +103,22 @@ export default {
     }
   },
 
+  watch: {
+    'project.status_data' () {
+      let {
+        status,
+        reason,
+        solution
+      } = this.project.status_data
+
+      if (status === 'audit_failed') {
+        this.$root.showMessage({
+          content: `很抱歉，您所提交的信息因<em>${reason}</em>未完成推送，请<em>${solution}</em>`
+        })
+      }
+    }
+  },
+
   computed: {
     'assetTypeName' () {
       let name = ''
@@ -119,6 +137,7 @@ export default {
       return name
     }
   },
+
   data() {
     return {
       assetTypeList: [],
@@ -129,72 +148,5 @@ export default {
 </script>
 
 <style lang="scss">
-.my-project-detail {
-  padding-bottom: 0.805153rem; //100px
-  .head {
-    color: #3bc5ba;
-    padding: 0 0.402576rem; //50px
-    min-height: 0.966184rem; //120px
-    line-height: 0.966184rem;
-    border-bottom: 1px solid #3bc5ba;
-    text-align: center;
-    position: relative;
-    h3 {
-      font-size: 0.402576rem; //50px
-    }
-    .icon-edit {
-      position: absolute;
-      right: 0;
-      padding: 1em;
-      top: 0;
-      &:active {
-        background: #f8f9fb;
-      }
-    }
-  }
-  .group-title {
-    padding: 0 0.402576rem;
-    font-size: 0.289855rem; // 36px
-    line-height: 0.805153rem; // 100px
-    color: #adb1bc;
-    text-align: right;
-    margin-bottom: -0.402576rem; //50px
-  }
-  .file-list {
-    margin-top: -.5em;
-  }
-  .kt-list-column {
-    .kt-list-short {
-      &.add-new-inst {
-        .icon {
-          background: #f8f9fb;
-          border-color: #f8f9fb;
-          &:active {
-            background: darken(#f8f9fb, 10%);
-          }
-        }
-        .icon-plus {
-          font-size: 12px;
-          color: #3bc5ba;
-        }
-        .ellipsis {
-          color: #adb1bc;
-          font-size: 0.2657rem; //33px
-        }
-      }
-    }
-  }
-  .kt-cell {
-    .content {
-      text-align: left;
-    }
-    .desc {
-      font-size: 0.289855rem; //36px
-      color: #737e9c;
-    }
-    &.join-inst-list {
-      margin-top: 0.362319rem; //45px
-    }
-  }
-}
+@import './project_detail.scss';
 </style>

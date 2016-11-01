@@ -57,7 +57,7 @@ export default {
     needLogin: true,
     component: resolve => require(['../views/quotation/project_info.vue'], resolve),
     data: {
-      title: '选择对接机构',
+      title: '填写项目信息',
       shareButtonVisible: false,
       logoBottomVisible: false,
       headVisible: true,

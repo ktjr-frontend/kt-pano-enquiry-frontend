@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 let sessions, assetTypes, businessTypes, accounts, registrations,
   recoveries, cards, enquiries, sharedEnquiries, feedbacks,
-  signatures, log, persons, quotes, projects, panoFiles
+  signatures, log, persons, quotes, projects, panoFiles, projectInterest
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -32,6 +32,7 @@ export default function setResources(resource) {
   quotes = resource('quotes{/content}', {}, {}, commonOpts) // 报价板
   projects = resource('projectes{/content}', {}, {}, commonOpts) // 项目香港
   panoFiles = resource('pano_files', {}, {}, commonOpts) // 项目香港
+  projectInterest = resource('project_interest', {}, {}, commonOpts) // 项目香港
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
 }
 
@@ -51,5 +52,6 @@ export {
   businessTypes,
   quotes,
   projects,
-  panoFiles
+  panoFiles,
+  projectInterest
 }

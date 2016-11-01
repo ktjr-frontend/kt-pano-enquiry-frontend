@@ -1,14 +1,17 @@
 <template lang="jade">
 .refer-projects
+  kt-loading(:visible='$loadingRouteData')
   group
-    cell(v-for='p in projects', :title='p.name', is-link, v-link='{name: "referProjectDetail", params:{id: p.id}}')
-      .status(slot='after-title', :class='p.status | statusClass') {{p.status | status}}
+    cell(v-for='p in projects', :title='p.name', is-link, v-link='{name: "referProjectDetail", params:{id: p.id}, query: {refer_id: p.refer_id}}')
+      .date(slot='after-title') {{p.updated_at}}
+        span.status(v-if='p.status === "to_audit"', :class='p.status | statusClass') {{p.status | status}}
 
 </template>
 
 <script>
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
+import KtLoading from '../../components/kt-loading.vue'
 import {
   persons
 } from '../../common/resources.js'
@@ -16,41 +19,53 @@ import {
 export default {
   components: {
     Group,
-    Cell
+    Cell,
+    KtLoading
   },
 
-  ready() {
-    persons.get({
-      content: 'projects_commended'
-    }).then(res => {
-      // this.projects = res.json().list
-    }).catch(res => {
-      this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
-    })
+  route: {
+    data({
+      to: {
+        query
+      }
+    }) {
+      return persons.get({
+        content: 'projects_commended',
+        ...query
+      }).then(res => {
+        return {
+          projects: res.json().res.list
+        }
+      }).catch(res => {
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
+      })
+    }
   },
 
   filters: {
     status(val) {
       let statusMap = {
-        0: '待查看',
-        1: '不感兴趣',
-        2: '感兴趣',
-        3: '对接中',
-        4: '对接成功',
-        5: '对接失败',
-        6: '已失效'
+        'to_audit': '待查看',
+        'audited': '已查看',
+        'not_interest': '不感兴趣',
+        'interested': '感兴趣',
+        'docking': '对接中',
+        'docking_passed': '对接成功',
+        'docking_failed': '对接失败',
+        'expired': '已失效'
       }
       return statusMap[val] || '未知'
     },
     statusClass(val) {
       let statusClassMap = {
-        0: 'status-new',
-        1: '',
-        2: 'status-going',
-        3: 'status-going',
-        4: 'status-going',
-        5: '',
-        6: ''
+        'to_audit': 'status-new',
+        'audited': 'status-going',
+        'not_interest': '',
+        'interested': 'status-going',
+        'docking': 'status-going',
+        'docking_passed': 'status-going',
+        'docking_failed': '',
+        'expired': ''
       }
       return statusClassMap[val] || ''
     }
@@ -58,28 +73,7 @@ export default {
 
   data() {
     return {
-      projects: [{
-        name: '测试',
-        status: 0
-      }, {
-        name: '测试',
-        status: 1
-      }, {
-        name: '测试',
-        status: 2
-      }, {
-        name: '测试',
-        status: 3
-      }, {
-        name: '测试',
-        status: 4
-      }, {
-        name: '测试',
-        status: 5
-      }, {
-        name: '测试',
-        status: 6
-      }]
+      projects: []
     }
   }
 }
@@ -87,14 +81,15 @@ export default {
 
 <style lang="scss">
 .refer-projects {
-  .weui_cell .weui_cell_ft {
-    top: 8px;
-    right: 10px;
-    position: absolute;
+  padding-bottom: 0.805153rem; //100px
+  .date {
+    color: #adb1bc;
+    font-size: 0.322061rem; // 40px
   }
   .status {
-    font-size: 0.322061rem; //40px
+    font-size: 0.289855rem; //3px
     color: #adb1bc;
+    margin-left: .5em;
     &.status-normal {
       color: #adb1bc;
     }

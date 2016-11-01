@@ -34,7 +34,7 @@ export default {
 $green: #29b9ae;
 .quotation-con {
   // &.shared {
-  padding-bottom: 1.932367rem; //240pxs
+  // padding-bottom: 1.932367rem; //240pxs
   // }
   .top-tips {
     height: 0.805153rem;

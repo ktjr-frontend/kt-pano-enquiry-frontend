@@ -95,6 +95,7 @@ export default {
         name: 'projectInfo',
         query: {
           ...this.model,
+          asset_type: this.$route.query.asset_type || '',
           redirect_to: this.submitRedirect || ''
         }
       })

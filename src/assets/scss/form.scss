@@ -24,7 +24,7 @@ input:-webkit-autofill:focus {
 form {
   // position: relative;
   // z-index: 1;
-  background: #eff1f8; //和body同一个颜色 为了弹出键盘时候可以遮盖下面的logo
+  background: #f8f9fb; //和body同一个颜色 为了弹出键盘时候可以遮盖下面的logo
 }
 
 .form-container {
@@ -56,7 +56,7 @@ input[type="button"] {
   font-size: 0.354267rem;
   text-align: center;
   background: #194373;
-  border-radius: 0.040258rem;
+  border-radius: 4px;
   border: 0;
   -webkit-appearance: none;
   &.btn-gray {

@@ -41,7 +41,7 @@
               i.weui_icon.weui_icon_warn(v-touch:tap='showError("contact_method")')
             .line
               .checkbox-simple
-                input(id='wx0', type='radio', v-model='model.contact_method', :value='0')
+                input(id='wx0', type='checkbox', name='contact_method', v-model='model.contact_method', value='0')
                 label(for='wx0')
                   i.icon-pano.icon-checkbox
               | 微信号：
@@ -49,20 +49,20 @@
               input(v-show='!user.wx', v-model='model.wx_account', v-validate:wx_account='wxAccountValidator')
             .line
               .checkbox-simple
-                input(id='wx1', type='radio', v-model='model.contact_method', :value='1')
+                input(id='wx1', type='checkbox', name='contact_method', v-model='model.contact_method', value='1')
                 label(for='wx1')
                   i.icon-pano.icon-checkbox
               | 手机号：
               span {{user.mobile}}
-            .line
+            .line(v-if='user.email')
               .checkbox-simple
-                input(id='wx2', type='radio', v-model='model.contact_method', :value='2')
+                input(id='wx2', type='checkbox', name='contact_method', v-model='model.contact_method', value='2')
                 label(for='wx2')
                   i.icon-pano.icon-checkbox
               | 邮
               span.blank
               | 箱：
-              span {{user.email}}
+              span {{user.email || '-'}}
 
       .buttons
         button 确定
@@ -102,7 +102,8 @@ export default {
   route: {
     data({
       to: {
-        params
+        params,
+        query
       }
     }) {
       let projectP = Promise.resolve(null)
@@ -138,6 +139,7 @@ export default {
 
         let defaultAssetTypeId = [String(types[0].id), String(types[0].data[0].id)]
         let project = {}
+
         if (res2) {
           project = res2.json().res
           project.project_id = project.id
@@ -161,6 +163,21 @@ export default {
             model: project
           }
         } else {
+          // 如果参数上有
+          if (query.asset_type) {
+            let loop = true
+            _.each(types, t => {
+              _.each(t.data, td => {
+                if (td.name === query.asset_type) {
+                  defaultAssetTypeId = [String(t.id), String(td.id)]
+                  loop = false
+                  return false
+                }
+              })
+              return loop
+            })
+          }
+
           return {
             assetTypeList: list,
             asset_type_id: defaultAssetTypeId
@@ -283,7 +300,7 @@ export default {
 
   computed: {
     'wxAccountValidator' () {
-      return this.model.contact_method === 0 && !this.user.wx ? {
+      return _.includes(this.model.contact_method, '0') && !this.user.wx ? {
         required: {
           rule: true,
           message: '请填写微信账号！'
@@ -311,7 +328,7 @@ export default {
         asset_type_id: '',
         desc: '',
         wx_account: '',
-        contact_method: null
+        contact_method: []
       },
       submitRedirect: '', // 提交表单后的跳转路径
       submitted: false, // 确认已经提交，正常跳转离开
