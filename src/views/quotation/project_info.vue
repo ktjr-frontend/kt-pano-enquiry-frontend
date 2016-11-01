@@ -1,5 +1,6 @@
 <template lang="jade">
 .project-form
+  kt-loading(:visible='$loadingRouteData')
   validator(name='validation')
     form(action='', novalidate='', @submit.prevent='onSubmit($event)')
       .group
@@ -72,8 +73,10 @@
 import Group from 'vux-components/group'
 import PopupPicker from 'vux-components/popup-picker'
 import KtCell from '../../components/kt-cell.vue'
+import KtLoading from '../../components/kt-loading.vue'
 import _ from 'lodash'
 import {
+  persons,
   projects,
   panoFiles
 } from '../../common/resources.js'
@@ -86,7 +89,8 @@ export default {
   components: {
     Group,
     PopupPicker,
-    KtCell
+    KtCell,
+    KtLoading
   },
 
   vuex: {
@@ -95,35 +99,105 @@ export default {
     }
   },
 
-  ready() {
-    projects.get({
-      content: 'types'
-    }).then(res => {
-      let types = res.json().res
-      let list = []
+  route: {
+    data({
+      to: {
+        params
+      }
+    }) {
+      let projectP = Promise.resolve(null)
+      let typesP = typesP = projects.get({
+        content: 'types'
+      })
 
-      _.each(types, t => {
-        list.push({
-          name: t.name,
-          value: String(t.id)
-            // parent: 1000
+      if (params.type !== 'add') {
+        projectP = persons.get({
+          content: 'project_submitted_detail',
+          project_id: params.type
         })
-        _.each(t.data, t2 => {
+      }
+
+      return Promise.all([typesP, projectP]).then(([res1, res2]) => {
+        let types = res1.json().res
+        let list = []
+
+        _.each(types, t => {
           list.push({
-            name: t2.name,
-            value: String(t2.id),
-            parent: String(t.id)
+            name: t.name,
+            value: String(t.id)
+              // parent: 1000
+          })
+          _.each(t.data, t2 => {
+            list.push({
+              name: t2.name,
+              value: String(t2.id),
+              parent: String(t.id)
+            })
           })
         })
-      })
 
-      this.assetTypeList = list
-      this.$nextTick(() => {
-        this.asset_type_id = [String(types[0].id), String(types[0].data[0].id)]
+        let defaultAssetTypeId = [String(types[0].id), String(types[0].data[0].id)]
+        let project = {}
+        if (res2) {
+          project = res2.json().res
+          project.project_id = project.id
+          project.asset_type_id = project.asset_type
+
+          let loop = true
+          _.each(types, t => {
+            _.each(t.data, td => {
+              if (td.id === project.asset_type_id) {
+                defaultAssetTypeId = [String(t.id), String(td.id)]
+                loop = false
+                return false
+              }
+            })
+            return loop
+          })
+
+          return {
+            assetTypeList: list,
+            asset_type_id: defaultAssetTypeId,
+            model: project
+          }
+        } else {
+          return {
+            assetTypeList: list,
+            asset_type_id: defaultAssetTypeId
+          }
+        }
+      }).catch(res => {
+        this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
       })
-    }).catch(res => {
-      this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
-    })
+    },
+
+    activate({
+      to,
+      from,
+      next
+    }) {
+      this.submitRedirect = to.query.redirect_to ? decodeURIComponent(to.query.redirect_to) : from.path
+      next()
+    },
+
+    canDeactivate({
+      next,
+      abort
+    }) {
+      if (this.$validation.touched && !this.submitted) {
+        this.$root.showConfirm({
+          content: '数据还没有提交，确定离开吗？',
+          onConfirm() {
+            next()
+          },
+          onCancel() {
+            abort()
+          }
+        })
+      } else {
+        next()
+      }
+    }
   },
 
   methods: {
@@ -185,10 +259,12 @@ export default {
               content: '<p>提交成功，我们会尽快为您推送项目。</p><p>之后您每天可为该项目选择一个对接机构，明天记得再来哦 ^_^</p>',
               onHide: function() {
                 this.$router.go({
-                  name: 'quotationOB'
+                  path: this.submitRedirect || '/quotation/ob'
                 })
               }.bind(this)
             })
+
+            this.submitted = true
             this.$root.hideLoadingStatus()
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
@@ -237,8 +313,10 @@ export default {
         wx_account: '',
         contact_method: null
       },
+      submitRedirect: '', // 提交表单后的跳转路径
+      submitted: false, // 确认已经提交，正常跳转离开
       asset_type_id: [], // 用于popuppicker的逻辑，区分model.asset_type_id
-      assetTypeList: [],
+      assetTypeList: [], // 项目类型列表
       validator: {
         name: {
           required: {
@@ -324,7 +402,7 @@ textarea {
   }
   .icon-plus {
     font-size: 1em;
-    transform: scale(.8);
+    transform: scale(.7);
     vertical-align: -1px;
     margin-left: 5px;
     color: #3bc5ba;
@@ -335,30 +413,6 @@ textarea {
 .input-file + span.remark {
   margin-left: 1em;
   color: #adb1bc;
-}
-
-.file-list {
-  .file-name {
-    position: relative;
-    padding: 3px 5px;
-    border-radius: 5px;
-    color: #3bc5ba;
-    background: #f8f9fb;
-    margin: .5em 0 0;
-    padding-right: 2.5em;
-    display: inline-block;
-  }
-  .icon-plus {
-    position: absolute;
-    padding: 1em;
-    font-size: 1em;
-    right: -.5em;
-    top: -.5em;
-    display: inline-block;
-    transform: rotate(45deg) scale(.8);
-    vertical-align: -1px;
-    margin-left: 1em
-  }
 }
 
 .content-body {

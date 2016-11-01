@@ -63,6 +63,32 @@ export default {
       }
     }
   }
+  .file-list {
+    .file-name {
+      position: relative;
+      padding: 3px 5px;
+      border-radius: 5px;
+      color: #3bc5ba;
+      background: #f8f9fb;
+      margin: .5em 0 0;
+      padding-right: 2.5em;
+      display: inline-block;
+      &.no-icon {
+        padding-right: 5px;
+      }
+    }
+    .icon-plus {
+      position: absolute;
+      padding: 1em;
+      font-size: 1em;
+      right: -.5em;
+      top: -.5em;
+      display: inline-block;
+      transform: rotate(45deg) scale(.8);
+      vertical-align: -1px;
+      margin-left: 1em
+    }
+  }
   .textarea {
     position: relative;
     .weui_icon {

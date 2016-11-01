@@ -118,6 +118,19 @@
       width: 33.33%;
     }
   }
+  &.count-4 {
+    .kt-list-short {
+      width: 25%;
+    }
+  }
+  &.count-5 {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    .kt-list-short {
+      flex: 0 0 auto;
+      width: 25%;
+    }
+  }
 }
 
 .kt-list-short {

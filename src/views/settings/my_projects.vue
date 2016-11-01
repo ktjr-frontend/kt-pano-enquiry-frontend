@@ -7,16 +7,16 @@
       | 新增
   kt-no-data(v-if='!$loadingRouteData && !projects.length')
   .group
-      kt-cell(v-for='p in projects', icon='icon-arrow-right', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
-        div(slot='title') {{p.name}}
-          .date {{p.updated_at}}
-            span.status(:class='p.status | statusClass')  {{p.status | status}}
-        .in-content
-          h5 已推荐平台
-          ul.platform-list.clfix
-            li(v-for='platform in p.platforms') {{platform.name}}
-            li.add-platform(@click='addPlatform(p)')
-              i.icon-pano.icon-plus
+    kt-cell(v-for='p in projects', icon='icon-arrow-right', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
+      div(slot='title') {{p.name}}
+        .date {{p.updated_at}}
+          span.status(:class='p.status | statusClass') {{p.status | status}}
+      .in-content
+        h5 已推荐平台
+        ul.platform-list.clfix
+          li(v-for='platform in p.platforms') {{platform.name}}
+          li.add-platform(@click='addPlatform(p)')
+            i.icon-pano.icon-plus
           //- .status(:class='p.status | statusClass') {{p.status | status}}
           //- .in-content-right
             .button(v-link='{name: "joinInst", params: {type: p.id}}') 新增对接机构
@@ -60,7 +60,7 @@ export default {
         'audit_passed': '',
         'dock_passed': '',
         'dock_failed': '',
-        'audit_failed': '审核不通过'
+        'audit_failed': '项目待完善'
       }
 
       return statusMap[val] || ''

@@ -56,14 +56,17 @@ export default {
           text: res.json().error || '抱歉，服务器繁忙!'
         })
       })
+    },
+
+    activate({
+      to,
+      from,
+      next
+    }) {
+      this.submitRedirect = to.query.redirect_to ? decodeURIComponent(to.query.redirect_to) : from.path
+      next()
     }
   },
-
-  // ready() {
-  //   person.get({
-  //     content: 'project_submit'
-  //   })
-  // },
 
   /*watch: {
     'model.platform_id' () {
@@ -90,7 +93,10 @@ export default {
       this.cacheModel()
       this.$router.go({
         name: 'projectInfo',
-        query: this.model
+        query: {
+          ...this.model,
+          redirect_to: this.submitRedirect || ''
+        }
       })
     },
 
@@ -115,7 +121,12 @@ export default {
         let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="80%"/></div>`
 
         this.$root.showAlert({
-          content: content
+          content: content,
+          onHide: function() {
+            this.$router.go({
+              path: this.submitRedirect || '/quotation/ob'
+            })
+          }.bind(this)
         })
       }).catch(res => {
         this.$root.hideLoadingStatus()
@@ -152,6 +163,7 @@ export default {
         platform_id: '',
         ...cacheModel
       },
+      submitRedirect: '', // 提交后的跳转
       insts: []
     }
   }

@@ -166,6 +166,7 @@
   }
   .with_arrow:after {
     border-color: #acb1bd;
+    margin-right: .2em;
   }
   &:active {
     .with_arrow:after {
@@ -282,8 +283,12 @@
     // }
   }
   .weui_cell_ft {
-    font-size: 0.402576rem;
-    color: #999ea5;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 80%;
+    text-overflow: ellipsis;
+    font-size: 0.289855rem; //36px
+    color: #adb1bc;
     min-width: 0;
     .tip {
       font-size: 0.322061rem; // 50px
