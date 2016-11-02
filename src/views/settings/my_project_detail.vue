@@ -28,7 +28,7 @@
           .main
             h3
               div.ellipsis {{inst.name}}
-        .kt-list-short.add-new-inst
+        .kt-list-short.add-new-inst(v-if='project.status_data.status !== "audit_failed"')
           .icon(@click='addPlatform()')
             i.icon-pano.icon-plus
           .main

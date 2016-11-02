@@ -13,9 +13,11 @@
     }
   }
 }
-.vux-popup-picker-header{
+
+.vux-popup-picker-header {
   color: #3bc5ba;
 }
+
 .vux-popup-picker-value {
   line-height: 1em;
   vertical-align: -1px;
@@ -126,6 +128,11 @@
   &:after,
   &:before {
     border-color: #eff2f7;
+  }
+  .weui_cell:first-of-type {
+    &:before {
+      display: none;
+    }
   }
 }
 

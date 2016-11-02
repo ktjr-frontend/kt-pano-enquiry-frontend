@@ -20,7 +20,7 @@
     kt-cell(title='项目描述')
       div.desc {{project.desc || '无'}}
   .group-title
-    .left 项目信息
+    .left 项目方
   .group
     kt-cell
       .profile-card
@@ -44,8 +44,8 @@
     button.green(v-show='includes(["to_audit", "audited"], project.refer_status)', @click='notInterested()') 不感兴趣
     button(v-show='includes(["to_audit", "audited", "not_interest"], project.refer_status)', @click='interested()') 感兴趣
     button.gray(v-show='includes(["docking", "interested"], project.refer_status)') 项目联系中
-    button.gray(v-show='project.refer_status === "docking_passed"') 对接成功
-    button.gray(v-show='project.refer_status === "docking_failed"') 对接失败
+    button.gray(v-show='project.refer_status === "dock_passed"') 对接成功
+    button.gray(v-show='project.refer_status === "dock_failed"') 对接失败
     button.gray(v-show='project.refer_status === "expired"', @click='expired()')
 </template>
 

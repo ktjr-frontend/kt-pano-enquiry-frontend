@@ -10,7 +10,7 @@
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("name")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("name")')
             span.count-box 0/{{validator.name.maxlength.rule}}
-      group
+      group.asset-type-picker
         input(type='hidden' v-model='model.asset_type_id', v-validate:asset_type_id='validator.asset_type_id')
         popup-picker(v-if='assetTypeList.length', title='*项目类型', :data='assetTypeList', :columns='2', :value.sync='asset_type_id', v-ref:picker3, show-name)
       .group

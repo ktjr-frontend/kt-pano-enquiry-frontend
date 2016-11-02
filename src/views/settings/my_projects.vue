@@ -104,7 +104,6 @@ export default {
 
 <style lang="scss">
 .my-projects {
-  // padding-bottom: 1.771337rem; //220px
   .my-projects-head {
     padding: 0 0.402576rem; //50px
     height: 0.966184rem; //120px
@@ -128,6 +127,8 @@ export default {
         color: #adb1bc;
         flex: 1;
         text-align: left;
+        font-size: 0.289855rem; //36px
+        margin-left: .7em;
         &.status-ok {
           color: #3bc5ba;
         }
@@ -143,36 +144,6 @@ export default {
       line-height: 2em;
     }
   }
-  /* .in-content {
-    display: flex;
-    .in-content-right {
-      text-align: right;
-    }
-    .button {
-      font-size: 0.322061rem; //40px
-      width: 2.657005rem; //330px
-      height: 0.563607rem; //70px
-      line-height: 0.563607rem; //70px
-      border-radius: 5px;
-      color: #adb1bc;
-      background: #f8f9fb;
-      text-align: center;
-      &:active {
-        background: #3bc5ba;
-        color: white;
-        .icon-plus {
-          color: white;
-        }
-      }
-      .icon-plus {
-        font-size: 0.096618rem; //12px
-        margin-left: .3em;
-        color: #3bc5ba;
-        display: inline-block;
-        transform: scale(.8);
-      }
-    }
-  } */
   .kt-cell {
     .content {
       padding: 0.080515rem 0.402576rem 0.161031rem; //10px 50px 20px

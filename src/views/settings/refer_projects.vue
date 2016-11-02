@@ -50,8 +50,8 @@ export default {
         'not_interest': '不感兴趣',
         'interested': '感兴趣',
         'docking': '对接中',
-        'docking_passed': '对接成功',
-        'docking_failed': '对接失败',
+        'dock_passed': '对接成功',
+        'dock_failed': '对接失败',
         'expired': '已失效'
       }
       return statusMap[val] || '未知'
@@ -63,8 +63,8 @@ export default {
         'not_interest': '',
         'interested': 'status-going',
         'docking': 'status-going',
-        'docking_passed': 'status-going',
-        'docking_failed': '',
+        'dock_passed': 'status-going',
+        'dock_failed': '',
         'expired': ''
       }
       return statusClassMap[val] || ''
