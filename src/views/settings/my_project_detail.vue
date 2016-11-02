@@ -15,7 +15,7 @@
     kt-cell(title='相关文件')
       div(v-if='!project.files || !project.files.length') 无
       .file-list(v-for='file in project.files')
-        a.file-name.no-icon {{file.name}}
+        a.file-name.no-icon(:href='file.url') {{file.name}}
   .group
     kt-cell(title='项目描述')
       div.desc {{project.desc || '无'}}
