@@ -19,8 +19,8 @@
             .input-file
               span 上传文件/图片
                 i.icon-pano.icon-plus
-              input(type='file', @change='uploadFile($event)', accept='.pdf,.doc,.docx,.txt,.png,.jpg,.jpeg,.gif')
-            span.remark 支持pdf,doc,txt,png,jpg
+              input(type='file', @change='uploadFile($event)', accept='.pdf,.doc,.docx,.png,.jpg,.jpeg,.gif')
+            span.remark 支持pdf,doc,png,jpg
             .file-list(v-for='file in model.files')
               a.file-name {{file.name}}
                 i.icon-pano.icon-plus(@click.prevent='delFile(file)')

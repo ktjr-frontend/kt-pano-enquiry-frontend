@@ -8,8 +8,7 @@
       .table
         .thead
           .th-row
-            .th(v-for='g in groups')
-              {{g}}
+            .th(v-for='g in groups') {{g}}
         .tbody(v-for='tr in list')
           .th-row
             .th {{tr.type}}

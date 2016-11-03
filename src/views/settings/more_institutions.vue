@@ -17,8 +17,7 @@ div
             i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
             | {{item.is_followed ? '已关注' : '关注'}}
       .default-content(v-if='!institutions.length', v-link='{name: "allInstitutions", query: $route.query}')
-        i.icon-pano.icon-plus
-        选择要关注的互联网金融平台
+        i.icon-pano.icon-plus 选择要关注的互联网金融平台
     kt-cell(title='为我推荐', v-if='recommendedCurrent.length', :icon='rPages > 1 ? "icon-refresh" : ""', @on-icon-click='changeBatch()')
       //- div(slot='title', v-link='{name: "allInstitutions"}') 我的关注
       .kt-list(v-for='item in recommendedCurrent', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')

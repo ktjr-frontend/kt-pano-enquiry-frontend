@@ -1,7 +1,6 @@
 <template lang="jade">
 .quotation-con(:class='{shared: $route.query.shared}')
-  .top-tips(v-if='$route.query.shared')
-    开通PANO为您报价：
+  .top-tips(v-if='$route.query.shared') 开通PANO为您报价：
   .tabs(v-if='$route.name !== "quotationDetail"')
     button-tab
       button-tab-item(v-touch:tap='$router.go({name:"quotationOB", query: $route.query})', :selected="$route.name === 'quotationOB'") 资产类

@@ -79,7 +79,7 @@ module.exports = {
     loaders: utils.cssLoaders(),
     // postcss: [require('autoprefixer')({ browsers: ['Android > 2.3', 'iOS >= 6'] })]
     autoprefixer: {
-      browsers: ['Android > 2.3', 'iOS >= 6', 'last 7 versions'],
+      browsers: ['last 7 versions'],
       cascade: false // 不美化输出 css
     }
   },

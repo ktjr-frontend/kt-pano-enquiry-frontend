@@ -9,8 +9,7 @@
     .left 项目信息
     .right 更新时间：{{project.updated_at}}
   group
-    cell(title='资产类型')
-      {{assetTypeName}}
+    cell(title='资产类型') {{assetTypeName}}
   .group
     kt-cell(title='相关文件')
       div(v-if='!project.files || !project.files.length') 无

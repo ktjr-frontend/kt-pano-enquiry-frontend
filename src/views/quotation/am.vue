@@ -19,8 +19,7 @@
           swiper-slide(v-for='(key, group) in groups')
             .thead
               .th-row
-                .th(v-for='g in group')
-                  {{g}}
+                .th(v-for='g in group') {{g}}
             .tbody(v-for='tr in groupList')
               .th-row
                 .th
