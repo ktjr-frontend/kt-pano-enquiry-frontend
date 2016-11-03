@@ -11,6 +11,19 @@ const CACHE_URLS = ['inquiries/search_am', 'inquiries/search']
 
 export default [
   function(request, next) {
+    let timeout
+    if (request._timeout) {
+      timeout = setTimeout(() => {
+        if (request.onTimeout) request.onTimeout(request)
+        request.abort()
+      }, request._timeout)
+    }
+
+    next(res => {
+      clearTimeout(timeout)
+    })
+  },
+  function(request, next) {
     let key = Vue.url(request.url, request.params)
 
     request.cache = _.includes(CACHE_URLS, key.split('?')[0])
