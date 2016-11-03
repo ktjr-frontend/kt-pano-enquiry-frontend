@@ -112,7 +112,7 @@ export default {
   },
   '/interest_projects': {
     data: {
-      title: '感兴趣项目',
+      title: '感兴趣的项目',
       logoBottomVisible: false,
       headVisible: false,
       tabVisible: true
