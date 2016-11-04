@@ -28,7 +28,7 @@
 }
 
 .vux-popup-dialog {
-  background: #eff1f8;
+  background: #f8f9fb;
   .popup {
     padding: 0.322061rem;
     .head {
@@ -103,7 +103,12 @@
 
 .vux-header {
   background: #194373;
-  position: relative;
+  // position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
   .vux-header-left {
     left: 0.402576rem;
     top: 50%;
@@ -117,8 +122,8 @@
   }
   .vux-header-title,
   h1 {
-    height: 1.207729rem; //150px
-    line-height: 1.207729rem;
+    height: 44px; //150px
+    line-height: 44px;
     font-size: 0.402576rem; //50px
   }
 }

@@ -1,3 +1,5 @@
+let headVisible = process.env.NODE_ENV.indexOf('app') > -1
+
 export default {
   '/quotation': {
     name: 'quotation',
@@ -9,7 +11,7 @@ export default {
           title: '开通PANO市场报价板',
           shareButtonVisible: true,
           logoBottomVisible: false,
-          headVisible: true,
+          headVisible: headVisible,
           tabVisible: true
         },
         name: 'quotationOB',
@@ -20,7 +22,7 @@ export default {
           title: '开通PANO市场报价板',
           shareButtonVisible: true,
           logoBottomVisible: false,
-          headVisible: true,
+          headVisible: headVisible,
           tabVisible: true
         },
         name: 'quotationAM',
@@ -31,7 +33,7 @@ export default {
           title: '报价详情',
           shareButtonVisible: false,
           logoBottomVisible: false,
-          headVisible: false,
+          headVisible: headVisible,
           tabVisible: true
         },
         needLogin: true,
@@ -48,7 +50,7 @@ export default {
       title: '选择对接机构',
       shareButtonVisible: false,
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     }
   },
@@ -60,7 +62,7 @@ export default {
       title: '填写项目信息',
       shareButtonVisible: false,
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     }
   }

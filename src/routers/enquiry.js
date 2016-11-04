@@ -1,12 +1,13 @@
 import Utils from '../common/utils'
 
 let scrollYCache = Utils.getSessionByKey('scrollYCache')
+let headVisible = process.env.NODE_ENV.indexOf('app') > -1
 export default {
   '/enquiry': {
     data: {
       title: '选择类型',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'enquiry',
@@ -19,7 +20,7 @@ export default {
     data: {
       title: '请选择资产类型',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'enquiryAssetTypes',
@@ -32,7 +33,7 @@ export default {
     data: {
       title: '房地产类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetEslate',
@@ -45,7 +46,7 @@ export default {
     data: {
       title: '政信类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetGovernment',
@@ -58,7 +59,7 @@ export default {
     data: {
       title: '企业借款类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetEnterprise',
@@ -71,7 +72,7 @@ export default {
     data: {
       title: '供应链类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetSupplyChain',
@@ -84,7 +85,7 @@ export default {
     data: {
       title: '小微金融类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetMiniFinance',
@@ -97,7 +98,7 @@ export default {
     data: {
       title: '资管类',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryAssetManage',
@@ -110,7 +111,7 @@ export default {
     data: {
       title: '询价结果',
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'enquiryResult',
@@ -126,7 +127,7 @@ export default {
       title: '询价结果',
       scrollY: scrollYCache.enquiryAmResult || 0,
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'enquiryAmResult',
@@ -140,7 +141,7 @@ export default {
     data: {
       title: '开通金融PANO询价服务',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'enquiryShare',
@@ -153,7 +154,7 @@ export default {
     data: {
       title: '询价结果',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'enquiryError',
@@ -166,7 +167,7 @@ export default {
     data: {
       title: '开通服务介绍',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'serviceIntroduce',

@@ -40,7 +40,14 @@ export default {
 
     let token = encodeURIComponent(window.localStorage.token)
     let isProduction = process.env.NODE_ENV === 'production'
-    let hostName = isProduction ? panoMap[location.hostname] : 'http://localhost:8880'
+    let isApp = process.env.NODE_ENV.indexOf('app') > -1
+    let hostName
+
+    if (isApp) {
+      hostName = 'http://pano.ktjr.com'
+    } else {
+      hostName = isProduction ? panoMap[location.hostname] : 'http://localhost:8880'
+    }
 
     return {
       hostName,

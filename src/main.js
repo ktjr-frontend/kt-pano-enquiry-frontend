@@ -18,7 +18,13 @@ Vue.use(Directives)
 Vue.use(Transions)
 
 // http初始化
-Vue.http.options.root = '/api/v1'
+let envApiPaths = {
+  'development': '/api/v1',
+  'production': '/api/v1',
+  'app-dev': 'http://dev-pano.ktjr.com/api/v1',
+  'app-prod': 'http://pano.ktjr.com/api/v1'
+}
+Vue.http.options.root = envApiPaths[process.env.NODE_ENV] || '/api/v1'
 Vue.http.headers.common['Authorization'] = window.localStorage.token || ''
 
 // 拦截器统一注入
@@ -33,4 +39,10 @@ setResources(Vue.resource)
 document.body.addEventListener('touchstart', () => {})
 
 // 启动路由
-routerStart()
+if (process.env.NODE_ENV.indexOf('app') > -1) {
+  document.addEventListener('deviceready', e => {
+    routerStart()
+  })
+} else {
+  routerStart()
+}

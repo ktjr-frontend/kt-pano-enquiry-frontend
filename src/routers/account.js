@@ -1,6 +1,7 @@
 import Utils from '../common/utils'
 
 let scrollYCache = Utils.getSessionByKey('scrollYCache')
+let headVisible = process.env.NODE_ENV.indexOf('app') > -1
 
 export default {
   '/profile': {
@@ -8,7 +9,7 @@ export default {
       title: '个人信息页',
       scrollY: scrollYCache.profile || 0,
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'profile',
@@ -22,7 +23,7 @@ export default {
       title: '关注的挂牌场所',
       scrollY: scrollYCache.moreInstitutions || 0,
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'moreInstitutions',
@@ -36,7 +37,7 @@ export default {
       title: '关注的互联网金融平台',
       scrollY: scrollYCache.allInstitutions || 0,
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'allInstitutions',
@@ -49,7 +50,7 @@ export default {
     data: {
       title: '我',
       logoBottomVisible: true,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'settings',
@@ -62,7 +63,7 @@ export default {
     data: {
       title: '我的项目',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'myProjects',
@@ -75,7 +76,7 @@ export default {
     data: {
       title: '项目信息',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'myProjectDetail',
@@ -88,7 +89,7 @@ export default {
     data: {
       title: '为我推介项目',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'referProjects',
@@ -101,7 +102,7 @@ export default {
     data: {
       title: '项目信息',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'referProjectDetail',
@@ -114,7 +115,7 @@ export default {
     data: {
       title: '感兴趣的项目',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: true
     },
     name: 'interestProjects',
@@ -127,7 +128,7 @@ export default {
     data: {
       title: '项目信息',
       logoBottomVisible: false,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'interestProjectDetail',
@@ -140,7 +141,7 @@ export default {
     data: {
       title: '忘记密码-手机号校验',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'forgetPassword1',
@@ -153,7 +154,7 @@ export default {
     data: {
       title: '忘记密码-设置新密码',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'forgetPassword2',
@@ -166,7 +167,7 @@ export default {
     data: {
       title: '修改手机-原手机号校验',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'changeMobile1',
@@ -179,7 +180,7 @@ export default {
     data: {
       title: '修改手机-新手机号校验',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'changeMobile2',
@@ -192,7 +193,7 @@ export default {
     data: {
       title: '修改密码',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     name: 'changePassword',
@@ -206,7 +207,7 @@ export default {
     data: {
       title: '注册',
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: false
     },
     component(resolve) {
@@ -218,7 +219,7 @@ export default {
     data: {
       title: '登录',
       logoBottomVisible: true,
-      headVisible: false,
+      headVisible: headVisible,
       tabVisible: false
     },
     component(resolve) {
@@ -231,7 +232,7 @@ export default {
     data: {
       title: '上传名片',
       logoBottomVisible: false,
-      headVisible: true,
+      headVisible: headVisible,
       tabVisible: false
     },
     component(resolve) {

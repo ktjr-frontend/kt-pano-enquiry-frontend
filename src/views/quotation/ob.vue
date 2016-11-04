@@ -102,6 +102,6 @@ export default {
 <style lang="scss" scoped>
 .kt-loading {
   position: absolute!important;
-  background: #eff1f8!important;
+  background: #f8f9fb!important;
 }
 </style>

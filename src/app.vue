@@ -1,6 +1,6 @@
 <template lang="jade">
-#app
-  //- x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
+#app(:class='{"head-visible": $route.data.headVisible}')
+  x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
   router-view
@@ -208,6 +208,9 @@ export default {
 #app {
   z-index: 1;
   position: relative;
+  &.head-visible {
+    padding-top: 50px;
+  }
 }
 
 body[page="projectInfo"] {
@@ -287,7 +290,7 @@ body {
         background: darken(#89d7cb, 10%);
       }
     }
-    &.gray{
+    &.gray {
       background: rgba(128, 128, 128, 0.45);
     }
   }
