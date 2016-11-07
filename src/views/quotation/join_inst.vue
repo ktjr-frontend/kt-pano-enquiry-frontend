@@ -1,7 +1,7 @@
 <template lang="jade">
 .select-join-inst
   kt-loading(:visible='$loadingRouteData')
-  .head 请选择一个您想对接的机构，向他们推送项目吧！
+  .head 每天可选择一个互金平台，向他们推送您的项目：
   .insts
     ul
       li(v-for='inst in instList', :class='{"row-last": $index % 3 === 2}')
@@ -16,13 +16,13 @@
     a.load-more(@click='moreInst()', v-show='model.instPage * 9 < insts.length') 更多
   group.kaitong-refer
     div.cell
-      p 无明确的意向对接机构？想获得专家级的平台挑选？<br>想同时向多家平台推送项目？
+      p 想要一次推送多家平台？希望对接流程更高效？获得互金资产专家的全方位服务？选择：
       .checkbox
         input(id='kaitongRefer', type='checkbox', v-model='model.kaitong_refer')
         label(for='kaitongRefer')
           i.icon-pano.icon-checkbox
           | 开通资产推介服务
-        p 开通的资产专家为您挑选最合适的平台，并将您的资产推荐给多个匹配平台，为您的金融资产发行提供全流程支持及运营服务。
+        p 开通金融为您提供专业的金融互联网交易服务，上百个互联网渠道资产项目落地经验，与四十多家主流互金平台开展合作，了解各大平台风控标准与资产偏好。
   .buttons-footer
     button(v-if='$route.params.type === "add"', @click='next()') 下一步
       i.icon-pano.icon-arrow-right
@@ -118,8 +118,8 @@ export default {
         kaitong_refer: this.model.kaitong_refer
       }).then(res => {
         this.$root.hideLoadingStatus()
-        let wxQrcode = require('../../assets/images/weixin-pano.jpg')
-        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="80%"/></div>`
+        let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
+        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
 
         this.$root.showAlert({
           content: content,
@@ -142,7 +142,7 @@ export default {
 
     // 缓存当前数据
     cacheModel() {
-      window.sessionStorage[this.$route.name + '.' + (this.$route.params.type || 'new') + '.cache'] = JSON.stringify(this.model)
+      window.sessionStorage[this.$route.path] = JSON.stringify(this.model)
     }
   },
 
@@ -155,7 +155,7 @@ export default {
   },
 
   data() {
-    let cacheModel = JSON.parse(window.sessionStorage[this.$route.name + '.' + (this.$route.params.type || 'new') + '.cache'] || '{"instPage": 1}')
+    let cacheModel = JSON.parse(window.sessionStorage[this.$route.path] || '{"instPage": 1}')
 
     return {
       model: {
@@ -182,8 +182,8 @@ $green: #3bc5ba;
 }
 
 .load-more {
-  height: 0.845411rem;
-  line-height: 0.845411rem; // 105px
+  height: 1.046699rem;
+  line-height: 1.046699rem; // 130px
   font-size: 0.354267rem; //44px;
   text-align: center;
   color: $green;
@@ -202,10 +202,12 @@ input[type="radio"] {
   display: none;
 }
 
-input[type="checkbox"]:checked + label,
-input[type="radio"]:checked + label {
-  .icon-checkbox {
-    color: $green;
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  & + label {
+    .icon-checkbox {
+      color: $green;
+    }
   }
 }
 
@@ -252,9 +254,12 @@ input[type="radio"]:checked + label {
         position: absolute;
       }
     }
-    input[type="checkbox"]:checked ~ .inst {
-      p {
-        color: #474650;
+    input[type="radio"]:checked,
+    input[type="radio"]:checked {
+      & ~ .inst {
+        p {
+          color: #474650;
+        }
       }
     }
     .inst {
@@ -264,7 +269,7 @@ input[type="radio"]:checked + label {
       justify-content: center;
       font-size: 0.322061rem; //40px
       p {
-        color: #acb1bd;
+        color: #737e9c;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -294,7 +299,7 @@ input[type="radio"]:checked + label {
     padding: 0.322061rem 0.402576rem; //40px 50px
   }
   .checkbox {
-    margin: 1em 0 .5em .5em;
+    margin: 1em 0 .5em;
     p {
       margin-top: .5em;
       font-size: 0.289855rem; //36px

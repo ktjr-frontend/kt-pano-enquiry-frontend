@@ -139,14 +139,20 @@ export default {
         icon: 'icon-project',
         link: {
           name: 'joinInst',
+          query: {
+            redirect_to: '/quotation/ob'
+          },
           params: {
             type: 'add'
-          }
+          },
+          activeIncludes: [
+            'projectInfo'
+          ]
         }
       }, {
         active: false,
         span: 1,
-        name: '市场行情',
+        name: '市场数据',
         icon: 'icon-price',
         link: {
           jump: 'market'

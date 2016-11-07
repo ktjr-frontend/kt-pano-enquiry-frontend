@@ -51,7 +51,7 @@ export default {
       shareButtonVisible: false,
       logoBottomVisible: false,
       headVisible: headVisible,
-      tabVisible: false
+      tabVisible: true
     }
   },
   '/project_info/:type': {
@@ -63,7 +63,7 @@ export default {
       shareButtonVisible: false,
       logoBottomVisible: false,
       headVisible: headVisible,
-      tabVisible: false
+      tabVisible: true
     }
   }
 }

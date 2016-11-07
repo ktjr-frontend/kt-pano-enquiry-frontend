@@ -4,7 +4,7 @@
   .head
     h3 {{project.name}}
     //- .sub-title 待查看
-    .icon-pano.icon-edit(v-link='{name:"projectInfo", params:{type: project.id}}')
+    .icon-pano.icon-edit(v-link='{name:"projectInfo", params:{type: project.id}, query:{redirect_to: $route.path}}')
   .group-title
     .left
     .right 更新时间：{{project.updated_at}}
@@ -95,6 +95,9 @@ export default {
 
       this.$router.go({
         name: 'joinInst',
+        query: {
+          redirect_to: this.$route.path
+        },
         params: {
           type: this.project.id
         }

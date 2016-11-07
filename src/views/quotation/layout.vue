@@ -104,7 +104,7 @@ section.quotation {
       right: 0;
       padding: 0 0.402576rem 0 0.080515rem; //50px 10px
       background: white;
-      height: 0.966184rem; //120px
+      height: 0.885668rem; //110px
       &:after {
         top: 0.289855rem; //25px
         border-width: 1px 1px 0 0;
@@ -119,7 +119,7 @@ section.quotation {
       z-index: 19;
       left: 0; //45px
       top: 0; //30px
-      height: 0.966184rem; //120px
+      height: 0.885668rem; //110px
       background: white;
       padding: 0 0.080515rem 0 0.362319rem; //45px 10px
       margin-left: 0;

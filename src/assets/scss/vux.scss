@@ -304,6 +304,15 @@
     font-size: 0.289855rem; //36px
     color: #adb1bc;
     min-width: 0;
+    line-height: 2em;
+    &.with_arrow {
+      &:after {
+        height: 5px;
+        width: 5px;
+        border-width: 1px 1px 0 0;
+        top: 0;
+      }
+    }
     .tip {
       font-size: 0.322061rem; // 50px
       background: #3bc5ba;

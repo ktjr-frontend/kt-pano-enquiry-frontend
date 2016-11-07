@@ -4,8 +4,18 @@ import moment from 'moment'
 export default {
   install(Vue, options) {
     // 添加百分比
-    Vue.filter('ktPercent', (value, decimal, unit) => {
-      return _.isNumber(value) ? _.round(value, decimal || 2) + (unit || '') : ''
+    Vue.filter('ktPercent', (value, decimal = 2, unit) => {
+      return _.isNumber(value) ? _.round(value, decimal) + (unit || '') : ''
+    })
+
+    Vue.filter('ktRangePercent', (value, value2, decimal = 2) => {
+      value = _.isNumber(value) ? _.round(value, decimal).toFixed(decimal) : ''
+      value2 = _.isNumber(value2) ? _.round(value2, decimal).toFixed(decimal) : ''
+      if (value === value2) {
+        return value + '%'
+      }
+
+      return `${value}-${value2}%`
     })
 
     Vue.filter('ktRound', (value, decimal = 0) => {

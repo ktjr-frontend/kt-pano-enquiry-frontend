@@ -30,7 +30,7 @@
                 h3
                   div.ellipsis 无合适平台
   .buttons-footer
-    button(v-link='{name: "joinInst", params: {type: "add"}, query: {asset_type: $route.query.asset_type}}') 对接项目
+    button(v-link='{name: "joinInst", params: {type: "add"}, query: {asset_type: $route.query.asset_type, redirect_to: $route.path}}') 对接项目
       i.icon-pano.icon-arrow-right
 
 </template>
@@ -144,8 +144,8 @@ export default {
 .kt-cell {
   .head {
     text-align: left;
-    height: 0.764895rem;
-    line-height: 0.764895rem; //95px
+    height: 0.885668rem;
+    line-height: 0.885668rem; //110px
     margin-top: -0.402576rem; //50px
     margin-bottom: 0.402576rem; //50px
     padding: 0 0.161031rem; //20px

@@ -310,6 +310,9 @@ input[type="button"] {
   input {
     display: none;
   }
+  .icon-checkbox {
+    color: #dde1f0;
+  }
   input:checked + label {
     .icon-checkbox {
       color: #3bc5ba;

@@ -6,13 +6,14 @@
       .group
         kt-cell(title='*项目名称')
           .textarea(v-validate-class='', :class='{"not-empty": model.name}', v-kt-textarea-count='model.name', display-into='.count-box', :max-length='validator.name.maxlength.rule')
-            textarea(placeholder='请填写项目名称，如增信方-融资方／资产名称-期限', v-model='model.name', v-validate:name='validator.name')
+            textarea(placeholder='请填写项目名称，建议包含资产名称、融资方、增信方、融资期限等要素', v-model='model.name', v-validate:name='validator.name')
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("name")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("name")')
             span.count-box 0/{{validator.name.maxlength.rule}}
       group.asset-type-picker
         input(type='hidden' v-model='model.asset_type_id', v-validate:asset_type_id='validator.asset_type_id')
         popup-picker(v-if='assetTypeList.length', title='*项目类型', :data='assetTypeList', :columns='2', :value.sync='asset_type_id', v-ref:picker3, show-name)
+        i.weui_icon.weui_icon_warn(v-touch:tap='showError("asset_type_id")')
       .group
         kt-cell(title='资料')
           .content-body
@@ -37,7 +38,7 @@
         kt-cell(title='*联系方式')
           input(type='hidden', id='contact_method', v-model='model.contact_method', v-validate:contact_method='validator.contact_method')
           .contact-methods(v-validate-class='')
-            .c-m-head 后续通过什么方式与您进行项目对接？
+            .c-m-head 可以通过如下方式与我联系项目事宜（多选）：
               i.weui_icon.weui_icon_warn(v-touch:tap='showError("contact_method")')
             .line
               .checkbox-simple
@@ -66,8 +67,7 @@
 
       .buttons
         button 确定
-
-  </template>
+</template>
 
 <script>
 import Group from 'vux-components/group'
@@ -84,6 +84,9 @@ import {
 import {
   user
 } from '../../vuex/getters.js'
+import {
+  updateUser
+} from '../../vuex/actions.js'
 
 export default {
   components: {
@@ -96,6 +99,9 @@ export default {
   vuex: {
     getters: {
       user
+    },
+    actions: {
+      updateUser
     }
   },
 
@@ -137,7 +143,9 @@ export default {
           })
         })
 
-        let defaultAssetTypeId = [String(types[0].id), String(types[0].data[0].id)]
+        // 项目类型默认值
+        // let defaultAssetTypeId = [String(types[0].id), String(types[0].data[0].id)]
+        let defaultAssetTypeId = []
         let project = {}
 
         if (res2) {
@@ -145,6 +153,7 @@ export default {
           project.project_id = project.id
           project.asset_type_id = project.asset_type
 
+          // 重构数据
           let loop = true
           _.each(types, t => {
             _.each(t.data, td => {
@@ -223,6 +232,13 @@ export default {
       this.model[name] = ''
     },
 
+    clearPreRouteCache() {
+      if (this.$route.params.type === 'add' && this.$router._prevTransition) {
+        // this.$router._prevTransition.to 上一个路由
+        delete window.sessionStorage[this.$router._prevTransition.to.path]
+      }
+    },
+
     uploadFile(e) {
       let formData = new FormData()
       formData.append('file', e.target.files[0])
@@ -273,7 +289,7 @@ export default {
 
           savePromise.then(res => {
             this.$root.showAlert({
-              content: '<p>提交成功，我们会尽快为您推送项目。</p><p>之后您每天可为该项目选择一个对接机构，明天记得再来哦 ^_^</p>',
+              content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天<em>“勾搭”</em>一个新机构！</p>',
               onHide: function() {
                 this.$router.go({
                   path: this.submitRedirect || '/quotation/ob'
@@ -281,6 +297,10 @@ export default {
               }.bind(this)
             })
 
+            this.user.wx = this.user.wx || this.model.wx_account
+            this.updateUser(this.user)
+
+            this.clearPreRouteCache()
             this.submitted = true
             this.$root.hideLoadingStatus()
           }).catch(res => {
@@ -294,11 +314,19 @@ export default {
 
   watch: {
     'asset_type_id' () {
-      this.model.asset_type_id = this.asset_type_id[1]
+      this.$nextTick(() => {
+        this.model.asset_type_id = this.asset_type_id[1]
+      })
+    },
+    'contact_method_length' () { // hack vue-validator not work well for checkbox
+      this.$validate('contact_method')
     }
   },
 
   computed: {
+    contact_method_length() { // for watch
+      return this.model.contact_method.length
+    },
     'wxAccountValidator' () {
       return _.includes(this.model.contact_method, '0') && !this.user.wx ? {
         required: {
@@ -475,6 +503,7 @@ textarea {
     input {
       text-indent: .5em;
       background: #f8f9fb;
+      border: 1px solid #eff2f7;
       border-radius: 5px; //5px
       width: 3.864734rem; // 480px
       height: 0.563607rem; //70px
@@ -485,5 +514,23 @@ textarea {
 .c-m-head {
   color: #adb1bc;
   margin-bottom: 1em;
+}
+
+.asset-type-picker {
+  .weui_icon_warn {
+    position: absolute;
+    display: none;
+    /*font: 14px;*/
+    right: 0;
+    line-height: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    &:before {
+      font-size: 14px;
+    }
+  }
+  input.invalid.touched ~ .weui_icon_warn {
+    display: block;
+  }
 }
 </style>

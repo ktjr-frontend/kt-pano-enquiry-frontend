@@ -24,11 +24,11 @@
     kt-cell
       .profile-card
         .icon(:class='[submitterInfo.avatarDirection]')
-          i.icon-pano.icon-meng(v-if='!project.submitter_info.logo')
+          i.icon-pano.icon-man-simple(v-if='!project.submitter_info.logo')
           img(v-if='project.submitter_info.logo', :src='project.submitter_info.logo', :style='submitterInfo.avatarStyles')
         .card-info
-          .name {{project.submitter_info.name || '无名氏'}}
-          .institution_name {{project.submitter_info.institution_name || '公司不详'}}
+          .name {{project.submitter_info.name || '姓名未填写'}}
+          .institution_name {{project.submitter_info.institution_name || '公司未填写'}}
           .job(:class='{"has-all": project.submitter_info.department && project.submitter_info.job}')
             span {{project.submitter_info.department}}
             span {{project.submitter_info.job}}
@@ -133,10 +133,10 @@ export default {
             this.project.refer_status = 'docking'
             this.$root.hideLoadingStatus()
 
-            let wxQrcode = require('../../assets/images/weixin-pano.jpg')
+            let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
             this.$root.showAlert({
               title: '提交成功',
-              content: `<div class="text-center">提交成功，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="80%"/></div>`
+              content: `<div class="text-center">提交成功，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
             })
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
@@ -146,10 +146,10 @@ export default {
     },
 
     expired() {
-      let wxQrcode = require('../../assets/images/weixin-pano.jpg')
+      let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
       this.$root.showAlert({
         title: '已失效',
-        content: `<div class="text-center">由于已超过10天查看期，故您无法再对该项目表达意向。如您想进一步沟通该项目事宜，请联系PANO微信小秘书：<br><img src="${wxQrcode}" width="80%"/></div>`
+        content: `<div class="text-center">由于已超过10天查看期，故您无法再对该项目表达意向。如您想进一步沟通该项目事宜，请联系PANO微信小秘书：<br><img src="${wxQrcode}" width="60%"/></div>`
       })
     }
   },

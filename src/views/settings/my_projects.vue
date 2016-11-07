@@ -2,7 +2,7 @@
  .my-projects
   kt-loading(:visible='$loadingRouteData')
   .my-projects-head
-    .add(v-link='{name: "joinInst", params: {type: "add"}}')
+    .add(v-link='{name: "joinInst", params: {type: "add"}, query:{redirect_to: $route.path}}')
       i.icon-pano.icon-plus
       | 新增
   kt-no-data(v-if='!$loadingRouteData && !projects.length')
@@ -17,10 +17,6 @@
           li(v-for='platform in p.platforms') {{platform.name}}
           li.add-platform(@click='addPlatform(p)', v-if='p.status !== "audit_failed"')
             i.icon-pano.icon-plus
-          //- .status(:class='p.status | statusClass') {{p.status | status}}
-          //- .in-content-right
-            .button(v-link='{name: "joinInst", params: {type: p.id}}') 新增对接机构
-              i.icon-pano.icon-plus
 
 </template>
 

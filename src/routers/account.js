@@ -61,7 +61,7 @@ export default {
   },
   '/my_projects': {
     data: {
-      title: '我的项目',
+      title: '我发出的项目',
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true
@@ -87,7 +87,7 @@ export default {
   },
   '/refer_projects': {
     data: {
-      title: '为我推介项目',
+      title: '我收到的项目',
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true
