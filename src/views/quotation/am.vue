@@ -105,9 +105,9 @@ export default {
     },
 
     detail(assetType, group) {
-      window.sessionStorage[this.$route.name + '.slideCache'] = JSON.stringify({
-        activeIndex: this.$refs.swiper.swiper.activeIndex
-      })
+      // window.sessionStorage[this.$route.name + '.slideCache'] = JSON.stringify({
+      //   activeIndex: this.$refs.swiper.swiper.activeIndex
+      // })
 
       this.$router.go({
         name: 'quotationDetail',
@@ -131,7 +131,7 @@ export default {
   },
 
   data() {
-    let initialSlide = JSON.parse(window.sessionStorage[this.$route.name + '.slideCache'] || '{}')
+    // let initialSlide = JSON.parse(window.sessionStorage[this.$route.name + '.slideCache'] || '{}')
 
     return {
       begin_date: '',
@@ -141,15 +141,16 @@ export default {
       swiperOptions: {
         name: 'amSwiper',
         slidesPerView: 1,
-        initialSlide: initialSlide.activeIndex || 0,
+        // initialSlide: initialSlide.activeIndex || 0,
+        initialSlide: 0,
         // paginationClickable: true,
         spaceBetween: 0,
-        freeMode: true,
-        onInit(swiper) {
-          setTimeout(() => {
-            swiper.slideTo(initialSlide.activeIndex || 0)
-          }, 500)
-        }
+        freeMode: true
+          /*onInit(swiper) {
+            setTimeout(() => {
+              swiper.slideTo(initialSlide.activeIndex || 0)
+            }, 500)
+          }*/
       }
     }
   }

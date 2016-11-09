@@ -44,7 +44,7 @@ router.beforeEach(({ from, to, abort, next }) => {
   let user = JSON.parse(window.localStorage.user || '{}')
 
   if (to.needLogin && !user.status) {
-    router.replace({ name: 'login' })
+    router.replace({ name: 'login', query: { jump_to: to.path } })
       // abort()
   } else if (to.needLogin && user.status === 'rejected' && !_.includes(rejectedUserPermits, to.name)) {
     showToast(store, {

@@ -74,8 +74,9 @@ export default {
               this.$root.updateUser(user)
 
               setTimeout(() => {
+                let path = this.$route.query.jump_to ? decodeURIComponent(this.$route.query.jump_to) : '/quotation/ob'
                 this.$router.go({
-                  name: user.status === 'rejected' ? 'settings' : 'quotationOB'
+                  path: path
                 })
               }, 10)
             })

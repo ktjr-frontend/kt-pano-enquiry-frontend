@@ -8,9 +8,15 @@ export function updateUser({ dispatch }, user, soft) {
   dispatch('UPDATE_USER', user)
 }
 
+/**
+ * [logOut description]
+ * @param  {[type]} options.dispatch [description]
+ * @param  {[type]} soft             [不跳到登录页]
+ * @return {[type]}                  [description]
+ */
 export function logOut({ dispatch }, soft) {
   if (!soft) {
-    router.replace({ name: 'login' })
+    router.replace({ name: 'login', query: { jump_to: router.app.$route.path } })
   }
 
   dispatch('HIDE_MESSAGE') //隐藏消息

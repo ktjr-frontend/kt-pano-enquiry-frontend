@@ -289,7 +289,7 @@ export default {
 
           savePromise.then(res => {
             this.$root.showAlert({
-              content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天<em>“勾搭”</em>一个新机构！</p>',
+              content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天“选择”一个新机构！</p>',
               onHide: function() {
                 this.$router.go({
                   path: this.submitRedirect || '/quotation/ob'

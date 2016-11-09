@@ -136,7 +136,7 @@ export default {
             let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
             this.$root.showAlert({
               title: '提交成功',
-              content: `<div class="text-center">提交成功，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
+              content: `<div class="text-center">提交成功，我们会在2个工作日内与您联系。您可关注PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
             })
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
@@ -214,6 +214,9 @@ export default {
 <style lang="scss">
 @import './project_detail.scss';
 .project-detail {
-  padding-bottom: 1.932367rem; //240pxs
+  padding-bottom: 2.254428rem; //280pxs
+  .buttons-footer {
+    border-top: 1px solid #e9ecf1;
+  }
 }
 </style>
