@@ -290,6 +290,8 @@ body {
     }
   }
   button {
+    flex: 1;
+    display: block;
     &.green {
       background: #89d7cb;
       &:active {

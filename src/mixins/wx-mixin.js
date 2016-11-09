@@ -22,8 +22,8 @@ export default {
           let host = location.protocol + '//' + location.host
           let imgUrl = host + require('../assets/images/share-icon.jpg')
           let shareOptions = Object.assign({
-            title: '为您实时播报互金平台资产发行价格', // 分享标题
-            desc: '【开通PANO】互金平台资产发行价格全知道', // 分享描述
+            title: '互金平台最新资产发行价格都在这里了', // 分享标题
+            desc: '【开通PANO】现在还能直接对接资产项目', // 分享描述
             // link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
             imgUrl: imgUrl // 分享图标
               // type: '', // 分享类型,music、video或link，不填默认为link
@@ -45,7 +45,7 @@ export default {
           // 分享到朋友圈
           wx.onMenuShareTimeline({
             ...shareOptions,
-            desc: '【开通PANO】为您实时播报互金平台资产发行价格',
+            desc: '这里有最新互金渠道资产价格，还能直接对接项目、找资金',
             success() {
               _self.logShare('朋友圈', '确定')
             },

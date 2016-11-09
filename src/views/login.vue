@@ -42,7 +42,7 @@ export default {
     /*forgetPassword() {
       let weixin = require('../assets/images/weixin.jpg')
       let content = `<p style="text-align:center;">您可发送邮件至<em>HelloPANO@ktjr.com</em>或联系下方『PANO微信小秘书』</p>
-                    <p><img src="${weixin}" width="60%" /></p>`
+                    <p><img src="${weixin}" width="40%" /></p>`
 
       this.$root.showAlert({
         content: content
@@ -87,7 +87,7 @@ export default {
                   if (res.json().error.indexOf('无权限') > -1) {
                     let weixin = require('../assets/images/weixin.jpg')
                     return `<p style="text-align:center;">很抱歉，您暂无权限查看该页面。</p><p>如有问题可联系『PANO微信小秘书』</p>
-                    <p><img src="${weixin}" width="60%" /></p>`
+                    <p><img src="${weixin}" width="40%" /></p>`
                   }
                   return res.json().error || '抱歉，服务器繁忙！'
                 })()

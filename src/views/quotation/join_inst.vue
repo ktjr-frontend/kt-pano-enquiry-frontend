@@ -119,7 +119,7 @@ export default {
       }).then(res => {
         this.$root.hideLoadingStatus()
         let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
-        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
+        let content = `<div class="text-center">提交成功！如您选择的意向机构对该项目感兴趣，我们会尽快与您沟通。您可联系PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="40%"/></div>`
 
         this.$root.showAlert({
           content: content,

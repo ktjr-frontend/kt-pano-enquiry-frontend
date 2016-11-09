@@ -18,9 +18,9 @@
         kt-cell(title='资料')
           .content-body
             .input-file
+              input(type='file', @change='uploadFile($event)')
               span 上传文件/图片
                 i.icon-pano.icon-plus
-              input(type='file', @change='uploadFile($event)', accept='.pdf,.doc,.docx,.png,.jpg,.jpeg,.gif')
             span.remark 支持pdf,doc,png,jpg
             .file-list(v-for='file in model.files')
               a.file-name {{file.name}}
@@ -444,6 +444,7 @@ textarea {
     top: 0;
     right: 0;
     bottom: 0;
+    z-index: 9;
   }
   .icon-plus {
     font-size: 1em;

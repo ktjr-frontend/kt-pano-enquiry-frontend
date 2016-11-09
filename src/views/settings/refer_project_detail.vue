@@ -136,7 +136,7 @@ export default {
             let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
             this.$root.showAlert({
               title: '提交成功',
-              content: `<div class="text-center">提交成功，我们会在2个工作日内与您联系。您可关注PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="60%"/></div>`
+              content: `<div class="text-center">提交成功，我们会在2个工作日内与您联系。您可关注PANO微信小秘书，随时了解进度情况：<br><img src="${wxQrcode}" width="40%"/></div>`
             })
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
@@ -149,7 +149,7 @@ export default {
       let wxQrcode = require('../../assets/images/weixin-secret.jpeg')
       this.$root.showAlert({
         title: '已失效',
-        content: `<div class="text-center">由于已超过10天查看期，故您无法再对该项目表达意向。如您想进一步沟通该项目事宜，请联系PANO微信小秘书：<br><img src="${wxQrcode}" width="60%"/></div>`
+        content: `<div class="text-center">由于已超过10天查看期，故您无法再对该项目表达意向。如您想进一步沟通该项目事宜，请联系PANO微信小秘书：<br><img src="${wxQrcode}" width="40%"/></div>`
       })
     }
   },

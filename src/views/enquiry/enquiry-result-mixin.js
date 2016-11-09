@@ -142,7 +142,7 @@ export default {
         } else {
           let weixin = require('../../assets/images/weixin.jpg')
           let content = `<p style="text-align:center;">感谢您的评价，我们将努力变得更好！如您还有其他的意见建议，可扫描下方二维码联系我们。</p>
-                  <p><img src="${weixin}" width="60%" /></p>`
+                  <p><img src="${weixin}" width="40%" /></p>`
           this.$root.showAlert({
             content: content
           })
