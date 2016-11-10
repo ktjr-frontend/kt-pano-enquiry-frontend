@@ -292,7 +292,10 @@ export default {
               content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天“选择”一个新机构！</p>',
               onHide: function() {
                 this.$router.go({
-                  path: this.submitRedirect || '/quotation/ob'
+                  path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/quotation/ob',
+                  query: {
+                    _r: Math.random().toString().slice(2)
+                  }
                 })
               }.bind(this)
             })

@@ -125,7 +125,10 @@ export default {
           content: content,
           onHide: function() {
             this.$router.go({
-              path: this.submitRedirect || '/quotation/ob'
+              path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/quotation/ob',
+              query: {
+                _r: Math.random().toString().slice(2)
+              }
             })
           }.bind(this)
         })
