@@ -5,7 +5,7 @@
     .add(v-link='{name: "joinInst", params: {type: "add"}, query:{redirect_to: $route.path}}')
       i.icon-pano.icon-plus
       | 新增
-  kt-no-data(v-if='!$loadingRouteData && !projects.length')
+  kt-no-data(v-if='!$loadingRouteData && !projects.length', content='没有项目，快快创建吧^_^')
   .group
     kt-cell(v-for='p in projects', icon='icon-arrow-right', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
       div(slot='title') {{p.name}}
