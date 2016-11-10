@@ -15,10 +15,12 @@
       color: #adb1bc;
     }
     .icon-edit {
+      font-size: 0.402576rem; //50px
       position: absolute;
       right: 0;
-      padding: 1em;
-      top: 0;
+      padding: .8em;
+      top: 50%;
+      transform: translateY(-50%);
       &:active {
         background: #f8f9fb;
       }

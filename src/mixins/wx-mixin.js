@@ -11,6 +11,7 @@ export default {
           if (this.retryTime > 2) {
             return
           }
+          console.log(this.retryTime)
 
           ++this.retryTime
           this.updateSignature({
@@ -126,6 +127,7 @@ export default {
   },
   data() {
     return {
+      retryTime: 0,
       signature: {
         timestamp: '',
         nonceStr: '',

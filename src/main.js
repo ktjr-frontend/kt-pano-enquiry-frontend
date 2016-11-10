@@ -38,6 +38,13 @@ setResources(Vue.resource)
 // 激活ios设备上面css的active效果
 document.body.addEventListener('touchstart', () => {})
 
+// 避免bfcache导致的问题
+window.onpageshow = function(event) {
+  if (event.persisted) {
+    window.location.reload()
+  }
+}
+
 // 启动路由
 if (process.env.NODE_ENV.indexOf('app') > -1) {
   document.addEventListener('deviceready', e => {
