@@ -6,7 +6,7 @@
   router-view
   .tabbar(v-show='tabVisible')
     .tab(v-for='tab in tabs', :span='tab.span')
-      a(v-if='tab.link.name', v-link='tab.link', @click='log({name: tab.name})', :class="{'active': judgeActive(tab)}")
+      a(v-if='tab.link.name', v-link='tab.link', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
         i.icon-pano(:class='tab.icon', :style='tab.style')
         span {{tab.name}}
       a(v-if='tab.link.jump === "market"', @click='goOverview()')
@@ -107,6 +107,18 @@ export default {
       return false
     },
 
+    tabClick(tab) {
+      if (tab.reload) { // reload 强制刷新，避免在ios微信内被缓存的问题
+        tab.link.query = tab.link.query || {}
+        tab.link.query._r = Math.random().toString().slice(2)
+      }
+
+      this.$router.go(tab.link)
+      this.log({
+        name: tab.name
+      })
+    },
+
     wxShare() {
       this.showAlert({
         content: '点击右上角，马上分享给你的小伙伴吧！'
@@ -162,6 +174,7 @@ export default {
         span: 1,
         name: '我的',
         icon: 'icon-man2',
+        reload: true,
         link: {
           name: 'profile',
           activeIncludes: [
