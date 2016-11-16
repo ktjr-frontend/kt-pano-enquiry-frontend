@@ -8,11 +8,10 @@ export default {
       this.updateSignature({}, () => {
         // 签名失效
         wx.error((res) => {
-          if (this.retryTime > 2) {
+          if (this.retryTime > 1) {
             return
           }
-          console.log(this.retryTime)
-
+          // console.log(this.retryTime)
           ++this.retryTime
           this.updateSignature({
             no_cache: true // 不走缓存
@@ -90,6 +89,7 @@ export default {
         })
       })
     },
+    // 更新签名
     updateSignature(params, callback) {
       this.signature.timestamp = (+new Date() / 1000 | 0)
       this.signature.nonceStr = Utils.uniqeId(16)

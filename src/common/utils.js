@@ -87,16 +87,25 @@ export default {
     localStorage.setItem(key, JSON.stringify(value || {}))
   },
 
-  compressImage(img, exifTags) {
+  compressImage(img, cropInfo) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
     let w = img.naturalWidth
     let h = img.naturalHeight
-
+    let imgLeft = 0
+    let imgTop = 0
     canvas.width = 600
-    canvas.height = h / w * 600
+    canvas.height = parseInt(h / w * 600, 10)
 
-    // console.log(exifTags, w, h)
+    if (cropInfo) {
+      imgLeft = parseInt(cropInfo.l * w / cropInfo.cw, 10)
+      imgTop = parseInt(cropInfo.t * h / cropInfo.ch, 10)
+      w = parseInt(cropInfo.w * w / cropInfo.cw, 10)
+      h = parseInt(cropInfo.h * h / cropInfo.ch, 10)
+      canvas.height = parseInt(cropInfo.h / cropInfo.w * 600, 10)
+    }
+
+    console.log(imgLeft, imgTop, w, h)
 
     /*if (exifTags) {
       console.log(exifTags, w, h)
@@ -116,7 +125,7 @@ export default {
       }
     }*/
 
-    ctx.drawImage(img, 0, 0, w, h, 0, 0, canvas.width, canvas.height)
+    ctx.drawImage(img, imgLeft, imgTop, w, h, 0, 0, canvas.width, canvas.height)
 
     let data = canvas.toDataURL('image/jpeg')
     data = data.split(',')[1]

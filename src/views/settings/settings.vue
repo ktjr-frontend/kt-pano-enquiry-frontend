@@ -26,9 +26,18 @@
   .buttons
     //- <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button>
     button(@click='logOutWithLog()') 退出登录
+  a.vux-popup-mask(href='javascript:void(0)')
+  popup(:show.sync='model.avatarCropShow', height='100%')
+    .header
+      a(@click='closeCropperContainer(true)', class='cancel') 取消
+      a(@click='closeCropperContainer()', class='ok') 确定
+    .cropper-container
+      #cropperContainer(v-el:cropper)
+
 </template>
 
 <script>
+import Popup from 'vux-components/popup'
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
 import lrz from 'lrz'
@@ -43,9 +52,12 @@ import Utils from '../../common/utils'
 import {
   accounts
 } from '../../common/resources'
+import ICropper from '../../libs/img_cropper'
+import '../../libs/img_cropper/index.scss'
 
 export default {
   components: {
+    Popup,
     Group,
     Cell
   },
@@ -61,6 +73,17 @@ export default {
 
   ready() {
     this.showMessage(this.user.status)
+    this.$els.cropper.parentNode.addEventListener('touchstart', e => {
+      e.preventDefault()
+      return false
+    })
+    this.ic = new ICropper(
+      'cropperContainer', //Container id
+      {
+        ratio: 1 //Set aspect ratio of the cropping area
+          // image: fr.result
+      }
+    )
   },
 
   watch: {
@@ -91,6 +114,7 @@ export default {
       }
     },
 
+    // 从相册选择图片时触发
     avatarOnChange(event) {
       let file = event.target.files[0]
       this.$root.showLoadingStatus()
@@ -98,11 +122,48 @@ export default {
       lrz(file, {
         quality: 0.7
       }).then(rst => {
+        this.lrzFile = rst.file
+        this.previewAvatar()
+      }).catch(err => {
+        this.$root.log({
+          name: '用户修改头像失败:' + err
+        })
+
+        this.$root.showTotast({
+          text: err || '抱歉，图片处理失败！'
+        })
+      })
+    },
+
+    // 预览并截图
+    previewAvatar() {
+      this.model.avatarCropShow = true
+      let fr = new FileReader()
+
+      fr.addEventListener('load', () => {
+        this.$root.hideLoadingStatus()
+        this.ic.setImage(fr.result)
+          // this.avatarResult = fr.result
+      })
+
+      fr.readAsDataURL(this.lrzFile)
+    },
+
+    // 关闭截图容器
+    closeCropperContainer(cancel) {
+      this.model.avatarFile = null
+      if (cancel) {
+        this.model.avatarCropShow = false
+        return
+      } else {
+        // 更新头像
+        this.$root.showLoadingStatus()
         let formData = new FormData()
         let fileName = Utils.uniqeId(8)
-        formData.append('file', rst.file, `${fileName}.jpeg`)
+        let file = Utils.compressImage(this.$els.cropper.querySelector('img'), this.ic.getInfo())
 
-        // 更新头像
+        formData.append('file', file, `${fileName}.jpeg`)
+
         accounts.update({
           content: 'avatar'
         }, formData).then(res => {
@@ -117,6 +178,8 @@ export default {
             text: '头像修改成功',
             type: 'text'
           })
+
+          this.model.avatarCropShow = false
         }).catch(res => {
           this.$root.hideLoadingStatus()
           this.$root.showToast({
@@ -128,15 +191,7 @@ export default {
             name: '用户修改头像失败'
           })
         })
-      }).catch(err => {
-        this.$root.log({
-          name: '用户修改头像失败:' + err
-        })
-
-        this.$root.showTotast({
-          text: err || '抱歉，图片处理失败！'
-        })
-      })
+      }
     },
 
     changeUserMobile() {
@@ -230,7 +285,10 @@ export default {
 
   data() {
     return {
+      ic: null,
+      lrzFile: null,
       model: {
+        avatarCropShow: false,
         avatarStyles: {},
         avatarDirection: 'portrait',
         avatarFile: null
@@ -242,6 +300,10 @@ export default {
 
 <style scoped lang="scss">
 @import '../../assets/scss/mixins.scss';
+#cropperContainer {
+  overflow: hidden;
+}
+
 form {
   display: inline-block;
   background: none;
@@ -263,8 +325,8 @@ form {
   display: inline-block;
   border-radius: 50%;
   border: 1px solid #d9deea;
-  height: 2.012882rem;
-  width: 2.012882rem; //250px
+  height: 2rem;
+  width: 2rem; //250px
   overflow: hidden;
   vertical-align: middle;
   .btn-file {
@@ -321,6 +383,23 @@ form {
     &:active {
       background: darken(#b7bed1, 10%)
     }
+  }
+}
+
+.cropper-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vux-popup-dialog {
+  background: black;
+  .header {
+    background: none;
+    position: absolute;
+    left: 0;
+    right: 0;
   }
 }
 </style>
