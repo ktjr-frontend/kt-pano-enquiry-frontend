@@ -271,6 +271,11 @@
   .weui_input {
     color: black;
   }
+  .img-captcha {
+    vertical-align: middle;
+    height: 0.724638rem; // 90px
+    width: 1.932367rem; // 240px
+  }
   .inset-button {
     background: none;
     padding: 0;
@@ -280,7 +285,7 @@
     border-radius: 50px;
     border: 1px solid #b7bed1;
     min-width: 1.932367rem;
-    height: 0.724638rem;
+    height: 0.724638rem; //90px
     line-height: 0.724638rem;
   }
   .kt-cell-content {
@@ -293,6 +298,7 @@
     font-size: 0.402576rem; //50px
     color: #737e9c;
     margin-right: .5em;
+    flex: 1;
     // input {
     //   direction: rtl;
     // }

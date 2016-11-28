@@ -47,7 +47,7 @@ export default {
     needLogin: true,
     component: resolve => require(['../views/quotation/join_inst.vue'], resolve),
     data: {
-      title: '选择对接机构',
+      title: '选择意向对接机构',
       shareButtonVisible: false,
       logoBottomVisible: false,
       headVisible: headVisible,

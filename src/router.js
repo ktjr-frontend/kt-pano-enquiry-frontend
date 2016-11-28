@@ -108,7 +108,7 @@ router.afterEach(({ to }) => {
 let updateLogoBottomStyle = function() {
   let wH = window.innerHeight
   let aH = document.querySelector('#app').offsetHeight
-  if (aH + 150 >= wH) {
+  if (aH + 60 >= wH) { // 60 logo-bottom 高度
     document.body.classList.add('overflow-height') // 判断内容是否高于超过窗口
   } else {
     document.body.classList.remove('overflow-height')

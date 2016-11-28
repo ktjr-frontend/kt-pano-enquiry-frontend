@@ -1,7 +1,7 @@
 <template lang="jade">
 .select-join-inst
   kt-loading(:visible='$loadingRouteData')
-  .head 每天可选择一个互金平台，向他们推送您的项目：
+  .head 每天可选择一个互金平台，向他们推送您的项目：<br/>( 平台以首字母音序排列 )
   .insts
     ul
       li(v-for='inst in instList', :class='{"row-last": $index % 3 === 2}')
@@ -13,7 +13,7 @@
             .img-box
               img(:src='inst.logo', @click='goInstDetail(inst.name)')
             p {{inst.name}}
-    a.load-more(@click='moreInst()', v-show='model.instPage * 9 < insts.length') 更多
+    a.load-more(@click='moreInst()') {{model.instShowAll ? '收起' : '更多'}}
   group.kaitong-refer
     div.cell
       p 想要一次推送多家平台？希望对接流程更高效？获得互金资产专家的全方位服务？选择：
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+// import _ from 'lodash'
 import Group from 'vux-components/group'
 import KtLoading from '../../components/kt-loading.vue'
 import {
@@ -140,7 +140,8 @@ export default {
 
     // 加载更多机构
     moreInst() {
-      this.model.instPage++
+      this.model.instShowAll = !this.model.instShowAll
+        // this.model.instPage++
     },
 
     // 缓存当前数据
@@ -151,18 +152,21 @@ export default {
 
   computed: {
     instList() {
-      return _.filter(this.insts, (v, i) => {
-        return i < this.model.instPage * 9
-      })
+      return this.insts.slice(0, this.model.instShowAll ? undefined : 9) // 9 is pagesize & undefined is hack for all
+
+      // return _.filter(this.insts, (v, i) => {
+      //   return i < this.model.instPage * 9 // 9 is pagesize
+      // })
     }
   },
 
   data() {
-    let cacheModel = JSON.parse(window.sessionStorage[this.$route.path] || '{"instPage": 1}')
+    let cacheModel = JSON.parse(window.sessionStorage[this.$route.path] || '{"instShowAll": false}')
 
     return {
       model: {
-        instPage: 1, // 用于记录加载了几页的机构
+        // instPage: 1, // 用于记录加载了几页的机构
+        instShowAll: false,
         kaitong_refer: true,
         platform_id: '',
         ...cacheModel
@@ -177,11 +181,12 @@ export default {
 <style lang="scss" scoped>
 $green: #3bc5ba;
 .head {
-  height: 0.966184rem; //120px
-  line-height: 0.966184rem; //120px
+  // height: 0.966184rem; //120px
+  // line-height: 0.966184rem; //120px
+  line-height: 1.5em;
   font-size: 0.289855rem; //36px
   color: #adb1bc;
-  padding: 0 0.402576rem; //50px
+  padding: 0.241546rem 0.402576rem; //50px
 }
 
 .load-more {

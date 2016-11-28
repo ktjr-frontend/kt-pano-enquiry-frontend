@@ -1,6 +1,7 @@
 import Utils from '../common/utils'
 import _ from 'lodash'
 import Vue from 'vue'
+import Env from '../env.js'
 
 export default {
   methods: {
@@ -14,9 +15,9 @@ export default {
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
-      let envParams = Utils.getEnvParams()
+      // let envParams = Utils.getEnvParams()
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
-      window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}${paramsStr}`, '_self')
+      window.open(`${Env.hostName}/pano/institutions/${platform}?_t=${Env.token}${paramsStr}`, '_self')
       callback && callback(params)
     },
 
@@ -30,9 +31,9 @@ export default {
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
-      let envParams = Utils.getEnvParams()
+      // let envParams = Utils.getEnvParams()
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
-      window.open(`${envParams.hostName}/pano/overview?_t=${envParams.token}${paramsStr}`, '_self')
+      window.open(`${Env.hostName}/pano/overview?_t=${Env.token}${paramsStr}`, '_self')
       callback && callback(params)
     }
   }

@@ -18,6 +18,7 @@ import {
 } from '../../common/resources'
 import { updateLogoBottomStyle } from '../../router'
 import instDetail from '../../mixins/inst-detail-mixin.js'
+import Env from '../../env.js'
 
 export default {
   mixins: [instDetail],
@@ -107,8 +108,8 @@ export default {
         name: '开通PANO'
       })
 
-      let envParams = Utils.getEnvParams()
-      window.open(`${envParams.hostName}/pano/overview?_t=${envParams.token}`, '_blank')
+      // let envParams = Utils.getEnvParams()
+      window.open(`${Env.hostName}/pano/overview?_t=${Env.token}`, '_blank')
     },
 
     logShare(to, action) {

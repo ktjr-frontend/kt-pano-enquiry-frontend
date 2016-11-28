@@ -31,30 +31,6 @@ export default {
     return false
   },
 
-  getEnvParams() {
-    let panoMap = {
-      'dev-enquiry.pano.ktjr.com': 'http://dev-pano.ktjr.com',
-      'stage-enquiry.pano.ktjr.com': 'http://stage-pano.ktjr.com',
-      'pano-enquiry.ktjr.com': 'http://pano.ktjr.com'
-    }
-
-    let token = encodeURIComponent(window.localStorage.token)
-    let isProduction = process.env.NODE_ENV === 'production'
-    let isApp = process.env.NODE_ENV.indexOf('app') > -1
-    let hostName
-
-    if (isApp) {
-      hostName = 'http://pano.ktjr.com'
-    } else {
-      hostName = isProduction ? panoMap[location.hostname] : 'http://localhost:8880'
-    }
-
-    return {
-      hostName,
-      token
-    }
-  },
-
   getReadTime(text) {
     let time = 1000
     if (text.length <= 10) {
@@ -105,7 +81,7 @@ export default {
       canvas.height = parseInt(cropInfo.h / cropInfo.w * 600, 10)
     }
 
-    console.log(imgLeft, imgTop, w, h)
+    // console.log(imgLeft, imgTop, w, h)
 
     /*if (exifTags) {
       console.log(exifTags, w, h)

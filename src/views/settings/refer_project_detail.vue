@@ -11,7 +11,7 @@
   group
     cell(title='资产类型') {{assetTypeName}}
   .group
-    kt-cell(title='相关文件')
+    kt-cell(title='项目说明书')
       div(v-if='!project.files || !project.files.length') 无
       .file-list(v-for='file in project.files')
         a.file-name.no-icon(:href='"/api/v1/pano_files?id=" + file.id') {{file.name}}

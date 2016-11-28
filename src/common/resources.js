@@ -2,7 +2,8 @@ import Vue from 'vue'
 
 let sessions, assetTypes, businessTypes, accounts, registrations,
   recoveries, cards, enquiries, sharedEnquiries, feedbacks,
-  signatures, log, persons, quotes, projects, panoFiles, projectInterest
+  signatures, log, persons, quotes, projects, panoFiles, projectInterest,
+  imageCaptcha
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -34,6 +35,7 @@ export default function setResources(resource) {
   panoFiles = resource('pano_files', {}, {}, commonOpts) // 项目香港
   projectInterest = resource('project_interest', {}, {}, commonOpts) // 项目香港
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
+  imageCaptcha = resource('captcha', {}, {}, commonOpts) // 图形验证码
 }
 
 export {
@@ -53,5 +55,6 @@ export {
   quotes,
   projects,
   panoFiles,
-  projectInterest
+  projectInterest,
+  imageCaptcha
 }

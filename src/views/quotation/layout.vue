@@ -5,6 +5,7 @@
     button-tab
       button-tab-item(v-touch:tap='$router.go({name:"quotationOB", query: $route.query})', :selected="$route.name === 'quotationOB'") 资产类
       button-tab-item(v-touch:tap='$router.go({name:"quotationAM", query: $route.query})', :selected="$route.name === 'quotationAM'") 资管类
+      i.icon-pano.icon-info(v-touch:tap='showTips()')
     i.icon-pano.icon-share(v-touch:tap='wxShare()')
   router-view
 
@@ -20,6 +21,16 @@ export default {
     ButtonTabItem
   },
   methods: {
+    showTips() {
+      this.$root.log({
+        name: '报价板提示'
+      })
+
+      this.$root.showAlert({
+        content: '数据覆盖互联网金融平台的活期产品、票据产品、P2P产品以及定期或固收产品，不包括私募基金产品和转让产品。'
+      })
+    },
+
     wxShare() {
       this.$root.showAlert({
         content: '点击右上角，马上分享给你的小伙伴吧！'
@@ -32,9 +43,6 @@ export default {
 <style lang="scss">
 $green: #29b9ae;
 .quotation-con {
-  // &.shared {
-  // padding-bottom: 1.932367rem; //240pxs
-  // }
   .top-tips {
     height: 0.805153rem;
     line-height: 0.805153rem; //100px
@@ -43,11 +51,18 @@ $green: #29b9ae;
     background: $green;
     padding: 0 0.402576rem; //50px
   }
+  .bottom-tips {
+    padding: 0.322061rem 0.402576rem; //40px 50px
+    color: #adb1bc;
+    line-height: 1.8em; //120px
+    font-size: 0.289855rem; //36px
+  }
   .tabs {
     position: relative;
     background: white;
     padding: 0.241546rem 0; //30px
     .vux-button-group {
+      position: relative;
       margin: 0 auto;
       width: 3.864734rem; //480px
       &>a {
@@ -63,7 +78,18 @@ $green: #29b9ae;
           border-color: $green;
           background: $green;
         }
+        &:last-of-type {
+          border-radius: 0 16px 16px 0;
+        }
       }
+    }
+    .icon-info {
+      position: absolute;
+      color: #d2d5dc;
+      padding: 0.161031rem 0.241546rem; //30px
+      font-size: 0.402576rem; //50px
+      right: -2em;
+      vertical-align: middle;
     }
     .icon-share {
       position: absolute;
@@ -71,9 +97,7 @@ $green: #29b9ae;
       top: 0;
       bottom: 0;
       line-height: 1.8em;
-      // top: 50%;
       font-size: 0.402576rem; //50px
-      // transform: translateY(-50%);
       color: $green;
       padding: 0.241546rem; //30px
       &:active {
@@ -99,7 +123,6 @@ section.quotation {
     .icon-arrow-right {
       z-index: 19;
       position: absolute;
-      // right: 0.442834rem; //55px
       top: 0;
       right: 0;
       padding: 0 0.402576rem 0 0.080515rem; //50px 10px
@@ -156,7 +179,6 @@ section.quotation {
   .tbody {
     .th-row {
       font-size: 0.322061rem; //40px
-      // padding: 0.241546rem 0; //30px
       color: $green;
       height: 0.78905rem; //98px
       line-height: 0.78905rem;

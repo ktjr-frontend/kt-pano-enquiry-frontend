@@ -131,6 +131,11 @@ input[type="button"] {
         transform: translateY(-50%);
       }
     }
+    .img-captcha {
+      min-width: 1.932367rem; //220px
+      height: 0.724638rem; //90px
+      float: left;
+    }
     .inset-button {
       float: left;
       background: none;
@@ -140,8 +145,8 @@ input[type="button"] {
       color: #626d8b;
       border-radius: 50px;
       border: 1px solid #b7bed1;
-      min-width: 1.932367rem;
-      height: 0.724638rem;
+      min-width: 1.932367rem; //220px
+      height: 0.724638rem; //90px
       line-height: 0.724638rem;
       // position: absolute;
       // right: 0.241546rem;

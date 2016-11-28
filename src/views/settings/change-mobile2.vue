@@ -21,6 +21,10 @@ export default {
     }
   },
 
+  ready() {
+    this.refreshImgCaptcha()
+  },
+
   components: {
     Countdown
   },
@@ -30,23 +34,29 @@ export default {
       this.$validate('mobile', () => {
         if (this.$validation.mobile.invalid) {
           this.$root.showToast({
-            text: '请正确输入11位手机号码'
+            text: this.$validation.mobile.errors[0].message
           })
         } else {
-          this.$root.log({
-            name: '短信获取'
-          })
+          this.$validate('img_captcha', () => {
+            if (this.$validation.img_captcha.invalid) { // 验证图形验证码
+              this.$root.showToast(this.$validation.img_captcha.errors[0].message)
+            } else {
+              this.$root.log({
+                name: '短信获取'
+              })
 
-          this.startCountDown()
-          accounts.get({
-            content: 'captcha',
-            mobile: this.filter.mobile,
-            channel: 'sms'
-          }).catch((res) => {
-            this.$root.showToast({
-              text: res.json().error || '获取失败'
-            })
-            this.resetCountDown()
+              this.startCountDown()
+              accounts.get({
+                content: 'captcha',
+                ...this.filter,
+                channel: 'sms'
+              }).catch((res) => {
+                this.$root.showToast({
+                  text: res.json().error || '获取失败'
+                })
+                this.resetCountDown()
+              })
+            }
           })
         }
       })
@@ -91,8 +101,10 @@ export default {
   },
 
   data() {
-    let user = {
+    let filter = {
       mobile: '',
+      img_captcha: '',
+      img_captcha_key: '',
       captcha: ''
     }
 
@@ -100,7 +112,7 @@ export default {
       buttonText: '完成',
       // buttonComment: '',
       visible: {},
-      filter: user,
+      filter: filter,
       fields: [{
         name: '',
         group: 'group1',
@@ -119,19 +131,37 @@ export default {
       }, {
         name: '',
         group: 'group1',
+        key: 'img_captcha',
+        placeholder: '请输入图形验证码',
+        type: 'input',
+        subType: 'text',
+        iconName: 'icon-user',
+        validate: {
+          required: {
+            rule: true,
+            message: '请输入图形验证码'
+          },
+          pattern: {
+            rule: '/^\\w{4}$/',
+            message: '图形验证码错误'
+          }
+        }
+      }, {
+        name: '',
+        group: 'group1',
         key: 'captcha',
-        placeholder: '请输入验证码',
+        placeholder: '请输入短信验证码',
         type: 'input',
         subType: 'number',
         iconName: 'icon-user',
         validate: {
           required: {
             rule: true,
-            message: '请输入验证码'
+            message: '请输入短信验证码'
           },
           pattern: {
             rule: '/^\\d{4}$/',
-            message: '验证码错误'
+            message: '短信验证码错误'
           }
         }
       }]

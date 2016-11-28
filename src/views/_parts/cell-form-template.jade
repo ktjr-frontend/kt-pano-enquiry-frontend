@@ -44,10 +44,12 @@
                     option(value='') 请选择
                     option(v-for='o in field.options', :value='o.value', v-cloak='') {{o.value}}
               .weui_cell_ft(v-cloak='')
+                //- 获取短信验证码
                 button.inset-button(:disabled='captchaCountdown.show', v-if="field.key === 'captcha'", @click.prevent='getCaptcha()')
                   span(v-cloak='') {{captchaCountdown.text}}
                   countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
-
+                //- 图形验证码
+                img(class='img-captcha', :src='img_captcha_url', v-if="field.key === 'img_captcha'", @click.prevent='refreshImgCaptcha()')
                 //- switch类型
                 div(v-if="field.type === 'switch'")
                   input.weui_switch(@change='updateView()', v-model='filter[field.key]', type='checkbox')

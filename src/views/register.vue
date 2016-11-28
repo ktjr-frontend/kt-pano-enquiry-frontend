@@ -8,6 +8,9 @@
           i.icon-pano(:class='field.iconName')
           input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
           .status
+            //- 图形验证码
+            img.img-captcha(:src='img_captcha_url', v-if="field.name === 'img_captcha'", @click.prevent='refreshImgCaptcha()')
+            //- 短信验证码
             button.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
               span(v-cloak='') {{captchaCountdown.text}}
               countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
@@ -89,7 +92,12 @@ export default {
     Popup
   },
 
+  ready() {
+    this.refreshImgCaptcha()
+  },
+
   methods: {
+    // 用户协议
     checkAgreement() {
       this.$root.log({
         name: '开通PANO用户协议'
@@ -98,26 +106,36 @@ export default {
       window.sessionStorage.registerUserCache = JSON.stringify(this.user)
       window.open('/static/pano-agreement.htm', '_blank')
     },
+
+    // 获取短信验证码
     getCaptcha() {
-      this.$root.log({
-        name: '短信获取'
-      })
       this.$validate('mobile', () => {
         if (this.$validation.mobile.invalid) {
           this.$root.showToast({
-            text: '请正确输入11位手机号码'
+            text: this.$validation.mobile.errors[0].message
           })
         } else {
-          this.startCountDown()
-          registrations.get({
-            content: 'captcha',
-            mobile: this.user.mobile,
-            channel: 'sms'
-          }).catch((res) => {
-            this.$root.showToast({
-              text: res.json().error || '获取失败'
-            })
-            this.resetCountDown()
+          this.$validate('img_captcha', () => {
+            if (this.$validation.img_captcha.invalid) { // 验证图形验证码
+              this.$root.showToast(this.$validation.img_captcha.errors[0].message)
+            } else {
+              this.$root.log({
+                name: '短信获取'
+              })
+              this.startCountDown()
+
+              registrations.get({
+                content: 'captcha',
+                mobile: this.user.mobile,
+                ...this.filter,
+                channel: 'sms'
+              }).catch((res) => {
+                this.$root.showToast({
+                  text: res.json().error || '获取失败'
+                })
+                this.resetCountDown()
+              })
+            }
           })
         }
       })
@@ -171,10 +189,11 @@ export default {
   data() {
     let cachedUser = JSON.parse(window.sessionStorage.registerUserCache || '{}')
     return {
+      filter: {
+        img_captcha: '',
+        img_captcha_key: ''
+      },
       user: Object.assign({
-        // name: '',
-        // company: '',
-        // email: '',
         agreement: true,
         mobile: '',
         captcha: '',
@@ -237,19 +256,40 @@ export default {
           comment: '为方便后期实名认证，请使用与名片信息一致的手机号。',
           iconName: 'icon-user',
           validate: {
-            required: true,
+            required: {
+              rule: true,
+              message: '请正确输入11位手机号码'
+            },
             mobile: true
           }
         }, {
+          name: 'img_captcha',
+          placeholder: '请输入图形验证码',
+          type: 'text',
+          iconName: 'icon-user',
+          validate: {
+            required: {
+              rule: true,
+              message: '请输入图形验证码'
+            },
+            pattern: {
+              rule: '/^\\w{4}$/',
+              message: '图形验证码错误'
+            }
+          }
+        }, {
           name: 'captcha',
-          placeholder: '请输入验证码',
+          placeholder: '请输入短信验证码',
           type: 'number',
           iconName: 'icon-user',
           validate: {
-            required: true,
+            required: {
+              rule: true,
+              message: '请输入短信验证码'
+            },
             pattern: {
               rule: '/^\\d{4}$/',
-              message: '验证码错误'
+              message: '短信验证码错误'
             }
           }
         }, {
