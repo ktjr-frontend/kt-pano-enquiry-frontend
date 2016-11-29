@@ -15,7 +15,7 @@
         popup-picker(v-if='assetTypeList.length', title='*项目类型', :data='assetTypeList', :columns='2', :value.sync='asset_type_id', v-ref:picker3, show-name)
         i.weui_icon.weui_icon_warn(v-touch:tap='showError("asset_type_id")')
       .group
-        kt-cell(title='资料')
+        kt-cell(title='项目说明书')
           .content-body
             .input-file
               input(type='file', @change='uploadFile($event)')

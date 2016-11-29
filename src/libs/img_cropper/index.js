@@ -20,7 +20,7 @@
       var self = this;
 
       function handler(evt) {
-        evt = self.fixEvent(evt);
+        // evt = self.fixEvent(evt);
         context[callback](evt);
       }
       if (node.attachEvent) node.attachEvent('on' + evtType, handler);
@@ -65,10 +65,10 @@
       evt = evt || event;
       if (!evt.target) evt.target = evt.srcElement;
       if (!evt.keyCode) evt.keyCode = evt.which || evt.charCode;
-      if (!evt.pageX) { //only for IE
-        evt.pageX = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        evt.pageY = evt.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-      }
+      // if (!evt.pageX) { //only for IE
+      //   evt.pageX = evt.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      //   evt.pageY = evt.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+      // }
       return evt;
     },
 
@@ -101,7 +101,6 @@
   window.ICropper = function(container, options) {
     // summary:
     //  Constructor of the Image Cropper, the container could be a dom node or id.
-
     container = util.byId(container);
     if (options.keepSquare) {
       //keepSquare is deprecated. Should use ratio=1 instead.

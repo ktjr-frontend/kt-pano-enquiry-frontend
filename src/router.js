@@ -18,6 +18,7 @@ let router = new Router({
   // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
+// 拒绝的用户可访问的页面
 let rejectedUserPermits = [
   'home',
   'login',
@@ -31,7 +32,11 @@ let rejectedUserPermits = [
   'changeMobile2'
 ]
 
+// 未完善信息用户可访问的页面
 let initializedUserPermits = ['login', 'perfect', 'register']
+
+// 需要强制刷新的页面，避免ios上面bfcache
+// let reloadPages = ['quotationDetail', 'myProjectDetail', 'profile', 'moreInstitutions', 'allInstitutions', 'myProjects', 'referProjects', 'referProjectDetail', 'interestProjectDetail']
 
 router.map(routers)
 

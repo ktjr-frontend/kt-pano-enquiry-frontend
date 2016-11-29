@@ -27,6 +27,12 @@ import institutionMixins from './intitution_mixins'
 import _ from 'lodash'
 import Utils from '../../common/utils'
 
+// 多音字hack
+let pinyinMap = {
+  '乐视': 'L',
+  '重庆': 'C'
+}
+
 export default {
   mixins: [institutionMixins],
   components: {
@@ -55,7 +61,7 @@ export default {
 
         // 按首字拼音排序
         data.institutions = _.chain(data.institutions).each(v => {
-          v.pinyin = Utils.HanZiPinYin.get(v.name.slice(0, 1))
+          v.pinyin = this.getFirstCharPinyin(v.name)
         }).sortBy('pinyin').value()
 
         let _self = this
@@ -65,6 +71,12 @@ export default {
 
         return data
       })
+    }
+  },
+
+  methods: {
+    getFirstCharPinyin(str) {
+      return pinyinMap[str.slice(0, 2)] || Utils.HanZiPinYin.get(str.slice(0, 1))
     }
   },
 

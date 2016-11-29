@@ -83,6 +83,11 @@ module.exports = {
       cascade: false // 不美化输出 css
     }
   },
+  postcss: [
+    require('autoprefixer')({
+      browsers: ['last 7 versions']
+    })
+  ],
   imageWebpackLoader: {
     pngquant: {
       quality: '65-90',

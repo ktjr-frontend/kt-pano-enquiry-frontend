@@ -13,7 +13,7 @@
             .img-box
               img(:src='inst.logo', @click='goInstDetail(inst.name)')
             p {{inst.name}}
-    a.load-more(@click='moreInst()') {{model.instShowAll ? '收起' : '更多'}}
+    a.load-more(@click='moreInst()', v-if='insts.length > 9') {{model.instShowAll ? '收起' : '更多'}}
   group.kaitong-refer
     div.cell
       p 想要一次推送多家平台？希望对接流程更高效？获得互金资产专家的全方位服务？选择：

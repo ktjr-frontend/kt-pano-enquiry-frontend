@@ -16,7 +16,7 @@
               countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
             i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
-            i.weui_icon.weui_icon_success
+            //- i.weui_icon.weui_icon_success
         .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
       .form-group
         .weui_cells.weui_cells_checkbox
@@ -126,6 +126,7 @@ export default {
 
               registrations.get({
                 content: 'captcha',
+                img_captcha: this.user.img_captcha,
                 mobile: this.user.mobile,
                 ...this.filter,
                 channel: 'sms'
@@ -190,7 +191,7 @@ export default {
     let cachedUser = JSON.parse(window.sessionStorage.registerUserCache || '{}')
     return {
       filter: {
-        img_captcha: '',
+        // img_captcha: '',
         img_captcha_key: ''
       },
       user: Object.assign({
@@ -198,6 +199,7 @@ export default {
         mobile: '',
         captcha: '',
         introducer: '',
+        img_captcha: '',
         // likes: [],
         password: ''
       }, cachedUser),

@@ -77,6 +77,7 @@ export default {
       e.preventDefault()
       return false
     })
+
     this.ic = new ICropper(
       'cropperContainer', //Container id
       {

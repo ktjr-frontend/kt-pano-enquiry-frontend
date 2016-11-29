@@ -49,10 +49,12 @@ exports.styleLoaders = function(options) {
   var output = []
   var loaders = exports.cssLoaders(options)
   for (var extension in loaders) {
-    var loader = loaders[extension]
+    // var loader = loaders[extension]
+    var loader = loaders[extension].split('!')
+    loader.splice(3, 0, 'postcss')
     output.push({
       test: new RegExp('\\.' + extension + '$'),
-      loader: loader
+      loader: loader.join('!')
     })
   }
   return output
