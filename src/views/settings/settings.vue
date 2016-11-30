@@ -31,8 +31,8 @@
     .header
       a(@click='closeCropperContainer(true)', class='cancel') 取消
       a(@click='closeCropperContainer()', class='ok') 确定
-    .cropper-container
-      #cropperContainer(v-el:cropper)
+    .cropper-container(v-el:cropper)
+      //- #cropperContainer(v-el:cropper)
 
 </template>
 
@@ -52,8 +52,9 @@ import Utils from '../../common/utils'
 import {
   accounts
 } from '../../common/resources'
-import ICropper from '../../libs/img_cropper'
-import '../../libs/img_cropper/index.scss'
+// import ICropper from '../../libs/img_cropper'
+import ImgCropper from '../../libs/img_cropper_reverse'
+import '../../libs/img_cropper_reverse/index.scss'
 
 export default {
   components: {
@@ -73,18 +74,22 @@ export default {
 
   ready() {
     this.showMessage(this.user.status)
-    this.$els.cropper.parentNode.addEventListener('touchstart', e => {
+    this.$els.cropper.addEventListener('touchstart', e => {
       e.preventDefault()
       return false
     })
 
-    this.ic = new ICropper(
-      'cropperContainer', //Container id
-      {
-        ratio: 1 //Set aspect ratio of the cropping area
-          // image: fr.result
-      }
-    )
+    this.imgCropper = new ImgCropper({
+      container: this.$els.cropper
+    })
+
+    // this.imgCropper = new ICropper(
+    //   'cropperContainer', //Container id
+    //   {
+    //     ratio: 1 //Set aspect ratio of the cropping area
+    //       // image: fr.result
+    //   }
+    // )
   },
 
   watch: {
@@ -143,7 +148,8 @@ export default {
 
       fr.addEventListener('load', () => {
         this.$root.hideLoadingStatus()
-        this.ic.setImage(fr.result)
+        this.imgCropper.setImage(fr.result)
+          // this.imgCropper.setImage(fr.result)
           // this.avatarResult = fr.result
       })
 
@@ -161,7 +167,7 @@ export default {
         this.$root.showLoadingStatus()
         let formData = new FormData()
         let fileName = Utils.uniqeId(8)
-        let file = Utils.compressImage(this.$els.cropper.querySelector('img'), this.ic.getInfo())
+        let file = Utils.compressImage(this.$els.cropper.querySelector('img'), this.imgCropper.getInfo())
 
         formData.append('file', file, `${fileName}.jpeg`)
 
@@ -399,6 +405,7 @@ form {
   .header {
     background: none;
     position: absolute;
+    z-index: 100;
     left: 0;
     right: 0;
   }

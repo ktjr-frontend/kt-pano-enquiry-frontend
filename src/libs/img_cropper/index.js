@@ -1,7 +1,9 @@
 /*eslint-disable*/ ;
+/*
+ * 第三方库，为了兼容移动端改了部分代码
+ */
 (function() {
   //Some common utility functions
-
   var util = {
     mixin: function(dest, src) {
       for (var p in src) dest[p] = src[p];

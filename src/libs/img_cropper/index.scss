@@ -22,64 +22,78 @@
 }
 
 .icropper .archor {
-  width: 5px;
-  height: 5px;
-  border: 1px solid #ccc;
+  // width: 5px;
+  // height: 5px;
+  padding: 10px;
+  // border: 1px solid #ccc;
+  // box-shadow: 0 0 0 -3px #ccc;
   position: absolute;
   z-index: 10;
+  &:after {
+    position: absolute;
+    content: '';
+    border: 1px solid #ccc;
+    height: 6px;
+    width: 6px;
+    top: 6px;
+    left: 6px;
+  }
   &:active {
-    border-color: #29b9ae;
+    &:after {
+      border-color: #29b9ae;
+    }
   }
 }
 
+$offset: -11px;
 .icropper .archor-lt {
   cursor: nw-resize;
-  left: -4px;
-  top: -4px;
+  left: $offset;
+  top: $offset;
 }
 
 .icropper .archor-t {
   cursor: n-resize;
-  top: -4px;
+  top: $offset;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .icropper .archor-rt {
   cursor: ne-resize;
-  right: -4px;
-  top: -4px;
+  right: $offset;
+  top: $offset;
 }
 
 .icropper .archor-r {
   cursor: e-resize;
-  right: -4px;
+  right: $offset;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .icropper .archor-rb {
   cursor: se-resize;
-  right: -4px;
-  bottom: -4px;
+  right: $offset;
+  bottom: $offset;
 }
 
 .icropper .archor-b {
   cursor: s-resize;
-  bottom: -4px;
+  bottom: $offset;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .icropper .archor-lb {
   cursor: sw-resize;
-  left: -4px;
-  bottom: -4px;
+  left: $offset;
+  bottom: $offset;
 }
 
 .icropper .archor-l {
   cursor: w-resize;
-  left: -4px;
+  left: $offset;
   top: 50%;
   transform: translateY(-50%);
 }

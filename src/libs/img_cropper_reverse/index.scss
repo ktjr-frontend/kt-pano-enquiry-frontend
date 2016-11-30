@@ -1,0 +1,16 @@
+.img-cropper-reverse {
+  position: relative;
+  .cropper-view {
+    border: 1px dotted #999;
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+    border-radius: 50%;
+    position: absolute;
+    // height: 100px;
+    // width: 100px;
+    z-index: 99;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // display: flex;
+  }
+}
