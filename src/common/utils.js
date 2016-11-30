@@ -66,19 +66,49 @@ export default {
   compressImage(img, cropInfo) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
-    let w = img.naturalWidth
-    let h = img.naturalHeight
+    let nw = img.naturalWidth
+    let nh = img.naturalHeight
+    let sw = nw
+    let sh = nh
     let imgLeft = 0
     let imgTop = 0
-    canvas.width = 600
-    canvas.height = parseInt(h / w * 600, 10)
+    let dx = 0 //canvas 起始x坐标
+    let dy = 0 //canvas 起始y坐标
+    let dw = 600 // 默认 600像素
+    let dh = cropInfo ? parseInt(cropInfo.h / cropInfo.w * dw, 10) : parseInt(sh / nw * dw, 10) // 默认是图片的比例
+    // 压缩比例已经确定 设置canvas尺寸
+    canvas.width = dw
+    canvas.height = dh
 
     if (cropInfo) {
-      imgLeft = parseInt(cropInfo.l * w / cropInfo.cw, 10)
-      imgTop = parseInt(cropInfo.t * h / cropInfo.ch, 10)
-      w = parseInt(cropInfo.w * w / cropInfo.cw, 10)
-      h = parseInt(cropInfo.h * h / cropInfo.ch, 10)
-      canvas.height = parseInt(cropInfo.h / cropInfo.w * 600, 10)
+      // 换成截图的比列
+
+      imgLeft = parseInt(cropInfo.l * nw / cropInfo.cw, 10) // 以下转换成自然尺寸
+      imgTop = parseInt(cropInfo.t * nh / cropInfo.ch, 10)
+      sw = parseInt(cropInfo.w * nw / cropInfo.cw, 10)
+      sh = parseInt(cropInfo.h * nh / cropInfo.ch, 10)
+
+      // ios canvas 的 sx sy 不支持负值，只能附加到dx 和dy上
+      if (imgLeft < 0) {
+        dx -= parseInt(imgLeft * dw / sw, 10)
+        imgLeft = 0
+      }
+
+      if (imgTop < 0) {
+        dy -= parseInt(imgTop * dh / sh, 10)
+        imgTop = 0
+      }
+
+      // sw 和 sh 超出不兼容的问题，
+      if (sw > nw - imgLeft) {
+        dw = parseInt(dw * (nw - imgLeft) / sw, 10) // 百分比的更改dw
+        sw = nw - imgLeft
+      }
+
+      if (sh > nh - imgTop) {
+        dh = parseInt(dh * (nh - imgTop) / sh, 10) // 百分比的更改dh
+        sh = nh - imgTop
+      }
     }
 
     // console.log(imgLeft, imgTop, w, h)
@@ -101,7 +131,7 @@ export default {
       }
     }*/
 
-    ctx.drawImage(img, imgLeft, imgTop, w, h, 0, 0, canvas.width, canvas.height)
+    ctx.drawImage(img, imgLeft, imgTop, sw, sh, dx, dy, dw, dh)
 
     let data = canvas.toDataURL('image/jpeg')
     data = data.split(',')[1]

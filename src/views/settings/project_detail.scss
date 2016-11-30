@@ -129,6 +129,9 @@
       border-radius: 50%;
       background: #f8f9fb;
       overflow: hidden;
+      img {
+        border-radius: 50%;
+      }
       &.portrait {
         img {
           width: 100%;

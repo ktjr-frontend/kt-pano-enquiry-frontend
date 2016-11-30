@@ -112,7 +112,7 @@ router.afterEach(({ to }) => {
 // 底部logo控制
 let updateLogoBottomStyle = function() {
   let wH = window.innerHeight
-  let aH = document.querySelector('#app').offsetHeight
+  let aH = document.querySelector('#app .child-view').offsetHeight
   if (aH + 60 >= wH) { // 60 logo-bottom 高度
     document.body.classList.add('overflow-height') // 判断内容是否高于超过窗口
   } else {

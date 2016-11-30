@@ -110,6 +110,23 @@
   }(window, window.lib || (window.lib = {}));
   /*---- lib-flexible 参考：https://github.com/amfe/lib-flexible-----*/
   </script>
+
+  <script>
+    // 计算去除tab-bar之后的高度
+    var cssText = [
+      '<style type="text/css">',
+      '#app{',
+      'min-height: ' + window.innerHeight + 'px;',
+      '}',
+      'body.tab-visible #app{',
+      'min-height: ' + (window.innerHeight - 50) + 'px;',
+      'height: ' + (window.innerHeight - 50) + 'px;',
+      '}',
+      '</style>'
+    ]
+
+    document.write(cssText.join(''))
+  </script>
 </head>
 
 <body>

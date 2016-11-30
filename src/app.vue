@@ -3,17 +3,17 @@
   x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
-  router-view
-  .tabbar(v-show='tabVisible')
-    .tab(v-for='tab in tabs', :span='tab.span')
-      a(v-if='tab.link.name', v-link='tab.link', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
-        i.icon-pano(:class='tab.icon', :style='tab.style')
-        span {{tab.name}}
-      a(v-if='tab.link.jump === "market"', @click='goOverview()')
-        i.icon-pano(:class='tab.icon', :style='tab.style')
-        span {{tab.name}}
-.logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
-  img(src='./assets/images/logo2.svg', alt='开通PANO')
+  router-view.child-view
+  .logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
+    img(src='./assets/images/logo2.svg', alt='开通PANO')
+.tabbar(v-show='tabVisible')
+  .tab(v-for='tab in tabs', :span='tab.span')
+    a(v-if='tab.link.name', v-link='tab.link', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
+      i.icon-pano(:class='tab.icon', :style='tab.style')
+      span {{tab.name}}
+    a(v-if='tab.link.jump === "market"', @click='goOverview()')
+      i.icon-pano(:class='tab.icon', :style='tab.style')
+      span {{tab.name}}
 alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText', @on-show='alert.onShow()', @on-hide='alert.onHide()')
   | {{{alert.content}}}
 confirm(:show.sync='confirm.show', :title='confirm.title', :confirm-text='confirm.confirmText', :cancel-text='confirm.cancelText', @on-confirm='confirm.onConfirm()', @on-cancel='confirm.onCancel()')
@@ -238,46 +238,47 @@ body[page="projectInfo"] {
   }
 }
 
-.logo-bottom {
-  height: 0.724638rem;
-  line-height: 0.724638rem; //90px
-  text-align: center;
-  position: absolute;
-  z-index: 0;
-  left: 0;
-  right: 0;
-  bottom: 2.012882rem; // 250px
-  &.no-tabbar {
-    border-top: 1px solid #d9deea;
-    left: 0.402576rem; //50px
-    right: 0.402576rem;
-    bottom: 0; // 90px
-    padding: 0.402576rem 0;
-    &.dn-by-h {
-      border: 0;
-    }
-  }
-  img {
-    width: 4.267311rem; // 530px
-  }
-}
-
 body {
   &.overflow-height {
     .logo-bottom {
       position: static;
       margin: 0 0.402576rem; //0 50px
-      margin-bottom: 1.588245rem;
+      // margin-bottom: 1.588245rem;
       left: 0;
       right: 0;
-      margin-top: 0.402576rem;
+      margin: 0.402576rem 0;
       &.no-tabbar {
         margin-bottom: 0;
       }
     }
   }
-  &.tab-visible {
-    padding-bottom: 1.932367rem; //240px
+  &.tab-visible #app {
+    -webkit-overflow-scrolling: touch;
+    overflow: scroll;
+    // padding-bottom: 1.932367rem; //240px
+  }
+  .logo-bottom {
+    // height: 0.724638rem;
+    // line-height: 0.724638rem; //90px
+    text-align: center;
+    position: absolute;
+    z-index: 0;
+    left: 0;
+    right: 0;
+    bottom: 2.012882rem; // 250px
+    &.no-tabbar {
+      border-top: 1px solid #d9deea;
+      left: 0.402576rem; //50px
+      right: 0.402576rem;
+      bottom: 0; // 90px
+      padding: 0.402576rem 0;
+      &.dn-by-h {
+        border: 0;
+      }
+    }
+    img {
+      width: 4.267311rem; // 530px
+    }
   }
 }
 

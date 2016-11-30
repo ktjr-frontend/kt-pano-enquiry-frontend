@@ -94,6 +94,19 @@ export default class ImgCropper {
     }
 
     this.imageNode.src = url
+    this._resetScale()
+  }
+
+  _resetScale() {
+    this.adjustScale = 1
+    this.adjustDeltaX = 0
+    this.adjustDeltaY = 0
+
+    this.currentScale = null
+    this.currentDeltaX = null
+    this.currentDeltaY = null
+
+    this.imageNode.style.webkitTransform = this.imageNode.style.transform = 'none'
   }
 
   getInfo() {
