@@ -32,7 +32,7 @@
     "vue-router": "^0.7.13",
     "vue-touch": "^1.1.0",
     "vue-validator": "^2.1.5",
-    "vuex": "^1.0.0-rc.2",
+    "vuex": "^1.0.0",
     "vux": "^0.1.2",
     "weixin-js-sdk": "^1.0.7"
   },

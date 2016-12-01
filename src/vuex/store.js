@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
-import createLogger from 'vuex/logger'
+import createLogger from 'vuex/src/plugins/logger'
+// let createLogger = require('babel-loader!vuex/src/plugins/logger')
 
 const debug = process.env.NODE_ENV !== 'production'
 const state = {
