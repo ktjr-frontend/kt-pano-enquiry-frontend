@@ -8,8 +8,8 @@ export default class ImgCropper {
   container = null // img父元素
   mc = null // hammer的mc实例
   cropperNode = null // 中间的切图区域
-  cropperNodeHeight = 100
-  cropperNodeWidth = 100
+  cropperNodeHeight = 200
+  cropperNodeWidth = 200
   imageNode = null // image dom
   imageUrl = ''
 

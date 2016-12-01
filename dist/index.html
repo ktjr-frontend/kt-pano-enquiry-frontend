@@ -69,19 +69,23 @@
     }
   }(window, window.lib || (window.lib = {}));
   /*---- lib-flexible 参考：https://github.com/amfe/lib-flexible-----*/</script><script>// 计算去除tab-bar之后的高度
-    var cssText = [
-      '<style type="text/css">',
-      '#app{',
-      'min-height: ' + window.innerHeight + 'px;',
-      '}',
-      'body.tab-visible #app{',
-      'min-height: ' + (window.innerHeight - 50) + 'px;',
-      'height: ' + (window.innerHeight - 50) + 'px;',
-      '}',
-      '</style>'
-    ]
+  var rootFontSize = parseFloat(document.documentElement.style.fontSize)
+  var tabbarRem = 1.288245
+  var tabbarPx = Math.ceil(tabbarRem * rootFontSize)
 
-    document.write(cssText.join(''))</script><link href=/static/css/app.414a6f0e1d4b5a9a9c4bb74d528c3275.css rel=stylesheet></head><body><router-view></router-view><script>var _hmt = _hmt || [];
+  var cssText = [
+    '<style type="text/css">',
+    '#app{',
+    'min-height: ' + window.innerHeight + 'px;',
+    '}',
+    'body.tab-visible #app{',
+    'min-height: ' + (window.innerHeight - tabbarPx) + 'px;',
+    'height: ' + (window.innerHeight - tabbarPx) + 'px;',
+    '}',
+    '</style>'
+  ]
+
+  document.write(cssText.join(''))</script><link href=/static/css/app.f7ba373388a5945b7bf4876ecf4cb186.css rel=stylesheet></head><body><router-view></router-view><script>var _hmt = _hmt || [];
   (function() {
     var hm = document.createElement("script");
     hm.src = "//hm.baidu.com/hm.js?ae8247deb44105df4b8d1543abe2c4d6";
@@ -99,4 +103,4 @@
       var s = document.getElementsByTagName('script')[0];
       s.parentNode.insertBefore(vds, s);
     })();
-  })();</script><script type=text/javascript src=/static/js/manifest.8bea66ce033bfc9aa910.js></script><script type=text/javascript src=/static/js/vendor.a2280077816b62c495cf.js></script><script type=text/javascript src=/static/js/app.4b24c48760429d7a17a2.js></script></body></html>
+  })();</script><script type=text/javascript src=/static/js/manifest.ff85d912140fd13bac88.js></script><script type=text/javascript src=/static/js/vendor.a2280077816b62c495cf.js></script><script type=text/javascript src=/static/js/app.27c47d5b50ca321144b4.js></script></body></html>

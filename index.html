@@ -112,20 +112,24 @@
   </script>
 
   <script>
-    // 计算去除tab-bar之后的高度
-    var cssText = [
-      '<style type="text/css">',
-      '#app{',
-      'min-height: ' + window.innerHeight + 'px;',
-      '}',
-      'body.tab-visible #app{',
-      'min-height: ' + (window.innerHeight - 50) + 'px;',
-      'height: ' + (window.innerHeight - 50) + 'px;',
-      '}',
-      '</style>'
-    ]
+  // 计算去除tab-bar之后的高度
+  var rootFontSize = parseFloat(document.documentElement.style.fontSize)
+  var tabbarRem = 1.288245
+  var tabbarPx = Math.ceil(tabbarRem * rootFontSize)
 
-    document.write(cssText.join(''))
+  var cssText = [
+    '<style type="text/css">',
+    '#app{',
+    'min-height: ' + window.innerHeight + 'px;',
+    '}',
+    'body.tab-visible #app{',
+    'min-height: ' + (window.innerHeight - tabbarPx) + 'px;',
+    'height: ' + (window.innerHeight - tabbarPx) + 'px;',
+    '}',
+    '</style>'
+  ]
+
+  document.write(cssText.join(''))
   </script>
 </head>
 

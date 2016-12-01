@@ -31,8 +31,9 @@ export default {
     return false
   },
 
+  // 根据文字长度判断阅读时间
   getReadTime(text) {
-    let time = 1000
+    let time = 1000 // 默认1000ms
     if (text.length <= 10) {
       time = 1500
     } else if (text.length > 10) {
@@ -63,15 +64,17 @@ export default {
     localStorage.setItem(key, JSON.stringify(value || {}))
   },
 
+  // 用canvas压缩图片，可以根据cropInfo做比例转换
   compressImage(img, cropInfo) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
+    /*drawimg 的各个参数*/
     let nw = img.naturalWidth
     let nh = img.naturalHeight
     let sw = nw
     let sh = nh
-    let imgLeft = 0
-    let imgTop = 0
+    let imgLeft = 0 // sx
+    let imgTop = 0 // sy
     let dx = 0 //canvas 起始x坐标
     let dy = 0 //canvas 起始y坐标
     let dw = 600 // 默认 600像素
@@ -88,7 +91,7 @@ export default {
       sw = parseInt(cropInfo.w * nw / cropInfo.cw, 10)
       sh = parseInt(cropInfo.h * nh / cropInfo.ch, 10)
 
-      // ios canvas 的 sx sy 不支持负值，只能附加到dx 和dy上
+      // ***@iOS canvas 的 sx sy 不支持负值，只能附加到dx 和dy上
       if (imgLeft < 0) {
         dx -= parseInt(imgLeft * dw / sw, 10)
         imgLeft = 0
@@ -99,7 +102,7 @@ export default {
         imgTop = 0
       }
 
-      // sw 和 sh 超出不兼容的问题，
+      // ***@iOS 上面, sw 和 sh 超出不兼容的问题，
       if (sw > nw - imgLeft) {
         dw = parseInt(dw * (nw - imgLeft) / sw, 10) // 百分比的更改dw
         sw = nw - imgLeft
@@ -147,6 +150,7 @@ export default {
     })
   },
 
+  // 获取图片信息
   getImageInfo(url) {
     return new Promise((resolve, reject) => {
       let img = new Image()
