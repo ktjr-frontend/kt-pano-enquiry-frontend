@@ -45,26 +45,26 @@
               .checkbox-simple
                 input(id='wx0', type='checkbox', name='contact_method', v-model='model.contact_method', value='0')
                 label(for='wx0')
-                  i.icon-pano.icon-checkbox
-              | 微信号：
+                  i.icon-pano.icon-checkbox.mr5
+                  | 微信号：
               span(v-if='user.wx') {{user.wx}}
               input(v-show='!user.wx', v-model='model.wx_account', v-validate:wx_account='wxAccountValidator')
             .line
               .checkbox-simple
                 input(id='wx1', type='checkbox', name='contact_method', v-model='model.contact_method', value='1')
                 label(for='wx1')
-                  i.icon-pano.icon-checkbox
-              | 手机号：
+                  i.icon-pano.icon-checkbox.mr5
+                  | 手机号：
               span {{user.mobile}}
             .line(v-if='user.email')
               .checkbox-simple
                 input(id='wx2', type='checkbox', name='contact_method', v-model='model.contact_method', value='2')
                 label(for='wx2')
-                  i.icon-pano.icon-checkbox
-              | 邮
-              span.blank
-              | 箱：
-              span {{user.email || '-'}}
+                  i.icon-pano.icon-checkbox.mr5
+                  | 邮
+                  span.blank
+                  | 箱：
+                  span {{user.email || '-'}}
 
       .buttons
         button 确定

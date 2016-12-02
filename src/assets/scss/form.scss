@@ -321,6 +321,7 @@ input[type="button"] {
   input:checked + label {
     .icon-checkbox {
       color: #3bc5ba;
+      transform: translate3d(0, 0, 0); // 硬件加速渲染，不然ios上面点击checkbox 不能及时repaint
     }
   }
 }
