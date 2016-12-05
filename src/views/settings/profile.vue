@@ -760,6 +760,7 @@ export default {
     @include flex(column);
     height: 6.441224rem; //800px
     background: linear-gradient(to bottom, #304366, #27719d);
+    transform: translate3d(0, 0, 0);
     .item {
       margin-bottom: 0.161031rem; //30px
     }
@@ -797,12 +798,12 @@ export default {
       &.portrait {
         img {
           width: 100%;
-          transform: translateY(-20%);
+          // transform: translateY(-20%);
         }
       }
       &.landscape {
         img {
-          transform: translateX(-20%);
+          // transform: translateX(-20%);
           height: 100%;
         }
       }

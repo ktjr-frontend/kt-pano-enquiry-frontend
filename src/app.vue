@@ -108,10 +108,10 @@ export default {
     },
 
     tabClick(tab) {
-      if (tab.reload) { // reload 强制刷新，避免在ios微信内被缓存的问题
-        tab.link.query = tab.link.query || {}
-        tab.link.query._r = Math.random().toString().slice(2)
-      }
+      // if (tab.reload) { // reload 强制刷新，避免在ios微信内被缓存的问题
+      //   tab.link.query = tab.link.query || {}
+      //   tab.link.query._r = Math.random().toString().slice(2)
+      // }
 
       this.$router.go(tab.link)
       this.log({
@@ -254,7 +254,8 @@ body {
   }
   &.tab-visible #app {
     -webkit-overflow-scrolling: touch;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
     // padding-bottom: 1.932367rem; //240px
   }
   .logo-bottom {

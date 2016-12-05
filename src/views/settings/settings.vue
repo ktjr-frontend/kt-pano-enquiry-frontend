@@ -3,8 +3,8 @@
   group
     cell(title='头像', is-link)
       form(name='avatar')
-        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file')
-        span.avatar
+        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', capture='camera', accept='image/*')
+        div.avatar
           .btn-file(:class='model.avatarDirection')
             img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
             i.icon-pano.icon-man-simple(v-else)
@@ -354,12 +354,12 @@ form {
     &.portrait {
       img {
         width: 100%;
-        transform: translateY(-20%);
+        // transform: translateY(-20%);
       }
     }
     &.landscape {
       img {
-        transform: translateX(-20%);
+        // transform: translateX(-20%);
         height: 100%;
       }
     }

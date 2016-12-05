@@ -5,7 +5,7 @@
       .form-group.card-container(:class='containerClass')
         .card-body
           .btn-file
-            input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: {rule: true, message: "请长传名片"}}', name='file')
+            input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: {rule: true, message: "请长传名片"}}', name='file', capture='camera', accept='image/*')
           .comment(v-show='!card.file')
             p
               | 请上传与注册手机号一致的名片信息
