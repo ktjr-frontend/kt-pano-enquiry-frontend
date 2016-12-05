@@ -97,8 +97,11 @@ router.afterEach(({ to }) => {
     path: to.path
   })
 
+  // 每页默认滚动到顶部
+  let app = document.getElementById('app')
+  app.scrollTop = 0
+
   // 动态解决logo的位置问题
-  window.scrollTo(0, 0)
   if (to.data.logoBottomVisible) {
     setTimeout(() => {
       updateLogoBottomStyle()
