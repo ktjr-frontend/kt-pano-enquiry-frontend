@@ -2,7 +2,7 @@
   position: relative;
   .cropper-view {
     border: 1px dotted #999;
-    // box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, .5);
     border-radius: 50%;
     // border-radius: 1px;
     // -webkit-appearance: none;
@@ -11,6 +11,5 @@
     top: 50%;
     left: 50%;
     transform: translate3d(-50%, -50%, 0);
-    filter: drop-shadow(0px 0px 10px rgba(0,0,0,.5));
   }
 }

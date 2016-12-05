@@ -330,13 +330,14 @@ form {
 
 .avatar {
   display: inline-block;
-  border-radius: 50%;
-  border: 1px solid #d9deea;
   height: 2rem;
   width: 2rem; //250px
-  overflow: hidden;
   vertical-align: middle;
+  margin-bottom: 2px;
   .btn-file {
+    border-radius: 50%;
+    border: 1px solid #d9deea;
+    overflow: hidden;
     height: 100%;
     width: 100%;
     position: relative;

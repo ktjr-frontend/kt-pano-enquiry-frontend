@@ -109,7 +109,15 @@ router.afterEach(({ to }) => {
   }
 
   // 是否有tab
-  document.body.classList.toggle('tab-visible', to.data.tabVisible)
+  let tabVisible = function() {
+    if (_.includes(['quotationAM', 'quotationOB'], to.name) && to.query.shared) {
+      return false
+    }
+
+    return to.data.tabVisible
+  }
+
+  document.body.classList.toggle('tab-visible', tabVisible())
 })
 
 // 底部logo控制

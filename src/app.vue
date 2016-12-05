@@ -283,6 +283,11 @@ body {
   }
 }
 
+.button-fixed-placeholder{
+  opacity: 0;
+  padding: 0.362319rem 0.402576rem; // 45px 50px;
+}
+
 .buttons-footer {
   background: white;
   padding: 0.362319rem 0.402576rem; // 45px 50px;
