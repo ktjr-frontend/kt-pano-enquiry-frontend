@@ -114,8 +114,8 @@ export default class ImgCropper {
     let cropRect = this.cropperNode.getBoundingClientRect()
 
     return {
-      l: cropRect.left - imgRect.left, // 取相对唯一
-      t: cropRect.top - imgRect.top,
+      l: cropRect.left - imgRect.left + 1000, // 取相对唯一
+      t: cropRect.top - imgRect.top + 1000,
       cw: imgRect.width, //  为了兼容 img_cropper的cw（容器宽度）,这里指的放大缩小后的宽度
       ch: imgRect.height, //  为了兼容 img_cropper的cw（容器宽度）
       w: this.cropperNodeWidth, // cropper 的默认高度

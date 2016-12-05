@@ -4,16 +4,16 @@
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
   router-view.child-view
-  .logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
-    img(src='./assets/images/logo2.svg', alt='开通PANO')
-.tabbar(v-show='tabVisible')
-  .tab(v-for='tab in tabs', :span='tab.span')
-    a(v-if='tab.link.name', v-link='tab.link', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
-      i.icon-pano(:class='tab.icon', :style='tab.style')
-      span {{tab.name}}
-    a(v-if='tab.link.jump === "market"', @click='goOverview()')
-      i.icon-pano(:class='tab.icon', :style='tab.style')
-      span {{tab.name}}
+  .tabbar(v-show='tabVisible')
+    .tab(v-for='tab in tabs', :span='tab.span')
+      a(v-if='tab.link.name', v-link='tab.link', @v-touch:tap='tabClick(tab)', :class="{'active': judgeActive(tab)}")
+        i.icon-pano(:class='tab.icon', :style='tab.style')
+        span {{tab.name}}
+      a(v-if='tab.link.jump === "market"', @click='goOverview()')
+        i.icon-pano(:class='tab.icon', :style='tab.style')
+        span {{tab.name}}
+.logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
+  img(src='./assets/images/logo2.svg', alt='开通PANO')
 alert(:show.sync='alert.show', :title='alert.title', :button-text='alert.buttonText', @on-show='alert.onShow()', @on-hide='alert.onHide()')
   | {{{alert.content}}}
 confirm(:show.sync='confirm.show', :title='confirm.title', :confirm-text='confirm.confirmText', :cancel-text='confirm.cancelText', @on-confirm='confirm.onConfirm()', @on-cancel='confirm.onCancel()')
@@ -252,11 +252,11 @@ body {
       }
     }
   }
-  &.tab-visible #app {
-    -webkit-overflow-scrolling: touch;
+  &.tab-visible {
+    // -webkit-overflow-scrolling: touch;
     overflow-y: auto;
     overflow-x: hidden;
-    // padding-bottom: 1.932367rem; //240px
+    padding-bottom: 1.932367rem; //240px
   }
   .logo-bottom {
     // height: 0.724638rem;

@@ -49,15 +49,15 @@ div
           i.icon-pano.icon-plus
           | 参与发行的产品
     //- 我的项目
-    group
+    group.user-select-none
       cell(title='我发出的项目', is-link, @click='routerGo({name: "myProjects"})')
         span.tip(v-if='info.my_projects.info' slot='value')
     //- 为我推介项目
-    group(v-if='info.referral_projects && info.referral_projects.count')
+    group.user-select-none(v-if='info.referral_projects && info.referral_projects.count')
       cell(title='我收到的项目', is-link, @click='routerGo({name: "referProjects"})')
         span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 感兴趣的项目
-    group(v-if='info.interesee_projects && info.interesee_projects.count')
+    group.user-select-none(v-if='info.interesee_projects && info.interesee_projects.count')
       cell(title='感兴趣的项目', is-link, @click='routerGo({name: "interestProjects", query: {status_list: ["interested", "docking", "dock_passed", "dock_failed"]}})')
         //- span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 关注的互联网金融平台
