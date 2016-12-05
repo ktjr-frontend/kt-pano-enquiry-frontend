@@ -302,8 +302,8 @@ export default {
 
   methods: {
     routerGo(route) {
-      route.query = route.query || {}
-      route.query._r = Math.random().toString().slice(2)
+      // route.query = route.query || {}
+      // route.query._r = Math.random().toString().slice(2)
       this.$router.go(route)
     },
 

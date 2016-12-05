@@ -10,6 +10,7 @@ import _ from 'lodash'
 const CACHE_URLS = ['inquiries/search_am', 'inquiries/search']
 
 export default [
+  // 请求超时
   function(request, next) {
     let timeout
     if (request._timeout) {
@@ -23,10 +24,16 @@ export default [
       clearTimeout(timeout)
     })
   },
+
+  // 缓存ajax
   function(request, next) {
     let key = Vue.url(request.url, request.params)
 
     request.cache = _.includes(CACHE_URLS, key.split('?')[0])
+
+    if (!request.cache) { // 不缓存的url强制加随机数
+      request.params._r = Math.random().toString().slice(2)
+    }
 
     if (!request.params.no_cache && sessionStorage.getItem(key)) {
       next({
@@ -44,6 +51,8 @@ export default [
       next()
     }
   },
+
+  // 状态拦截
   function(request, next) {
     next((res) => {
       if (res.status === 419 || res.status === 401) {
