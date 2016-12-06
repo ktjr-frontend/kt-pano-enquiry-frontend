@@ -23,7 +23,7 @@
                   span(:class='{asc: round(td.ring_diff,2) > 0, desc: round(td.ring_diff,2) < 0, "blank-hack": isNull(td.ring_diff)}') {{td.ring_diff * 100 | ktRound | ktPositveNumber | ktAppend 'bp'}}
     .bottom-tips 资产类是产品成立时即对应具体投资标的或指向特定融资人的产品。
     //- hack fixed button以后 无法看到底部内容的问题
-    //- .button-fixed-placeholder(v-if='$route.query.shared')
+    .button-fixed-placeholder(v-if='$route.query.shared')
       button 空
     .buttons-footer.fixed(v-if='$route.query.shared')
       button(@click='goPano()') 火速前往PANO
