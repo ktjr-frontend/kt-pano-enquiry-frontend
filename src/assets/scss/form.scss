@@ -56,7 +56,7 @@ input[type="button"] {
   font-size: 0.354267rem;
   text-align: center;
   background: #194373;
-  border-radius: 4px;
+  border-radius: 0.0966183574879227rem;
   border: 0;
   -webkit-appearance: none;
   &.btn-gray {
@@ -96,6 +96,9 @@ input[type="button"] {
       float: right;
     }
   }
+  .icon-arrow-bold{
+    font-size: 0.8em;
+  }
 }
 
 .form-group {
@@ -103,12 +106,12 @@ input[type="button"] {
   margin-bottom: 0.563607rem;
   .weui_icon {
     &:before {
-      font-size: 18px;
+      font-size: 0.43478260869565216rem;
     }
   }
   .weui_icon_clear {
     &:before {
-      font-size: 16px;
+      font-size: 0.3864734299516908rem;
     }
   }
   .input {
@@ -176,12 +179,12 @@ input[type="button"] {
         float: left;
         margin-left: 0.080515rem;
         &:before {
-          font-size: 18px;
+          font-size: 0.43478260869565216rem;
         }
       }
       .weui_icon_clear {
         &:before {
-          font-size: 16px;
+          font-size: 0.3864734299516908rem;
         }
       }
     }
@@ -233,7 +236,7 @@ input[type="button"] {
         padding-right: 2em;
       }
       &:before {
-        content: '\e906';
+        content: '\e908';
         position: absolute;
         top: 50%;
         transform: translateY(-50%);

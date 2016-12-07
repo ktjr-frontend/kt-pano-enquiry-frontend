@@ -11,8 +11,8 @@
     position: relative;
     &:before {
       content: '';
-      width: 5px;
-      height: 5px;
+      width: 0.12077294685990339rem;
+      height: 0.12077294685990339rem;
       left: -0.362319rem; //40px
       top: .5em;
       border-radius: 50%;
@@ -24,9 +24,9 @@
       position: absolute;
       height: 100%;
       top: .5em;
-      width: 1px;
+      width: 0.024154589371980676rem;
       left: -0.362319rem; //39px
-      transform: translateX(2px);
+      transform: translateX(0.0460917874396135rem);
       background: $line-color;
     }
     &:last-of-type:after {

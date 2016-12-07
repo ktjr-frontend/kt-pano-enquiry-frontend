@@ -7,7 +7,7 @@
       | 新增
   kt-no-data(v-if='!$loadingRouteData && !projects.length', content='没有项目，快快创建吧^_^')
   .group
-    kt-cell(v-for='p in projects', icon='icon-arrow-right', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
+    kt-cell(v-for='p in projects', icon='icon-arrow-bold', @on-title-click='$router.go({name: "myProjectDetail", params:{id: p.id}})')
       div(slot='title') {{p.name}}
         .date {{p.updated_at}}
           span.status(:class='p.status | statusClass') {{p.status | status}}
@@ -109,7 +109,7 @@ export default {
     .add {
       color: #3bc5ba;
       .icon-plus {
-        font-size: 12px;
+        font-size: 0.2898550724637681rem;
         transform: scale(.6);
         display: inline-block;
         vertical-align: -1px;
@@ -156,9 +156,9 @@ export default {
       li {
         margin-right: .5em;
         margin-bottom: .5em;
-        padding: 2px 5px;
+        padding: 0.04830917874396135rem 0.12077294685990339rem;
         color: #3bc5ba;
-        border-radius: 5px;
+        border-radius: 0.12077294685990339rem;
         background: #f8f9fb;
         float: left;
         &.add-platform {

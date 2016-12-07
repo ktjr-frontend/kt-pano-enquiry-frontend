@@ -78,8 +78,11 @@ $green: #29b9ae;
           border-color: $green;
           background: $green;
         }
+        &:first-child {
+          border-radius: 16rem 0 0 16rem;
+        }
         &:last-of-type {
-          border-radius: 0 16px 16px 0;
+          border-radius: 0 16rem 16rem 0;
         }
       }
     }
@@ -120,39 +123,27 @@ section.quotation {
   .table-container {
     background: white;
     position: relative;
-    .icon-arrow-right {
-      z-index: 19;
+    .arrow-right,
+    .arrow-left {
       position: absolute;
+      z-index: 19;
       top: 0;
       right: 0;
-      padding: 0 0.402576rem 0 0.080515rem; //50px 10px
+      line-height: 0.966184rem;
       background: white;
       height: 0.885668rem; //110px
-      &:after {
-        top: 0.289855rem; //25px
-        border-width: 1px 1px 0 0;
-        border-color: $green;
-        &:active {
-          border-color: lighten($green, 10%);
-        }
+      padding: 0 0.35rem; //50px 10px
+      color: $green;
+      &:active {
+        color: lighten($green, 10%);
       }
     }
-    .icon-arrow-left {
-      position: absolute;
-      z-index: 19;
-      left: 0; //45px
-      top: 0; //30px
-      height: 0.885668rem; //110px
-      background: white;
-      padding: 0 0.080515rem 0 0.362319rem; //45px 10px
-      margin-left: 0;
-      &:after {
-        top: 0.289855rem; //25px
-        border-width: 0 0 1px 1px;
-        border-color: $green;
-        &:active {
-          border-color: lighten($green, 10%);
-        }
+    .arrow-left {
+      right: auto;
+      left: 0;
+      &:before {
+        transform: rotate(180deg);
+        display: inline-block;
       }
     }
   }

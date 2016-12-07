@@ -5,8 +5,8 @@
       | 数据范围：
       span {{begin_date}} ~ {{end_date}}
     .table-container
-      i.icon-pano.icon-arrow-left(v-touch:tap='swiperPrev()')
-      i.icon-pano.icon-arrow-right(v-touch:tap='swiperNext()')
+      i.icon-pano.icon-arrow-bold.arrow-left(v-touch:tap='swiperPrev()')
+      i.icon-pano.icon-arrow-bold.arrow-right(v-touch:tap='swiperNext()')
       .table-bg
         .thead
           .th-row
@@ -38,7 +38,7 @@
       button 空
     .buttons-footer.fixed(v-if='$route.query.shared')
       button(@click='goPano()') 火速前往PANO
-        i.icon-pano.icon-arrow-right
+        i.icon-pano.icon-arrow-bold
 
 </template>
 

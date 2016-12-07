@@ -25,7 +25,7 @@
         p 开通金融为您提供专业的金融互联网交易服务，上百个互联网渠道资产项目落地经验，与四十多家主流互金平台开展合作，了解各大平台风控标准与资产偏好。
   .buttons-footer
     button(v-if='$route.params.type === "add"', @click='next()') 下一步
-      i.icon-pano.icon-arrow-right
+      i.icon-pano.icon-arrow-bold
     button(v-if='$route.params.type !== "add"', @click='submit()') 提交
 </template>
 

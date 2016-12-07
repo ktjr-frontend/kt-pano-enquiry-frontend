@@ -27,7 +27,7 @@
       button 空
     .buttons-footer.fixed(v-if='$route.query.shared')
       button(@click='goPano()') 火速前往PANO
-        i.icon-pano.icon-arrow-right
+        i.icon-pano.icon-arrow-bold
 </template>
 
 <script>

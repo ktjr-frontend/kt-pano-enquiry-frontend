@@ -31,7 +31,7 @@ export default {
     margin-top: 0;
     .title {
       font-size: 0.322061rem; //40px
-      border-bottom: 0.032206rem solid #3bc5ba;
+      border-bottom: 1px solid #3bc5ba;
       color: #29b9ae;
       min-height: 0.805153rem;
       line-height: 0.805153rem;
@@ -61,20 +61,23 @@ export default {
       &.icon-refresh {
         font-size: 0.9em;
       }
+      &.icon-arrow-bold{
+        color: #adb1bc;
+      }
     }
   }
   .file-list {
     .file-name {
       position: relative;
-      padding: 3px 5px;
-      border-radius: 5px;
+      padding: 0.07246376811594203rem 0.12077294685990339rem;
+      border-radius: 0.12077294685990339rem;
       color: #3bc5ba;
       background: #f8f9fb;
       margin: .5em 0 0;
       padding-right: 2.5em;
       display: inline-block;
       &.no-icon {
-        padding-right: 5px;
+        padding-right: 0.12077294685990339rem;
       }
     }
     .icon-plus {
@@ -102,7 +105,7 @@ export default {
       .weui_icon_warn {
         right: -1.2em;
         &:before {
-          font-size: 14px;
+          font-size: 0.33816425120772947rem;
         }
         display: block;
       }

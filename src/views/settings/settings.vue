@@ -373,7 +373,8 @@ form {
     text-align: center;
     img {
       // max-height: 2.415459rem;
-      max-width: 100%;
+      width: 100%;
+      // max-width: 100%;
     }
   }
 }

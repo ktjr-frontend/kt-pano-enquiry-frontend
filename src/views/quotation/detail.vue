@@ -31,7 +31,7 @@
                   div.ellipsis 无合适平台
   .buttons-footer
     button(v-link='{name: "joinInst", params: {type: "add"}, query: {asset_type: $route.query.asset_type, redirect_to: $route.path}}') 对接项目
-      i.icon-pano.icon-arrow-right
+      i.icon-pano.icon-arrow-bold
 
 </template>
 

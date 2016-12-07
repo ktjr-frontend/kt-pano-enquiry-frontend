@@ -4,6 +4,17 @@ import _ from 'lodash'
 const PORTRAIT = 'portrait' // 竖屏
 const LANDSCAPE = 'landscape' // 横屏
 const BORDER_SIZE = 1000 // 为了兼容ios上面的遮罩问题 使用的是border遮罩
+let multiple = 1 // 缩放倍数
+
+// 根据viewport 重新急速倍数
+let viewport = document.querySelector('meta[name="viewport"]')
+if (viewport) {
+  let scale = viewport.getAttribute('content').match(/initial\-scale=([\d\.]+)/)
+  if (scale) {
+    scale = parseFloat(scale[1])
+    multiple = parseInt(1 / scale)
+  }
+}
 
 /*
  * @author luxueyan
@@ -13,8 +24,8 @@ export default class ImgCropper {
   container = null // img父元素
   mc = null // hammer的mc实例
   cropperNode = null // 中间的切图区域
-  cropperNodeHeight = 200
-  cropperNodeWidth = 200
+  cropperNodeHeight = 200 * multiple
+  cropperNodeWidth = 200 * multiple
   imageNode = null // image dom
   imageUrl = ''
 
@@ -29,7 +40,7 @@ export default class ImgCropper {
   currentDeltaY = null
 
   constructor(options = {}) {
-    Object.assign(this, options)
+    _.extend(this, options)
     this._init()
   }
 
@@ -113,7 +124,7 @@ export default class ImgCropper {
       this.adjustDeltaY = this.adjustDeltaX = 0
     }
 
-    let transforms = this._updateTransfrom(imgRect, cropRect)
+    let transforms = this._getTransfrom(imgRect, cropRect)
 
     this.imageNode.style.transition = 'transform .1s ease-in'
     this.imageNode.style.webkitTransition = '-webkit-transform .1s ease-in'
@@ -126,8 +137,8 @@ export default class ImgCropper {
     this.imageNode.style.webkitTransition = 'none'
   }
 
-  // 做反弹运算
-  _updateTransfrom(imgRect, cropRect) {
+  // 生成反弹位置样式
+  _getTransfrom(imgRect, cropRect) {
     if (imgRect.left > cropRect.left) {
       this.adjustDeltaX = (imgRect.width - cropRect.width) / (2 * this.adjustScale)
     } else if (imgRect.right < cropRect.right) {
@@ -186,13 +197,13 @@ export default class ImgCropper {
       }
 
       img.addEventListener('transitionend', ev => {
-        // 反弹之后修正一下由于transition运动过程中pinch pan 导致的位置bug
+        // 反弹之后修正一下由于transition运动过程中pinch pan 导致的最终位置不正确的bug
         let imgRect = _.extend({}, this.imageNode.getBoundingClientRect())
         let cropRect = _.extend({}, this.cropperNode.getBoundingClientRect())
         this._removeTransition()
         this._removeBorderSize(cropRect)
 
-        let transforms = this._updateTransfrom(imgRect, cropRect)
+        let transforms = this._getTransfrom(imgRect, cropRect)
         this.imageNode.style.webkitTransform = this.imageNode.style.transform = transforms.join(' ')
       })
     }
@@ -220,10 +231,10 @@ export default class ImgCropper {
     let cropRect = this.cropperNode.getBoundingClientRect()
 
     return {
-      l: cropRect.left - imgRect.left + BORDER_SIZE, // 取相对唯一
+      l: cropRect.left - imgRect.left + BORDER_SIZE, // 取相对位置
       t: cropRect.top - imgRect.top + BORDER_SIZE,
-      cw: imgRect.width, //  为了兼容 img_cropper的cw（容器宽度）,这里指的放大缩小后的宽度
-      ch: imgRect.height, //  为了兼容 img_cropper的cw（容器宽度）
+      cw: imgRect.width, //  为了兼容 img_cropper（另一个组件）的cw（容器宽度）,这里指的放大缩小后的宽度
+      ch: imgRect.height, //  为了兼容 img_cropper（另一个组件）的cw（容器宽度）
       w: this.cropperNodeWidth, // cropper 的默认高度
       h: this.cropperNodeHeight // cropper 的默认宽度
     }

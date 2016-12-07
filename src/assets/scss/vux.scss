@@ -1,3 +1,55 @@
+.vux-spinner,
+.vux-spinner svg {
+  width: 0.6763285024154589rem;
+  height: 0.6763285024154589rem;
+}
+
+.weui_icon_warn,
+.weui_icon_search,
+.weui_icon_clear {
+  &:before {
+    font-size: 0.33816425120772947rem;
+  }
+}
+
+.weui_toast {
+  width: auto!important;
+  max-width: 10em!important;
+  min-width: 7.6em;
+  padding: 0 0.12077294685990339rem;
+  border-radius: 0.12077294685990339rem;
+  line-height: 1.2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.weui_icon_toast:before {
+  font-size: 1.3285024154589373rem;
+}
+
+.weui_loading_toast .weui_toast_content {
+  font-size: 0.33816425120772947rem;
+  margin: 64% 0 0.36231884057971014rem;
+}
+
+.weui_loading_leaf:before {
+  width: 0.19661835748792272rem;
+  height: 0.07439613526570049rem;
+  box-shadow: 0 0 1px rgba(0, 0, 0, .0980392);
+  border-radius: 1px;
+}
+
+$i: 11;
+@while $i > -1 {
+  .weui_loading_leaf_#{$i} {
+    &:before {
+      transform: rotate(30deg * $i) translate(0.19130434782608696rem)
+    }
+  }
+  $i: $i - 1;
+}
+
 .vux-header .vux-header-right {
   $border-color: #29b9ae;
   .button {
@@ -74,13 +126,26 @@
   }
 }
 
+.weui_dialog_title {
+  font-size: 0.4106280193236715rem;
+}
+
 .weui_dialog {
   background: white;
   width: 80%;
+  border-radius: 0.07246376811594203rem;
 }
 
 .weui_dialog_bd {
   line-height: 1.2;
+  padding: 0 0.48309178743961356rem;
+  font-size: 0.36231884057971014rem;
+}
+
+.weui_dialog_ft {
+  font-size: 0.4106280193236715rem;
+  line-height: 2.5em;
+  margin-top: 0.48309178743961356rem;
 }
 
 .vux-fade-transition {
@@ -92,14 +157,6 @@
 
 .weui_btn_dialog.primary {
   color: #194373;
-}
-
-.weui_toast {
-  width: auto!important;
-  max-width: 10em!important;
-  min-width: 7.6em;
-  padding: 0 5px;
-  line-height: 1.2;
 }
 
 .vux-header {
@@ -134,6 +191,14 @@
   &:after,
   &:before {
     border-color: #d9deea;
+    // transform: scale(1);
+  }
+  &:before{
+    top: 0;
+  }
+  &:after{
+    border-bottom: 1px solid #d9deea;
+    bottom: 0;
   }
   .weui_cell:first-of-type {
     &:before {
@@ -181,7 +246,7 @@
   }
   .with_arrow:after {
     border-color: #acb1bd;
-    margin-right: .2em;
+    margin-right: 0;
   }
   &:active {
     .with_arrow:after {
@@ -298,7 +363,7 @@
     position: relative;
     font-size: 0.402576rem; //50px
     color: #737e9c;
-    margin-right: .5em;
+    // margin-right: .5em;
     flex: 1;
     // input {
     //   direction: rtl;
@@ -315,10 +380,12 @@
     line-height: 2em;
     &.with_arrow {
       &:after {
-        height: 5px;
-        width: 5px;
-        border-width: 1px 1px 0 0;
-        top: 0;
+        font-family: 'pano';
+        content: "\e900";
+        border: none;
+        transform: none;
+        width: auto;
+        height: auto;
       }
     }
     .tip {

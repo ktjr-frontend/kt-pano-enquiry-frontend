@@ -436,10 +436,10 @@ textarea {
   display: inline-block;
   overflow: hidden;
   /*width: 3.019324rem; //375px*/
-  padding: 2px 5px;
+  padding: 0.04830917874396135rem 0.12077294685990339rem;
   text-align: center;
   background: #194373;
-  border-radius: 5px;
+  border-radius: 0.12077294685990339rem;
   color: white;
   vertical-align: middle;
   &:active {
@@ -504,7 +504,7 @@ textarea {
     vertical-align: 1px;
     display: none;
     &:before {
-      font-size: 14px;
+      font-size: 0.33816425120772947rem;
     }
   }
   .line {
@@ -535,7 +535,7 @@ textarea {
     top: 50%;
     transform: translateY(-50%);
     &:before {
-      font-size: 14px;
+      font-size: 0.33816425120772947rem;
     }
   }
   input.invalid.touched ~ .weui_icon_warn {

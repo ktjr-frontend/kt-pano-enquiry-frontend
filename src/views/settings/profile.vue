@@ -5,7 +5,7 @@ div
   .profile
     .head
       .avatar-container.item(v-link='{name: "settings"}')
-        i.icon-pano.icon-arrow-right
+        i.icon-pano.icon-arrow-bold
         .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
           img(v-show='user.avatar_url', :src='user.avatar_url', :style='model.avatarStyles')
           i.icon-pano.icon-man-simple(v-else)
@@ -62,7 +62,7 @@ div
         //- span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 关注的互联网金融平台
     .group
-      kt-cell(title='关注的互联网金融平台', icon='icon-arrow-right', @on-title-click='$router.go({name: "moreInstitutions"})')
+      kt-cell(title='关注的互联网金融平台', icon='icon-arrow-bold', @on-title-click='$router.go({name: "moreInstitutions"})')
         div(slot='title') 关注的互联网金融平台
         .kt-list(v-for='item in info.platforms.institutions | limitBy 3', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name)')
           .icon
@@ -93,7 +93,7 @@ div
                 i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
                 | {{item.is_followed ? '已关注' : '关注'}}
       //- 关注的挂牌场所
-      kt-cell(title='关注的挂牌场所', icon='icon-arrow-right', @on-title-click='$router.go({name: "moreInstitutions", query:{dimension: "mapped_exchange"}})')
+      kt-cell(title='关注的挂牌场所', icon='icon-arrow-bold', @on-title-click='$router.go({name: "moreInstitutions", query:{dimension: "mapped_exchange"}})')
         div(slot='title') 关注的挂牌场所
         .kt-list(v-for='item in info.institutions.institutions | limitBy 3', v-if='info.institutions.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
           .icon
@@ -766,12 +766,12 @@ export default {
     }
     .avatar-container {
       position: relative;
-      .icon-arrow-right {
-        font-size: 0.402576rem;
+      .icon-arrow-bold {
+        font-size: 0.302576rem;
         position: absolute;
         right: -0.805153rem; //100px
-        top: 0.999184rem; //120px
-        color: #29b9ae;
+        top: 1.08rem; //120px
+        color: #c8c8cd;
       }
     }
     .avatar {
