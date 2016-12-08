@@ -188,15 +188,17 @@ $i: 11;
 
 .weui_cells {
   margin-top: 0.362319rem; //45px
+  box-shadow: 0 0 0.04830917874396135rem rgba(0, 0, 0, .01);
   &:after,
   &:before {
+    display: none;
     border-color: #d9deea;
     // transform: scale(1);
   }
-  &:before{
+  &:before {
     top: 0;
   }
-  &:after{
+  &:after {
     border-bottom: 1px solid #d9deea;
     bottom: 0;
   }
@@ -243,6 +245,7 @@ $i: 11;
   &:before,
   &:after {
     border-color: #d9deea;
+    left: 0.36231884057971014rem;
   }
   .with_arrow:after {
     border-color: #acb1bd;
@@ -424,7 +427,7 @@ $i: 11;
   }
   .weui_icon_warn {
     &:before {
-      font-size: 16px;
+      font-size: 0.3864734299516908rem;
     }
   }
   .weui_icon {

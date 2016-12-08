@@ -19,7 +19,7 @@
         kt-cell(title='项目说明书')
           .content-body
             .input-file
-              input(type='file', @change='uploadFile($event)', capture='camera')
+              input(type='file', @change='uploadFile($event)')
               span 上传文件/图片
                 i.icon-pano.icon-plus
             span.remark 支持pdf,doc,png,jpg

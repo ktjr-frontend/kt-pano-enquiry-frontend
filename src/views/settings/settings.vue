@@ -3,7 +3,7 @@
   group
     cell(title='头像', is-link)
       form(name='avatar')
-        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', capture='camera', accept='image/*')
+        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
         div.avatar
           .btn-file(:class='model.avatarDirection')
             img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
