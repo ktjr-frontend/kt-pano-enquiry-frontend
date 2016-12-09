@@ -4,7 +4,7 @@ div
   .institutions-list
   .group
     kt-cell(title='我的关注', icon='icon-plus', @on-title-click='$router.go({name: "allInstitutions", query: $route.query})')
-      .kt-list(v-for='item in institutions', v-if='institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+      .kt-list(v-for='item in institutions', v-if='institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item, {dimension: "mapped_exchange"})')
         .icon
           img(:src='item.logo', :alt='item.name')
         .main
@@ -20,7 +20,7 @@ div
         i.icon-pano.icon-plus 选择要关注的互联网金融平台
     kt-cell(title='为我推荐', v-if='recommendedCurrent.length', :icon='rPages > 1 ? "icon-refresh" : ""', @on-icon-click='changeBatch()')
       //- div(slot='title', v-link='{name: "allInstitutions"}') 我的关注
-      .kt-list(v-for='item in recommendedCurrent', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+      .kt-list(v-for='item in recommendedCurrent', class='one-line-content', :title='item.name', @click='goInstDetail(item, {dimension: "mapped_exchange"})')
         .icon
           img(:src='item.logo', :alt='item.name')
         .main

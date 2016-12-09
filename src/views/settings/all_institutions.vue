@@ -4,7 +4,7 @@ div
   .institutions-list
     .group
       kt-cell(@on-title-click='$router.go({name: "allInstitutions"})')
-        .kt-list(v-for='item in institutions', v-if='institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+        .kt-list(v-for='item in institutions', v-if='institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item, {dimension: "mapped_exchange"})')
           .icon
             img(:src='item.logo', :alt='item.name')
           .main

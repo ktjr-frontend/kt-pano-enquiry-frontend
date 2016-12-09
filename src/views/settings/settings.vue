@@ -24,7 +24,6 @@
   group
     cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}")
   .buttons
-    //- <button v-if="user.status === 'rejected'" @click="submitForCheck()">提交审核</button>
     button(@click='logOutWithLog()') 退出登录
   a.vux-popup-mask(href='javascript:void(0)')
   popup(:show.sync='model.avatarCropShow', height='100%')
@@ -32,7 +31,6 @@
       a(@click='closeCropperContainer(true)', class='cancel') 取消
       a(@click='closeCropperContainer()', class='ok') 确定
     .cropper-container(v-el:cropper)
-      //- #cropperContainer(v-el:cropper)
 
 </template>
 
@@ -52,7 +50,6 @@ import Utils from '../../common/utils'
 import {
   accounts
 } from '../../common/resources'
-// import ICropper from '../../libs/img_cropper'
 import ImgCropper from '../../libs/img_cropper_reverse'
 import '../../libs/img_cropper_reverse/index.scss'
 
@@ -82,14 +79,6 @@ export default {
     this.imgCropper = new ImgCropper({
       container: this.$els.cropper
     })
-
-    // this.imgCropper = new ICropper(
-    //   'cropperContainer', //Container id
-    //   {
-    //     ratio: 1 //Set aspect ratio of the cropping area
-    //       // image: fr.result
-    //   }
-    // )
   },
 
   watch: {
@@ -149,8 +138,6 @@ export default {
       fr.addEventListener('load', () => {
         this.$root.hideLoadingStatus()
         this.imgCropper.setImage(fr.result)
-          // this.imgCropper.setImage(fr.result)
-          // this.avatarResult = fr.result
       })
 
       fr.readAsDataURL(this.lrzFile)
@@ -210,26 +197,6 @@ export default {
       _self.$router.go({
         name: 'changeMobile1'
       })
-
-      /*this.$root.showConfirm({
-        content: '修改手机号后需要重新审核，确定修改手机号吗？',
-
-        onConfirm() {
-          _self.$root.log({
-            name: '确定修改手机'
-          })
-
-          _self.$router.go({
-            name: 'changeMobile1'
-          })
-        },
-
-        onCancel() {
-          _self.$root.log({
-            name: '取消修改手机'
-          })
-        }
-      })*/
     },
 
     changeUserCard() {

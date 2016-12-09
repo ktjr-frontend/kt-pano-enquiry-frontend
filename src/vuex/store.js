@@ -5,6 +5,9 @@ import createLogger from 'vuex/src/plugins/logger'
 // let createLogger = require('babel-loader!vuex/src/plugins/logger')
 
 const debug = process.env.NODE_ENV !== 'production'
+
+let instBasicInfo = JSON.parse(localStorage.instBasicInfo || '[]')
+
 const state = {
   title: '开通PANO',
   enquiryError: '很遗憾，根据目前提供的信息，系统尚未匹配到适合发行的互联网金融平台。您可通过以下方式提供更详细的信息，我们会安排专业的明星BD帮您评估资产，感谢您的理解与支持！',
@@ -79,7 +82,8 @@ const state = {
     mobile: '',
     name: '',
     password: ''
-  }
+  },
+  instBasicInfo: instBasicInfo
 }
 
 Vue.use(Vuex)

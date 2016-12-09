@@ -3,7 +3,7 @@ import Vue from 'vue'
 let sessions, assetTypes, businessTypes, accounts, registrations,
   recoveries, cards, enquiries, sharedEnquiries, feedbacks,
   signatures, log, persons, quotes, projects, panoFiles, projectInterest,
-  imageCaptcha
+  imageCaptcha, instBasicInfo
 
 let previousRequestMap = {}
 let commonOpts = {
@@ -36,6 +36,7 @@ export default function setResources(resource) {
   projectInterest = resource('project_interest', {}, {}, commonOpts) // 项目香港
   log = resource('shadows', {}, {}, commonOpts) // 用户行为日志
   imageCaptcha = resource('captcha', {}, {}, commonOpts) // 图形验证码
+  instBasicInfo = resource('institutions', {}, {}, commonOpts) // 图形验证码
 }
 
 export {
@@ -56,5 +57,6 @@ export {
   projects,
   panoFiles,
   projectInterest,
-  imageCaptcha
+  imageCaptcha,
+  instBasicInfo
 }

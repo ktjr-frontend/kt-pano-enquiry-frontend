@@ -2,7 +2,7 @@
 #app(:class='{"head-visible": $route.data.headVisible}')
   x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
-    a.button(slot='right' v-show='$route.data.shareButtonVisible' @click='wxShare()') 分享
+    a.button(slot='right' v-show='$route.data.shareButtonVisible && isWeixin()' @click='wxShare()') 分享
   router-view.child-view
   .tabbar(v-show='tabVisible')
     .tab(v-for='tab in tabs', :span='tab.span')
@@ -42,7 +42,8 @@ import {
   toast,
   alert,
   confirm,
-  message
+  message,
+  instBasicInfo
 } from './vuex/getters'
 import {
   updateUser,
@@ -56,6 +57,7 @@ import {
 } from './vuex/actions'
 import instDetail from './mixins/inst-detail-mixin.js'
 import _ from 'lodash'
+import Utils from './common/utils.js'
 
 export default {
   mixins: [instDetail],
@@ -74,7 +76,8 @@ export default {
       toast,
       alert,
       confirm,
-      message
+      message,
+      instBasicInfo
     },
     actions: {
       updateUser,
@@ -89,6 +92,7 @@ export default {
   },
 
   methods: {
+    isWeixin: Utils.isWeixin,
     onClickBack() {
       this.log({
         name: '返回'
@@ -283,7 +287,7 @@ body {
   }
 }
 
-.button-fixed-placeholder{
+.button-fixed-placeholder {
   opacity: 0;
   padding: 0.362319rem 0.402576rem; // 45px 50px;
 }

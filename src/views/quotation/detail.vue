@@ -17,7 +17,7 @@
       swiper(:options='swiperOptions' v-ref:swiper)
         swiper-slide(v-for='item in detail.platform_list')
           .kt-list-column(:class='"count-" + item.platforms.length')
-            .kt-list-short(v-for='p in item.platforms', :title='p.name', @click='goInstDetail(p.name)')
+            .kt-list-short(v-for='p in item.platforms', :title='p.name', @click='goInstDetail(p)')
               .icon
                 img(:src='p.logo', :alt='p.name')
               .main
@@ -80,12 +80,12 @@ export default {
       this.$refs.swiper.swiper.slideTo(index)
     },
 
-    goInstDetail(name) {
+    goInstDetail(inst) {
       window.sessionStorage[this.$route.name + '.slideCache'] = JSON.stringify({
         activeIndex: this.$refs.swiper.swiper.activeIndex
       })
 
-      this.$root.goInstDetail(name)
+      this.$root.goInstDetail(inst)
     }
   },
 

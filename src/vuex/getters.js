@@ -33,3 +33,7 @@ export function assetTypes(state) {
 export function enquiryError(state) {
   return state.enquiryError
 }
+
+export function instBasicInfo(state) {
+  return state.instBasicInfo
+}

@@ -69,6 +69,12 @@ export default class ImgCropper {
       this.currentDeltaX = this.adjustDeltaX + (ev.deltaX / this.currentScale)
       this.currentDeltaY = this.adjustDeltaY + (ev.deltaY / this.currentScale)
 
+      // 这段代码是尽量解决拖拽到微信顶部标题栏导致回不来的bug，但是不能全面解决，微信就是这么恶心
+      if (ev.pointers[0].clientY < 10) {
+        this._gestureEnd()
+        return
+      }
+
       // Concatinating and applying parameters.
       transforms.push(`scale(${this.currentScale})`)
       transforms.push(`translate3d(${this.currentDeltaX}px,${this.currentDeltaY}px,0)`)
@@ -76,12 +82,17 @@ export default class ImgCropper {
     })
 
     mc.on('panend pinchend', ev => {
-      // Saving the final transforms for adjustment next time the user interacts.
-      this.adjustScale = this.currentScale
-      this.adjustDeltaX = this.currentDeltaX
-      this.adjustDeltaY = this.currentDeltaY
-      this._rebound()
+      this._gestureEnd()
     })
+  }
+
+  // 手势操作完成
+  _gestureEnd() {
+    // Saving the final transforms for adjustment next time the user interacts.
+    this.adjustScale = this.currentScale
+    this.adjustDeltaX = this.currentDeltaX
+    this.adjustDeltaY = this.currentDeltaY
+    this._rebound()
   }
 
   // 减去1000px的border

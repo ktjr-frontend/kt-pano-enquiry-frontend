@@ -1,4 +1,5 @@
 import { router } from '../router'
+import { instBasicInfo } from '../common/resources.js'
 
 export function updateUser({ dispatch }, user, soft) {
   if (!soft) {
@@ -6,6 +7,13 @@ export function updateUser({ dispatch }, user, soft) {
     localStorage.userMobile = user.mobile
   }
   dispatch('UPDATE_USER', user)
+
+  // 获取机构配置信息
+  instBasicInfo.get().then(res => res.json()).then(data => {
+    dispatch('UPDATE_INST_BASIC_INFO', data.institutions)
+  }).catch(res => {
+    console.warn('机构配置信息获取失败!')
+  })
 }
 
 /**
@@ -38,6 +46,11 @@ export function showLoadingStatus({ dispatch }) {
 
 export function hideLoadingStatus({ dispatch }) {
   dispatch('HIDE_LOADING_STATUS')
+}
+
+export function updateInstBasicInfo({ dispatch }, instBasicInfo = []) {
+  localStorage.instBasicInfo = JSON.stringify(instBasicInfo)
+  dispatch('UPDATE_INST_BASIC_INFO', instBasicInfo)
 }
 
 // 默认的toast warn类型

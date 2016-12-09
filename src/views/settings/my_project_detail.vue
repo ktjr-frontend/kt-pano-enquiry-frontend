@@ -21,7 +21,7 @@
   .group
     kt-cell.sub-cell.join-inst-list(title='对接机构')
       .kt-list-column(v-if='project.institutions', :class='"count-" + Math.min(project.institutions.length + 1, 5)')
-        .kt-list-short(v-for='inst in project.institutions', :title='inst.name', @click='goInstDetail(inst.name)')
+        .kt-list-short(v-for='inst in project.institutions', :title='inst.name', @click='goInstDetail(inst)')
           .icon
             img(:src='inst.logo', :alt='inst.name')
           .main

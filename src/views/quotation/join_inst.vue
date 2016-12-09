@@ -11,7 +11,7 @@
             i.icon-pano.icon-checkbox
           .inst
             .img-box
-              img(:src='inst.logo', @click='goInstDetail(inst.name)')
+              img(:src='inst.logo', @click='goInstDetail(inst)')
             p {{inst.name}}
     a.load-more(@click='moreInst()', v-if='insts.length > 9') {{model.instShowAll ? '收起' : '更多'}}
   group.kaitong-refer
@@ -78,9 +78,9 @@ export default {
   },*/
 
   methods: {
-    goInstDetail(name) {
+    goInstDetail(inst) {
       this.cacheModel()
-      this.$root.goInstDetail(name)
+      this.$root.goInstDetail(inst)
     },
 
     // 新建-下一步

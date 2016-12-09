@@ -53,6 +53,9 @@ const mutations = {
   },
   UPDATE_ENQUIRY_ERROR(state, error) {
     state.enquiryError = error
+  },
+  UPDATE_INST_BASIC_INFO(state, instBasicInfo) {
+    state.instBasicInfo = instBasicInfo
   }
 }
 export default mutations

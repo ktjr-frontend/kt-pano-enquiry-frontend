@@ -64,7 +64,7 @@ div
     .group
       kt-cell(title='关注的互联网金融平台', icon='icon-arrow-bold', @on-title-click='$router.go({name: "moreInstitutions"})')
         div(slot='title') 关注的互联网金融平台
-        .kt-list(v-for='item in info.platforms.institutions | limitBy 3', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name)')
+        .kt-list(v-for='item in info.platforms.institutions | limitBy 3', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item)')
           .icon
             img(:src='item.logo', :alt='item.name')
           .main
@@ -83,7 +83,7 @@ div
       //- 为您推荐
       kt-cell.sub-cell(title='为您推荐', :icon='recommended.platforms.pages > 1 ? "icon-refresh" : ""', @on-icon-click='changeRecommendedBatch(0)', v-if='info.platforms.recommended.length')
         .kt-list-column(:class='"count-" + recommendedPlatformsCurrent.length')
-          .kt-list-short(v-for='item in recommendedPlatformsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item.name)')
+          .kt-list-short(v-for='item in recommendedPlatformsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item)')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main
@@ -95,7 +95,7 @@ div
       //- 关注的挂牌场所
       kt-cell(title='关注的挂牌场所', icon='icon-arrow-bold', @on-title-click='$router.go({name: "moreInstitutions", query:{dimension: "mapped_exchange"}})')
         div(slot='title') 关注的挂牌场所
-        .kt-list(v-for='item in info.institutions.institutions | limitBy 3', v-if='info.institutions.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+        .kt-list(v-for='item in info.institutions.institutions | limitBy 3', v-if='info.institutions.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item, {dimension: "mapped_exchange"})')
           .icon
             img(:src='item.logo', :alt='item.name')
           .main
@@ -113,7 +113,7 @@ div
       //- 为您推荐
       kt-cell.sub-cell(title='为您推荐', :icon='recommended.institutions.pages > 1 ? "icon-refresh" : ""', @on-icon-click='changeRecommendedBatch(1)', v-if='info.institutions.recommended.length')
         .kt-list-column(:class='"count-" + recommendedInstitutionsCurrent.length')
-          .kt-list-short(v-for='item in recommendedInstitutionsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item.name, {dimension: "mapped_exchange"})')
+          .kt-list-short(v-for='item in recommendedInstitutionsCurrent | limitBy 3', :title='item.name', @click='goInstDetail(item, {dimension: "mapped_exchange"})')
             .icon
               img(:src='item.logo', :alt='item.name')
             .main

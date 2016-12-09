@@ -6,18 +6,28 @@ import Env from '../env.js'
 export default {
   methods: {
     // 查看机构信息
-    goInstDetail(platform, params = {}, callback) {
+    goInstDetail(inst, params = {}, callback) {
       this.$root.log({
-        name: platform,
+        name: inst.name,
         ...params
       })
+
+      // 判断是否有机构详情
+      let instInfo = _.find(this.$root.instBasicInfo, v => v.id === inst.id)
+      if (instInfo && !instInfo.has_detail) {
+        this.$root.showToast({
+          text: '没有相关机构信息！',
+          type: 'text'
+        })
+        return
+      }
 
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
       // let envParams = Utils.getEnvParams()
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
-      window.open(`${Env.hostName}/pano/institutions/${platform}?_t=${Env.token}${paramsStr}`, '_self')
+      window.open(`${Env.hostName}/pano/institutions/${inst.name}?_t=${Env.token}${paramsStr}`, '_self')
       callback && callback(params)
     },
 

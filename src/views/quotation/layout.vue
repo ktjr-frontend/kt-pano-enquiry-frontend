@@ -6,7 +6,7 @@
       button-tab-item(v-touch:tap='$router.go({name:"quotationOB", query: $route.query})', :selected="$route.name === 'quotationOB'") 资产类
       button-tab-item(v-touch:tap='$router.go({name:"quotationAM", query: $route.query})', :selected="$route.name === 'quotationAM'") 资管类
       i.icon-pano.icon-info(v-touch:tap='showTips()')
-    i.icon-pano.icon-share(v-touch:tap='wxShare()')
+    i.icon-pano.icon-share(v-show='isWeixin()',v-touch:tap='wxShare()')
   router-view
 
 </template>
@@ -14,6 +14,7 @@
 <script>
 import ButtonTab from 'vux-components/button-tab'
 import ButtonTabItem from 'vux-components/button-tab-item'
+import Utils from '../../common/utils.js'
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     ButtonTabItem
   },
   methods: {
+    isWeixin: Utils.isWeixin,
     showTips() {
       this.$root.log({
         name: '报价板提示'
