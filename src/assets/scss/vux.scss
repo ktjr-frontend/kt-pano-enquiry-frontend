@@ -65,9 +65,35 @@ $i: 11;
     }
   }
 }
-
 .vux-popup-picker-header {
   color: #3bc5ba;
+  height: 1.0628019323671498rem;
+  line-height: 1.0628019323671498rem;
+  .vux-flexbox-item{
+    min-width: 0.48309178743961356rem!important;
+    line-height: 1.0628019323671498rem!important;
+    &:first-child{
+      padding-left: 0.36231884057971014rem!important;
+    }
+    &:last-child{
+      padding-right: 0.36231884057971014rem!important;
+    }
+  }
+}
+.scroller-mask{
+  background-size: 100% 2.4637681159420293rem;
+}
+.scroller-component{
+  height: 5.748792270531401rem;
+}
+.scroller-indicator{
+  height: 0.821256038647343rem;
+  top: 2.4637681159420293rem;
+}
+.scroller-item {
+  font-size: 0.3864734299516908rem;
+  height: 0.821256038647343rem;
+  line-height: 0.821256038647343rem;
 }
 
 .vux-popup-picker-value {
@@ -188,6 +214,7 @@ $i: 11;
 
 .weui_cells {
   margin-top: 0.362319rem; //45px
+  font-size: 0.4106280193236715rem;
   box-shadow: 0 0 0.04830917874396135rem rgba(0, 0, 0, .02);
   &:after,
   &:before {
@@ -389,6 +416,8 @@ $i: 11;
         transform: none;
         width: auto;
         height: auto;
+        position: static;
+        -webkit-font-smoothing: antialiased;
       }
     }
     .tip {

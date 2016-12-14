@@ -1,3 +1,8 @@
+/*
+ * @author luxueyan
+ * @desc 与img_cropper不同 通过放大缩小图片来实现切图
+ */
+
 import Hammer from 'hammerjs'
 import _ from 'lodash'
 
@@ -16,10 +21,6 @@ if (viewport) {
   }
 }
 
-/*
- * @author luxueyan
- * @desc 与img_cropper不同 通过放大缩小图片来实现切图
- */
 export default class ImgCropper {
   container = null // img父元素
   mc = null // hammer的mc实例

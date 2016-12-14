@@ -64,7 +64,7 @@
                   | 邮
                   span.blank
                   | 箱：
-                  span {{user.email || '-'}}
+              span {{user.email || '-'}}
 
       .buttons
         button 确定
