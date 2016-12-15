@@ -1,13 +1,13 @@
 <template lang="jade">
 .settings
   group
-    cell(title='头像', is-link)
-      form(name='avatar')
-        input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
-        div.avatar
-          .btn-file(:class='model.avatarDirection')
-            img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
-            i.icon-pano.icon-man-simple(v-else)
+    cell(title='头像', is-link, @click='model.avatarPreviewShow = true')
+      //- form(name='avatar')
+      //-   input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
+      div.avatar
+        .btn-file(:class='model.avatarDirection')
+          img(:src='user.avatar_url', v-if='user.avatar_url', :style='model.avatarStyles')
+          i.icon-pano.icon-man-simple(v-else)
   group(title='如需修改，请重新提交名片')
     cell(title='姓名', :value='user.name')
     cell(title='手机号码', :value='user.mobile.toString()', v-if="user.status !== 'passed'", is-link='', @click='changeUserMobile()')
@@ -31,7 +31,18 @@
       a(@click='closeCropperContainer(true)', class='cancel') 取消
       a(@click='closeCropperContainer()', class='ok') 确定
     .cropper-container(v-el:cropper)
-
+  a.vux-popup-mask(href='javascript:void(0)')
+  popup(:show.sync='model.avatarPreviewShow', height='100%')
+    .preview-popup(v-el:previewPop)
+      .preview-image
+        img(:src='user.avatar_url')
+      .buttons
+        form(name='avatar')
+          .btn.btn-simple.pos-r
+            input.file(v-if='isWeixin()', v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*', capture)
+            input.file(v-else, v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
+            | 更换头像
+          .btn.btn-simple(@click='model.avatarPreviewShow = false') 取消
 </template>
 
 <script>
@@ -79,6 +90,11 @@ export default {
     this.imgCropper = new ImgCropper({
       container: this.$els.cropper
     })
+
+    this.$els.previewPop.addEventListener('touchstart', e => {
+      e.preventDefault()
+      return false
+    })
   },
 
   watch: {
@@ -101,6 +117,7 @@ export default {
   },
 
   methods: {
+    isWeixin: Utils.isWeixin,
     showMessage(status) {
       if (status === 'pended' || status === 'rejected') {
         this.$root.showMessage({
@@ -132,6 +149,7 @@ export default {
 
     // 预览并截图
     previewAvatar() {
+      this.model.avatarPreviewShow = false
       this.model.avatarCropShow = true
       let fr = new FileReader()
 
@@ -262,6 +280,7 @@ export default {
       ic: null,
       lrzFile: null,
       model: {
+        avatarPreviewShow: false,
         avatarCropShow: false,
         avatarStyles: {},
         avatarDirection: 'portrait',
@@ -368,6 +387,32 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.preview-popup {
+  height: 100%;
+  background: #f5f5f5;
+  .preview-image {
+    border-bottom: 1px solid #ddd;
+    img {
+      width: 100%;
+      vertical-align: top;
+    }
+  }
+  form {
+    width: 100%;
+  }
+  .buttons {
+    // padding-top: 0.805153rem; //100px
+    .btn {
+      height: 0.933977rem; //116
+      line-height: 0.933977rem; //116
+      font-size: 0.394525rem; //49px
+      &:first-child {
+        margin-bottom: 0.241546rem; //30px
+      }
+    }
+  }
 }
 
 .vux-popup-dialog {

@@ -71,12 +71,19 @@ input[type="button"] {
       background: darken(#78839f, 10%);
     }
   }
+  &.btn-simple {
+    border: 1px solid #ddd;
+    background: white;
+    color: #a1a1a1;
+    &:active {
+      background: darken(white, 10%);
+    }
+  }
   &[disabled] {
     color: #c5c9d2;
   }
   &:active {
     background: darken(#194373, 10%);
-    // box-shadow: inset 0 1px 0 rgba(0, 0, 0, .5);
   }
   .with_arrow {
     float: right;
@@ -96,7 +103,7 @@ input[type="button"] {
       float: right;
     }
   }
-  .icon-arrow-bold{
+  .icon-arrow-bold {
     font-size: 0.8em;
   }
 }
