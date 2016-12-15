@@ -1,7 +1,7 @@
 <template lang="jade">
 .settings
   group
-    cell(title='头像', is-link, @click='model.avatarPreviewShow = true')
+    cell(title='头像', is-link, @click='showAvatarPreview()')
       //- form(name='avatar')
       //-   input.file(v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
       div.avatar
@@ -26,23 +26,23 @@
   .buttons
     button(@click='logOutWithLog()') 退出登录
   a.vux-popup-mask(href='javascript:void(0)')
+  popup(:show.sync='model.avatarPreviewShow', height='100%')
+    .preview-popup
+      .preview-image(:style='model.previewImageStyles', v-el:preview-pop)
+        img(:src='user.avatar_url', v-if='user.avatar_url')
+        i.icon-pano.icon-man-simple(v-else)
+      .buttons(@touchstart.stop='')
+        form(name='avatar')
+          .btn.pos-r
+            input.file(v-if='isWeixin()', v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*', capture)
+            input.file(v-else, v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
+            span {{user.avatar_url ? '更换头像' : '上传头像'}}
+          .btn.btn-simple(@click='model.avatarPreviewShow = false') 取消
   popup(:show.sync='model.avatarCropShow', height='100%')
     .header
       a(@click='closeCropperContainer(true)', class='cancel') 取消
       a(@click='closeCropperContainer()', class='ok') 确定
     .cropper-container(v-el:cropper)
-  a.vux-popup-mask(href='javascript:void(0)')
-  popup(:show.sync='model.avatarPreviewShow', height='100%')
-    .preview-popup(v-el:previewPop)
-      .preview-image
-        img(:src='user.avatar_url')
-      .buttons
-        form(name='avatar')
-          .btn.btn-simple.pos-r
-            input.file(v-if='isWeixin()', v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*', capture)
-            input.file(v-else, v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
-            | 更换头像
-          .btn.btn-simple(@click='model.avatarPreviewShow = false') 取消
 </template>
 
 <script>
@@ -124,6 +124,10 @@ export default {
           content: this.message
         })
       }
+    },
+
+    showAvatarPreview() {
+      this.model.avatarPreviewShow = true
     },
 
     // 从相册选择图片时触发
@@ -276,12 +280,17 @@ export default {
   },
 
   data() {
+    let winW = window.innerWidth
     return {
       ic: null,
       lrzFile: null,
       model: {
         avatarPreviewShow: false,
         avatarCropShow: false,
+        previewImageStyles: {
+          width: `${winW}px`,
+          height: `${winW}px`
+        },
         avatarStyles: {},
         avatarDirection: 'portrait',
         avatarFile: null
@@ -387,13 +396,20 @@ form {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .preview-popup {
   height: 100%;
   background: #f5f5f5;
   .preview-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-bottom: 1px solid #ddd;
+    .icon-man-simple {
+      font-size: 2.415459rem; //300px
+    }
     img {
       width: 100%;
       vertical-align: top;
@@ -405,9 +421,9 @@ form {
   .buttons {
     // padding-top: 0.805153rem; //100px
     .btn {
-      height: 0.933977rem; //116
-      line-height: 0.933977rem; //116
-      font-size: 0.394525rem; //49px
+      // height: 0.933977rem; //116
+      // line-height: 0.933977rem; //116
+      // font-size: 0.394525rem; //49px
       &:first-child {
         margin-bottom: 0.241546rem; //30px
       }
