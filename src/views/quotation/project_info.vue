@@ -305,8 +305,10 @@ export default {
               }.bind(this)
             })
 
-            this.user.wx = this.user.wx || this.model.wx_account
-            this.updateUser(this.user)
+            if (!this.user.wx) {
+              this.user.wx = this.model.wx_account
+              this.updateUser(this.user)
+            }
 
             this.clearPreRouteCache()
             this.submitted = true

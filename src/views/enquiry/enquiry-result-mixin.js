@@ -98,7 +98,6 @@ export default {
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
-      let envParams = Utils.getEnvParams()
       window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
       callback && callback()
     },*/
@@ -108,8 +107,8 @@ export default {
         name: '开通PANO'
       })
 
-      // let envParams = Utils.getEnvParams()
-      window.open(`${Env.hostName}/pano/overview?_t=${Env.token}`, '_blank')
+      let token = encodeURIComponent(window.localStorage.token)
+      window.open(`${Env.hostName}/pano/overview?_t=${token}`, '_blank')
     },
 
     logShare(to, action) {

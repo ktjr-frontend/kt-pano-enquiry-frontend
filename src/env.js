@@ -1,5 +1,4 @@
 let env = {
-  token: encodeURIComponent(window.localStorage.token)
 }
 
 let panoMap = {

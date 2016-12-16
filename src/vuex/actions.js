@@ -1,5 +1,6 @@
 import { router } from '../router'
 import { instBasicInfo } from '../common/resources.js'
+import _ from 'lodash'
 
 export function updateUser({ dispatch }, user, soft) {
   if (!soft) {
@@ -7,6 +8,8 @@ export function updateUser({ dispatch }, user, soft) {
     localStorage.userMobile = user.mobile
   }
   dispatch('UPDATE_USER', user)
+
+  if (_.includes(['initialized', 'rejected'], user.status)) return
 
   // 获取机构配置信息
   instBasicInfo.get().then(res => res.json()).then(data => {
