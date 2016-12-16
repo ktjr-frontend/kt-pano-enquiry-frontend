@@ -35,6 +35,11 @@ export default {
       color: #29b9ae;
       min-height: 0.805153rem;
       line-height: 0.805153rem;
+      // max-width: 100%;
+      // overflow: hidden;
+      // white-space: nowrap;
+      // text-overflow: ellipsis;
+      // min-width: 0;
       .icon-pano.icon-refresh {
         font-size: 1.2em;
       }
@@ -50,6 +55,12 @@ export default {
     margin: 0 0.402576rem; //50px
     border-bottom: 1px solid #eff2f7;
     position: relative;
+    & [slot='title'] {
+      max-width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
     .icon-pano {
       font-size: .7em;
       color: #29b9ae;
@@ -61,7 +72,7 @@ export default {
       &.icon-refresh {
         font-size: 0.9em;
       }
-      &.icon-arrow-bold{
+      &.icon-arrow-bold {
         color: #adb1bc;
       }
     }
