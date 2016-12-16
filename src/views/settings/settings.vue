@@ -27,8 +27,8 @@
     button(@click='logOutWithLog()') 退出登录
   a.vux-popup-mask(href='javascript:void(0)')
   popup(:show.sync='model.avatarPreviewShow', height='100%')
-    .preview-popup
-      .preview-image(:style='model.previewImageStyles', v-el:preview-pop)
+    .preview-popup(v-kt-prevent)
+      .preview-image(:style='model.previewImageStyles')
         img(:src='user.avatar_url', v-if='user.avatar_url')
         i.icon-pano.icon-man-simple(v-else)
       .buttons(@touchstart.stop='')
@@ -42,7 +42,7 @@
     .header
       a(@click='closeCropperContainer(true)', class='cancel') 取消
       a(@click='closeCropperContainer()', class='ok') 确定
-    .cropper-container(v-el:cropper)
+    .cropper-container(v-el:cropper, v-kt-prevent)
 </template>
 
 <script>
@@ -82,19 +82,19 @@ export default {
 
   ready() {
     this.showMessage(this.user.status)
-    this.$els.cropper.addEventListener('touchstart', e => {
-      e.preventDefault()
-      return false
-    })
+      // this.$els.cropper.addEventListener('touchstart', e => {
+      //   e.preventDefault()
+      //   return false
+      // })
 
     this.imgCropper = new ImgCropper({
       container: this.$els.cropper
     })
 
-    this.$els.previewPop.addEventListener('touchstart', e => {
-      e.preventDefault()
-      return false
-    })
+    // this.$els.previewPop.addEventListener('touchstart', e => {
+    //   e.preventDefault()
+    //   return false
+    // })
   },
 
   watch: {

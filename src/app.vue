@@ -6,7 +6,7 @@
   router-view.child-view
   .tabbar(v-show='tabVisible')
     .tab(v-for='tab in tabs', :span='tab.span')
-      a(v-if='tab.link.name', v-link='tab.link', @v-touch:tap='tabClick(tab)', :class="{'active': judgeActive(tab)}")
+      a(v-if='tab.link.name', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
         i.icon-pano(:class='tab.icon', :style='tab.style')
         span {{tab.name}}
       a(v-if='tab.link.jump === "market"', @click='goOverview()')
@@ -146,7 +146,8 @@ export default {
         name: '行情',
         icon: 'icon-market',
         link: {
-          name: 'quotation'
+          name: 'quotation',
+          activeIncludes: ['quotationAM', 'quotationOB']
         }
       }, {
         active: false,

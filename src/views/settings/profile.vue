@@ -124,21 +124,21 @@ div
                 | {{item.is_followed ? '已关注' : '关注'}}
   //- 设置业务角色和资产类型
   a.vux-popup-mask(href='javascript:void(0)')
-  popup(:show.sync='popups.baTypes.show', :height='popups.baTypes.height', @on-show='initBAData()')
+  popup(v-kt-prevent='', :show.sync='popups.baTypes.show', :height='popups.baTypes.height', @on-show='initBAData()')
     .header
-      a(@click='closeBATypes(true)', class='cancel') 取消
-      a(@click='closeBATypes()', class='ok') 确定
+      a(@click='closeBATypes(true)', @touchstart.stop='', class='cancel') 取消
+      a(@click='closeBATypes()', @touchstart.stop='', class='ok') 确定
     .popup-body
       .group
         kt-cell(title='业务角色')
           //- checkbox组
           div
             .clfix
-              .checkbox-label(v-for='item in info.business_types.all')
+              .checkbox-label(v-for='item in info.business_types.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.businessTypes', :id="'bt_' + item.id", :value='item',  type='checkbox')
                 label(:for="'bt_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
                   i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item, "业务角色")')
-              .add-button(@click='openCustomTag()', v-if='!businessTypesHasCustomTag')
+              .add-button(@touchstart.stop='', @click='openCustomTag()', v-if='!businessTypesHasCustomTag')
                 i.icon-pano.icon-plus
                 | 标签
       .group
@@ -146,34 +146,34 @@ div
           //- checkbox组
           div
             .clfix
-              .checkbox-label(v-for='item in info.asset_types.all')
+              .checkbox-label(v-for='item in info.asset_types.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.assetTypes', :id="'at_' + item.id", :value='item',  type='checkbox')
                 label(:for="'at_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
                   i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item)')
-              .add-button(@click='openCustomTag("偏好资产")', v-if='!assetTypesHasCustomTag')
+              .add-button(@touchstart.stop='', @click='openCustomTag("偏好资产")', v-if='!assetTypesHasCustomTag')
                 i.icon-pano.icon-plus
                 | 标签
   //- 参与发行的产品
   a.vux-popup-mask(href='javascript:void(0)')
-  popup(:show.sync='popups.relativeProducts.show', :height='popups.relativeProducts.height', @on-show='initProductData()')
+  popup(v-kt-prevent='', :show.sync='popups.relativeProducts.show', :height='popups.relativeProducts.height', @on-show='initProductData()')
     .header
-      a(@click='closeProducts(true)', class='cancel') 取消
-      a(@click='closeProducts()', class='ok') 确定
+      a(@click='closeProducts(true)', @touchstart.stop='', class='cancel') 取消
+      a(@click='closeProducts()', @touchstart.stop='', class='ok') 确定
     .popup-body
       .group
         kt-cell(title='参与发行的产品')
           //- checkbox组
           div
             .clfix
-              .checkbox-label(v-for='item in info.products.all')
+              .checkbox-label(v-for='item in info.products.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.relativeProducts', :id="'rp_' + item.id", :value='item.id',  type='checkbox')
                 label(:for="'rp_' + item.id", v-cloak='') {{item.name}}
   //- 自定义标签
   a.vux-popup-mask(href='javascript:void(0)')
-  popup(:show.sync='popups.customTag.show', :height='popups.customTag.height')
+  popup(v-kt-prevent='', :show.sync='popups.customTag.show', :height='popups.customTag.height')
     .header
-      a(@click='closeCustomTag(true)', class='cancel') 取消
-      a(@click='closeCustomTag()', class='ok') 确定
+      a(@click='closeCustomTag(true)', @touchstart.stop='', class='cancel') 取消
+      a(@click='closeCustomTag()', @touchstart.stop='', class='ok') 确定
     .popup-body
       .group
         kt-cell
@@ -182,7 +182,7 @@ div
               .weui_cell_hd
                 label.weui_label
                   | 标签名称
-              div
+              div(@touchstart.stop='')
                 input.weui_input(placeholder='自定义标签名称', v-model='model.customTag')
 
 </template>
