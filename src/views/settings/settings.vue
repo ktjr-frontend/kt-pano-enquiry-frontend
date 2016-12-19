@@ -403,6 +403,7 @@ form {
   height: 100%;
   background: #f5f5f5;
   .preview-image {
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
