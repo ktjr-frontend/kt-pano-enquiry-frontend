@@ -16,7 +16,7 @@ export default {
       let instInfo = _.find(this.$root.instBasicInfo, v => v.id === inst.id)
       if (instInfo && !instInfo.has_detail) {
         this.$root.showToast({
-          text: '没有相关机构信息！',
+          text: '该机构暂未录入详情！',
           type: 'text'
         })
         return
