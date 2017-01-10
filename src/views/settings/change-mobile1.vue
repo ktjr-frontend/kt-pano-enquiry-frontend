@@ -49,6 +49,7 @@ export default {
               text: res.json().error || '获取失败'
             })
             this.resetCountDown()
+            this.refreshImgCaptcha()
           })
         } else {
           this.$root.showToast(this.$validation.img_captcha.errors[0].message)
@@ -110,7 +111,7 @@ export default {
             message: '请输入图形验证码'
           },
           pattern: {
-            rule: '/^\\w{4}$/',
+            rule: '/^[A-Za-z0-9]{4}$/',
             message: '图形验证码错误'
           }
         }

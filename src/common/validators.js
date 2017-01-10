@@ -13,7 +13,7 @@ export default function setValidators(validator) {
     name: 'email',
     message: '邮箱地址有误',
     check(value) {
-      return value.match(/[^@]+@.+/)
+      return value.match(/^[^@]+@.+$/)
     }
   }, {
     name: 'equal',

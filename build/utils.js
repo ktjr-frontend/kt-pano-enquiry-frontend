@@ -51,7 +51,14 @@ exports.styleLoaders = function(options) {
   for (var extension in loaders) {
     // var loader = loaders[extension]
     var loader = loaders[extension].split('!')
-    loader.splice(3, 0, 'postcss')
+    var isPreProcesser = ['less', 'sass', 'scss', 'stylus', 'styl'].some(function(v) {
+      return v === extension
+    })
+
+    if (isPreProcesser) {
+      loader.splice(-1, 0, 'postcss-loader') // 之前是loader.splice(3, 0, 'postcss') 有错误，应该在sass loader 后,导致karma运行失败 嚓
+    }
+
     output.push({
       test: new RegExp('\\.' + extension + '$'),
       loader: loader.join('!')

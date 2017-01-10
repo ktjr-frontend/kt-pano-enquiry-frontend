@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import mutations from './mutations'
-import createLogger from 'vuex/src/plugins/logger'
+// import createLogger from 'vuex/src/plugins/logger'
 // let createLogger = require('babel-loader!vuex/src/plugins/logger')
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -91,8 +91,8 @@ Vue.config.debug = debug
 
 const store = new Vuex.Store({
   state,
-  mutations,
+  mutations
   // strict: debug,
-  plugins: debug ? [createLogger()] : []
+  // plugins: debug ? [createLogger()] : []
 })
 export default store

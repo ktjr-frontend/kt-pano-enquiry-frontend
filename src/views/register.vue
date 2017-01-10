@@ -134,6 +134,7 @@ export default {
                 this.$root.showToast({
                   text: res.json().error || '获取失败'
                 })
+                this.refreshImgCaptcha()
                 this.resetCountDown()
               })
             }
@@ -275,7 +276,7 @@ export default {
               message: '请输入图形验证码'
             },
             pattern: {
-              rule: '/^\\w{4}$/',
+              rule: '/^[A-Za-z0-9]{4}$/',
               message: '图形验证码错误'
             }
           }

@@ -27,7 +27,6 @@ export default {
     // 阻止默认行为
     Vue.directive('kt-prevent', {
       bind() {
-        console.log(this.el)
         this.el.addEventListener('touchstart', e => {
           e.preventDefault()
         })
