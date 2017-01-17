@@ -9,7 +9,7 @@
       a(v-if='tab.link.name', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
         i.icon-pano(:class='tab.icon', :style='tab.style')
         span {{tab.name}}
-      a(v-if='tab.link.jump === "market"', @click='goOverview()')
+      a(v-if='tab.link.jump === "market"', @click='goToPano()')
         i.icon-pano(:class='tab.icon', :style='tab.style')
         span {{tab.name}}
 .logo-bottom(:class="{'no-tabbar': !tabVisible, 'dn-by-h': !$route.data.logoBottomVisible}")
@@ -37,6 +37,7 @@ import {
   sessions
 } from './common/resources'
 import {
+  user,
   tabVisible,
   loadingStatus,
   toast,
@@ -71,6 +72,7 @@ export default {
   },
   vuex: {
     getters: {
+      user,
       tabVisible,
       loadingStatus,
       toast,
@@ -98,6 +100,18 @@ export default {
         name: '返回'
       })
       history.back()
+    },
+
+    goToPano() {
+      if (this.user.status === 'rejected') {
+        this.showToast({
+          text: '由于您未通过认证审核，无权访问该页面！'
+        })
+        return
+        // router.go({ name: 'settings' })
+      }
+
+      this.goOverview()
     },
 
     // 判断的当前tab是否季候
