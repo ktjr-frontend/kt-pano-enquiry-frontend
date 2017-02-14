@@ -18,7 +18,7 @@ Vue.use(Directives)
 Vue.use(Transions)
 
 // http初始化
-let envApiPaths = {
+const envApiPaths = {
   'development': '/api/v1',
   'production': '/api/v1',
   'app-dev': 'http://dev-pano.ktjr.com/api/v1',

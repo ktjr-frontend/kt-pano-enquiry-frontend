@@ -32,7 +32,10 @@ import Alert from 'vux-components/alert'
 import Confirm from 'vux-components/confirm'
 import Toast from 'vux-components/toast'
 import KtMessage from './components/kt-message'
-import log from './common/log'
+// import log from './common/log'
+import log, {
+  bdTrack
+} from './common/log'
 import {
   sessions
 } from './common/resources'
@@ -95,6 +98,12 @@ export default {
 
   methods: {
     isWeixin: Utils.isWeixin,
+    routerGo(route, track) {
+      this.$router.go(route)
+      if (track) {
+        this.bdTrack(track)
+      }
+    },
     onClickBack() {
       this.log({
         name: '返回'
@@ -116,7 +125,7 @@ export default {
 
     // 判断的当前tab是否季候
     judgeActive(tab) {
-      let routeName = this.$route.name
+      const routeName = this.$route.name
       if (tab.link.name === routeName) {
         return true
       } else if (tab.link.activeIncludes) {
@@ -142,6 +151,7 @@ export default {
         content: '点击右上角，马上分享给你的小伙伴吧！'
       })
     },
+    bdTrack,
     log
   },
 
@@ -221,7 +231,7 @@ export default {
     sessions.get({
       noNeedLogin: !this.$route.needLogin
     }).then((res) => {
-      let user = res.json().account
+      const user = res.json().account
       this.updateUser(user)
     })
   },

@@ -15,6 +15,7 @@ export default {
         if (this.$validation.invalid) {
           this.showFirstError()
         } else {
+          this.$root.bdTrack(['个人信息页', '完成', '修改密码'])
           this.$root.showLoadingStatus()
 
           accounts.update({

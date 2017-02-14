@@ -22,7 +22,7 @@
       .user-card-box(slot='after-title')
         img(:src='user.card_url', alt='您的名片')
   group
-    cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}")
+    cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}", @click="$root.bdTrack(['个人信息页', '进入', '修改密码'])")
   .buttons
     button(@click='logOutWithLog()') 退出登录
   a.vux-popup-mask(href='javascript:void(0)')
@@ -37,7 +37,7 @@
             input.file(v-if='isWeixin()', v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*', capture)
             input.file(v-else, v-model='model.avatarFile', @change="avatarOnChange($event)", type='file', name='file', accept='image/*')
             span {{user.avatar_url ? '更换头像' : '上传头像'}}
-          .btn.btn-simple(@click='model.avatarPreviewShow = false') 取消
+          .btn.btn-simple(@click='cancelChangeAvatar()') 取消
   popup(:show.sync='model.avatarCropShow', height='100%')
     .header
       a(@click='closeCropperContainer(true)', class='cancel') 取消
@@ -126,14 +126,23 @@ export default {
       }
     },
 
+    // 预览头像
     showAvatarPreview() {
+      this.$root.bdTrack(['个人信息页', '预览', '我的头像'])
       this.model.avatarPreviewShow = true
+    },
+
+    // 取消预览
+    cancelChangeAvatar() {
+      this.model.avatarPreviewShow = false
+      this.$root.bdTrack(['个人信息页', '取消预览', '我的头像'])
     },
 
     // 从相册选择图片时触发
     avatarOnChange(event) {
       let file = event.target.files[0]
       this.$root.showLoadingStatus()
+      this.$root.bdTrack(['个人信息页', '上传', '我的头像'])
 
       lrz(file, {
         quality: 0.7
@@ -170,10 +179,12 @@ export default {
       this.model.avatarFile = null
       if (cancel) {
         this.model.avatarCropShow = false
+        this.$root.bdTrack(['个人信息页', '取消截图', '我的头像'])
         return
       } else {
         // 更新头像
         this.$root.showLoadingStatus()
+        this.$root.bdTrack(['个人信息页', '确定截图', '我的头像'])
         let formData = new FormData()
         let fileName = Utils.uniqeId(8)
         let file = Utils.compressImage(this.$els.cropper.querySelector('img'), this.imgCropper.getInfo())
@@ -227,6 +238,7 @@ export default {
         name: '重新上传名片'
       })
 
+      this.$root.bdTrack(['个人信息页', '提示', '名片上传'])
       this.$root.showConfirm({
         content: '上传名片后需要重新审核，确定重新上传吗？',
 
@@ -234,6 +246,7 @@ export default {
           _self.$root.log({
             name: '确定重新上传名片'
           })
+          _self.$root.bdTrack(['个人信息页', '确认提示', '名片上传'])
 
           _self.$router.go({
             name: 'perfect',
@@ -255,6 +268,7 @@ export default {
       this.$root.log({
         name: '退出登录'
       })
+      this.$root.bdTrack(['个人信息页', '点击', '退出登录'])
       this.logOut()
     }
   },

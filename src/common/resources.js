@@ -5,10 +5,10 @@ let sessions, assetTypes, businessTypes, accounts, registrations,
   signatures, log, persons, quotes, projects, panoFiles, projectInterest,
   imageCaptcha, instBasicInfo
 
-let previousRequestMap = {}
-let commonOpts = {
+const previousRequestMap = {}
+const commonOpts = {
   before(request) {
-    let key = Vue.url(request.url, request.params)
+    const key = Vue.url(request.url, request.params)
 
     if (previousRequestMap[key]) {
       previousRequestMap[key].abort()

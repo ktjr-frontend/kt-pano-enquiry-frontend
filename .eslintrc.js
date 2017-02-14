@@ -26,10 +26,14 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     'space-before-function-paren': 0,
+    // "object-curly-spacing": [2, "always"],
     "spaced-comment": [0, "never"],
     'indent': [2, 2, {
       'SwitchCase': 1
     }],
+    // "prefer-const": 0,
+    // "no-sequences": [0],
+
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
   }

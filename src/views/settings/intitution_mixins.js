@@ -39,6 +39,7 @@ export default {
               name: '确定取消关注',
               institution: item.name
             })
+            this.$root.bdTrack(['个人信息页', '取消关注', item.name])
 
             _self.$root.showLoadingStatus()
             persons.delete({
@@ -64,6 +65,7 @@ export default {
         })
       } else {
         this.$root.showLoadingStatus()
+        this.$root.bdTrack(['个人信息页', '关注', item.name])
 
         persons.save({
           content: 'relative_institutions'

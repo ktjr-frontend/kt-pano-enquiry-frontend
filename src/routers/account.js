@@ -1,7 +1,7 @@
 import Utils from '../common/utils'
 
-let scrollYCache = Utils.getSessionByKey('scrollYCache')
-let headVisible = process.env.NODE_ENV.indexOf('app') > -1
+const scrollYCache = Utils.getSessionByKey('scrollYCache')
+const headVisible = process.env.NODE_ENV.indexOf('app') > -1
 
 export default {
   '/profile': {

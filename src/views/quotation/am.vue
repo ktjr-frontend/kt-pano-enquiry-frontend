@@ -137,7 +137,7 @@ export default {
 
   data() {
     // let initialSlide = JSON.parse(window.sessionStorage[this.$route.name + '.slideCache'] || '{}')
-
+    const _self = this
     return {
       begin_date: '',
       end_date: '',
@@ -150,6 +150,9 @@ export default {
         initialSlide: 0,
         // paginationClickable: true,
         spaceBetween: 0,
+        onSlideChangeEnd(swiper) {
+          _self.$root.bdTrack(['报价板', '期限翻页', '资管类'])
+        },
         freeMode: true
           /*onInit(swiper) {
             setTimeout(() => {

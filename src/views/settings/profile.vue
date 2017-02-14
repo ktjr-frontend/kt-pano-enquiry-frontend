@@ -4,7 +4,7 @@ div
   //- 用户基本信息
   .profile
     .head
-      .avatar-container.item(v-link='{name: "settings"}')
+      .avatar-container.item(v-link='{name: "settings"}', @click="$root.bdTrack(['个人信息页', '点击进入', '详情页'])")
         i.icon-pano.icon-arrow-bold
         .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
           img(v-show='user.avatar_url', :src='user.avatar_url', :style='model.avatarStyles')
@@ -50,19 +50,19 @@ div
           | 参与发行的产品
     //- 我的项目
     group.user-select-none
-      cell(title='我发出的项目', is-link, @click='routerGo({name: "myProjects"})')
+      cell(title='我发出的项目', is-link, @click='$root.routerGo({name: "myProjects"}, ["个人信息页", "选择", "我发出的项目"])')
         span.tip(v-if='info.my_projects.info' slot='value')
     //- 为我推介项目
     group.user-select-none(v-if='info.referral_projects && info.referral_projects.count')
-      cell(title='我收到的项目', is-link, @click='routerGo({name: "referProjects"})')
+      cell(title='我收到的项目', is-link, @click='$root.routerGo({name: "referProjects"})')
         span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 感兴趣的项目
     group.user-select-none(v-if='info.interesee_projects && info.interesee_projects.count')
-      cell(title='感兴趣的项目', is-link, @click='routerGo({name: "interestProjects", query: {status_list: ["interested", "docking", "dock_passed", "dock_failed"]}})')
+      cell(title='感兴趣的项目', is-link, @click='$root.routerGo({name: "interestProjects", query: {status_list: ["interested", "docking", "dock_passed", "dock_failed"]}})')
         //- span.tip(v-if='info.referral_projects.info' slot='value') {{info.referral_projects.info}}
     //- 关注的互联网金融平台
     .group
-      kt-cell(title='关注的互联网金融平台', icon='icon-arrow-bold', @on-title-click='$router.go({name: "moreInstitutions"})')
+      kt-cell(title='关注的互联网金融平台', icon='icon-arrow-bold', @on-title-click='$root.routerGo({name: "moreInstitutions"}, ["个人信息页", "选择", "关注的互联网金融平台"])')
         div(slot='title') 关注的互联网金融平台
         .kt-list(v-for='item in info.platforms.institutions | limitBy 3', v-if='info.platforms.institutions.length', class='one-line-content', :title='item.name', @click='goInstDetail(item)')
           .icon
@@ -301,11 +301,11 @@ export default {
   },
 
   methods: {
-    routerGo(route) {
+    /*routerGo(route) {
       // route.query = route.query || {}
       // route.query._r = Math.random().toString().slice(2)
       this.$router.go(route)
-    },
+    },*/
 
     // 初始化默认业务偏好和资产类型
     initBAData() {
@@ -352,12 +352,14 @@ export default {
         this.$root.log({
           name: '保存个人业务'
         })
+        this.$root.bdTrack(['个人信息页', '保存', '介绍我的业务'])
 
         this.onSubmitIntro()
       } else {
         this.$root.log({
           name: '编辑个人业务'
         })
+        this.$root.bdTrack(['个人信息页', '编辑', '介绍我的业务'])
 
         setTimeout(() => {
           this.$els.introTextarea.focus()
@@ -493,6 +495,7 @@ export default {
       this.$root.log({
         name: '编辑业务偏好和资产类型'
       })
+      this.$root.bdTrack(['个人信息页', '添加', '业务偏好'])
       this.popups.baTypes.show = true
     },
 
@@ -502,6 +505,7 @@ export default {
         this.$root.log({
           name: '取消编辑业务偏好和资产类型'
         })
+        this.$root.bdTrack(['个人信息页', '取消', '业务偏好'])
 
         this.popups.baTypes.show = false
         return
@@ -524,6 +528,7 @@ export default {
       this.$root.log({
         name: '保存业务偏好和资产类型'
       })
+      this.$root.bdTrack(['个人信息页', '确定', '业务偏好'])
 
       this.$root.showLoadingStatus()
 
@@ -611,6 +616,7 @@ export default {
     },
 
     changeRecommendedBatch(instType) {
+      this.$root.bdTrack(['个人信息页', '刷新', instType ? '交易所' : '互联网平台'])
       this.$root.log({
         name: `换一批${instType ? '交易所' : '互联网平台'}`
       })

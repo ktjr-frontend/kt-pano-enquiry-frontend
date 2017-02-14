@@ -24,7 +24,7 @@ export default {
   },
 
   isWeixin() {
-    var ua = navigator.userAgent.toLowerCase()
+    let ua = navigator.userAgent.toLowerCase()
     if (ua.match(/.*MicroMessenger/i)) {
       return true
     }

@@ -85,6 +85,7 @@ export default {
 
     // 新建-下一步
     next() {
+      this.$root.bdTrack(['对接项目页', '点击', '下一步', '新建'])
       if (!this.model.platform_id.length) {
         this.$root.showToast('请选择一个您想对接的机构！')
         return false
@@ -103,6 +104,7 @@ export default {
 
     // 编辑-提交
     submit() {
+      this.$root.bdTrack(['对接项目页', '点击', '下一步', '编辑'])
       if (!this.model.platform_id.length) {
         this.$root.showToast('请选择一个您想对接的机构！')
         return false
@@ -137,6 +139,7 @@ export default {
 
     // 加载更多机构
     moreInst() {
+      this.$root.bdTrack(['对接项目页', '点击', '更多'])
       this.model.instShowAll = !this.model.instShowAll
         // this.model.instPage++
     },
@@ -154,6 +157,12 @@ export default {
       // return _.filter(this.insts, (v, i) => {
       //   return i < this.model.instPage * 9 // 9 is pagesize
       // })
+    }
+  },
+
+  watch: {
+    'model.kaitong_refer' (val) {
+      this.$root.bdTrack(['对接项目页', val ? '使用' : '取消', '开通资产推介服务'])
     }
   },
 

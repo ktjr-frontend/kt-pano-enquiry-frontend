@@ -1,5 +1,5 @@
 export default function setValidators(validator) {
-  let validators = [{
+  const validators = [{
     name: 'mobile',
     message: '手机号码有误',
     check(value) {

@@ -11,6 +11,7 @@ export default {
         name: inst.name,
         ...params
       })
+      this.$root.bdTrack(['个人信息页', '查看机构详情', inst.name])
 
       // 判断是否有机构详情
       let instInfo = _.find(this.$root.instBasicInfo, v => v.id === inst.id)
@@ -37,10 +38,17 @@ export default {
         name: '市场行情',
         ...params
       })
+      let token = window.localStorage.token
+      if (!token) {
+        this.showToast({
+          text: '您还没有登录。'
+        })
+        return
+      }
 
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
-      let token = encodeURIComponent(window.localStorage.token)
+      token = encodeURIComponent(token)
 
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
       window.open(`${Env.hostName}/pano/overview?_t=${token}${paramsStr}`, '_self')

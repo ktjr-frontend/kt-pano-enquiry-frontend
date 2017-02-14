@@ -4,7 +4,7 @@ export default {
     Vue.directive('kt-toggle-onfucusblur', {
       params: ['toggleClass', 'child'],
       bind() {
-        let input = this.el.querySelector(this.params.child)
+        const input = this.el.querySelector(this.params.child)
         input && input.addEventListener('focus', () => {
           this.el.classList.add(this.params.toggleClass)
         })
@@ -18,7 +18,7 @@ export default {
     Vue.directive('kt-textarea-count', {
       params: ['display-into', 'max-length'],
       update(value) {
-        let displayBox = this.el.querySelector(this.params.displayInto)
+        const displayBox = this.el.querySelector(this.params.displayInto)
         displayBox.innerText = value.length + '/' + this.params.maxLength
         displayBox.classList.toggle('warning', value.length > this.params.maxLength)
       }

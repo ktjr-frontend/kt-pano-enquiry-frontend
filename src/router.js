@@ -14,12 +14,12 @@ Vue.use(Router)
 Vue.use(VueValidator) //这个插件的注入要和路由放到一起 不然报错 reqiure is not defined
 setValidators(Vue.validator)
 
-let router = new Router({
+const router = new Router({
   // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
 // 拒绝的用户可访问的页面
-let rejectedUserPermits = [
+const rejectedUserPermits = [
   'home',
   'login',
   'perfect',
@@ -33,7 +33,7 @@ let rejectedUserPermits = [
 ]
 
 // 未完善信息用户可访问的页面
-let initializedUserPermits = ['login', 'perfect', 'register']
+const initializedUserPermits = ['login', 'perfect', 'register']
 
 // 需要强制刷新的页面，避免ios上面bfcache
 // let reloadPages = ['quotationDetail', 'myProjectDetail', 'profile', 'moreInstitutions', 'allInstitutions', 'myProjects', 'referProjects', 'referProjectDetail', 'interestProjectDetail']
@@ -46,7 +46,7 @@ router.redirect({
 })
 
 router.beforeEach(({ from, to, abort, next }) => {
-  let user = JSON.parse(window.localStorage.user || '{}')
+  const user = JSON.parse(window.localStorage.user || '{}')
 
   if (to.needLogin && !user.status) {
     router.replace({ name: 'login', query: { jump_to: to.path } })
@@ -69,7 +69,7 @@ router.beforeEach(({ from, to, abort, next }) => {
 router.afterEach(({ to }) => {
   updateTabVisible(store, to.query.shared ? false : to.data.tabVisible)
 
-  let getTitle = function(to) {
+  const getTitle = function(to) {
     if (_.includes(['quotationDetail'], to.name)) { // 报价板详情 定制化title
       return to.query.asset_type
     }
@@ -81,7 +81,7 @@ router.afterEach(({ to }) => {
   document.body.setAttribute('page', to.name)
 
   // hack ios title not update bug
-  let iframe = document.createElement('iframe')
+  const iframe = document.createElement('iframe')
   iframe.classList.add('dn')
   iframe.src = require('./assets/images/weixin.jpg')
   document.body.appendChild(iframe)
@@ -111,7 +111,7 @@ router.afterEach(({ to }) => {
   }
 
   // 是否有tab
-  let tabVisible = function() {
+  const tabVisible = function() {
     if (_.includes(['quotationAM', 'quotationOB'], to.name) && to.query.shared) {
       return false
     }
@@ -123,9 +123,9 @@ router.afterEach(({ to }) => {
 })
 
 // 底部logo控制
-let updateLogoBottomStyle = function() {
-  let wH = window.innerHeight
-  let aH = document.querySelector('#app .child-view').offsetHeight
+const updateLogoBottomStyle = function() {
+  const wH = window.innerHeight
+  const aH = document.querySelector('#app .child-view').offsetHeight
   if (aH + 60 >= wH) { // 60 logo-bottom 高度
     document.body.classList.add('overflow-height') // 判断内容是否高于超过窗口
   } else {

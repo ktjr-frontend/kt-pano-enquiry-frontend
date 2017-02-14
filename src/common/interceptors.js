@@ -27,7 +27,7 @@ export default [
 
   // 缓存ajax
   function(request, next) {
-    let key = Vue.url(request.url, request.params)
+    const key = Vue.url(request.url, request.params)
 
     request.cache = _.includes(CACHE_URLS, key.split('?')[0])
 
@@ -74,8 +74,8 @@ export default [
         })
       } else if (res.status === 200) {
         if (request.cache) {
-          let key = Vue.url(request.url, request.params)
-          let body = _.isObject(res.body) ? JSON.stringify(res.body) : res.body
+          const key = Vue.url(request.url, request.params)
+          const body = _.isObject(res.body) ? JSON.stringify(res.body) : res.body
           sessionStorage.setItem(key, body)
         }
       }

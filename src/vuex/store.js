@@ -6,7 +6,7 @@ import mutations from './mutations'
 
 const debug = process.env.NODE_ENV !== 'production'
 
-let instBasicInfo = JSON.parse(localStorage.instBasicInfo || '[]')
+const instBasicInfo = JSON.parse(localStorage.instBasicInfo || '[]')
 
 const state = {
   title: '开通PANO',

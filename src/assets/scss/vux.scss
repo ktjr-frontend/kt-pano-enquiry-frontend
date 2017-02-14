@@ -24,7 +24,7 @@
   transform: translate(-50%, -50%);
 }
 
-.weui_label{
+.weui_label {
   width: 2.5rem;
 }
 
@@ -69,31 +69,36 @@ $i: 11;
     }
   }
 }
+
 .vux-popup-picker-header {
   color: #3bc5ba;
   height: 1.0628019323671498rem;
   line-height: 1.0628019323671498rem;
-  .vux-flexbox-item{
+  .vux-flexbox-item {
     min-width: 0.48309178743961356rem!important;
     line-height: 1.0628019323671498rem!important;
-    &:first-child{
+    &:first-child {
       padding-left: 0.36231884057971014rem!important;
     }
-    &:last-child{
+    &:last-child {
       padding-right: 0.36231884057971014rem!important;
     }
   }
 }
-.scroller-mask{
+
+.scroller-mask {
   background-size: 100% 2.4637681159420293rem;
 }
-.scroller-component{
+
+.scroller-component {
   height: 5.748792270531401rem;
 }
-.scroller-indicator{
+
+.scroller-indicator {
   height: 0.821256038647343rem;
   top: 2.4637681159420293rem;
 }
+
 .scroller-item {
   font-size: 0.3864734299516908rem;
   height: 0.821256038647343rem;
@@ -253,6 +258,9 @@ $i: 11;
 }
 
 .weui_cell_bd {
+  &>p {
+    color: #737e9c;
+  }
   .weui_cell {
     padding: 0.120773rem 0 0.120773rem 0.201288rem; //15px 25px
     &.weui_cell_select {

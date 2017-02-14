@@ -3,8 +3,8 @@
   .top-tips(v-if='$route.query.shared') 开通PANO为您报价：
   .tabs(v-if='$route.name !== "quotationDetail"')
     button-tab
-      button-tab-item(v-touch:tap='$router.go({name:"quotationOB", query: $route.query})', :selected="$route.name === 'quotationOB'") 资产类
-      button-tab-item(v-touch:tap='$router.go({name:"quotationAM", query: $route.query})', :selected="$route.name === 'quotationAM'") 资管类
+      button-tab-item(v-touch:tap='$root.routerGo({name:"quotationOB", query: $route.query}, ["报价板", "页面切换", "资产类"])', :selected="$route.name === 'quotationOB'") 资产类
+      button-tab-item(v-touch:tap='$root.routerGo({name:"quotationAM", query: $route.query}, ["报价板", "页面切换", "资管类"])', :selected="$route.name === 'quotationAM'") 资管类
       i.icon-pano.icon-info(v-touch:tap='showTips()')
     i.icon-pano.icon-share(v-show='isWeixin()',v-touch:tap='wxShare()')
   router-view
@@ -28,12 +28,14 @@ export default {
         name: '报价板提示'
       })
 
+      this.$root.bdTrack(['报价板', '点击', '提示'])
       this.$root.showAlert({
         content: '数据覆盖互联网金融平台的活期产品、票据产品、P2P产品以及定期或固收产品，不包括私募基金产品和转让产品。'
       })
     },
 
     wxShare() {
+      this.$root.bdTrack(['报价板', '点击', '分享'])
       this.$root.showAlert({
         content: '点击右上角，马上分享给你的小伙伴吧！'
       })
