@@ -544,6 +544,9 @@ export default {
       Promise.all([ap, bp]).then(() => {
         this.$root.hideLoadingStatus()
         this.popups.baTypes.show = false
+          // 更新info数据,
+        this.info.business_types.selected = [].concat(this.model.businessTypes)
+        this.info.asset_types.selected = [].concat(this.model.assetTypes)
       }).catch(res => {
         this.$root.hideLoadingStatus()
         this.$root.showToast({
