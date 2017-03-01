@@ -230,13 +230,26 @@ export default {
     needLogin: true,
     name: 'perfect',
     data: {
-      title: '上传名片',
-      logoBottomVisible: false,
+      title: '上传名片进行认证',
+      logoBottomVisible: true,
       headVisible: headVisible,
       tabVisible: false
     },
     component(resolve) {
       require(['../views/perfect'], resolve)
+    }
+  },
+  '/prefer': {
+    needLogin: true,
+    name: 'prefer',
+    data: {
+      title: '偏好信息',
+      logoBottomVisible: true,
+      headVisible: headVisible,
+      tabVisible: false
+    },
+    component(resolve) {
+      require(['../views/prefer'], resolve)
     }
   }
 }

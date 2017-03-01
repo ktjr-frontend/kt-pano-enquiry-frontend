@@ -20,6 +20,14 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-vip:before {
+  content: "\e91b";
+}
+
+.icon-ok:before {
+  content: "\e918";
+}
+
 .icon-arrow-bold:before {
   content: "\e900";
 }
@@ -52,7 +60,7 @@
   content: "\e907";
 }
 
-.icon-ok:before {
+.icon-ok3:before {
   content: "\e908";
 }
 
@@ -117,49 +125,49 @@
 }
 
 .icon-add:before {
-  content: "\e918";
-}
-
-.icon-delete:before {
   content: "\e919";
 }
 
-.icon-edit:before {
+.icon-delete:before {
   content: "\e91a";
 }
 
-.icon-man-simple:before {
-  content: "\e91b";
-}
-
-.icon-ok2:before {
+.icon-edit:before {
   content: "\e91c";
 }
 
-.icon-plus:before {
+.icon-man-simple:before {
   content: "\e91d";
 }
 
-.icon-checkbox:before {
+.icon-ok2:before {
   content: "\e91e";
 }
 
-.icon-market:before {
+.icon-plus:before {
   content: "\e91f";
 }
 
-.icon-price:before {
+.icon-checkbox:before {
   content: "\e920";
 }
 
-.icon-project:before {
+.icon-market:before {
   content: "\e921";
 }
 
-.icon-share:before {
+.icon-price:before {
   content: "\e922";
 }
 
-.icon-refresh:before {
+.icon-project:before {
   content: "\e923";
+}
+
+.icon-share:before {
+  content: "\e924";
+}
+
+.icon-refresh:before {
+  content: "\e925";
 }

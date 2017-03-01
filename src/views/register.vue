@@ -1,5 +1,6 @@
 <template lang="jade">
 .form-container.register-container
+  small.tips 为方便后期实名认证，请使用与名片信息一致的手机号。
   validator(name='validation')
     form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
       input.dn(type='password', name='password')
@@ -59,7 +60,7 @@
         </popup>
         </div>
       .form-group
-        button(@click="$root.log({name: '立即注册'})") 立即注册
+        button(@click="$root.log({name: '下一步'})") 下一步
       flexbox
         flexbox-item
           .text-right
@@ -94,6 +95,7 @@ export default {
 
   ready() {
     this.refreshImgCaptcha()
+    this.inviter_id = this.$route.query._u || null
   },
 
   methods: {
@@ -201,6 +203,7 @@ export default {
         captcha: '',
         introducer: '',
         img_captcha: '',
+        inviter_id: null,
         // likes: [],
         password: ''
       }, cachedUser),
@@ -254,9 +257,9 @@ export default {
         /*{ name: 'name', placeholder: '您的真实姓名（提交后不可修改）', type: 'text', iconName: 'icon-user', validate: { required: true, maxlength: 30 } }, { name: 'company', placeholder: '您的公司名称', type: 'text', iconName: 'icon-user', validate: { required: true, maxlength: 30 } }, { name: 'email', placeholder: '您的邮箱', type: 'text', iconName: 'icon-user', validate: { required: true, email: true, maxlength: 60 } },*/
         {
           name: 'mobile',
-          placeholder: '您的手机号码',
+          placeholder: '请输入手机号',
           type: 'number',
-          comment: '为方便后期实名认证，请使用与名片信息一致的手机号。',
+          comment: '',
           iconName: 'icon-user',
           validate: {
             required: {
@@ -264,6 +267,19 @@ export default {
               message: '请正确输入11位手机号码'
             },
             mobile: true
+          }
+        }, {
+          name: 'email',
+          placeholder: '请输入邮箱（选填）可获取数据周报',
+          type: 'text',
+          comment: '',
+          iconName: 'icon-user',
+          validate: {
+            required: {
+              rule: true,
+              message: '请正确输入11位手机号码'
+            },
+            email: true
           }
         }, {
           name: 'img_captcha',
@@ -303,7 +319,8 @@ export default {
           validate: {
             password: true
           }
-        }, {
+        }
+        /*, {
           name: 'introducer',
           placeholder: '邀请人（非必填）',
           type: 'text',
@@ -311,7 +328,7 @@ export default {
           validate: {
             maxlength: 50
           }
-        }
+        }*/
       ]
     }
   }

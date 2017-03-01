@@ -11,11 +11,38 @@ div
           i.icon-pano.icon-man-simple(v-else)
       .name.item
         | {{user.name}}
-      .company.item
+      //- .company.item
         | {{user.company}}
-      .dj.item(v-if='user.department || user.job')
-        span.department(v-if='user.department', :style='{"margin-right": user.job ? "0.483092rem" : 0}')
-          | {{user.department}}
+      .gs.item
+        span.tag.tag-blue.group(v-if="user.group === 'premium'" style="margin-right:0.120773rem;")
+          i.icon-pano.icon-vip
+          | 高级会员
+        span.tag.tag-blue.group(v-if="user.group === 'certified'" style="margin-right:0.120773rem;")
+          i.icon-pano.icon-ok
+          | 已认证
+        span.tag.tag-blue.group(v-if="user.group === 'normal'")
+          | 未认证
+        span.tag.tag-green.status(v-if="user.status === 'passed' && user.group !== 'normal'")
+          | 审核通过
+        span.tag.tag-orange.status(v-if="user.status === 'pended' && user.group !== 'normal'")
+          | 待审核
+        span.tag.tag-orange.status(v-if="user.status === 'rejected' && user.group !== 'normal'")
+          | 审核不通过
+        span.remark(v-if="user.group === 'premium'")
+          | 剩余期限{{user.premium_duration}}天
+          i.icon-pano.icon-info(@click="showMemberTips()")
+        span.remark(v-if="user.group === 'certified'")
+          | 升级
+          i.icon-pano.icon-arrow-bold
+          i.icon-pano.icon-info(@click="showMemberTips()")
+        span.remark(v-if="user.group === 'normal'")
+          | 去认证
+          i.icon-pano.icon-arrow-bold
+          i.icon-pano.icon-info(@click="showMemberTips()")
+      .dj.item(v-if='user.company || user.job')
+        span.department(v-if='user.company', :style='{"margin-right": user.job ? "0.483092rem" : 0}')
+          //- | {{user.department}}
+          | {{user.company}}
         span.job(v-if='user.job')
           | {{user.job}}
       .intro-con(@click.prevent='')
@@ -23,7 +50,7 @@ div
           i.icon-pano(@click.prevent='editIntro()', v-el:icon-intro, :class="{'icon-edit': !editingIntro, 'icon-ok2': editingIntro}")
           p(v-show='!editingIntro', @click.prevent='editIntro()') {{user.intro.trim() || '介绍我的业务'}}
           textarea(v-show='editingIntro', v-el:intro-textarea, cols='2', rows='2', v-model='user.intro')
-    //- 业务角色和资产类型
+    //- 业务角色和偏好资产
     .group
       kt-cell(title='业务偏好', icon='icon-plus' @on-icon-click='openBATypes()')
         .kt-list-normal(v-if='info.business_types.selected.length || info.asset_types.selected.length')
@@ -122,37 +149,14 @@ div
               a(@click.stop='toggleAttention(item, 1, update)')
                 i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
                 | {{item.is_followed ? '已关注' : '关注'}}
-  //- 设置业务角色和资产类型
+  //- 设置业务角色和偏好资产
   a.vux-popup-mask(href='javascript:void(0)')
-  popup(v-kt-prevent='', :show.sync='popups.baTypes.show', :height='popups.baTypes.height', @on-show='initBAData()')
+  popup(v-kt-prevent='', :show.sync='popups.baTypes.show', :height='popups.baTypes.height')
     .header
       a(@click='closeBATypes(true)', @touchstart.stop='', class='cancel') 取消
       a(@click='closeBATypes()', @touchstart.stop='', class='ok') 确定
     .popup-body
-      .group
-        kt-cell(title='业务角色')
-          //- checkbox组
-          div
-            .clfix
-              .checkbox-label(v-for='item in info.business_types.all', @touchstart.stop='')
-                input(autocomplete='off', v-model='model.businessTypes', :id="'bt_' + item.id", :value='item',  type='checkbox')
-                label(:for="'bt_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
-                  i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item, "业务角色")')
-              .add-button(@touchstart.stop='', @click='openCustomTag()', v-if='!businessTypesHasCustomTag')
-                i.icon-pano.icon-plus
-                | 标签
-      .group
-        kt-cell(title='偏好资产')
-          //- checkbox组
-          div
-            .clfix
-              .checkbox-label(v-for='item in info.asset_types.all', @touchstart.stop='')
-                input(autocomplete='off', v-model='model.assetTypes', :id="'at_' + item.id", :value='item',  type='checkbox')
-                label(:for="'at_' + item.id", v-cloak='', :class='{"has-icon-close": item.customized}') {{item.name}}
-                  i.icon-pano.icon-plus.icon-for-close(v-if='item.customized', @click.stop.prevent='deleteTag(item)')
-              .add-button(@touchstart.stop='', @click='openCustomTag("偏好资产")', v-if='!assetTypesHasCustomTag')
-                i.icon-pano.icon-plus
-                | 标签
+      kt-asset-types(:info.sync='info', v-ref:ba-types)
   //- 参与发行的产品
   a.vux-popup-mask(href='javascript:void(0)')
   popup(v-kt-prevent='', :show.sync='popups.relativeProducts.show', :height='popups.relativeProducts.height', @on-show='initProductData()')
@@ -168,22 +172,6 @@ div
               .checkbox-label(v-for='item in info.products.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.relativeProducts', :id="'rp_' + item.id", :value='item.id',  type='checkbox')
                 label(:for="'rp_' + item.id", v-cloak='') {{item.name}}
-  //- 自定义标签
-  a.vux-popup-mask(href='javascript:void(0)')
-  popup(v-kt-prevent='', :show.sync='popups.customTag.show', :height='popups.customTag.height')
-    .header
-      a(@click='closeCustomTag(true)', @touchstart.stop='', class='cancel') 取消
-      a(@click='closeCustomTag()', @touchstart.stop='', class='ok') 确定
-    .popup-body
-      .group
-        kt-cell
-          .weui_cell.weui_select_after
-            .wrapper
-              .weui_cell_hd
-                label.weui_label
-                  | 标签名称
-              div(@touchstart.stop='')
-                input.weui_input(placeholder='自定义标签名称', v-model='model.customTag')
 
 </template>
 
@@ -192,11 +180,10 @@ import Popup from 'vux-components/popup'
 import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
 import KtCell from '../../components/kt-cell'
+import KtAssetTypes from '../../components/kt-asset-types.vue'
 import institutionMixins from './intitution_mixins'
 import {
   accounts,
-  assetTypes,
-  businessTypes,
   persons
 } from '../../common/resources'
 import {
@@ -211,7 +198,8 @@ export default {
     Popup,
     Group,
     Cell,
-    KtCell
+    KtCell,
+    KtAssetTypes
   },
 
   vuex: {
@@ -283,20 +271,6 @@ export default {
         })
       },
       immediate: true
-    },
-    'model.businessTypes': function(val) {
-      if (val.length > 2) {
-        this.$root.showToast({
-          text: '不能大于2个'
-        })
-      }
-    },
-    'model.assetTypes': function(val) {
-      if (val.length > 3) {
-        this.$root.showToast({
-          text: '不能大于3个'
-        })
-      }
     }
   },
 
@@ -307,11 +281,13 @@ export default {
       this.$router.go(route)
     },*/
 
-    // 初始化默认业务偏好和资产类型
-    initBAData() {
-      let data = this.info
-      this.model.businessTypes = data.business_types.selected
-      this.model.assetTypes = data.asset_types.selected
+    // 会员提示
+    showMemberTips() {
+      this.$root.showAlert({
+        content: `<p class="text-left"><b style="color:#29aca8;">未认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
+                  <p class="text-left"><b style="color:#29aca8;">已认证</b>：注册成功且已完成名片认证，可访问市场数据和部分产品信息，不可进行检索等高级操作。</p>
+                  <p class="text-left"><b style="color:#29aca8;">高级用户</b>：除了可享受开通PANO全域的数据权限及数据检索，还可享受每月1次数据定制服务等。</p>`
+      })
     },
 
     // 初始化参与发行的产品
@@ -369,141 +345,20 @@ export default {
       }
     },
 
-    // 打开自定义标签
-    openCustomTag(type) {
-      this.$root.log({
-        name: '新建自定义标签',
-        type: type
-      })
-
-      this.popups.customTag.type = type
-      this.popups.customTag.show = true
-    },
-
-    // 关闭自定义标签
-    closeCustomTag(cancelled) {
-      if (cancelled) {
-        this.$root.log({
-          name: '取消编辑参与发行的产品'
-        })
-
-        this.popups.customTag.show = false
-        return
-      }
-
-      if (!this.model.customTag.length || this.model.customTag.length > 10) {
-        this.$root.showToast({
-          text: '您正确填写标签名称, 不能大于10个字符'
-        })
-        return
-      }
-
-      this.$root.log({
-        name: '保存参与发行的产品'
-      })
-
-      this.$root.showLoadingStatus()
-
-      {
-        let p
-        if (this.popups.customTag.type === '偏好资产') {
-          p = assetTypes.save({
-            name: this.model.customTag
-          }).then(res => {
-            this.$root.hideLoadingStatus()
-            this.model.customTag = ''
-            let tag = res.json().asset_type
-            tag.customized = true
-
-            this.info.asset_types.all.push(tag)
-            this.popups.customTag.show = false
-          })
-        } else {
-          p = businessTypes.save({
-            name: this.model.customTag
-          }).then(res => {
-            this.$root.hideLoadingStatus()
-            this.model.customTag = ''
-            let tag = res.json().business_type
-            tag.customized = true
-
-            this.info.business_types.all.push(tag)
-            this.popups.customTag.show = false
-          })
-        }
-
-        p.catch(res => {
-          this.$root.hideLoadingStatus()
-          this.$root.showToast({
-            text: res.json().error || '抱歉，服务器繁忙！'
-          })
-        })
-      }
-    },
-
-    // 删除自定义标签
-    deleteTag(tag, type = '偏好资产') {
-      let _self = this
-      this.$root.showConfirm({
-        content: '确定删除吗？',
-        onConfirm() {
-          _self.$root.log({
-            name: '确定删除自定义标签：' + tag.name
-          })
-
-          _self.$root.showLoadingStatus()
-
-          {
-            let p
-            if (type !== '偏好资产') {
-              p = businessTypes.delete({
-                id: tag.id
-              }).then(() => {
-                _self.$root.hideLoadingStatus()
-                _self.info.business_types.all.$remove(tag)
-                _self.model.businessTypes.$remove(tag)
-              })
-            } else {
-              p = assetTypes.delete({
-                id: tag.id
-              }).then(() => {
-                _self.$root.hideLoadingStatus()
-                _self.info.asset_types.all.$remove(tag)
-                _self.model.assetTypes.$remove(tag)
-              })
-            }
-
-            p.catch(res => {
-              _self.$root.hideLoadingStatus()
-              _self.$root.showToast({
-                text: res.json().error || '抱歉，服务器繁忙！'
-              })
-            })
-          }
-        },
-
-        onCancel() {
-          _self.$root.log({
-            name: '确定取消删除自定义标签：' + tag.name
-          })
-        }
-      })
-    },
-
-    // 打开业务偏好和资产类型
+    // 打开业务偏好和偏好资产
     openBATypes() {
       this.$root.log({
-        name: '编辑业务偏好和资产类型'
+        name: '编辑业务偏好和偏好资产'
       })
       this.$root.bdTrack(['个人信息页', '添加', '业务偏好'])
       this.popups.baTypes.show = true
     },
 
-    // 关闭业务偏好和资产类型
+    // 关闭业务偏好和偏好资产
     closeBATypes(cancelled) {
       if (cancelled) {
         this.$root.log({
-          name: '取消编辑业务偏好和资产类型'
+          name: '取消编辑业务偏好和偏好资产'
         })
         this.$root.bdTrack(['个人信息页', '取消', '业务偏好'])
 
@@ -511,47 +366,8 @@ export default {
         return
       }
 
-      if (this.model.businessTypes.length > 2) {
-        this.$root.showToast({
-          text: '业务角色不能超过2个'
-        })
-        return
-      }
-
-      if (this.model.assetTypes.length > 3) {
-        this.$root.showToast({
-          text: '资产类型不能超过3个'
-        })
-        return
-      }
-
-      this.$root.log({
-        name: '保存业务偏好和资产类型'
-      })
-      this.$root.bdTrack(['个人信息页', '确定', '业务偏好'])
-
-      this.$root.showLoadingStatus()
-
-      let ap = assetTypes.update({}, {
-        ids: _.map(this.model.assetTypes, 'id')
-      })
-
-      let bp = businessTypes.update({}, {
-        ids: _.map(this.model.businessTypes, 'id')
-      })
-
-      // 确保两个保存成功
-      Promise.all([ap, bp]).then(() => {
-        this.$root.hideLoadingStatus()
+      this.$refs.baTypes.saveBAdata().then(() => {
         this.popups.baTypes.show = false
-          // 更新info数据,
-        this.info.business_types.selected = [].concat(this.model.businessTypes)
-        this.info.asset_types.selected = [].concat(this.model.assetTypes)
-      }).catch(res => {
-        this.$root.hideLoadingStatus()
-        this.$root.showToast({
-          text: res.json().error || '抱歉，服务器繁忙！'
-        })
       })
     },
 
@@ -647,16 +463,6 @@ export default {
     selectedAt() {
       return _.map(this.info.asset_types.selected, 'name').join('、')
     },
-    assetTypesHasCustomTag() {
-      return _.some(this.info.asset_types.all, {
-        customized: true
-      })
-    },
-    businessTypesHasCustomTag() {
-      return _.some(this.info.business_types.all, {
-        customized: true
-      })
-    },
     recommendedInstitutionsCurrent() { // 分页取推荐的交易所
       let r = this.recommended.institutions
       let insts = this.info.institutions.recommended.slice(0)
@@ -705,16 +511,12 @@ export default {
       model: {
         avatarDirection: 'portrait',
         avatarStyles: {},
-        customTag: '',
-        businessTypes: [],
-        assetTypes: [],
+        // customTag: '',
+        // businessTypes: [],
+        // assetTypes: [],
         relativeProducts: []
       },
       popups: {
-        customTag: {
-          show: false,
-          height: '100%'
-        },
         baTypes: {
           show: false,
           height: '100%'
@@ -780,7 +582,7 @@ export default {
         position: absolute;
         right: -0.805153rem; //100px
         top: 1.08rem; //120px
-        color: #c8c8cd;
+        color: #29b9ae;
       }
     }
     .avatar {
@@ -830,9 +632,33 @@ export default {
       display: flex;
       align-items: center;
       color: #adc1d2;
-      font-size: 0.289855rem;
-      padding-top: 0.161031rem; //30px
+      font-size: 0.289855rem; // 36px
+      // padding-top: 0.161031rem; //30px
+      padding: 0.161031rem 1em 0; //30px
       border-top: 1px solid #3378a7;
+      margin-top: 0.080515rem; //10px
+    }
+    .gs {
+      font-size: 0.273752rem; //34px
+    }
+    .remark {
+      position: absolute;
+      color: white;
+      transform: translateX(0.322061rem); //40px
+      .icon-pano {
+        color: #b1b7c4;
+      }
+      .icon-info {
+        font-size: 1em;
+        vertical-align: -1px;
+        margin-left: 0.040258rem; //5px
+      }
+      .icon-arrow-bold {
+        vertical-align: 1px;
+        font-size: .7em;
+        margin-left: 0.024155rem; //3px
+        margin-right: 0.040258rem; //5px
+      }
     }
     .intro-con {
       width: 100%;
@@ -886,6 +712,29 @@ export default {
           top: .95em;
         }
       }
+    }
+  }
+  .tag {
+    display: inline-block;
+    border-radius: 100px;
+    padding: 0.024155rem 0.201288rem; //3px 25px
+    background-color: #a6afbe;
+    color: white;
+    .icon-pano {
+      font-size: .9em;
+      margin-right: 2px;
+    }
+    &.tag-blue {
+      background-color: #4380dd;
+    }
+    &.tag-green {
+      background-color: #29aca8;
+    }
+    &.tag-orange {
+      background-color: #ffc445;
+    }
+    &.tag-red {
+      background-color: #e06161;
     }
   }
 }

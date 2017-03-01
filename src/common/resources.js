@@ -20,8 +20,8 @@ const commonOpts = {
 
 export default function setResources(resource) {
   sessions = resource('sessions', {}, {}, commonOpts) // 用户信息
-  assetTypes = resource('asset_types{/id}', {}, {}, commonOpts) // 资产类型
-  businessTypes = resource('business_types{/id}', {}, {}, commonOpts) // 业务角色
+  assetTypes = resource('asset_types{/id}', {}, {}, commonOpts) // 偏好资产
+  businessTypes = resource('business_types{/id}', {}, {}, commonOpts) // 业务偏好
   persons = resource('person{/content}', {}, {}, commonOpts) // 用户详细信息
   accounts = resource('accounts{/content}', {}, {}, commonOpts) // 账户信息更改
   registrations = resource('registrations{/content}', {}, {}, commonOpts) // 注册
