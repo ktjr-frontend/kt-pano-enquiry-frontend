@@ -94,7 +94,8 @@ export default {
         content: '上传名片才能完成认证哦',
         onCancel() {
           _self.$router.go({
-            name: 'prefer'
+            name: 'prefer',
+            query: _self.$route.query
           })
         }
       })
@@ -202,7 +203,8 @@ export default {
                 // })
 
                 this.$router.go({
-                  name: 'prefer'
+                  name: 'prefer',
+                  query: this.$route.query
                 })
               } else { // 如果是更新名片
                 this.$root.showToast({

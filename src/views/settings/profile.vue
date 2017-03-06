@@ -36,7 +36,7 @@ div
           | 升级
           i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
-        span.remark(v-if="user.group === 'normal'", v-link="{name:'perfect'}")
+        span.remark(v-if="user.group === 'normal'", v-link="{name:'perfect', query:{certifyApplication:1}}")
           | 去认证
           i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
@@ -242,7 +242,7 @@ export default {
     this.wxInit({
       title: '最全的互联网金融市场数据都在这儿了',
       desc: '现在还能在线对接资产项目',
-      link: `${host}#!/register?u=${user.id}` // 分享链接
+      link: `${host}#!/register?u=${this.user.id}` // 分享链接
     })
   },
 

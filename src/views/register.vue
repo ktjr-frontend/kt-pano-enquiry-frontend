@@ -275,11 +275,14 @@ export default {
           comment: '',
           iconName: 'icon-user',
           validate: {
-            required: {
-              rule: true,
-              message: '请正确输入11位手机号码'
-            },
-            email: true
+            // required: {
+            //   rule: true,
+            //   message: '请正确输入11位手机号码'
+            // },
+            pattern: {
+              rule: '/^([^@]+@.+|)$/',
+              message: '邮箱地址有误'
+            }
           }
         }, {
           name: 'img_captcha',

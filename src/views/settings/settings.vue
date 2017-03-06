@@ -18,9 +18,9 @@
     cell(title='职位', :value='user.job')
     cell(title='地址', :value='user.address')
   group.user-card
-    cell(title='名片', is-link='', @click='changeUserCard()')
+    cell(title='名片', :is-link='user.group !== "normal"', @click='changeUserCard()')
       .user-card-box(slot='after-title')
-        img(:src='user.card_url', alt='您的名片')
+        img(:src='user.card_url', alt='您的名片', v-show='user.card_url')
   group
     cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}", @click="$root.bdTrack(['个人信息页', '进入', '修改密码'])")
   .buttons
@@ -233,6 +233,8 @@ export default {
     },
 
     changeUserCard() {
+      if (this.user.group === 'normal') return
+
       let _self = this
       this.$root.log({
         name: '重新上传名片'

@@ -107,8 +107,16 @@ export default {
       this.model.assetTypes = data.asset_types.selected
     },
 
-    saveBAdata() {
+    saveBAdata(isRegistering) {
       return new Promise((resolve, reject) => { // eslint-disable-line
+        if (isRegistering && !this.model.businessTypes.length && !this.model.assetTypes.length) {
+          this.$root.showToast({
+            text: '请设置业务角色和偏好资产'
+          })
+          reject('请设置业务角色和偏好资产')
+          return
+        }
+
         if (this.model.businessTypes.length > 2) {
           this.$root.showToast({
             text: '业务角色不能超过2个'

@@ -20,7 +20,6 @@ import Flexbox from 'vux-components/flexbox'
 import FlexboxItem from 'vux-components/flexbox-item'
 import KtLoading from '../components/kt-loading.vue'
 import KtAssetTypes from '../components/kt-asset-types.vue'
-
 import {
   persons
 } from '../common/resources'
@@ -32,6 +31,9 @@ export default {
     FlexboxItem,
     KtLoading,
     KtAssetTypes
+  },
+  ready() {
+    this.certifyApplication = this.$route.query.certifyApplication
   },
   route: {
     data() {
@@ -67,8 +69,8 @@ export default {
         cancelText: '不需要',
         content: '设置了业务偏好，才可以获得更多个性化服务哦',
         onCancel() {
-          this.$root.showAlert({
-            content: '注册成功，快去开启您的询价之旅吧！'
+          _self.$root.showAlert({
+            content: _self.certifyApplication ? '认证信息已提交！' : '注册成功，快去开启您的询价之旅吧！'
           })
           _self.$router.go({
             name: 'quotationOB'
@@ -82,9 +84,9 @@ export default {
         name: '完成'
       })
 
-      this.$refs.baTypes.saveBAdata().then(() => {
+      this.$refs.baTypes.saveBAdata(true).then(() => {
         this.$root.showAlert({
-          content: '注册成功，快去开启您的询价之旅吧！'
+          content: this.certifyApplication ? '认证信息已提交！' : '注册成功，快去开启您的询价之旅吧！'
         })
         this.$router.go({
           name: 'quotationOB'
@@ -94,6 +96,7 @@ export default {
   },
   data() {
     return {
+      certifyApplication: false, // 是否是认证流程
       info: {
         business_types: {
           all: [],

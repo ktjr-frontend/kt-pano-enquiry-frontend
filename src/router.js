@@ -30,10 +30,12 @@ router.beforeEach(({ from, to, abort, next }) => {
   const permit = permitJudge(to)
   if (permit.passed) {
     next()
-  } else {
-    showToast(store, {
-      text: '权限不足或账户审核未通过，无法访问该页面，页面已被重定向！'
-    })
+  } else { //已经登录的
+    if (permit.showToast) {
+      showToast(store, {
+        text: '权限不足或账户审核未通过，无法访问该页面，页面已被重定向！'
+      })
+    }
     if (permit.redirect) router.replace(permit.redirect)
   }
 })
