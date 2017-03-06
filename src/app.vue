@@ -117,7 +117,6 @@ export default {
           text: '由于您未通过认证审核，无权访问该页面！'
         })
         return
-        // router.go({ name: 'settings' })
       }
 
       this.goOverview()
@@ -229,7 +228,7 @@ export default {
   created() {
     // 获取用户信息
     sessions.get({
-      noNeedLogin: !this.$route.needLogin
+      skipAuth: true
     }).then((res) => {
       const user = res.json().account
       this.updateUser(user)

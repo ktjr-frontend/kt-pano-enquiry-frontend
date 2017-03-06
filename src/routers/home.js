@@ -8,7 +8,6 @@ export default {
       tabVisible: false
     },
     name: 'home',
-    // needLogin: true,
     component(resolve) {
       require(['../views/home'], resolve)
     }

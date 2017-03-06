@@ -89,10 +89,10 @@ export default {
     skipOver() {
       const _self = this
       this.$root.showConfirm({
-        confirmText: '残忍拒绝',
-        cancelText: '马上去传',
+        confirmText: '马上去传',
+        cancelText: '残忍拒绝',
         content: '上传名片才能完成认证哦',
-        onConfirm() {
+        onCancel() {
           _self.$router.go({
             name: 'prefer'
           })
@@ -260,6 +260,13 @@ export default {
     color: #626d8b;
     color: #626d8b;
   }
+  .btn-simple {
+    color: #adb1bc;
+    background: none;
+    border: 0;
+    padding: 0;
+    width: auto;
+  }
 }
 
 .form-container {
@@ -309,7 +316,7 @@ form {
       line-height: 3.623188rem;
       margin: 0 auto;
       position: relative;
-      background: #f8f9fb;
+      background: #dbe0e7;
       border-radius: 0.080515rem;
       text-align: center;
       font-size: 300px;

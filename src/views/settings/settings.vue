@@ -99,7 +99,7 @@ export default {
 
   watch: {
     'user.avatar_url': {
-      handler: function(val) {
+      handler(val) {
         Utils.getImageInfo(val).then((res) => {
           this.model.avatarDirection = res.direction
 
@@ -111,7 +111,7 @@ export default {
       },
       immediate: true
     },
-    'user.status': function(val) {
+    'user.status' (val) {
       this.showMessage(val)
     }
   },

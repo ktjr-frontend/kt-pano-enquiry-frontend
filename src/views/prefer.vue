@@ -63,10 +63,13 @@ export default {
     skipOver() {
       const _self = this
       this.$root.showConfirm({
-        confirmText: '不需要',
-        cancelText: '马上设置',
+        confirmText: '马上设置',
+        cancelText: '不需要',
         content: '设置了业务偏好，才可以获得更多个性化服务哦',
-        onConfirm() {
+        onCancel() {
+          this.$root.showAlert({
+            content: '注册成功，快去开启您的询价之旅吧！'
+          })
           _self.$router.go({
             name: 'quotationOB'
           })
@@ -81,7 +84,7 @@ export default {
 
       this.$refs.baTypes.saveBAdata().then(() => {
         this.$root.showAlert({
-          content: '名片上传成功，快去开启您的询价之旅吧！'
+          content: '注册成功，快去开启您的询价之旅吧！'
         })
         this.$router.go({
           name: 'quotationOB'
@@ -129,6 +132,13 @@ export default {
     border-radius: 100px;
     color: #626d8b;
     color: #626d8b;
+  }
+  .btn-simple {
+    color: #adb1bc;
+    background: none;
+    border: 0;
+    padding: 0;
+    width: auto;
   }
 }
 

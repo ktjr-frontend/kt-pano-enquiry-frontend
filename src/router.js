@@ -8,6 +8,7 @@ import log from './common/log'
 import routers from './routers'
 import { showToast, updateTabVisible } from './vuex/actions'
 import store from './vuex/store'
+import permitJudge from './routers/permits.js'
 
 // 自定义validator
 Vue.use(Router)
@@ -18,26 +19,6 @@ const router = new Router({
   // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
-// 拒绝的用户可访问的页面
-const rejectedUserPermits = [
-  'home',
-  'login',
-  'perfect',
-  'settings',
-  'register',
-  'changePassword',
-  'forgetPassword1',
-  'forgetPassword2',
-  'changeMobile1',
-  'changeMobile2'
-]
-
-// 未完善信息用户可访问的页面
-const initializedUserPermits = ['login', 'perfect', 'register']
-
-// 需要强制刷新的页面，避免ios上面bfcache
-// let reloadPages = ['quotationDetail', 'myProjectDetail', 'profile', 'moreInstitutions', 'allInstitutions', 'myProjects', 'referProjects', 'referProjectDetail', 'interestProjectDetail']
-
 router.map(routers)
 
 router.redirect({
@@ -46,23 +27,14 @@ router.redirect({
 })
 
 router.beforeEach(({ from, to, abort, next }) => {
-  const user = JSON.parse(window.localStorage.user || '{}')
-
-  if (to.needLogin && !user.status) {
-    router.replace({ name: 'login', query: { jump_to: to.path } })
-      // abort()
-  } else if (to.needLogin && user.status === 'rejected' && !_.includes(rejectedUserPermits, to.name)) {
-    showToast(store, {
-      text: '由于您未通过认证审核，无权访问该页面！'
-    })
-
-    // abort()
-    router.go({ name: 'settings' })
-  } else if (to.needLogin && user.status === 'initialized' && !_.includes(initializedUserPermits, to.name)) {
-    router.go({ name: 'perfect' })
-      // abort()
-  } else {
+  const permit = permitJudge(to)
+  if (permit.passed) {
     next()
+  } else {
+    showToast(store, {
+      text: '权限不足或账户审核未通过，无法访问该页面，页面已被重定向！'
+    })
+    if (permit.redirect) router.replace(permit.redirect)
   }
 })
 

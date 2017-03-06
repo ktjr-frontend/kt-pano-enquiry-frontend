@@ -56,7 +56,7 @@ export default [
   function(request, next) {
     next((res) => {
       if (res.status === 419 || res.status === 401) {
-        if (!request.params.noNeedLogin) {
+        if (!request.params.skipAuth) {
           showAlert(store, {
             content: '登录超时，请重新登录后再试！'
           })
@@ -70,7 +70,7 @@ export default [
         })
       } else if (res.status === 500 || res.status === 502) { // 注释掉是为了接部分接口
         showToast(store, {
-          text: '抱歉！服务器忙。'
+          text: res.json().error || '抱歉！服务器忙。'
         })
       } else if (res.status === 200) {
         if (request.cache) {

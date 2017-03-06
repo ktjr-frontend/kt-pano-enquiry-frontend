@@ -77,12 +77,7 @@ const state = {
     content: '',
     onClose() {}
   },
-  user: {
-    intro: '',
-    mobile: '',
-    name: '',
-    password: ''
-  },
+  user: JSON.parse(window.localStorage.user || '{}'),
   instBasicInfo: instBasicInfo
 }
 

@@ -4,6 +4,7 @@ div
   //- 用户基本信息
   .profile
     .head
+      //- button.btn-cyan.btn-share(@click="openShareTips()") 邀请好友
       .avatar-container.item(v-link='{name: "settings"}', @click="$root.bdTrack(['个人信息页', '点击进入', '详情页'])")
         i.icon-pano.icon-arrow-bold
         .avatar(:class='[{"no-avatar": !user.avatar_url}, model.avatarDirection]')
@@ -21,35 +22,50 @@ div
           i.icon-pano.icon-ok
           | 已认证
         span.tag.tag-blue.group(v-if="user.group === 'normal'")
-          | 未认证
+          | 非认证
         span.tag.tag-green.status(v-if="user.status === 'passed' && user.group !== 'normal'")
           | 审核通过
         span.tag.tag-orange.status(v-if="user.status === 'pended' && user.group !== 'normal'")
           | 待审核
         span.tag.tag-orange.status(v-if="user.status === 'rejected' && user.group !== 'normal'")
           | 审核不通过
-        span.remark(v-if="user.group === 'premium'")
+        span.remark(v-if="user.group === 'premium' && user.premium_duration")
           | 剩余期限{{user.premium_duration}}天
-          i.icon-pano.icon-info(@click="showMemberTips()")
-        span.remark(v-if="user.group === 'certified'")
+          i.icon-pano.icon-info(@click.stop="showMemberTips()")
+        span.remark(v-if="user.group === 'certified'", @click="upgradeMember()")
           | 升级
           i.icon-pano.icon-arrow-bold
-          i.icon-pano.icon-info(@click="showMemberTips()")
-        span.remark(v-if="user.group === 'normal'")
+          i.icon-pano.icon-info(@click.stop="showMemberTips()")
+        span.remark(v-if="user.group === 'normal'", v-link="{name:'perfect'}")
           | 去认证
           i.icon-pano.icon-arrow-bold
-          i.icon-pano.icon-info(@click="showMemberTips()")
+          i.icon-pano.icon-info(@click.stop="showMemberTips()")
       .dj.item(v-if='user.company || user.job')
-        span.department(v-if='user.company', :style='{"margin-right": user.job ? "0.483092rem" : 0}')
+        span.company(v-if='user.company', :class="{'has-job': user.job}")
           //- | {{user.department}}
           | {{user.company}}
         span.job(v-if='user.job')
           | {{user.job}}
-      .intro-con(@click.prevent='')
+      //- .intro-con(@click.prevent='')
         .intro(:class="{'edit': editingIntro}")
           i.icon-pano(@click.prevent='editIntro()', v-el:icon-intro, :class="{'icon-edit': !editingIntro, 'icon-ok2': editingIntro}")
           p(v-show='!editingIntro', @click.prevent='editIntro()') {{user.intro.trim() || '介绍我的业务'}}
           textarea(v-show='editingIntro', v-el:intro-textarea, cols='2', rows='2', v-model='user.intro')
+    //- 邀请好友
+    .group.invitation-group(v-if="invitationGroupVisibel")
+      kt-cell(title='邀请好友')
+        span(slot='title') 邀请好友
+          span.tag.tag-green-light Hot
+        p 邀请好友，获得高级用户权限，可享受开通PANO全域的数据权限及数据检索，以及每月1次数据定制服务等。
+        p 每成功邀请一位互金/金融相关的用户注册开通PANO并通过认证，您和好友均可免费获得30天高级用户权限，多邀可累计。
+
+        .default-content(@click='openShareTips()')
+          i.icon-pano.icon-plus
+          | 邀请好友
+        .invitation-count
+          | 您已成功邀请好友
+          em {{user.invitee_account_count}}
+          | 人
     //- 业务角色和偏好资产
     .group
       kt-cell(title='业务偏好', icon='icon-plus' @on-icon-click='openBATypes()')
@@ -98,7 +114,7 @@ div
             h3 {{item.name}}
             p(v-if='item.asset_types')
               | 已发行资产类型：<br/>
-              span(class='gray') {{item.asset_types.join(' ')}}
+              span.gray {{item.asset_types.join(' ')}}
 
           .right(@click.stop='toggleAttention(item, 0, update)')
             a
@@ -129,7 +145,7 @@ div
             h3 {{item.name}}
             p(v-if='item.partners')
               | 主要合作机构：<br/>
-              span(class='gray') {{item.partners.join(' ')}}
+              span.gray {{item.partners.join(' ')}}
           .right(@click.stop='toggleAttention(item, 1, update)')
             a
               i.icon-pano(:class='{"icon-ok2": item.is_followed, "icon-plus": !item.is_followed}')
@@ -171,7 +187,16 @@ div
             .clfix
               .checkbox-label(v-for='item in info.products.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.relativeProducts', :id="'rp_' + item.id", :value='item.id',  type='checkbox')
-                label(:for="'rp_' + item.id", v-cloak='') {{item.name}}
+                label(:for="'rp_' + item.id", v-cloak='') {{item.name}}//- 参与发行的产品
+  //- 升级高级会员
+  a.vux-popup-mask(href='javascript:void(0)')
+  popup(v-kt-prevent='', :show.sync='popups.upgradeMember.show', :height='popups.upgradeMember.height')
+    .header
+      a(@click='popups.upgradeMember.show = false', @touchstart.stop='', class='cancel') 取消
+      a(@click='popups.upgradeMember.show = false', @touchstart.stop='', class='ok') 确定
+    .popup-body
+      .group
+        kt-upgrade-member(@submit-wx-success="submitWxSuccess()")
 
 </template>
 
@@ -181,6 +206,7 @@ import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
 import KtCell from '../../components/kt-cell'
 import KtAssetTypes from '../../components/kt-asset-types.vue'
+import ktUpgradeMember from '../../components/kt-upgrade-member.vue'
 import institutionMixins from './intitution_mixins'
 import {
   accounts,
@@ -191,21 +217,33 @@ import {
 } from '../../vuex/getters'
 import _ from 'lodash'
 import Utils from '../../common/utils'
+import wxMixin from '../../mixins/wx-mixin'
 
 export default {
-  mixins: [institutionMixins],
+  mixins: [institutionMixins, wxMixin],
   components: {
     Popup,
     Group,
     Cell,
     KtCell,
-    KtAssetTypes
+    KtAssetTypes,
+    ktUpgradeMember
   },
 
   vuex: {
     getters: {
       user
     }
+  },
+
+  ready() {
+    // 初始化微信jssdk
+    let host = location.protocol + '//' + location.host
+    this.wxInit({
+      title: '最全的互联网金融市场数据都在这儿了',
+      desc: '现在还能在线对接资产项目',
+      link: `${host}#!/register?u=${user.id}` // 分享链接
+    })
   },
 
   route: {
@@ -281,10 +319,26 @@ export default {
       this.$router.go(route)
     },*/
 
+    // 分享提示
+    openShareTips() {
+      this.$root.showAlert({
+        content: '点击右上角马上分享给你的小伙伴吧！'
+      })
+    },
+
+    // 升级高级会员
+    upgradeMember() {
+      this.popups.upgradeMember.show = true
+    },
+
+    submitWxSuccess() {
+      this.popups.upgradeMember.show = false
+    },
+
     // 会员提示
     showMemberTips() {
       this.$root.showAlert({
-        content: `<p class="text-left"><b style="color:#29aca8;">未认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
+        content: `<p class="text-left"><b style="color:#29aca8;">非认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
                   <p class="text-left"><b style="color:#29aca8;">已认证</b>：注册成功且已完成名片认证，可访问市场数据和部分产品信息，不可进行检索等高级操作。</p>
                   <p class="text-left"><b style="color:#29aca8;">高级用户</b>：除了可享受开通PANO全域的数据权限及数据检索，还可享受每月1次数据定制服务等。</p>`
       })
@@ -457,13 +511,19 @@ export default {
   },
 
   computed: {
+    invitationGroupVisibel() {
+      return (this.user.group === 'certified' && this.user.status === 'passed') || this.user.group === 'premium'
+    },
+    // 选择的业务偏好名称
     selectedBt() {
       return _.map(this.info.business_types.selected, 'name').join('、')
     },
+    // 选择的偏好资产名称
     selectedAt() {
       return _.map(this.info.asset_types.selected, 'name').join('、')
     },
-    recommendedInstitutionsCurrent() { // 分页取推荐的交易所
+    // 分页取推荐的交易所
+    recommendedInstitutionsCurrent() {
       let r = this.recommended.institutions
       let insts = this.info.institutions.recommended.slice(0)
       r.pages = Math.ceil(insts.length / r.pageSize)
@@ -476,6 +536,7 @@ export default {
         return insts
       }
     },
+    // 分页取推荐的互金平台
     recommendedPlatformsCurrent() {
       let r = this.recommended.platforms
       let insts = this.info.platforms.recommended.slice(0)
@@ -524,6 +585,10 @@ export default {
         relativeProducts: {
           show: false,
           height: '100%'
+        },
+        upgradeMember: {
+          show: false,
+          height: '100%'
         }
       },
       info: {
@@ -569,9 +634,23 @@ export default {
   }
   .head {
     @include flex(column);
-    height: 6.441224rem; //800px
+    height: 5.555556rem; //690px
+    // height: 6.441224rem; //800px
     background: linear-gradient(to bottom, #304366, #27719d);
     transform: translate3d(0, 0, 0);
+    // .btn-share {
+    //   position: absolute;
+    //   right: 0.281804rem; //35px
+    //   top: 0.241546rem; //30px
+    //   width: auto;
+    //   height: auto;
+    //   line-height: 1.8;
+    //   border-radius: 100px;
+    //   padding: 0 .8em;
+    //   font-size: 0.273752rem; //34px
+    //   color: #adc1d2;
+    //   background-color: #314f76;
+    // }
     .item {
       margin-bottom: 0.161031rem; //30px
     }
@@ -622,8 +701,23 @@ export default {
     .name {
       color: white;
     }
+    // .company {
+    //   color: #29b9ae;
+    // }
     .company {
-      color: #29b9ae;
+      position: relative;
+      &.has-job {
+        margin-right: 0.483092rem; //60px
+        &:after {
+          right: -0.241546rem; //30px
+          top: 0.080515rem; //10px
+          content: '';
+          position: absolute;
+          width: 0;
+          border-right: 1px solid #adc1d2;
+          height: 1em;
+        }
+      }
     }
     .dj {
       // .department {
@@ -651,7 +745,7 @@ export default {
       .icon-info {
         font-size: 1em;
         vertical-align: -1px;
-        margin-left: 0.040258rem; //5px
+        margin-left: 0.080515rem; //5px
       }
       .icon-arrow-bold {
         vertical-align: 1px;
@@ -720,6 +814,8 @@ export default {
     padding: 0.024155rem 0.201288rem; //3px 25px
     background-color: #a6afbe;
     color: white;
+    font-size: 0.273752rem; //34px
+    line-height: 1.4;
     .icon-pano {
       font-size: .9em;
       margin-right: 2px;
@@ -730,11 +826,35 @@ export default {
     &.tag-green {
       background-color: #29aca8;
     }
+    &.tag-green-light {
+      background-color: #3bc5ba;
+    }
     &.tag-orange {
       background-color: #ffc445;
     }
     &.tag-red {
       background-color: #e06161;
+    }
+  }
+  .invitation-group {
+    p {
+      text-align: left;
+      font-size: 0.289855rem; //36px
+      color: #acb1bd;
+      line-height: 1.8;
+    }
+    .default-content {
+      margin: 0.402576rem 0 0.241546rem; //50px 30px
+    }
+    .tag {
+      margin-left: 0.241546rem; //30px
+    }
+    .invitation-count {
+      font-size: 0.322061rem; //40px
+      color: #3d4351;
+    }
+    em {
+      font-size: 1.5em;
     }
   }
 }

@@ -11,7 +11,6 @@ export default {
       tabVisible: true
     },
     name: 'enquiry',
-    needLogin: true,
     component(resolve) {
       require(['../views/enquiry/index'], resolve)
     }
@@ -24,7 +23,6 @@ export default {
       tabVisible: true
     },
     name: 'enquiryAssetTypes',
-    needLogin: true,
     component(resolve) {
       require(['../views/enquiry/enquiry-asset-types'], resolve)
     }
@@ -37,7 +35,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetEslate',
-    needLogin: true,
     component(resolve) {
       require(['../views/bond/enquiry-asset-eslate'], resolve)
     }
@@ -50,7 +47,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetGovernment',
-    needLogin: true,
     component(resolve) {
       require(['../views/bond/enquiry-asset-government'], resolve)
     }
@@ -63,7 +59,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetEnterprise',
-    needLogin: true,
     component(resolve) {
       require(['../views/bond/enquiry-asset-enterprise'], resolve)
     }
@@ -76,7 +71,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetSupplyChain',
-    needLogin: true,
     component(resolve) {
       require(['../views/bond/enquiry-asset-supply-chain'], resolve)
     }
@@ -89,7 +83,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetMiniFinance',
-    needLogin: true,
     component(resolve) {
       require(['../views/bond/enquiry-asset-mini-finance'], resolve)
     }
@@ -102,7 +95,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryAssetManage',
-    needLogin: true,
     component(resolve) {
       require(['../views/asset-manage/index'], resolve)
     }
@@ -115,7 +107,6 @@ export default {
       tabVisible: true
     },
     name: 'enquiryResult',
-    needLogin: true,
     waitForData: true,
     scrollY: scrollY.enquiryResult,
     component(resolve) {
@@ -131,7 +122,6 @@ export default {
       tabVisible: true
     },
     name: 'enquiryAmResult',
-    needLogin: true,
     waitForData: false,
     component(resolve) {
       require(['../views/enquiry/enquiry-am-result'], resolve)
@@ -145,7 +135,6 @@ export default {
       tabVisible: false
     },
     name: 'enquiryShare',
-    // needLogin: true,
     component(resolve) {
       require(['../views/enquiry/enquiry-share'], resolve)
     }
@@ -158,7 +147,6 @@ export default {
       tabVisible: true
     },
     name: 'enquiryError',
-    needLogin: true,
     component(resolve) {
       require(['../views/enquiry/enquiry-error'], resolve)
     }
@@ -171,7 +159,6 @@ export default {
       tabVisible: true
     },
     name: 'serviceIntroduce',
-    needLogin: true,
     component(resolve) {
       require(['../views/service-introduce'], resolve)
     }

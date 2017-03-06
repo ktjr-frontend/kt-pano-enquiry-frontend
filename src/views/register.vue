@@ -95,7 +95,7 @@ export default {
 
   ready() {
     this.refreshImgCaptcha()
-    this.inviter_id = this.$route.query._u || null
+    this.user.inviter_id = this.$route.query._u || null
   },
 
   methods: {
