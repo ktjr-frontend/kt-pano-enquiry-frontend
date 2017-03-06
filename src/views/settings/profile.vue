@@ -242,7 +242,7 @@ export default {
     this.wxInit({
       title: '最全的互联网金融市场数据都在这儿了',
       desc: '现在还能在线对接资产项目',
-      link: `${host}#!/register?u=${this.user.id}` // 分享链接
+      link: `${host}#!/register?_u=${this.user.id}` // 分享链接
     })
   },
 
