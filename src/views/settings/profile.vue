@@ -187,7 +187,8 @@ div
             .clfix
               .checkbox-label(v-for='item in info.products.all', @touchstart.stop='')
                 input(autocomplete='off', v-model='model.relativeProducts', :id="'rp_' + item.id", :value='item.id',  type='checkbox')
-                label(:for="'rp_' + item.id", v-cloak='') {{item.name}}//- 参与发行的产品
+                label(:for="'rp_' + item.id", v-cloak='') {{item.name}}
+                //- 参与发行的产品
   //- 升级高级会员
   a.vux-popup-mask(href='javascript:void(0)')
   popup(v-kt-prevent='', :show.sync='popups.upgradeMember.show', :height='popups.upgradeMember.height')
