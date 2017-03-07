@@ -12,12 +12,15 @@ export default function(route) {
     if (!status) {
       redirect = { name: 'login', query: { jump_to: route.path } }
       showToast = false
-    } else if (status === 'rejected') {
-      redirect = { name: 'settings' }
     } else {
       passed = _.some(route.data.permits, (v, k) => {
         return k === group && _.includes(v, status)
       })
+    }
+
+    // 被拒绝的用户主动去设置页面
+    if (!passed && status === 'rejected') {
+      redirect = { name: 'settings' }
     }
   }
   return {

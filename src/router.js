@@ -5,10 +5,10 @@ import VueValidator from 'vue-validator'
 import setValidators from './common/validators'
 import _ from 'lodash'
 import log from './common/log'
-import routers from './routers'
+import routes from './routes'
 import { showToast, updateTabVisible } from './vuex/actions'
 import store from './vuex/store'
-import permitJudge from './routers/permits.js'
+import permitJudge from './routes/permits.js'
 
 // 自定义validator
 Vue.use(Router)
@@ -19,7 +19,7 @@ const router = new Router({
   // history: true // 打开以后再ios上面会导致微信jssdk config不成功
 })
 
-router.map(routers)
+router.map(routes)
 
 router.redirect({
   '*': '/quotation/ob',
