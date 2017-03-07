@@ -29,12 +29,13 @@ div
           | 待审核
         span.tag.tag-red.status(v-if="user.status === 'rejected' && user.group !== 'normal'")
           | 审核不通过
-        span.remark(v-if="user.group === 'premium' && user.premium_duration")
-          | 剩余期限{{user.premium_duration}}天
+        span.remark(v-if="user.group === 'premium'")
+          span(v-if="user.premium_duration") 剩余期限{{user.premium_duration}}天
+          //- span(v-if="!user.premium_duration") 永久会员
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
-        span.remark(v-if="user.group === 'certified' && user.status === 'passed'", @click="upgradeMember()")
-          | 升级
-          i.icon-pano.icon-arrow-bold
+        span.remark(v-if="user.group === 'certified'", @click="upgradeMember()")
+          span(v-show="user.status === 'passed'") 升级
+            i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
         span.remark(v-if="user.group === 'normal'", v-link="{name:'perfect', query:{certifyApplication:1}}")
           | 去认证
@@ -850,6 +851,7 @@ export default {
       margin: 0.402576rem 0 0.241546rem; //50px 30px
     }
     .tag {
+      vertical-align: 3px;
       margin-left: 0.241546rem; //30px
     }
     .invitation-count {
