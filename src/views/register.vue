@@ -95,7 +95,7 @@ export default {
 
   ready() {
     this.refreshImgCaptcha()
-    this.user.inviter_id = this.$route.query._u || null
+    this.user.inviter_account_id = this.$route.query._u || null
   },
 
   methods: {
@@ -203,7 +203,7 @@ export default {
         captcha: '',
         introducer: '',
         img_captcha: '',
-        inviter_id: null,
+        inviter_account_id: null,
         // likes: [],
         password: ''
       }, cachedUser),

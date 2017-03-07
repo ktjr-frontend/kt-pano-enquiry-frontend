@@ -122,7 +122,7 @@ export default {
       this.goOverview()
     },
 
-    // 判断的当前tab是否季候
+    // 判断的当前tab是否激活
     judgeActive(tab) {
       const routeName = this.$route.name
       if (tab.link.name === routeName) {

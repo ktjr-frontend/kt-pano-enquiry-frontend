@@ -13,7 +13,7 @@ let isApp = process.env.NODE_ENV.indexOf('app') > -1
 if (isApp) {
   env.hostName = 'http://pano.ktjr.com'
 } else {
-  env.hostName = isProduction ? panoMap[location.hostname] : 'http://localhost:8880'
+  env.hostName = isProduction ? panoMap[location.hostname] : `http://${location.hostname}:8880`
 }
 
 export default env

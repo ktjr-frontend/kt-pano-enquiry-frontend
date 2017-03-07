@@ -27,12 +27,12 @@ div
           | 审核通过
         span.tag.tag-orange.status(v-if="user.status === 'pended' && user.group !== 'normal'")
           | 待审核
-        span.tag.tag-orange.status(v-if="user.status === 'rejected' && user.group !== 'normal'")
+        span.tag.tag-red.status(v-if="user.status === 'rejected' && user.group !== 'normal'")
           | 审核不通过
         span.remark(v-if="user.group === 'premium' && user.premium_duration")
           | 剩余期限{{user.premium_duration}}天
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
-        span.remark(v-if="user.group === 'certified'", @click="upgradeMember()")
+        span.remark(v-if="user.group === 'certified' && user.status === 'passed'", @click="upgradeMember()")
           | 升级
           i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
@@ -238,12 +238,14 @@ export default {
 
   ready() {
     // 初始化微信jssdk
-    let host = location.protocol + '//' + location.host
-    this.wxInit({
-      title: '最全的互联网金融市场数据都在这儿了',
-      desc: '现在还能在线对接资产项目',
-      link: `${host}#!/register?_u=${this.user.id}` // 分享链接
-    })
+    if (this.invitationGroupVisibel) {
+      let host = location.protocol + '//' + location.host
+      this.wxInit({
+        title: '最全的互联网金融市场数据都在这儿了',
+        desc: '现在还能在线对接资产项目',
+        link: `${host}#!/register?_u=${this.user.id}` // 分享链接
+      })
+    }
   },
 
   route: {

@@ -3,7 +3,7 @@ import store from '../vuex/store.js'
 
 export default function(route) {
   let passed = false
-  let redirect = { name: 'quotationOB' }
+  let redirect = null
   let showToast = true
   const { group, status } = store.state.user
   if (route.data.skipAuth) {
@@ -19,9 +19,9 @@ export default function(route) {
     }
 
     // 被拒绝的用户主动去设置页面
-    if (!passed && status === 'rejected') {
-      redirect = { name: 'settings' }
-    }
+    // if (!passed && status === 'rejected') {
+    //   redirect = { name: 'settings' }
+    // }
   }
   return {
     showToast: showToast,
