@@ -20,7 +20,7 @@
         .way-foot
           .default-content(@click="popups.wxInput.show = true", @touchstart.stop='')
             i.icon-pano.icon-plus
-            | 留取微信号
+            | 填写微信号
   //- 自定义标签
   a.vux-popup-mask(href='javascript:void(0)')
   popup(v-kt-prevent='', :show.sync='popups.wxInput.show', :height='popups.wxInput.height')

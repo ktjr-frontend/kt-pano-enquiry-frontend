@@ -344,7 +344,7 @@ export default {
       this.$root.showAlert({
         content: `<p class="text-left"><b style="color:#29aca8;">非认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
                   <p class="text-left"><b style="color:#29aca8;">已认证</b>：注册成功且已完成名片认证，可访问市场数据和部分产品信息，不可进行检索等高级操作。</p>
-                  <p class="text-left"><b style="color:#29aca8;">高级用户</b>：除了可享受开通PANO全域的数据权限及数据检索，还可享受每月1次数据定制服务等。</p>`
+                  <p class="text-left"><b style="color:#29aca8;">高级用户</b>：可享受PANO的最高级权限，使用网站的全部功能以及全域的数据检索等。</p>`
       })
     },
 
@@ -714,12 +714,12 @@ export default {
         margin-right: 0.483092rem; //60px
         &:after {
           right: -0.241546rem; //30px
-          top: 0.080515rem; //10px
+          top: 0.10515rem; //10px
           content: '';
           position: absolute;
           width: 0;
-          border-right: 1px solid #adc1d2;
-          height: 1em;
+          border-right: 1px solid rgba(122, 161, 193, 0.59);
+          height: 0.8em;
         }
       }
     }
