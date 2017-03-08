@@ -61,7 +61,7 @@ router.afterEach(({ to }) => {
   // hack ios title not update bug
   const iframe = document.createElement('iframe')
   iframe.classList.add('dn')
-  iframe.src = require('./assets/images/weixin.jpg')
+  iframe.src = require('./assets/images/weixin-secret.jpeg')
   document.body.appendChild(iframe)
   iframe.onload = () => {
     setTimeout(() => {

@@ -140,7 +140,7 @@ export default {
             content: '点击右上角，马上分享给你的小伙伴吧！'
           })
         } else {
-          let weixin = require('../../assets/images/weixin.jpg')
+          let weixin = require('../../assets/images/weixin-secret.jpeg')
           let content = `<p style="text-align:center;">感谢您的评价，我们将努力变得更好！如您还有其他的意见建议，可扫描下方二维码联系我们。</p>
                   <p><img src="${weixin}" width="40%" /></p>`
           this.$root.showAlert({

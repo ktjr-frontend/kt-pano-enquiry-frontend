@@ -13,7 +13,7 @@
               // <li>邮箱：HelloPANO@ktjr.com</li>
               li
                 | PANO微信小秘书：
-                img.weixin-qrcode(src='../../assets/images/weixin.jpg', alt='weixin小秘书')
+                img.weixin-qrcode(src='../../assets/images/weixin-secret.jpeg', alt='weixin小秘书')
 
 </template>
 
