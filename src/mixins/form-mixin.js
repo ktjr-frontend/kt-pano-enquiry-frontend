@@ -2,8 +2,8 @@ import _ from 'lodash'
 
 export default {
   methods: {
-    clearField(name) {
-      this.user[name] = ''
+    clearField(name, modelName = 'user') {
+      this[modelName][name] = ''
     },
     showError(name) {
       let validation = this.$validation

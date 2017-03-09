@@ -4,9 +4,9 @@
     form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
       //- // <input type="password" class="dn" name="password" />
       .form-group(v-for='field in fields')
-        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!user[field.name]}")
+        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!filter[field.name]}")
           i.icon-pano(:class='field.iconName')
-          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
+          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='filter[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
           .status
             //- 图形验证码
             img.img-captcha(:src='img_captcha_url', v-if="field.name === 'img_captcha'", @click.prevent='refreshImgCaptcha()')
@@ -14,7 +14,7 @@
             button.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
               span(v-cloak='') {{captchaCountdown.text}}
               countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
-            i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
+            i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name, "filter")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError(field.name)')
             //- i.weui_icon.weui_icon_success
         .input-comment(v-if='field.comment', v-cloak='') {{field.comment}}
@@ -63,7 +63,7 @@ export default {
               // 开始获取短信验证码
               recoveries.get({
                 content: 'captcha',
-                ...this.user,
+                ...this.filter,
                 channel: 'sms'
               }).catch((res) => {
                 this.$root.showToast({
@@ -86,12 +86,12 @@ export default {
           this.$root.showLoadingStatus()
           recoveries.update({
             content: 'validate_captcha'
-          }, this.user).then(() => {
+          }, this.filter).then(() => {
             this.$root.hideLoadingStatus()
             this.$router.go({
               name: 'forgetPassword2',
               query: {
-                mobile: this.user.mobile
+                mobile: this.filter.mobile
               }
             })
           }, (res) => {
@@ -107,7 +107,7 @@ export default {
 
   data() {
     return {
-      user: {
+      filter: {
         mobile: this.$route.query.mobile || '',
         img_captcha: '',
         img_captcha_key: '',
