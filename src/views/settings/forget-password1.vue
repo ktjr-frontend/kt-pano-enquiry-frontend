@@ -4,9 +4,9 @@
     form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
       //- // <input type="password" class="dn" name="password" />
       .form-group(v-for='field in fields')
-        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!filter[field.name]}")
+        .input(v-validate-class='', v-kt-toggle-onfucusblur='', child='input', toggle-class='focus', :class="{'not-empty': !!user[field.name]}")
           i.icon-pano(:class='field.iconName')
-          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='filter[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
+          input(autocomplete='off', @input='validate(field.name)', initial='off', detect-change='off', detect-blur='off', :type='field.type', v-model='user[field.name]', :name='field.name', :placeholder='field.placeholder', :field='field.name', v-validate='field.validate')
           .status
             //- 图形验证码
             img.img-captcha(:src='img_captcha_url', v-if="field.name === 'img_captcha'", @click.prevent='refreshImgCaptcha()')
@@ -63,7 +63,7 @@ export default {
               // 开始获取短信验证码
               recoveries.get({
                 content: 'captcha',
-                ...this.filter,
+                ...this.user,
                 channel: 'sms'
               }).catch((res) => {
                 this.$root.showToast({
@@ -86,12 +86,12 @@ export default {
           this.$root.showLoadingStatus()
           recoveries.update({
             content: 'validate_captcha'
-          }, this.filter).then(() => {
+          }, this.user).then(() => {
             this.$root.hideLoadingStatus()
             this.$router.go({
               name: 'forgetPassword2',
               query: {
-                mobile: this.filter.mobile
+                mobile: this.user.mobile
               }
             })
           }, (res) => {
@@ -107,7 +107,7 @@ export default {
 
   data() {
     return {
-      filter: {
+      user: {
         mobile: this.$route.query.mobile || '',
         img_captcha: '',
         img_captcha_key: '',
