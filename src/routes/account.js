@@ -184,6 +184,7 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: false,
+      skipAuth: true,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
         certified: ['passed', 'pended', 'rejected'],
@@ -201,6 +202,7 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: false,
+      skipAuth: true,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
         certified: ['passed', 'pended', 'rejected'],
