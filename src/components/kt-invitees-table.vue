@@ -12,7 +12,7 @@
       td {{invitee.created_at}}
       td(:class="{'color-main': invitee.status === '已生效'}") {{invitee.status}}
     tr
-      td.text-center(colspan="4") 无数据！
+      td.text-center(colspan="4", v-show="!invitees.length") 无数据！
 </template>
 
 <script>
@@ -45,9 +45,10 @@ export default {
   table {
     width: 100%;
   }
-  th,td {
+  th,
+  td {
     height: 0.805153rem; //100px
-    border:1px solid #eff2f7;
+    border: 1px solid #eff2f7;
     padding: 0 .5em;
   }
 }

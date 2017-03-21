@@ -256,11 +256,11 @@ export default {
     // 初始化微信jssdk
     if (this.invitationGroupVisibel) {
       const host = location.protocol + '//' + location.host
-      const encodeURIcomponent = window.encodeURIcomponent
+      const name = encodeURIComponent(this.user.name)
       this.wxInit({
         title: '最全的互联网金融市场数据都在这儿了',
         desc: '现在还能在线对接资产项目',
-        link: `${host}#!/shared_register?_u=${this.user.id}&_n=${encodeURIcomponent(this.user.name)}` // 分享链接
+        link: `${host}#!/shared_register?_u=${this.user.id}&_n=${name}` // 分享链接
       }, (to) => {
         this.$root.bdTrack(['个人信息页', '成功分享', '邀请好友', to])
       }, (to) => {

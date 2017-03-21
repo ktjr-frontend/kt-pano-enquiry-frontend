@@ -25,7 +25,7 @@
           .card-body
             span.card-note 反面<br/>（可选）
             .btn-file
-              input#file(v-el:card-back-input, v-model='cardBack.file', @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/*')
+              input#file(v-el:card-back-input, @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/*')
             //- .comment(v-show='!cardBack.file')
               //- p
                 //- | 请上传与注册手机号一致的名片信息
@@ -57,6 +57,7 @@ import {
   cardFront,
   cardBack
 } from '../common/resources'
+const FILE_NOT_EMPTY = 'has_file'
 
 export default {
   components: {
@@ -72,7 +73,7 @@ export default {
     this.isUpdated = !!this.$route.query.update
     this.certifyApplication = this.$route.query.certifyApplication
     this.cardFront.previewUrl = this.user.card_url
-    this.cardFront.file = 'card_url'
+    this.cardFront.file = this.user.card_url ? FILE_NOT_EMPTY : null
     this.cardBack.previewUrl = this.user.card_back_url
   },
   data() {
@@ -145,7 +146,7 @@ export default {
         this.$root.hideLoadingStatus()
         this[ns].rst = rst
         this.showPreview(rst.base64, ns)
-
+        this[ns].file = FILE_NOT_EMPTY
         this.$root.log({
           name: '用户预览名片成功'
         })
