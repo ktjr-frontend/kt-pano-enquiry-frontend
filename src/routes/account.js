@@ -324,5 +324,18 @@ export default {
     component(resolve) {
       require(['../views/prefer'], resolve)
     }
+  },
+  '/invitation': {
+    name: 'invitation',
+    data: {
+      title: '我用开通PANO,互金数据全掌握',
+      logoBottomVisible: false,
+      headVisible: headVisible,
+      tabVisible: false,
+      skipAuth: true
+    },
+    component(resolve) {
+      require(['../views/invitation'], resolve)
+    }
   }
 }
