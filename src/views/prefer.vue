@@ -64,6 +64,7 @@ export default {
     // 跳过
     skipOver() {
       const _self = this
+      this.$root.bdTrack(['偏好信息页', '点击', '跳过'])
       this.$root.showConfirm({
         confirmText: '马上设置',
         cancelText: '不需要',
@@ -75,14 +76,19 @@ export default {
           _self.$router.go({
             name: 'quotationOB'
           })
+          _self.$root.bdTrack(['偏好信息页', '点击', '不需要'])
+        },
+        onConfirm() {
+          _self.$root.bdTrack(['偏好信息页', '点击', '马上设置'])
         }
       })
     },
 
     onSubmit() {
       this.$root.log({
-        name: '完成'
+        name: '提交'
       })
+      this.$root.bdTrack(['偏好信息页', '点击', '提交'])
 
       this.$refs.baTypes.saveBAdata(true).then(() => {
         this.$root.showAlert({

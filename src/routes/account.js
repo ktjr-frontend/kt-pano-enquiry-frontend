@@ -337,5 +337,18 @@ export default {
     component(resolve) {
       require(['../views/invitation'], resolve)
     }
+  },
+  '/shared_register': {
+    name: 'sharedRegister',
+    data: {
+      title: '我用开通PANO，互金数据全掌握',
+      logoBottomVisible: false,
+      headVisible: headVisible,
+      tabVisible: false,
+      skipAuth: true
+    },
+    component(resolve) {
+      require(['../views/shared-register'], resolve)
+    }
   }
 }

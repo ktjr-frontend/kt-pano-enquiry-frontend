@@ -37,9 +37,9 @@ export default {
           headVisible: headVisible,
           tabVisible: true,
           permits: {
-            premium: ['passed', 'pended'],
-            certified: ['passed', 'pended'],
-            normal: ['passed', 'pended']
+            premium: ['passed', 'pended', 'rejected'],
+            certified: ['passed', 'pended', 'rejected'],
+            normal: ['passed', 'pended', 'rejected']
           }
         },
         name: 'quotationDetail',
@@ -56,10 +56,13 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true,
+      rejectedLimit: true, // 被拒绝的用户访问受限，弹出窗口提示
+      pendedLimit: true, // 被拒绝的用户访问受限，弹出窗口提示
+      normalLimit: true, // 未认证的用户访问受限，弹出窗口提示
       permits: {
-        premium: ['passed', 'pended'],
-        certified: ['passed', 'pended'],
-        normal: ['passed', 'pended']
+        premium: ['passed', 'pended', 'rejected'],
+        certified: ['passed', 'pended', 'rejected'],
+        normal: ['passed', 'pended', 'rejected']
       }
     }
   },
@@ -72,10 +75,13 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true,
+      rejectedLimit: true, // 被拒绝的用户访问受限，弹出窗口提示
+      pendedLimit: true, // 被拒绝的用户访问受限，弹出窗口提示
+      normalLimit: true, // 未认证的用户访问受限，弹出窗口提示
       permits: {
-        premium: ['passed', 'pended'],
-        certified: ['passed', 'pended'],
-        normal: ['passed', 'pended']
+        premium: ['passed', 'pended', 'rejected'],
+        certified: ['passed', 'pended', 'rejected'],
+        normal: ['passed', 'pended', 'rejected']
       }
     }
   }

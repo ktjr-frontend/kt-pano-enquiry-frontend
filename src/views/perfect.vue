@@ -4,27 +4,44 @@
     .left
       small *请上传与注册手机号一致的名片信息
     .right
-      button.btn.btn-simple(@click='skipOver()') 跳过
+      button.btn.btn-simple(@click='skipOver()', v-if="!isUpdated && !certifyApplication") 跳过
   validator(name='cardValidation')
-    form(name='cardForm', novalidate='', @submit='onSubmit($event)')
+    form(name='cardForm', novalidate='', @submit.prevent='onSubmit()')
       .form-container
-        .form-group.card-container(:class='containerClass')
+        .form-group.card-container(:class="{'preview': cardFront.previewUrl}")
           .card-body
+            span.card-note
+              i.blank
+              | 正面
+              i.blank
             .btn-file
-              input#file(v-model='card.file', @change="cardOnChange('file', $event)", type='file', v-validate:file='{required: {rule: true, message: "请长传名片"}}', name='file', accept='image/*')
-            .comment(v-show='!card.file')
-              p
+              input#file(v-el:card-front-input,  @change="cardOnChange('frontfile', $event)", type='file', name='frontfile', accept='image/*')
+              input(type="hidden", v-model='cardFront.file', v-validate:frontfile='{required: {rule: true, message: "请上传名片正面"}}')
+            .business-card-preview
+              .img-wrapper
+                img(alt='名片预览', :src='cardFront.previewUrl')
+                i.icon-pano.icon-plus(@click.prevent='resetInput()')
+        .form-group.card-container(:class="{'preview': cardBack.previewUrl}")
+          .card-body
+            span.card-note 反面<br/>（可选）
+            .btn-file
+              input#file(v-el:card-back-input, v-model='cardBack.file', @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/*')
+            //- .comment(v-show='!cardBack.file')
+              //- p
                 //- | 请上传与注册手机号一致的名片信息
                 //- br
                 | 如名片信息分布在正反两面，请将正反两张名片摆在一起拍照
             .business-card-preview
-              img(alt='名片预览', :src='card.previewUrl')
+              .img-wrapper
+                img(alt='名片预览', :src='cardBack.previewUrl')
+                i.icon-pano.icon-plus(@click.prevent="resetInput('cardBack')")
       .form-footer
         flexbox
           flexbox-item
-            button.btn(@click="$root.log({name: '下一步'})") 下一步
-          flexbox-item(v-show='card.file')
-            button.btn.btn-gray(@click.prevent='resetForm()') 重新上传
+            button.btn(v-if="!isUpdated", @click="$root.log({name: '下一步'})") 下一步
+            button.btn(v-if="isUpdated", @click="$root.log({name: '确定'})") 确定
+          //- flexbox-item(v-show='cardFront.file')
+            button.btn.btn-gray(@click.prevent='resetInput()') 重新上传
 
 </template>
 
@@ -37,7 +54,8 @@ import {
   user
 } from '../vuex/getters'
 import {
-  cards
+  cardFront,
+  cardBack
 } from '../common/resources'
 
 export default {
@@ -50,80 +68,83 @@ export default {
       user
     }
   },
+  ready() {
+    this.isUpdated = !!this.$route.query.update
+    this.certifyApplication = this.$route.query.certifyApplication
+    this.cardFront.previewUrl = this.user.card_url
+    this.cardFront.file = 'card_url'
+    this.cardBack.previewUrl = this.user.card_back_url
+  },
   data() {
     return {
-      rst: {},
-      card: {
+      cardFrontResource: cardFront,
+      cardBackResource: cardBack,
+      certifyApplication: false, // false 注册流程，true 真正流程
+      isUpdated: false, // 默认不是更新名片
+      cardFront: { // 正面
+        rst: {},
         img: null, // 供压缩用
         file: null,
         previewUrl: '',
-        previewing: false,
+        // previewing: false,
+        uploading: false
+      },
+      cardBack: { // 反面
+        rst: {},
+        img: null, // 供压缩用
+        file: null,
+        previewUrl: '',
+        // previewing: false,
         uploading: false
       }
     }
   },
-  computed: {
-    containerClass: {
-      cached: false,
-      get() {
-        let cssClass = ''
-        switch (true) {
-          case this.card.previewing:
-            cssClass = 'preparing'
-            break
-          case !!this.card.previewUrl:
-            cssClass = 'preview'
-            break
-          case this.card.uploading:
-            cssClass = 'pending'
-            break
-          default:
-            cssClass = ''
-        }
-        return cssClass
-      }
-    }
-  },
+
   methods: {
     // 跳过
     skipOver() {
       const _self = this
+      this.$root.bdTrack(['上传名片页', '点击', '跳过'])
       this.$root.showConfirm({
         confirmText: '马上去传',
         cancelText: '残忍拒绝',
         content: '上传名片才能完成认证哦',
         onCancel() {
+          _self.$root.bdTrack(['上传名片页', '点击', '残忍拒绝'])
           _self.$router.go({
             name: 'prefer',
             query: _self.$route.query
           })
+        },
+        onConfirm() {
+          _self.$root.bdTrack(['上传名片页', '点击', '马上去传'])
         }
       })
     },
 
     // 预览名片
-    showPreview(url) {
+    showPreview(url, ns = 'cardFront') {
       let img = new Image()
       img.src = url
       img.onload = () => {
-        this.card.previewUrl = url
-        this.card.previewing = false
-        this.card.img = img
+        this[ns].previewUrl = url
+          // this[ns].previewing = false
+        this[ns].img = img
       }
     },
 
     // 选择新照片
-    cardOnChange(name, event) {
-      this.validate(name)
+    cardOnChange(name, event, ns = 'cardFront') {
+      if (name) this.validate(name)
       let file = event.target.files[0]
-
+      this.$root.bdTrack(['上传名片页', ns === 'cardFront' ? '正面' : '背面', '上传', '十字加号'])
       this.$root.showLoadingStatus()
       lrz(file, {
         quality: 0.7 //1 的话方向会错
       }).then(rst => {
         this.$root.hideLoadingStatus()
-        this.rst = rst
-        this.showPreview(rst.base64)
+        this[ns].rst = rst
+        this.showPreview(rst.base64, ns)
 
         this.$root.log({
           name: '用户预览名片成功'
@@ -158,12 +179,38 @@ export default {
     },
 
     // 重新上传名片
-    resetForm() {
-      this.card.previewUrl = ''
-      this.card.file = null
-      document.forms.namedItem('cardForm').reset()
-      this.$root.log({
-        name: '重新上传'
+    resetInput(ns = 'cardFront') {
+      const _self = this
+      this.$root.showConfirm({
+        content: '确定删除吗？',
+        onConfirm() {
+          // 重置
+          function reset() {
+            _self[ns].previewUrl = ''
+            _self[ns].file = null
+            _self[ns].rst = {}
+            _self.$els[`${ns}Input`].value = ''
+              // document.forms.namedItem('cardForm').reset()
+            _self.$root.log({
+              name: '重新上传'
+            })
+          }
+
+          if (!_self[ns].previewUrl.match(/^data:image/g)) { // 如果不是本地预览的图片
+            _self.$root.showLoadingStatus()
+            _self[`${ns}Resource`].delete().then(() => { // 调用后端的删除接口
+              _self.$root.hideLoadingStatus()
+              reset()
+            }).catch(res => {
+              _self.$root.hideLoadingStatus()
+              _self.$root.showToast({
+                text: '删除失败！'
+              })
+            })
+          } else {
+            reset()
+          }
+        }
       })
     },
 
@@ -174,63 +221,76 @@ export default {
     },
 
     onSubmit(event) {
-      event.preventDefault()
       this.$validate(true, () => {
         if (this.$cardValidation.invalid) {
           this.$root.showToast({
-            text: '请先上传名片'
+            text: '请上传名片正面'
           })
         } else {
+          // let form = document.forms.namedItem('cardForm')
+          const formDataFront = new FormData()
+          const fileNameFront = Utils.uniqeId(8)
+          formDataFront.append('file', this.cardFront.rst.file, `${fileNameFront}.jpeg`)
+          let cardsPromise
+          if (this.cardBack.rst.file) {
+            const formDataBack = new FormData()
+            const fileNameBack = Utils.uniqeId(8)
+            formDataBack.append('file', this.cardBack.rst.file, `${fileNameBack}.jpeg`)
+            if (this.cardFront.rst.file) { // 如果前面存在
+              cardsPromise = Promise.all([this.cardFrontResource.save(formDataFront), this.cardBackResource.save(formDataBack)])
+            } else {
+              cardsPromise = this.cardBackResource.save(formDataBack)
+            }
+          } else if (this.cardFront.rst.file) {
+            cardsPromise = this.cardFrontResource.save(formDataFront)
+          }
+
+          if (!cardsPromise) {
+            this.$router.go({
+              name: this.isUpdated ? 'settings' : 'prefer',
+              query: this.$route.query
+            })
+            return
+          }
+
           this.$root.showLoadingStatus()
-            // let form = document.forms.namedItem('cardForm')
-          let formData = new FormData()
-          let fileName = Utils.uniqeId(8)
-          formData.append('file', this.rst.file, `${fileName}.jpeg`)
+          cardsPromise.then(() => {
+            return this.cardFrontResource.update({
+              content: 'confirm'
+            }, {})
+          }).then((res) => {
+            this.$root.hideLoadingStatus()
+            this.$root.updateUser(Object.assign({}, this.user, res.json().account))
 
-          cards.save(formData)
-            .then((res) => {
-              return cards.update({
-                content: 'confirm'
-              }, {})
-            })
-            .then((res) => {
-              this.$root.hideLoadingStatus()
-              this.$root.updateUser(Object.assign({}, this.user, res.json().account))
-
-              if (!this.$route.query.update) { // 不是更新操作，注册后的上传名片
-                // this.$root.showAlert({
-                //   content: '名片上传成功，快去开启您的询价之旅吧！'
-                // })
-
-                this.$router.go({
-                  name: 'prefer',
-                  query: this.$route.query
-                })
-              } else { // 如果是更新名片
-                this.$root.showToast({
-                  text: '名片修改成功!',
-                  type: 'text'
-                })
-
-                this.$router.go({
-                  name: 'settings'
-                })
-              }
-
-              this.$root.log({
-                name: '用户提交名片成功'
+            if (!this.$route.query.update) { // 不是更新操作，注册后的上传名片
+              this.$router.go({
+                name: 'prefer',
+                query: this.$route.query
               })
-            })
-            .catch((res) => {
-              this.$root.hideLoadingStatus()
+            } else { // 如果是更新名片
               this.$root.showToast({
-                text: res.json().error || '抱歉，服务器繁忙！'
+                text: '名片修改成功!',
+                type: 'text'
               })
 
-              this.$root.log({
-                name: '用户提交名片失败'
+              this.$router.go({
+                name: 'settings'
               })
+            }
+
+            this.$root.log({
+              name: '用户提交名片成功'
             })
+          }).catch((res) => {
+            this.$root.hideLoadingStatus()
+            this.$root.showToast({
+              text: res.json().error || '抱歉，服务器繁忙！'
+            })
+
+            this.$root.log({
+              name: '用户提交名片失败'
+            })
+          })
         }
       })
     }
@@ -272,7 +332,15 @@ export default {
 }
 
 .form-container {
+  padding: 0.885668rem 0.402576rem; //110px
   background: white;
+}
+
+.form-group {
+  margin-bottom: 1.127214rem; //140px
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
 
 .form-footer {
@@ -296,21 +364,45 @@ form {
     font-size: 0.523349rem;
     margin: 0.805153rem auto;
   }
+  .business-card-preview {
+    height: 4.025765rem;
+    margin: 0 auto;
+    border: 1px solid #dbe0e7;
+    position: relative;
+    .img-wrapper {
+      max-width: 98%;
+      max-height: 98%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    img {
+      max-width: 100%;
+      max-height: 4rem;
+    }
+    .icon-plus {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #adb1bc;
+      padding: 5px;
+      border-radius: 50%;
+      color: white;
+      transform: translateX(50%) translateY(-50%) rotate(45deg);
+      &:active {
+        background: red;
+      }
+    }
+  }
   .card-body {
     margin: 0 auto;
-    .business-card-preview {
-      height: 4.025765rem;
-      margin: 0 auto;
-      border: 1px solid #dbe0e7;
-      position: relative;
-      img {
-        max-width: 98%;
-        max-height: 98%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-      }
+    position: relative;
+    .card-note {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translateY(-50%) translateX(-3.623188rem);
     }
     .btn-file {
       height: 3.623188rem;
@@ -400,19 +492,20 @@ form {
     color: #adb1bc;
     font-size: 0.289855rem; //36px
   }
-  &.preparing {
-    .card-body {
-      .status {
-        display: block;
-      }
-    }
-  }
+  // &.preparing {
+  //   .card-body {
+  //     .status {
+  //       display: block;
+  //     }
+  //   }
+  // }
   &.preview {
     .card-body {
       .business-card-preview {
         display: block;
       }
-      .btn-file {
+      .btn-file,
+      .card-note {
         display: none;
       }
     }

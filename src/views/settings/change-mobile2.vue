@@ -9,7 +9,7 @@ import {
 } from '../../vuex/getters'
 import {
   accounts,
-  cards
+  cardsFront
 } from '../../common/resources'
 
 export default {
@@ -75,7 +75,7 @@ export default {
           }, {
             ...this.filter
           }).then(() => {
-            return cards.update({
+            return cardsFront.update({
               content: 'confirm'
             }, {})
           }).then((res) => {

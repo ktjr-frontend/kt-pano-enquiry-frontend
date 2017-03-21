@@ -6,7 +6,7 @@ import setValidators from './common/validators'
 import _ from 'lodash'
 import log from './common/log'
 import routes from './routes'
-import { showToast, updateTabVisible } from './vuex/actions'
+import { showConfirm, showAlert, showToast, updateTabVisible } from './vuex/actions'
 import store from './vuex/store'
 import permitJudge from './routes/permits.js'
 
@@ -44,8 +44,80 @@ router.beforeEach(({ from, to, abort, next }) => {
   }
 })
 
-router.afterEach(({ to }) => {
+// 哪些页面可以回跳
+const canBackToRoutes = [
+  'profile', 'settings', 'allInstitutions',
+  'moreInstitutions', 'myProjects', 'myProjectDetail', 'referProjects',
+  'referProjectDetail', 'interestProjects', 'interestProjectDetail', 'forgetPassword1',
+  'forgetPassword2', 'changeMobile1', 'changeMobile2', 'changePassword'
+]
+
+router.afterEach(({ from, to }) => {
   updateTabVisible(store, to.query.shared ? false : to.data.tabVisible)
+  const user = store.state.user
+
+  if (to.data.normalLimit && user.group === 'normal') { // 非认证用户
+    showConfirm(store, {
+      content: '请您先通过名片认证，才能使用该功能。',
+      confirmText: '去认证',
+      onConfirm() {
+        router.go({
+          name: 'perfect',
+          query: {
+            certifyApplication: true // 认证申请，不显示跳过按钮
+          }
+        })
+      },
+      onCancel() {
+        if (_.includes(canBackToRoutes, from.name)) {
+          router.go({
+            name: from.name
+          })
+        } else {
+          router.go({
+            name: 'quotationOB'
+          })
+        }
+      }
+    })
+  } else if (to.data.pendedLimit && user.status === 'pended') { // 待审核用户
+    showAlert(store, {
+      content: '您的名片认证正在审核，审核通过后才可使用该功能，请耐心等候。',
+      buttonText: '好的',
+      onHide() {
+        if (_.includes(canBackToRoutes, from.name)) {
+          router.go({
+            name: from.name
+          })
+        } else {
+          router.go({
+            name: 'quotationOB'
+          })
+        }
+      }
+    })
+  } else if (to.data.rejectedLimit && user.status === 'rejected') { // 审核不通过用户
+    showConfirm(store, {
+      content: '您的认证审核未通过，暂时无法使用该功能，请重新提交审核。',
+      confirmText: '前往',
+      onConfirm() {
+        router.go({
+          name: 'settings'
+        })
+      },
+      onCancel() {
+        if (_.includes(canBackToRoutes, from.name)) {
+          router.go({
+            name: from.name
+          })
+        } else {
+          router.go({
+            name: 'quotationOB'
+          })
+        }
+      }
+    })
+  }
 
   const getTitle = function(to) {
     if (_.includes(['quotationDetail'], to.name)) { // 报价板详情 定制化title

@@ -1,3 +1,4 @@
+var opn = require('opn')
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
@@ -8,6 +9,7 @@ var webpackConfig = process.env.NODE_ENV === 'testing' ? require('./webpack.prod
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
+var autoOpenBrowser = !!config.dev.autoOpenBrowser
   // Define HTTP proxies to your custom API backend
   // https://github.com/chimurai/http-proxy-middleware
 var proxyTable = config.dev.proxyTable
@@ -61,10 +63,18 @@ app.use(hotMiddleware)
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
+var uri = 'http://enquiry.pano.ktjr.com:' + port
+
 module.exports = app.listen(port, function(err) {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Listening at http://localhost:' + port + '\n')
+
+  console.log('>Listening at ' + uri + '\n')
+  console.log('>Pls set your local hosts: 127.0.0.1 enquiry.pano.ktjr.com' + uri + '\n')
+    // when env is testing, don't need open it
+  if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
+    opn(uri)
+  }
 })

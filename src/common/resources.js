@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 let sessions, assetTypes, businessTypes, accounts, registrations,
-  recoveries, cards, enquiries, sharedEnquiries, feedbacks,
+  recoveries, cardFront, cardBack, enquiries, sharedEnquiries, feedbacks,
   signatures, log, persons, quotes, projects, panoFiles, projectInterest,
   imageCaptcha, instBasicInfo
 
@@ -26,7 +26,8 @@ export default function setResources(resource) {
   accounts = resource('accounts{/content}', {}, {}, commonOpts) // 账户信息更改
   registrations = resource('registrations{/content}', {}, {}, commonOpts) // 注册
   recoveries = resource('recoveries{/content}', {}, {}, commonOpts) // 忘记密码
-  cards = resource('cards{/content}', {}, {}, commonOpts) // 上传名片
+  cardFront = resource('cards{/content}', {}, {}, commonOpts) // 上传名片
+  cardBack = resource('back_cards{/content}', {}, {}, commonOpts) // 上传名片
   enquiries = resource('inquiries{/content}', {}, {}, commonOpts) // 询价
   feedbacks = resource('feedbacks', {}, {}, commonOpts) // 用户反馈
   signatures = resource('inquiries/get_wx_tokens', {}, {}, commonOpts) // 微信签名
@@ -44,7 +45,8 @@ export {
   accounts,
   registrations,
   recoveries,
-  cards,
+  cardFront,
+  cardBack,
   enquiries,
   feedbacks,
   sharedEnquiries,

@@ -60,13 +60,13 @@
         </popup>
         </div>
       .form-group
-        button(@click="$root.log({name: '下一步'})") 下一步
+        button(@click="$root.bdTrack(['注册页', '点击', '下一步'])") 下一步
       flexbox
         flexbox-item
           .text-right
             | 已有账号？
             em
-              a(v-link="{name: 'login'}", @click="$root.log({name: '请登录'})") 请登录
+              a(v-link="{name: 'login'}", @click="$root.bdTrack(['注册页', '点击', '请登录'])") 请登录
 
 </template>
 
@@ -111,6 +111,7 @@ export default {
 
     // 获取短信验证码
     getCaptcha() {
+      this.$root.bdTrack(['注册页', '点击', this.captchaCountdown.text])
       this.$validate('mobile', () => {
         if (this.$validation.mobile.invalid) {
           this.$root.showToast({

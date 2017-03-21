@@ -13,6 +13,14 @@ export default {
     return parts.join('&')
   },
 
+  isMobile() {
+    var ua = navigator.userAgent
+    if (ua.match(/Android/i) || ua.match(/webOS/i) || ua.match(/iPhone/i) || ua.match(/iPad/i) || ua.match(/iPod/i) || ua.match(/BlackBerry/i) || ua.match(/Windows Phone/i)) {
+      return true
+    }
+    return false
+  },
+
   uniqeId(length) {
     let text = ''
     let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -68,7 +76,7 @@ export default {
   compressImage(img, cropInfo) {
     let canvas = document.createElement('canvas')
     let ctx = canvas.getContext('2d')
-    /*drawimg 的各个参数*/
+      /*drawimg 的各个参数*/
     let nw = img.naturalWidth
     let nh = img.naturalHeight
     let sw = nw
@@ -79,7 +87,7 @@ export default {
     let dy = 0 //canvas 起始y坐标
     let dw = 600 // 默认 600像素
     let dh = cropInfo ? parseInt(cropInfo.h / cropInfo.w * dw, 10) : parseInt(sh / nw * dw, 10) // 默认是图片的比例
-    // 压缩比例已经确定 设置canvas尺寸
+      // 压缩比例已经确定 设置canvas尺寸
     canvas.width = dw
     canvas.height = dh
 

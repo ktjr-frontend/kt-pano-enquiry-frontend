@@ -20,7 +20,8 @@
   group.user-card
     cell(title='名片', :is-link='user.group !== "normal"', @click='changeUserCard()')
       .user-card-box(slot='after-title')
-        img(:src='user.card_url', alt='您的名片', v-show='user.card_url')
+        img.front(:src='user.card_url', alt='您的名片正面', v-if='user.card_url')
+        img.back(:src='user.card_back_url', alt='您的名片反面', v-if='user.card_back_url')
   group
     cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}", @click="$root.bdTrack(['个人信息页', '进入', '修改密码'])")
   .buttons
@@ -385,6 +386,9 @@ form {
     img {
       // max-height: 2.415459rem;
       width: 100%;
+      &.back {
+        margin-top: 1em;
+      }
       // max-width: 100%;
     }
   }

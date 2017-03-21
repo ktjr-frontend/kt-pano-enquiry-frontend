@@ -11,6 +11,7 @@
         button(@click="goInvitation()") 去邀请
       p.inv_foot 高级用户可享受PANO的最高权限,<br>使用网站的全部功能以及全域的数据检索等。
 </template>
+
 <script>
 import wxMixin from '../mixins/wx-mixin'
 export default {
@@ -39,6 +40,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scope>
 .invitation_title {
   background-image: url(../assets/images/invitation_bg.jpg);
@@ -97,6 +99,9 @@ export default {
       width: 8.373591rem; //1040px
       background: #007fd1;
       border-radius: 1.111111rem; //138px
+      &:active {
+        background: darken(#007fd1, 10%);
+      }
     }
   }
   .inv_foot {

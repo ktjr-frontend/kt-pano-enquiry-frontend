@@ -35,6 +35,7 @@ module.exports = {
     port: 80,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
+    autoOpenBrowser: true,
     proxyTable: {
       '/api': {
         // target: 'http://10.132.1.188:3000',

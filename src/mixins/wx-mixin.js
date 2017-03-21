@@ -4,7 +4,7 @@ import { enquiries } from '../common/resources'
 
 export default {
   methods: {
-    wxInit(options) {
+    wxInit(options, success, cancel) {
       this.updateSignature({}, () => {
         // 签名失效
         wx.error((res) => {
@@ -35,9 +35,11 @@ export default {
           wx.onMenuShareAppMessage({
             ...shareOptions,
             success() {
+              success && success('朋友') // eslint-disable-line
               _self.logShare('朋友', '确定')
             },
             cancel() {
+              cancel && cancel('朋友') // eslint-disable-line
               _self.logShare('朋友', '取消')
             }
           })
@@ -47,9 +49,11 @@ export default {
             ...shareOptions,
             desc: '这里有最新互金渠道资产价格，还能直接对接项目、找资金',
             success() {
+              success && success('朋友圈') // eslint-disable-line
               _self.logShare('朋友圈', '确定')
             },
             cancel() {
+              cancel && cancel('朋友圈') // eslint-disable-line
               _self.logShare('朋友圈', '取消')
             }
           })
@@ -58,9 +62,11 @@ export default {
           wx.onMenuShareQQ({
             ...shareOptions,
             success() {
+              success && success('QQ') // eslint-disable-line
               _self.logShare('QQ', '确定')
             },
             cancel() {
+              cancel && cancel('QQ') // eslint-disable-line
               _self.logShare('QQ', '取消')
             }
           })
@@ -69,9 +75,11 @@ export default {
           wx.onMenuShareWeibo({
             ...shareOptions,
             success() {
+              success && success('腾讯微博') // eslint-disable-line
               _self.logShare('腾讯微博', '确定')
             },
             cancel() {
+              cancel && cancel('腾讯微博') // eslint-disable-line
               _self.logShare('腾讯微博', '取消')
             }
           })
@@ -80,9 +88,11 @@ export default {
           wx.onMenuShareQZone({
             ...shareOptions,
             success() {
+              success && success('QQ空间') // eslint-disable-line
               _self.logShare('QQ空间', '确定')
             },
             cancel() {
+              cancel && cancel('QQ空间') // eslint-disable-line
               _self.logShare('QQ空间', '取消')
             }
           })

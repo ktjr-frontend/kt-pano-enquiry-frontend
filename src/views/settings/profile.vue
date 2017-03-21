@@ -37,7 +37,7 @@ div
           span(v-show="user.status === 'passed'") 升级
             i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
-        span.remark(v-if="user.group === 'normal'", v-link="{name:'perfect', query:{certifyApplication:1}}")
+        span.remark(v-if="user.group === 'normal'", @click="$root.bdTrack(['个人信息页', '点击', '去认证', '账号信息'])" , v-link="{name:'perfect', query:{certifyApplication:1}}")
           | 去认证
           i.icon-pano.icon-arrow-bold
           i.icon-pano.icon-info(@click.stop="showMemberTips()")
@@ -66,7 +66,10 @@ div
         .invitation-count
           | 您已成功邀请好友
           em {{user.invitee_account_count}}
-          | 人
+          | 人，其中认证通过
+          em {{user.certified_invitee_account_count}}
+          | 人。
+          a.color-main.tu(@click="showInvitees()") 详情
     //- 业务角色和偏好资产
     .group
       kt-cell(title='业务偏好', icon='icon-plus' @on-icon-click='openBATypes()')
@@ -199,6 +202,15 @@ div
     .popup-body
       .group
         kt-upgrade-member(@submit-wx-success="submitWxSuccess()")
+  //- 邀请好友列表
+  a.vux-popup-mask(href='javascript:void(0)')
+  popup(v-kt-prevent='', :show.sync='popups.invitees.show', :height='popups.invitees.height')
+    .header
+      a(@click='popups.invitees.show = false', @touchstart.stop='', class='cancel') 取消
+      a(@click='popups.invitees.show = false', @touchstart.stop='', class='ok') 确定
+    .popup-body
+      .group
+        kt-invitees-table
 
 </template>
 
@@ -208,7 +220,8 @@ import Group from 'vux-components/group'
 import Cell from 'vux-components/cell'
 import KtCell from '../../components/kt-cell'
 import KtAssetTypes from '../../components/kt-asset-types.vue'
-import ktUpgradeMember from '../../components/kt-upgrade-member.vue'
+import KtUpgradeMember from '../../components/kt-upgrade-member.vue'
+import KtInviteesTable from '../../components/kt-invitees-table.vue'
 import institutionMixins from './intitution_mixins'
 import {
   accounts,
@@ -229,7 +242,8 @@ export default {
     Cell,
     KtCell,
     KtAssetTypes,
-    ktUpgradeMember
+    KtUpgradeMember,
+    KtInviteesTable
   },
 
   vuex: {
@@ -246,6 +260,10 @@ export default {
         title: '最全的互联网金融市场数据都在这儿了',
         desc: '现在还能在线对接资产项目',
         link: `${host}#!/register?_u=${this.user.id}` // 分享链接
+      }, (to) => {
+        this.$root.bdTrack(['个人信息页', '成功分享', '邀请好友', to])
+      }, (to) => {
+        this.$root.bdTrack(['个人信息页', '取消分享', '邀请好友', to])
       })
     }
   },
@@ -325,6 +343,7 @@ export default {
 
     // 分享提示
     openShareTips() {
+      this.$root.bdTrack(['个人信息页', '点击', '邀请好友'])
       this.$root.showAlert({
         content: '点击右上角马上分享给你的小伙伴吧！'
       })
@@ -333,10 +352,17 @@ export default {
     // 升级高级会员
     upgradeMember() {
       this.popups.upgradeMember.show = true
+      this.$root.bdTrack(['个人信息页', '点击', '升级高级会员', '账户信息'])
     },
 
     submitWxSuccess() {
       this.popups.upgradeMember.show = false
+    },
+
+    // 显示邀请好友列表
+    showInvitees() {
+      this.popups.invitees.show = true
+      this.$root.bdTrack(['个人信息页', '点击', '邀请好友详情', '账户信息'])
     },
 
     // 会员提示
@@ -591,6 +617,10 @@ export default {
           height: '100%'
         },
         upgradeMember: {
+          show: false,
+          height: '100%'
+        },
+        invitees: {
           show: false,
           height: '100%'
         }

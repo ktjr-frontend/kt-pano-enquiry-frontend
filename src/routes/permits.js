@@ -9,7 +9,7 @@ export default function(route) {
   if (route.data.skipAuth) {
     passed = true
   } else {
-    if (!status) {
+    if (!status) { // 没状态说明没登录
       redirect = { name: 'login', query: { jump_to: route.path } }
       showToast = false
     } else {
