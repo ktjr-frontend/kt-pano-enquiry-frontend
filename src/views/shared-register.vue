@@ -151,10 +151,11 @@ export default {
 
             sessions.get().then((res) => {
               this.$root.hideLoadingStatus()
-              let user = res.json().account
+              const user = res.json().account
+              const uriToken = encodeURIComponent(token) // 主动encode，避免+被浏览器encode成空格
               this.$root.updateUser(user)
               if (this.isPc) {
-                location.href = `${Env.hostName}/account/perfect?_t=${token}`
+                location.href = `${Env.hostName}/account/perfect?_t=${uriToken}`
               } else {
                 this.$router.go({
                   name: 'perfect'

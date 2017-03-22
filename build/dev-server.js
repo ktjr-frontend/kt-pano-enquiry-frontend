@@ -75,6 +75,6 @@ module.exports = app.listen(port, function(err) {
   console.log('>Pls set your local hosts: 127.0.0.1 enquiry.pano.ktjr.com' + uri + '\n')
     // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
-    opn(uri)
+    opn(uri, {app: ['google chrome', '--incognito']})
   }
 })
