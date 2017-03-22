@@ -112,13 +112,12 @@ export default {
     },
 
     goToPano() {
-      if (this.user.status === 'rejected') {
-        this.showToast({
-          text: '由于您未通过认证审核，无权访问该页面！'
-        })
-        return
-      }
-
+      // if (this.user.status === 'rejected') {
+      //   this.showToast({
+      //     text: '由于您未通过认证审核，无权访问该页面！'
+      //   })
+      //   return
+      // }
       this.goOverview()
     },
 
