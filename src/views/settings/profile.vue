@@ -32,15 +32,15 @@ div
         span.remark(v-if="user.group === 'premium'")
           span(v-if="user.premium_duration") 剩余期限{{user.premium_duration}}天
           //- span(v-if="!user.premium_duration") 永久会员
-          i.icon-pano.icon-info(@click.stop="showMemberTips()")
+          i.icon-pano.icon-explain(@click.stop="showMemberTips()")
         span.remark(v-if="user.group === 'certified'", @click="upgradeMember()")
           span(v-show="user.status === 'passed'") 升级
             i.icon-pano.icon-arrow-bold
-          i.icon-pano.icon-info(@click.stop="showMemberTips()")
+          i.icon-pano.icon-explain(@click.stop="showMemberTips()")
         span.remark(v-if="user.group === 'normal'", @click="$root.bdTrack(['个人信息页', '点击', '去认证', '账号信息'])" , v-link="{name:'perfect', query:{certifyApplication:1}}")
           | 去认证
           i.icon-pano.icon-arrow-bold
-          i.icon-pano.icon-info(@click.stop="showMemberTips()")
+          i.icon-pano.icon-explain(@click.stop="showMemberTips()")
       .dj.item(v-if='user.company || user.job')
         span.company(v-if='user.company', :class="{'has-job': user.job}")
           //- | {{user.department}}
@@ -211,6 +211,15 @@ div
     .popup-body
       .group
         kt-invitees-table
+  //- 会员说明
+  a.vux-popup-mask(href='javascript:void(0)')
+  popup(v-kt-prevent='', :show.sync='popups.explain.show', :height='popups.explain.height')
+    .header(v-el:header)
+      a(@click='popups.explain.show = false', @touchstart.stop='', class='cancel') 取消
+      a(@click='popups.explain.show = false', @touchstart.stop='', class='ok') 确定
+    .popup-body
+      .group
+        explain(:subtract-height='subtractHeight')
 
 </template>
 
@@ -222,6 +231,7 @@ import KtCell from '../../components/kt-cell'
 import KtAssetTypes from '../../components/kt-asset-types.vue'
 import KtUpgradeMember from '../../components/kt-upgrade-member.vue'
 import KtInviteesTable from '../../components/kt-invitees-table.vue'
+import Explain from './explain.vue'
 import institutionMixins from './intitution_mixins'
 import {
   accounts,
@@ -240,6 +250,7 @@ export default {
     Popup,
     Group,
     Cell,
+    Explain,
     KtCell,
     KtAssetTypes,
     KtUpgradeMember,
@@ -304,7 +315,6 @@ export default {
         _.each(data.institutions.recommended, v => {
           v.is_followed = false
         })
-
         let _self = this
         setTimeout(() => {
           window.scrollTo(0, _self.$route.data.scrollY || 0)
@@ -368,11 +378,19 @@ export default {
 
     // 会员提示
     showMemberTips() {
-      this.$root.showAlert({
-        content: `<p class="text-left"><b style="color:#29aca8;">非认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
-                  <p class="text-left"><b style="color:#29aca8;">已认证</b>：注册成功且已完成名片认证，可访问市场数据和部分产品信息，不可进行检索等高级操作。</p>
-                  <p class="text-left"><b style="color:#29aca8;">高级用户</b>：可享受PANO的最高级权限，使用网站的全部功能以及全域的数据检索等。</p>`
+      this.popups.explain.show = true
+      this.$root.bdTrack(['个人信息页', '点击', '会员说明', '账户信息'])
+      setTimeout(() => {
+        let headerHeight = this.$els.header.getBoundingClientRect().height
+        let tabbarHeight = this.$root.$els.tabbar.getBoundingClientRect().height
+        this.subtractHeight = headerHeight + tabbarHeight
       })
+
+      // this.$root.showAlert({
+      //   content: `<p class="text-left"><b style="color:#29aca8;">非认证</b>：注册成功但未进行名片认证，只可访问总览页。</p>
+      //             <p class="text-left"><b style="color:#29aca8;">已认证</b>：注册成功且已完成名片认证，可访问市场数据和部分产品信息，不可进行检索等高级操作。</p>
+      //             <p class="text-left"><b style="color:#29aca8;">高级用户</b>：可享受PANO的最高级权限，使用网站的全部功能以及全域的数据检索等。</p>`
+      // })
     },
 
     // 初始化参与发行的产品
@@ -587,6 +605,7 @@ export default {
     let profilePageSession = Utils.getSessionByKey('profilePageSession')
 
     return {
+      subtractHeight: null,
       editingIntro: false,
       recommended: { // 推荐 recommended
         platforms: {
@@ -622,6 +641,10 @@ export default {
           height: '100%'
         },
         invitees: {
+          show: false,
+          height: '100%'
+        },
+        explain: {
           show: false,
           height: '100%'
         }
@@ -688,6 +711,10 @@ export default {
     // }
     .item {
       margin-bottom: 0.161031rem; //30px
+    }
+    .icon-explain {
+      font-size: 0.327907rem;
+      color: #c3c7d2;
     }
     .avatar-container {
       position: relative;

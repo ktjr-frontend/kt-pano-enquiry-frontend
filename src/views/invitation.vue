@@ -41,7 +41,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scope>
+<style lang="scss" scoped>
 .invitation_title {
   background-image: url(../assets/images/invitation_bg.jpg);
   text-align: center;

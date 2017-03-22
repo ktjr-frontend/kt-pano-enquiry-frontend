@@ -4,7 +4,7 @@
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible && isWeixin()' @click='wxShare()') 分享
   router-view.child-view
-  .tabbar(v-show='tabVisible')
+  .tabbar(v-show='tabVisible',v-el:tabbar)
     .tab(v-for='tab in tabs', :span='tab.span')
       a(v-if='tab.link.name', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
         i.icon-pano(:class='tab.icon', :style='tab.style')

@@ -351,4 +351,17 @@ export default {
       require(['../views/shared-register'], resolve)
     }
   }
+  // '/explain': {
+  //   name: 'explain',
+  //   data: {
+  //     title: '我用开通PANO，互金数据全掌握',
+  //     logoBottomVisible: false,
+  //     headVisible: headVisible,
+  //     tabVisible: false,
+  //     skipAuth: true
+  //   },
+  //   component(resolve) {
+  //     require(['../views/settings/explain'], resolve)
+  //   }
+  // }
 }
