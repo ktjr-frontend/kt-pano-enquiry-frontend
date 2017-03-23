@@ -20,6 +20,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-explain:before {
+  content: "\e91c";
+}
+
 .icon-vip:before {
   content: "\e91b";
 }
@@ -133,31 +137,31 @@
 }
 
 .icon-edit:before {
-  content: "\e91c";
-}
-
-.icon-man-simple:before {
   content: "\e91d";
 }
 
-.icon-ok2:before {
+.icon-man-simple:before {
   content: "\e91e";
 }
 
-.icon-plus:before {
+.icon-ok2:before {
   content: "\e91f";
 }
 
-.icon-checkbox:before {
+.icon-plus:before {
   content: "\e920";
 }
 
-.icon-market:before {
+.icon-checkbox:before {
   content: "\e921";
 }
 
-.icon-price:before {
+.icon-market:before {
   content: "\e922";
+}
+
+.icon-price:before {
+  content: "\e926";
 }
 
 .icon-project:before {

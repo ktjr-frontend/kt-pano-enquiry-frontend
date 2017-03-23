@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
+    "caniuse-db": "^1.0.30000640",
     "babel-core": "^6.0.0",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.0.0",

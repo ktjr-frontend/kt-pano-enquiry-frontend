@@ -1,5 +1,5 @@
 <template lang="jade">
-.invitees-table
+.invitees-table(@touchstart.stop='',:style="inviteesStyle")
   table
     tr
       th 好友
@@ -21,6 +21,14 @@ import {
 } from '../common/resources.js'
 
 export default {
+  props: ['tableHeight'],
+  computed: {
+    inviteesStyle() {
+      return {
+        height: window.innerHeight - this.tableHeight + 'px'
+      }
+    }
+  },
   ready: function() {
     persons.get({
       content: 'invitees'
@@ -42,6 +50,8 @@ export default {
   padding: 0.402576rem; //50px
   background: white;
   margin-top: 0.322061rem; //40px
+  overflow-y:scroll;
+  -webkit-overflow-scrolling: touch;
   table {
     width: 100%;
   }

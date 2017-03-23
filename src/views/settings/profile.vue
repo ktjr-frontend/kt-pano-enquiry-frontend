@@ -205,12 +205,12 @@ div
   //- 邀请好友列表
   a.vux-popup-mask(href='javascript:void(0)')
   popup(v-kt-prevent='', :show.sync='popups.invitees.show', :height='popups.invitees.height')
-    .header
+    .header(v-el:vin-height)
       a(@click='popups.invitees.show = false', @touchstart.stop='', class='cancel') 取消
       a(@click='popups.invitees.show = false', @touchstart.stop='', class='ok') 确定
     .popup-body
       .group
-        kt-invitees-table
+        kt-invitees-table(:table-height='tableHeight')
   //- 会员说明
   a.vux-popup-mask(href='javascript:void(0)')
   popup(v-kt-prevent='', :show.sync='popups.explain.show', :height='popups.explain.height')
@@ -271,7 +271,7 @@ export default {
       this.wxInit({
         title: '最全的互联网金融市场数据都在这儿了',
         desc: '现在还能在线对接资产项目',
-        link: `${host}#!/shared_register?_u=${this.user.id}&_n=${name}` // 分享链接
+        link: `${host}#!/shared_register?_u=${this.user.id}&_n=${name}&inviteFromWP` // 分享链接
       }, (to) => {
         this.$root.bdTrack(['个人信息页', '成功分享', '邀请好友', to])
       }, (to) => {
@@ -374,6 +374,11 @@ export default {
     showInvitees() {
       this.popups.invitees.show = true
       this.$root.bdTrack(['个人信息页', '点击', '邀请好友详情', '账户信息'])
+      setTimeout(() => {
+        let vinHeight = this.$els.vinHeight.getBoundingClientRect().height
+        let tabbarHeight = this.$root.$els.tabbar.getBoundingClientRect().height
+        this.tableHeight = vinHeight + tabbarHeight
+      })
     },
 
     // 会员提示
@@ -605,6 +610,7 @@ export default {
     let profilePageSession = Utils.getSessionByKey('profilePageSession')
 
     return {
+      tableHeight: null,
       subtractHeight: null,
       editingIntro: false,
       recommended: { // 推荐 recommended
