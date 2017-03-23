@@ -202,6 +202,12 @@ export default {
             _self[`${ns}Resource`].delete().then(() => { // 调用后端的删除接口
               _self.$root.hideLoadingStatus()
               reset()
+              _self.user.status = 'pended'
+              if (ns === 'cardFront') {
+                _self.user.card_url = ''
+              } else {
+                _self.user.card_back_url = ''
+              }
             }).catch(res => {
               _self.$root.hideLoadingStatus()
               _self.$root.showToast({
