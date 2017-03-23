@@ -1,7 +1,7 @@
 <template lang="jade">
   .wx_explain(@touchstart.stop='', :style="explainStyle")
     .wx_explain_content
-      h2 会员说明
+      .h2 会员说明
       .explain_body
         .explain_body_top
           .explain_title
@@ -10,7 +10,7 @@
           .explain_content
             h3 什么是高级会员？
             p 可享受PANO的最高级权限，使用网站的全部功能以及全域的数据检索等。全域数据检索是指基于PANO现有收录平台的产品名称、产品期限、年化收益、资产类型、底层资产、交易场所、增信方式等信息进行全站的筛选和搜索服务。
-            h3 如何成为高级会员
+            h3 如何成为高级会员？
             p 已通过名片认证的用户才可申请成为高级会员。具体方式如下：
             .mode
               b 方式一：
@@ -44,7 +44,7 @@
           table
             thead
               tr.th_color
-                th(width="70")
+                th.first_th
                 th
                 th 非认证用户
                 th 认证用户
@@ -166,9 +166,11 @@ export default {
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   .wx_explain_content {
-    padding: 0 0.402576rem; //50px
-    h2 {
+    // padding: 0 0.402576rem; //50px
+    .h2 {
       padding: 0.291031rem 0;
+      text-align: center;
+      font-size:0.359597rem;
     }
     .explain_body {
       background: #fff;
@@ -226,6 +228,9 @@ export default {
     padding-bottom:30px;
     background: white;
     margin-top: 0.322061rem; //40px
+    h2{
+      margin-bottom:0.161031rem;//20px
+    }
     table {
       table-layout: fixed;
       width: 100%;
@@ -234,13 +239,16 @@ export default {
         padding: 0 .5em;
         text-align: center;
         color:#fff;
-        font-size:0.289855rem;//36px
+        font-size:0.269855rem;//36px
       }
     }
     tbody{
       tr:nth-of-type(even){
         background: #f6f9fd;
       }
+    }
+    .first_th{
+      width:1.5em;//80px
     }
     .th_color{
       background: #b1b7c5;
@@ -251,7 +259,7 @@ export default {
       padding: 0 .5em;
       text-align: center;
       color:#80848d;
-      font-size:0.257649rem;//32px
+      font-size:0.227649rem;//32px
       i{
         color:#4480e0;
       }
