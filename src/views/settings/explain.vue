@@ -168,9 +168,7 @@ export default {
   .wx_explain_content {
     // padding: 0 0.402576rem; //50px
     .h2 {
-      padding: 0.291031rem 0;
-      text-align: center;
-      font-size:0.359597rem;
+      padding: 0.291031rem 0.291031rem;
     }
     .explain_body {
       background: #fff;
