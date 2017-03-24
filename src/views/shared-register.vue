@@ -311,7 +311,7 @@ export default {
 .header-desc1 {
   font-size: 0.354267rem; //44px;
   color: #c5c9d2;
-  margin-bottom: 0.161031rem; //20px
+  margin-bottom: 0; //20px
   position: relative;
   em {
     color: #2febe0;
@@ -338,7 +338,7 @@ export default {
 }
 
 .header-desc2 {
-  margin-top: 0.161031rem; //20px
+  margin-top: 0; //20px
   font-size: 0.354267rem; //44px
   color: #fbfcff;
   position: relative;
