@@ -204,6 +204,9 @@ export default {
               reset()
               if (ns === 'cardFront') {
                 _self.user.card_url = ''
+                _self.user.status = 'rejected'
+                _self.user.reason = '未上传名片正面信息'
+                _self.user.solution = '请在下方上传名片信息'
               } else {
                 _self.user.status = 'pended'
                 _self.user.card_back_url = ''
