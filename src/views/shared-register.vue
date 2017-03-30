@@ -24,7 +24,7 @@
               //- 图形验证码
               img.img-captcha(:src='img_captcha_url', v-if="field.name === 'img_captcha'", @click.prevent='refreshImgCaptcha()')
               //- 短信验证码
-              button.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
+              .btn.inset-button(:disabled='captchaCountdown.show', v-if="field.name === 'captcha'", @click.prevent='getCaptcha()')
                 span(v-cloak='') {{captchaCountdown.text}}
                 countdown(v-show='captchaCountdown.show', :start='captchaCountdown.start', :time.sync='captchaCountdown.time', @on-finish='resetCountDown()')
               i.weui_icon.weui_icon_clear(v-touch:tap='clearField(field.name)')
