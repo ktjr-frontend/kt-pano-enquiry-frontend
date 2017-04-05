@@ -18,10 +18,17 @@
     cell(title='职位', :value='user.job')
     cell(title='地址', :value='user.address')
   group.user-card
-    cell(title='名片', :is-link='user.group !== "normal"', @click='changeUserCard()')
-      .user-card-box(slot='after-title')
-        img.front(:src='user.card_url', alt='您的名片正面', v-if='user.card_url')
-        img.back(:src='user.card_back_url', alt='您的名片反面', v-if='user.card_back_url')
+    cell(title='名片')
+      i.icon-pano.icon-edit.card-edit(slot="value", v-if='user.group !== "normal"', @click='changeUserCard()')
+      .user-card-box(slot='after-title', v-if="user.card_url || user.card_back_url")
+        figure.front(v-if='user.card_url', @click="previewImage(user.card_url)")
+          figcaption 正面
+          .figure-body
+            img(:src='user.card_url', alt='您的名片正面')
+        figure.back(v-if='user.card_back_url', @click="previewImage(user.card_back_url)")
+          figcaption 反面
+          .figure-body
+            img(:src='user.card_back_url', alt='您的名片反面')
   group
     cell(title='修改密码', is-link='', v-link="{name: 'changePassword'}", @click="$root.bdTrack(['个人信息页', '进入', '修改密码'])")
   .buttons
@@ -64,8 +71,11 @@ import {
 } from '../../common/resources'
 import ImgCropper from '../../libs/img_cropper_reverse'
 import '../../libs/img_cropper_reverse/index.scss'
+import wxMixin from '../../mixins/wx-mixin.js'
+import _ from 'lodash'
 
 export default {
+  mixins: [wxMixin],
   components: {
     Popup,
     Group,
@@ -83,19 +93,11 @@ export default {
 
   ready() {
     this.showMessage(this.user.status)
-      // this.$els.cropper.addEventListener('touchstart', e => {
-      //   e.preventDefault()
-      //   return false
-      // })
+    this.wxPreviewImageInit()
 
     this.imgCropper = new ImgCropper({
       container: this.$els.cropper
     })
-
-    // this.$els.previewPop.addEventListener('touchstart', e => {
-    //   e.preventDefault()
-    //   return false
-    // })
   },
 
   watch: {
@@ -125,6 +127,18 @@ export default {
           content: this.message
         })
       }
+    },
+
+    previewImage(url) {
+      if (!this._previewImageReady) return
+      const urls = _.filter([this.user.card_url, this.user.card_back_url], (v) => {
+        return v
+      })
+
+      this.wxPreviewImage({
+        current: url,
+        urls: urls
+      })
     },
 
     // 预览头像
@@ -379,18 +393,42 @@ form {
   }
 }
 
+.card-edit {
+  position: absolute;
+  right: 0;
+  top: 0;
+  color: #29b9ae;
+  padding: 0.402576rem;
+}
+
 .user-card {
+  figure {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    &.back {
+      margin-top: 1em;
+    }
+    figcaption {
+      width: 2em;
+      margin-right: 1em;
+    }
+    .figure-body {
+      height: 4rem;
+      background: #dbe0e7;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
   .user-card-box {
     padding: 0.241546rem 0.080515rem; //20px
     text-align: center;
-    img {
-      // max-height: 2.415459rem;
-      width: 100%;
-      &.back {
-        margin-top: 1em;
-      }
-      // max-width: 100%;
-    }
   }
 }
 

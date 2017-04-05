@@ -145,7 +145,7 @@ export default {
         }
 
         // 初始化微信jssdk
-        this.wxInit()
+        this.wxShareInit()
 
         return {
           enquiry_result: data

@@ -19,7 +19,7 @@ export default {
   ready() {
     const host = location.protocol + '//' + location.host
     const name = encodeURIComponent(this.$route.query._n)
-    this.wxInit({
+    this.wxShareInit({
       title: '最全的互联网金融市场数据都在这儿了',
       desc: '现在还能在线对接资产项目',
       link: `${host}#!/shared_register?_u=${this.$route.query._u}&_n=${name}&inviteFromWebQR` // 分享链接

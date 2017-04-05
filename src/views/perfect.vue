@@ -15,25 +15,25 @@
               | 正面
               i.blank
             .btn-file
-              input#file(v-el:card-front-input,  @change="cardOnChange('frontfile', $event)", type='file', name='frontfile', accept='image/*')
+              input#file(v-el:card-front-input,  @change="cardOnChange('frontfile', $event)", type='file', name='frontfile', accept='image/jpeg,image/png,image/jpg,image/gif')
               input(type="hidden", v-model='cardFront.file', v-validate:frontfile='{required: {rule: true, message: "请上传名片正面"}}')
-            .business-card-preview
+            .business-card-preview(v-el:card-front)
               .img-wrapper
-                img(alt='名片预览', :src='cardFront.previewUrl')
+                img(alt='名片预览', :src='cardFront.previewUrl', :style="cardFront.previewImgStyle")
                 i.icon-pano.icon-plus(@click.prevent='resetInput()')
         .form-group.card-container(:class="{'preview': cardBack.previewUrl}")
           .card-body
             span.card-note 反面<br/>（可选）
             .btn-file
-              input#file(v-el:card-back-input, @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/*')
+              input#file(v-el:card-back-input, @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/jpeg,image/png,image/jpg,image/gif')
             //- .comment(v-show='!cardBack.file')
               //- p
                 //- | 请上传与注册手机号一致的名片信息
                 //- br
                 | 如名片信息分布在正反两面，请将正反两张名片摆在一起拍照
-            .business-card-preview
+            .business-card-preview(v-el:card-back)
               .img-wrapper
-                img(alt='名片预览', :src='cardBack.previewUrl')
+                img(alt='名片预览', :src='cardBack.previewUrl', :style="cardBack.previewImgStyle")
                 i.icon-pano.icon-plus(@click.prevent="resetInput('cardBack')")
       .form-footer
         flexbox
@@ -64,11 +64,13 @@ export default {
     Flexbox,
     FlexboxItem
   },
+
   vuex: {
     getters: {
       user
     }
   },
+
   ready() {
     this.isUpdated = !!this.$route.query.update
     this.certifyApplication = this.$route.query.certifyApplication
@@ -76,6 +78,7 @@ export default {
     this.cardFront.file = this.user.card_url ? FILE_NOT_EMPTY : null
     this.cardBack.previewUrl = this.user.card_back_url
   },
+
   data() {
     return {
       cardFrontResource: cardFront,
@@ -87,7 +90,7 @@ export default {
         img: null, // 供压缩用
         file: null,
         previewUrl: '',
-        // previewing: false,
+        previewImgStyle: {},
         uploading: false
       },
       cardBack: { // 反面
@@ -95,8 +98,29 @@ export default {
         img: null, // 供压缩用
         file: null,
         previewUrl: '',
-        // previewing: false,
+        previewImgStyle: {},
         uploading: false
+      }
+    }
+  },
+
+  watch: {
+    'cardBack.previewUrl' (value) {
+      if (value) {
+        this.$nextTick(() => {
+          this.cardBack.previewImgStyle = {
+            maxWidth: `${this.$els.cardBack.getBoundingClientRect().width}px`
+          }
+        })
+      }
+    },
+    'cardFront.previewUrl' (value) {
+      if (value) {
+        this.$nextTick(() => {
+          this.cardFront.previewImgStyle = {
+            maxWidth: `${this.$els.cardFront.getBoundingClientRect().width}px`
+          }
+        })
       }
     }
   },
@@ -125,21 +149,26 @@ export default {
 
     // 预览名片
     showPreview(url, ns = 'cardFront') {
-      let img = new Image()
+      const img = new Image()
       img.src = url
       img.onload = () => {
         this[ns].previewUrl = url
           // this[ns].previewing = false
         this[ns].img = img
+        const maxW = this.$els[ns].getBoundingClientRect().width
+        this[ns].previewImgStyle = {
+          maxWidth: `${maxW}px`
+        }
       }
     },
 
     // 选择新照片
     cardOnChange(name, event, ns = 'cardFront') {
       if (name) this.validate(name)
-      let file = event.target.files[0]
+      const file = event.target.files[0]
       this.$root.bdTrack(['上传名片页', ns === 'cardFront' ? '正面' : '背面', '上传', '十字加号'])
       this.$root.showLoadingStatus()
+
       lrz(file, {
         quality: 0.7 //1 的话方向会错
       }).then(rst => {
@@ -179,7 +208,7 @@ export default {
       }*/
     },
 
-    // 重新上传名片
+    // 重新上传名片,删除
     resetInput(ns = 'cardFront') {
       const _self = this
       this.$root.showConfirm({
@@ -375,20 +404,25 @@ form {
     margin: 0.805153rem auto;
   }
   .business-card-preview {
-    height: 4.025765rem;
+    height: 4rem;
     margin: 0 auto;
-    border: 1px solid #dbe0e7;
+    // border: 1px solid #dbe0e7;
+    background: #dbe0e7;
+    border-radius: 0.080515rem;
     position: relative;
+    flex: 1;
     .img-wrapper {
-      max-width: 98%;
-      max-height: 98%;
+      max-width: 100%;
+      // overflow: hidden;
+      max-height: 100%;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translateX(-50%) translateY(-50%);
     }
     img {
-      max-width: 100%;
+      vertical-align: top;
+      max-width: 8rem;
       max-height: 4rem;
     }
     .icon-plus {
@@ -408,15 +442,19 @@ form {
   .card-body {
     margin: 0 auto;
     position: relative;
+    display: flex;
+    align-items: center;
     .card-note {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translateY(-50%) translateX(-3.623188rem);
+      width: 4em;
+      // position: absolute;
+      // left: 50%;
+      // top: 50%;
+      // transform: translateY(-50%) translateX(-3.623188rem);
     }
     .btn-file {
+      flex: 1;
       height: 3.623188rem;
-      width: 3.623188rem;
+      // width: 3.623188rem;
       line-height: 3.623188rem;
       margin: 0 auto;
       position: relative;
@@ -468,33 +506,6 @@ form {
     .buttons {
       margin-top: 1.207729rem;
     }
-    /* .btn {
-      height: 0.764895rem;
-      width: 3.381643rem;
-      font-size: 0.442834rem;
-      color: white;
-      border: 0;
-      border-radius: 0.080515rem;
-      &.btn-submit {
-        background: #626b81;
-        &:active {
-          background: darken(#626b81, 10%);
-        }
-        margin-right: 10px;
-      }
-      &.btn-redo {
-        width: 2.713366rem;
-        background: #82899c;
-        &:active {
-          background: darken(#82899c, 10%);
-        }
-      }
-      &.pending {
-        .dotting {
-          animation: dot 2s infinite step-start both;
-        }
-      }
-    } */
   }
   .comment {
     margin-top: 0.402576rem; //50px
@@ -502,20 +513,12 @@ form {
     color: #adb1bc;
     font-size: 0.289855rem; //36px
   }
-  // &.preparing {
-  //   .card-body {
-  //     .status {
-  //       display: block;
-  //     }
-  //   }
-  // }
   &.preview {
     .card-body {
       .business-card-preview {
         display: block;
       }
-      .btn-file,
-      .card-note {
+      .btn-file {
         display: none;
       }
     }

@@ -4,24 +4,30 @@ import { enquiries } from '../common/resources'
 
 export default {
   methods: {
-    wxInit(options, success, cancel) {
-      this.updateSignature({}, () => {
-        // 签名失效
-        wx.error((res) => {
-          if (this.retryTime > 1) {
-            return
-          }
-          // console.log(this.retryTime)
-          ++this.retryTime
-          this.updateSignature({
-            no_cache: true // 不走缓存
-          })
-        })
+    handleErr() {
+      if (this._hasHandleErr) return
 
+      // 签名失效
+      wx.error((res) => {
+        if (this.retryTime > 1) {
+          return
+        }
+        // console.log(this.retryTime)
+        ++this.retryTime
+        this.updateSignature({
+          no_cache: true // 不走缓存
+        })
+      })
+    },
+
+    // 微信分享
+    wxShareInit(options, success, cancel) {
+      this.updateSignature({}, () => {
+        this.handleErr()
         wx.ready(() => {
-          let host = location.protocol + '//' + location.host
-          let imgUrl = host + require('../assets/images/share-icon.jpg')
-          let shareOptions = Object.assign({
+          const host = location.protocol + '//' + location.host
+          const imgUrl = host + require('../assets/images/share-icon.jpg')
+          const shareOptions = Object.assign({
             title: '互金平台最新资产发行价格都在这里了', // 分享标题
             desc: '【开通PANO】现在还能直接对接资产项目', // 分享描述
             // link: host + '#!/enquiry/share?key=' + encodeURIComponent(this.enquiry_result.params_key), // 分享链接
@@ -29,7 +35,7 @@ export default {
               // type: '', // 分享类型,music、video或link，不填默认为link
               // dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
           }, options || {})
-          let _self = this
+          const _self = this
 
           // 分享给朋友
           wx.onMenuShareAppMessage({
@@ -99,6 +105,18 @@ export default {
         })
       })
     },
+
+    // 微信图片预览
+    wxPreviewImageInit(options) {
+      this.updateSignature({}, () => {
+        this.handleErr()
+        wx.ready(() => {
+          this._previewImageReady = true
+        })
+      })
+    },
+    wxPreviewImage: wx.previewImage,
+
     // 更新签名
     updateSignature(params, callback) {
       this.signature.timestamp = (+new Date() / 1000 | 0)
@@ -128,7 +146,8 @@ export default {
             'showMenuItems',
             'hideAllNonBaseMenuItem',
             'showAllNonBaseMenuItem',
-            'closeWinpdow'
+            'closeWinpdow',
+            'previewImage'
           ]
         })
         callback && callback()
@@ -137,6 +156,8 @@ export default {
   },
   data() {
     return {
+      _hasHandleErr: false,
+      _previewImageReady: false,
       retryTime: 0,
       signature: {
         timestamp: '',

@@ -60,7 +60,7 @@ export default {
   ready() {
     // 初始化微信jssdk
     let host = location.protocol + '//' + location.host
-    this.wxInit({
+    this.wxShareInit({
       link: `${host}#!/quotation/ob?shared=1` // 分享链接
     })
   },
