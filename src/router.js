@@ -58,7 +58,7 @@ router.afterEach(({ from, to }) => {
 
   if (to.data.normalLimit && user.group === 'normal') { // 非认证用户
     showConfirm(store, {
-      content: '请您先通过名片认证，才能使用该功能。',
+      content: '请您进行名片认证，以使用该功能。',
       confirmText: '去认证',
       onConfirm() {
         router.go({

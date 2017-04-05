@@ -62,6 +62,7 @@
               tr
                 td 总览页
                 td
+                  i.icon-pano.icon-ok2
                 td
                   i.icon-pano.icon-ok2
                 td
