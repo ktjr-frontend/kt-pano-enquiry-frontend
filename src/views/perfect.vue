@@ -15,7 +15,7 @@
               | 正面
               i.blank
             .btn-file
-              input#file(v-el:card-front-input,  @change="cardOnChange('frontfile', $event)", type='file', name='frontfile', accept='image/jpeg,image/png,image/jpg,image/gif')
+              input#file(v-el:card-front-input,  @change="cardOnChange('frontfile', $event)", type='file', name='frontfile', accept='image/*')
               input(type="hidden", v-model='cardFront.file', v-validate:frontfile='{required: {rule: true, message: "请上传名片正面"}}')
             .business-card-preview(v-el:card-front)
               .img-wrapper
@@ -25,7 +25,7 @@
           .card-body
             span.card-note 反面<br/>（可选）
             .btn-file
-              input#file(v-el:card-back-input, @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/jpeg,image/png,image/jpg,image/gif')
+              input#file(v-el:card-back-input, @change="cardOnChange(null, $event, 'cardBack')", type='file', name='backfile', accept='image/*')
             //- .comment(v-show='!cardBack.file')
               //- p
                 //- | 请上传与注册手机号一致的名片信息
@@ -407,7 +407,7 @@ form {
     height: 4rem;
     margin: 0 auto;
     // border: 1px solid #dbe0e7;
-    background: #dbe0e7;
+    background: #f8f9fb;
     border-radius: 0.080515rem;
     position: relative;
     flex: 1;

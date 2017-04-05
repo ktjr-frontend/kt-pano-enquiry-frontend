@@ -415,7 +415,7 @@ form {
     }
     .figure-body {
       height: 4rem;
-      background: #dbe0e7;
+      background: #f8f9fb;
       flex: 1;
       display: flex;
       align-items: center;
