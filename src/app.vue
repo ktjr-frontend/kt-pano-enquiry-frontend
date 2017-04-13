@@ -3,7 +3,8 @@
   x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible && isWeixin()' @click='wxShare()') 分享
-  router-view.child-view
+  .app-body(:style="appBodyStyle")
+    router-view.child-view
   .tabbar(v-show='tabVisible',v-el:tabbar)
     .tab(v-for='tab in tabs', :span='tab.span')
       a(v-if='tab.link.name', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
@@ -169,7 +170,7 @@ export default {
         icon: 'icon-market',
         link: {
           name: 'quotation',
-          activeIncludes: ['quotationAM', 'quotationOB']
+          activeIncludes: ['quotationAM', 'quotationOB', 'quotationDetail']
         }
       }, {
         active: false,
@@ -191,6 +192,21 @@ export default {
       }, {
         active: false,
         span: 1,
+        name: '找人',
+        icon: 'icon-seek',
+        link: {
+          name: 'seekSomeone',
+          query: {
+            redirect_to: '/quotation/ob'
+          },
+          params: {
+            type: 'add'
+          },
+          activeIncludes: ['seekSomeoneEdit']
+        }
+      }, {
+        active: false,
+        span: 1,
         name: '市场数据',
         icon: 'icon-price',
         link: {
@@ -206,7 +222,8 @@ export default {
           name: 'profile',
           activeIncludes: [
             'myProjects', 'myProjectDetail', 'referProjects', 'referProjectDetail',
-            'interestProjects', 'interestProjectDetail', 'settings', 'moreInstitutions', 'allInstitutions'
+            'interestProjects', 'interestProjectDetail', 'settings', 'moreInstitutions',
+            'allInstitutions', 'mySeeks'
           ]
         }
       }]
@@ -216,6 +233,12 @@ export default {
   computed: {
     title() {
       return this.$route.data.title
+    },
+    appBodyStyle() {
+      console.log(this.$els)
+      return {
+        height: `${window.innerHeight - this.$els.tabbar.getBoundingClientRect().height}px`
+      }
     }
   },
   /*ready() {
@@ -254,18 +277,30 @@ export default {
 #app {
   z-index: 1;
   position: relative;
+  height: 100vh;
+  overflow-x: hidden;
   &.head-visible {
     padding-top: 50px;
   }
 }
 
-body[page="projectInfo"] {
-  #app {
-    position: static; // 避免vux-popup-mask 层级问题
-  }
+.app-body {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
+  height: 100vh;
+  overflow-x: hidden;
+  &[page="projectInfo"] {
+    #app {
+      position: static; // 避免vux-popup-mask 层级问题
+    }
+  }
+  &[page="seekSomeone"] {
+    background: #428dd1;
+  }
   &.overflow-height {
     .logo-bottom {
       position: static;
@@ -280,10 +315,9 @@ body {
     }
   }
   &.tab-visible {
-    // -webkit-overflow-scrolling: touch;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: 1.932367rem; //240px
+    .app-body {
+      height: 90vh;
+    }
   }
   .logo-bottom {
     // height: 0.724638rem;

@@ -103,14 +103,36 @@ export default {
       margin-left: 1em
     }
   }
+  textarea {
+    background: #f8f9fb;
+    border-radius: 5px;
+    border: 1px solid #eff2f7;
+    padding: 0.241546rem; //30px
+    display: block;
+    flex: 1;
+    resize: none;
+    -webkit-appearance: none;
+  }
   .textarea {
     position: relative;
+    display: flex;
+    position: relative;
+    .count-box {
+      position: absolute;
+      bottom: 0;
+      right: 5px;
+      color: #dde1f0;
+      &.warning {
+        color: #e06161;
+      }
+    }
     .weui_icon {
       display: none;
       position: absolute;
       right: 5px;
       top: 50%;
       transform: translateY(-50%);
+      z-index: 9;
     }
     &.invalid {
       .weui_icon_warn {

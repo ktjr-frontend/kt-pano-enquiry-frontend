@@ -49,7 +49,7 @@ export default {
   },
   '/join_inst/:type': {
     name: 'joinInst',
-    component: resolve => require(['../views/quotation/join_inst.vue'], resolve),
+    component: resolve => require(['../views/quotation/join-inst.vue'], resolve),
     data: {
       title: '选择意向对接机构',
       shareButtonVisible: false,
@@ -68,7 +68,7 @@ export default {
   },
   '/project_info/:type': {
     name: 'projectInfo',
-    component: resolve => require(['../views/quotation/project_info.vue'], resolve),
+    component: resolve => require(['../views/quotation/project-info.vue'], resolve),
     data: {
       title: '填写项目信息',
       shareButtonVisible: false,

@@ -148,6 +148,7 @@
                   i.icon-pano.icon-ok2
 
 </template>
+
 <script>
 export default {
   props: ['subtractHeight'],
@@ -160,6 +161,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .wx_explain {
   background: #f4f5f9;

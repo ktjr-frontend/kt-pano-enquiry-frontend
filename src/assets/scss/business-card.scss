@@ -1,0 +1,149 @@
+.card-container {
+  $dotSize: 0.040258rem;
+  text-align: center;
+  .dotting {
+    display: inline-block;
+    min-width: $dotSize;
+    min-height: $dotSize;
+    margin-right: 0.064412rem;
+  }
+  .title {
+    font-size: 0.523349rem;
+    margin: 0.805153rem auto;
+  }
+  .business-card-preview {
+    height: 4rem;
+    // margin: 0 auto;
+    // border: 1px solid #dbe0e7;
+    background: #f8f9fb;
+    border-radius: 0.080515rem;
+    position: relative;
+    flex: 1;
+    .img-wrapper {
+      max-width: 100%;
+      // overflow: hidden;
+      max-height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+    img {
+      vertical-align: top;
+      max-width: 8rem;
+      max-height: 4rem;
+    }
+    .icon-plus {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #adb1bc;
+      padding: 5px;
+      border-radius: 50%;
+      color: white;
+      transform: translateX(50%) translateY(-50%) rotate(45deg);
+      &:active {
+        background: red;
+      }
+    }
+  }
+  .card-body {
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    .card-note {
+      text-align: left;
+      color: #adb1bc;
+      margin-bottom: 0.402576rem; //50px
+      // width: 4em;
+      // position: absolute;
+      // left: 50%;
+      // top: 50%;
+      // transform: translateY(-50%) translateX(-3.623188rem);
+    }
+    .btn-file {
+      flex: 1;
+      height: 4rem;
+      // width: 3.623188rem;
+      line-height: 3.623188rem;
+      // margin: 0 auto;
+      position: relative;
+      background: #f0f2f5;
+      border-radius: 0.080515rem;
+      text-align: center;
+      font-size: 300px;
+      color: white;
+      overflow: hidden;
+      &:after {
+        height: 1.449275rem; //180px
+        width: 0.177134rem;
+      }
+      &:before {
+        width: 1.449275rem; //180px
+        height: 0.177134rem;
+      }
+      &:after,
+      &:before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        background: white;
+        border-radius: 0.080515rem;
+        pointer-events: none;
+      }
+      &:active {
+        background: #dbe0e7;
+      }
+      input {
+        position: absolute;
+        opacity: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .business-card-preview {
+      display: none;
+    }
+    .buttons {
+      margin-top: 1.207729rem;
+    }
+  }
+  .comment {
+    margin-top: 0.402576rem; //50px
+    line-height: 1.5em;
+    color: #adb1bc;
+    font-size: 0.289855rem; //36px
+  }
+  &.preview {
+    .card-body {
+      .business-card-preview {
+        display: block;
+      }
+      .btn-file {
+        display: none;
+      }
+    }
+  }
+  &.done {
+    .title {
+      display: none;
+    }
+    .card-body {
+      .business-card-preview,
+      .btn-file {
+        display: none;
+      }
+    }
+    .success {
+      display: block;
+    }
+  }
+}

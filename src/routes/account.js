@@ -37,7 +37,7 @@ export default {
     },
     name: 'moreInstitutions',
     component(resolve) {
-      require(['../views/settings/more_institutions'], resolve)
+      require(['../views/settings/more-institutions'], resolve)
     }
   },
   '/all_institutions': {
@@ -55,7 +55,7 @@ export default {
     },
     name: 'allInstitutions',
     component(resolve) {
-      require(['../views/settings/all_institutions'], resolve)
+      require(['../views/settings/all-institutions'], resolve)
     }
   },
   '/settings': {
@@ -90,7 +90,7 @@ export default {
     name: 'myProjects',
 
     component(resolve) {
-      require(['../views/settings/my_projects.vue'], resolve)
+      require(['../views/settings/my-projects.vue'], resolve)
     }
   },
   '/my_project/:id': {
@@ -107,7 +107,7 @@ export default {
     },
     name: 'myProjectDetail',
     component(resolve) {
-      require(['../views/settings/my_project_detail.vue'], resolve)
+      require(['../views/settings/my-project-detail.vue'], resolve)
     }
   },
   '/refer_projects': {
@@ -124,7 +124,7 @@ export default {
     },
     name: 'referProjects',
     component(resolve) {
-      require(['../views/settings/refer_projects.vue'], resolve)
+      require(['../views/settings/refer-projects.vue'], resolve)
     }
   },
   '/refer_project/:id': {
@@ -141,7 +141,7 @@ export default {
     },
     name: 'referProjectDetail',
     component(resolve) {
-      require(['../views/settings/refer_project_detail.vue'], resolve)
+      require(['../views/settings/refer-project-detail.vue'], resolve)
     }
   },
   '/interest_projects': {
@@ -158,7 +158,7 @@ export default {
     },
     name: 'interestProjects',
     component(resolve) {
-      require(['../views/settings/refer_projects.vue'], resolve)
+      require(['../views/settings/refer-projects.vue'], resolve)
     }
   },
   '/interest_project/:id': {
@@ -175,7 +175,58 @@ export default {
     },
     name: 'interestProjectDetail',
     component(resolve) {
-      require(['../views/settings/refer_project_detail.vue'], resolve)
+      require(['../views/settings/refer-project-detail.vue'], resolve)
+    }
+  },
+  '/my_seeks': {
+    data: {
+      title: '我的找人记录',
+      logoBottomVisible: false,
+      headVisible: headVisible,
+      tabVisible: true,
+      permits: {
+        premium: ['passed', 'pended', 'rejected'],
+        certified: ['passed', 'pended', 'rejected'],
+        normal: ['passed', 'pended', 'rejected']
+      }
+    },
+    name: 'mySeeks',
+    component(resolve) {
+      require(['../views/settings/my-seeks.vue'], resolve)
+    }
+  },
+  '/seek_someone/:type': {
+    data: {
+      title: '找人',
+      logoBottomVisible: false,
+      headVisible: headVisible,
+      tabVisible: true,
+      permits: {
+        premium: ['passed', 'pended', 'rejected'],
+        certified: ['passed', 'pended', 'rejected'],
+        normal: ['passed', 'pended', 'rejected']
+      }
+    },
+    name: 'seekSomeoneEdit',
+    component(resolve) {
+      require(['../views/settings/seek-someone-form.vue'], resolve)
+    }
+  },
+  '/seek_someone': {
+    data: {
+      title: '找人',
+      logoBottomVisible: false,
+      headVisible: headVisible,
+      tabVisible: true,
+      permits: {
+        premium: ['passed', 'pended', 'rejected'],
+        certified: ['passed', 'pended', 'rejected'],
+        normal: ['passed', 'pended', 'rejected']
+      }
+    },
+    name: 'seekSomeone',
+    component(resolve) {
+      require(['../views/settings/seek-someone.vue'], resolve)
     }
   },
   '/forget_password1': {

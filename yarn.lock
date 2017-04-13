@@ -1162,6 +1162,10 @@ caniuse-db@^1.0.30000601, caniuse-db@^1.0.30000602:
   version "1.0.30000602"
   resolved "http://r.cnpmjs.org/caniuse-db/download/caniuse-db-1.0.30000602.tgz#06b2cbfb6c3aeef7ddb18cd588043549ad1a2d4e"
 
+caniuse-db@^1.0.30000640:
+  version "1.0.30000649"
+  resolved "http://r.cnpmjs.org/caniuse-db/download/caniuse-db-1.0.30000649.tgz#1ee1754a6df235450c8b7cd15e0ebf507221a86a"
+
 capture-stack-trace@^1.0.0:
   version "1.0.0"
   resolved "http://r.cnpmjs.org/capture-stack-trace/download/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"

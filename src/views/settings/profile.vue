@@ -95,6 +95,9 @@ div
         .default-content(@click='openRelativeProducts()', v-if='!info.products.selected.length')
           i.icon-pano.icon-plus
           | 参与发行的产品
+    //- 我的找人记录
+    group.user-select-none
+      cell(title='我的找人记录', is-link, @click='$root.routerGo({name: "mySeeks"}, ["个人信息页", "选择", "我的找人记录"])')
     //- 我的项目
     group.user-select-none
       cell(title='我发出的项目', is-link, @click='$root.routerGo({name: "myProjects"}, ["个人信息页", "选择", "我发出的项目"])')
@@ -232,7 +235,7 @@ import KtAssetTypes from '../../components/kt-asset-types.vue'
 import KtUpgradeMember from '../../components/kt-upgrade-member.vue'
 import KtInviteesTable from '../../components/kt-invitees-table.vue'
 import Explain from './explain.vue'
-import institutionMixins from './intitution_mixins'
+import institutionMixins from './institution-mixins'
 import {
   accounts,
   persons

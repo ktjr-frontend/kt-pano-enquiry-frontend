@@ -1,20 +1,20 @@
-input::-moz-placeholder {
+::-moz-placeholder {
   color: #c5c9d2;
   opacity: 1;
 }
 
-input:-ms-input-placeholder {
+:-ms-input-placeholder {
   color: #c5c9d2;
 }
 
-input::-webkit-input-placeholder {
+::-webkit-input-placeholder {
   color: #c5c9d2;
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:active,
-input:-webkit-autofill:focus {
+:-webkit-autofill,
+:-webkit-autofill:hover,
+:-webkit-autofill:active,
+:-webkit-autofill:focus {
   background-color: !important;
   color: #737e9c!important;
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
