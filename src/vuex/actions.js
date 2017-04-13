@@ -7,9 +7,10 @@ export function updateUser({ dispatch }, user, soft) {
     localStorage.user = JSON.stringify(user)
     localStorage.userMobile = user.mobile
   }
+
   dispatch('UPDATE_USER', user)
 
-  if (_.includes(['rejected'], user.status)) return
+  if (_.includes(['rejected'], user.status) || !user.status) return
 
   // 获取机构配置信息
   instBasicInfo.get().then(res => res.json()).then(data => {
@@ -27,7 +28,7 @@ export function updateUser({ dispatch }, user, soft) {
  */
 export function logOut({ dispatch }, soft) {
   if (!soft) {
-    router.replace({ name: 'login', query: { jump_to: router.app.$route.path } })
+    router.replace({ name: 'login', query: { jump_to: router.app.$route.query.jump_to || router.app.$route.path } })
   }
 
   dispatch('HIDE_MESSAGE') //隐藏消息

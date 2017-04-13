@@ -19,8 +19,9 @@ export default {
       params: ['display-into', 'max-length'],
       update(value) {
         const displayBox = this.el.querySelector(this.params.displayInto)
-        displayBox.innerText = value.length + '/' + this.params.maxLength
-        displayBox.classList.toggle('warning', value.length > this.params.maxLength)
+        const filledLength = String(value || '').length
+        displayBox.innerText = filledLength + '/' + this.params.maxLength
+        displayBox.classList.toggle('warning', filledLength > this.params.maxLength)
       }
     })
 

@@ -196,9 +196,6 @@ export default {
         icon: 'icon-seek',
         link: {
           name: 'seekSomeone',
-          query: {
-            redirect_to: '/quotation/ob'
-          },
           params: {
             type: 'add'
           },
@@ -235,7 +232,6 @@ export default {
       return this.$route.data.title
     },
     appBodyStyle() {
-      console.log(this.$els)
       return {
         height: `${window.innerHeight - this.$els.tabbar.getBoundingClientRect().height}px`
       }
@@ -254,6 +250,8 @@ export default {
     }).then((res) => {
       const user = res.json().account
       this.updateUser(user)
+    }).catch(() => {
+      this.updateUser({})
     })
   },
   store,

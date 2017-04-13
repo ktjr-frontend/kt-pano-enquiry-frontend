@@ -10,7 +10,7 @@ export default function(route) {
     passed = true
   } else {
     if (!status) { // 没状态说明没登录
-      redirect = { name: 'login', query: { jump_to: route.path } }
+      redirect = { name: 'login', query: { jump_to: route.query.jump_to || route.path } }
       showToast = false
     } else {
       passed = _.some(route.data.permits, (v, k) => {

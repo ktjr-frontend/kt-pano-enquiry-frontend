@@ -10,7 +10,7 @@
   figure
     img(src="../../assets/images/seek-someone-bg.jpg")
   .buttons
-    button(v-link='{name: "seekSomeoneEdit", params:{type: "add"}, query:{redirect_to: $route.path}}') 火速前往
+    button(v-link='{name: "seekSomeoneEdit", params:{type: "add"}}') 火速前往
       i.icon-pano.icon-arrow-bold
 </template>
 

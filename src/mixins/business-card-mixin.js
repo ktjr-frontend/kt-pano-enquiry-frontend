@@ -7,6 +7,7 @@ import lrz from 'lrz'
 import {
   user
 } from '../vuex/getters'
+import _ from 'lodash'
 
 const FILE_NOT_EMPTY = 'has_file'
 
@@ -190,13 +191,13 @@ export default {
           }
 
           this.$root.showLoadingStatus()
-          cardsPromise.then(() => {
-            return this.cardFrontResource.update({
-              content: 'confirm'
-            }, {})
-          }).then((res) => {
+          cardsPromise.then((res) => {
             this.$root.hideLoadingStatus()
-            this.$root.updateUser(Object.assign({}, this.user, res.json().account))
+            if (_.isArray(res)) {
+              this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
+            } else {
+              this.$root.updateUser(Object.assign({}, this.user, res.json().user))
+            }
 
             if (!this.$route.query.update) { // 不是更新操作，注册后的上传名片
               this.$router.go({
@@ -218,6 +219,7 @@ export default {
               name: '用户提交名片成功'
             })
           }).catch((res) => {
+            console.log(res)
             this.$root.hideLoadingStatus()
             this.$root.showToast({
               text: res.json().error || '抱歉，服务器繁忙！'
@@ -245,6 +247,7 @@ export default {
         previewUrl: '',
         previewImgStyle: {},
         uploading: false,
+        visible: true,
         canEdit: true
       },
       cardBack: { // 反面
@@ -254,6 +257,7 @@ export default {
         previewUrl: '',
         previewImgStyle: {},
         uploading: false,
+        visible: true,
         canEdit: true
       }
     }

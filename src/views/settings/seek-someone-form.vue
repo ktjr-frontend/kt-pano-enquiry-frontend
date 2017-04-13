@@ -3,19 +3,19 @@
   kt-loading(:visible='$loadingRouteData')
   .header(:style="headerStyle")
 
-  .head-tip 为方便后期实名认证，请使用与名片信息一致的手机号注册。
+  .head-tip 请认真填写以下信息，您的信息越精确，越容易找到想找的人：
   validator(name='validation')
     form(action='', novalidate='', @submit.prevent='onSubmit($event)')
       .group
         kt-cell(title='*想要找的人')
           .textarea(v-validate-class='', :class='{"not-empty": model.search_whom}', v-kt-textarea-count='model.search_whom', display-into='.count-box', :max-length='validator.search_whom.maxlength.rule')
-            textarea(placeholder='举例：能够接小微金融类资产的互金平台相关人员', v-model='model.search_whom', v-validate:search_whom='validator.search_whom', rows="3")
+            textarea(placeholder='举例：能够对接小微金融类资产的互金平台相关负责人', v-model='model.search_whom', v-validate:search_whom='validator.search_whom', rows="3")
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_whom")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("search_whom")')
             span.count-box 0/{{validator.search_whom.maxlength.rule}}
         kt-cell(title='*找人需求')
           .textarea(v-validate-class='', :class='{"not-empty": model.search_target}', v-kt-textarea-count='model.search_target', display-into='.count-box', :max-length='validator.search_target.maxlength.rule')
-            textarea(placeholder='举例：进行小微金融类资产的项目对接', v-model='model.search_target', v-validate:search_target='validator.search_target', rows="3")
+            textarea(placeholder='举例：XX公司XX项目寻求资金合作，总需求量X元，寻找对小微资产感兴趣的互金平台合作。', v-model='model.search_target', v-validate:search_target='validator.search_target', rows="3")
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_target")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("search_target")')
             span.count-box 0/{{validator.search_target.maxlength.rule}}
@@ -27,7 +27,7 @@
             span.count-box 0/{{validator.wx.maxlength.rule}}
         kt-cell(title="名片：")
           .form-container
-            .form-group.card-container(:class="{'preview': cardFront.previewUrl}")
+            .form-group.card-container(:class="{'preview': cardFront.previewUrl}", v-if='cardFront.visible')
               .card-body
                 span.card-note
                   | 正面
@@ -38,7 +38,7 @@
                   .img-wrapper
                     img(alt='名片预览', :src='cardFront.previewUrl', :style="cardFront.previewImgStyle")
                     i.icon-pano.icon-plus(v-if='cardFront.canEdit', @click.prevent='resetInput()')
-            .form-group.card-container(:class="{'preview': cardBack.previewUrl}")
+            .form-group.card-container(:class="{'preview': cardBack.previewUrl}", v-if='cardBack.visible')
               .card-body
                 span.card-note 反面
                 .btn-file
@@ -83,6 +83,8 @@ export default {
     this.model.wx = this.user.wx
     this.cardFront.canEdit = !this.user.card_url
     this.cardBack.canEdit = !this.user.card_back_url
+    this.cardFront.visible = this.user.card_url || (this.cardFront.canEdit && this.cardBack.canEdit)
+    this.cardBack.visible = this.user.card_back_url || (this.cardFront.canEdit && this.cardBack.canEdit)
   },
 
   vuex: {
@@ -100,7 +102,7 @@ export default {
       from,
       next
     }) {
-      this.submitRedirect = to.query.redirect_to ? decodeURIComponent(to.query.redirect_to) : from.path
+      this.submitRedirect = to.query.redirect_to ? decodeURIComponent(to.query.redirect_to) : '/my_seeks'
       next()
     },
 
@@ -155,63 +157,63 @@ export default {
 
           // 保存找人信息
           peopleSearch.save(this.model).then(res => {
-            this.$root.showAlert({
-              content: 'PANO微信小秘书将在2个工作日内为您精准推荐',
-              onHide: function() {
-                this.$router.go({
-                  path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/quotation/ob',
-                  query: {
-                    _r: Math.random().toString().slice(2)
-                  }
-                })
-                this.user.wx = this.model.wx
-              }.bind(this)
-            })
-
             if (!this.user.wx) {
               this.user.wx = this.model.wx
-              this.updateUser(this.user)
+                // this.updateUser(this.user)
             }
 
             this.clearPreRouteCache()
             this.submitted = true
             this.$root.hideLoadingStatus()
+
+            // 保存名片信息
+            const formDataFront = new FormData()
+            const fileNameFront = Utils.uniqeId(8)
+            formDataFront.append('file', this.cardFront.rst.file, `${fileNameFront}.jpeg`)
+            let cardsPromise
+            if (this.cardBack.rst.file) {
+              const formDataBack = new FormData()
+              const fileNameBack = Utils.uniqeId(8)
+              formDataBack.append('file', this.cardBack.rst.file, `${fileNameBack}.jpeg`)
+              if (this.cardFront.rst.file) { // 如果前面存在
+                cardsPromise = Promise.all([this.cardFrontResource.save(formDataFront), this.cardBackResource.save(formDataBack)])
+              } else {
+                cardsPromise = this.cardBackResource.save(formDataBack)
+              }
+            } else if (this.cardFront.rst.file) {
+              cardsPromise = this.cardFrontResource.save(formDataFront)
+            }
+
+            if (!cardsPromise) return
+
+            cardsPromise.then((res, res2) => {
+              if (_.isArray(res)) {
+                this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
+              } else {
+                this.$root.updateUser(Object.assign({}, this.user, res.json().user))
+              }
+
+              this.$root.showAlert({
+                content: 'PANO微信小秘书将在2个工作日内为您精准推荐',
+                onHide: function() {
+                  this.$router.go({
+                    path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/my_seeks',
+                    query: {
+                      _r: Math.random().toString().slice(2)
+                    }
+                  })
+                  this.user.wx = this.model.wx
+                }.bind(this)
+              })
+            }).catch((res) => {
+              this.$root.log({
+                path: this.$route.path,
+                name: '用户提交名片失败'
+              })
+            })
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
             this.$root.hideLoadingStatus()
-          })
-
-          // 保存名片信息
-          const formDataFront = new FormData()
-          const fileNameFront = Utils.uniqeId(8)
-          formDataFront.append('file', this.cardFront.rst.file, `${fileNameFront}.jpeg`)
-          let cardsPromise
-          if (this.cardBack.rst.file) {
-            const formDataBack = new FormData()
-            const fileNameBack = Utils.uniqeId(8)
-            formDataBack.append('file', this.cardBack.rst.file, `${fileNameBack}.jpeg`)
-            if (this.cardFront.rst.file) { // 如果前面存在
-              cardsPromise = Promise.all([this.cardFrontResource.save(formDataFront), this.cardBackResource.save(formDataBack)])
-            } else {
-              cardsPromise = this.cardBackResource.save(formDataBack)
-            }
-          } else if (this.cardFront.rst.file) {
-            cardsPromise = this.cardFrontResource.save(formDataFront)
-          }
-
-          if (!cardsPromise) return
-
-          cardsPromise.then(() => {
-            return this.cardFrontResource.update({
-              content: 'confirm'
-            }, {})
-          }).then((res) => {
-            this.$root.updateUser(Object.assign({}, this.user, res.json().account))
-          }).catch((res) => {
-            this.$root.log({
-              path: this.$route.path,
-              name: '用户提交名片失败'
-            })
           })
         }
       })
