@@ -165,55 +165,54 @@ export default {
             this.clearPreRouteCache()
             this.submitted = true
             this.$root.hideLoadingStatus()
-
-            // 保存名片信息
-            const formDataFront = new FormData()
-            const fileNameFront = Utils.uniqeId(8)
-            formDataFront.append('file', this.cardFront.rst.file, `${fileNameFront}.jpeg`)
-            let cardsPromise
-            if (this.cardBack.rst.file) {
-              const formDataBack = new FormData()
-              const fileNameBack = Utils.uniqeId(8)
-              formDataBack.append('file', this.cardBack.rst.file, `${fileNameBack}.jpeg`)
-              if (this.cardFront.rst.file) { // 如果前面存在
-                cardsPromise = Promise.all([this.cardFrontResource.save(formDataFront), this.cardBackResource.save(formDataBack)])
-              } else {
-                cardsPromise = this.cardBackResource.save(formDataBack)
-              }
-            } else if (this.cardFront.rst.file) {
-              cardsPromise = this.cardFrontResource.save(formDataFront)
-            }
-
-            if (!cardsPromise) return
-
-            cardsPromise.then((res, res2) => {
-              if (_.isArray(res)) {
-                this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
-              } else {
-                this.$root.updateUser(Object.assign({}, this.user, res.json().user))
-              }
-
-              this.$root.showAlert({
-                content: 'PANO微信小秘书将在2个工作日内为您精准推荐',
-                onHide: function() {
-                  this.$router.go({
-                    path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/my_seeks',
-                    query: {
-                      _r: Math.random().toString().slice(2)
-                    }
-                  })
-                  this.user.wx = this.model.wx
-                }.bind(this)
-              })
-            }).catch((res) => {
-              this.$root.log({
-                path: this.$route.path,
-                name: '用户提交名片失败'
-              })
+            this.$root.showAlert({
+              content: 'PANO微信小秘书将在2个工作日内为您精准推荐',
+              onHide: function() {
+                this.$router.go({
+                  path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/my_seeks',
+                  query: {
+                    _r: Math.random().toString().slice(2)
+                  }
+                })
+                this.user.wx = this.model.wx
+              }.bind(this)
             })
           }).catch(res => {
             this.$root.showToast(res.json().error || '抱歉，服务器繁忙！')
             this.$root.hideLoadingStatus()
+          })
+
+          // 保存名片信息
+          const formDataFront = new FormData()
+          const fileNameFront = Utils.uniqeId(8)
+          formDataFront.append('file', this.cardFront.rst.file, `${fileNameFront}.jpeg`)
+          let cardsPromise
+          if (this.cardBack.rst.file) {
+            const formDataBack = new FormData()
+            const fileNameBack = Utils.uniqeId(8)
+            formDataBack.append('file', this.cardBack.rst.file, `${fileNameBack}.jpeg`)
+            if (this.cardFront.rst.file) { // 如果前面存在
+              cardsPromise = Promise.all([this.cardFrontResource.save(formDataFront), this.cardBackResource.save(formDataBack)])
+            } else {
+              cardsPromise = this.cardBackResource.save(formDataBack)
+            }
+          } else if (this.cardFront.rst.file) {
+            cardsPromise = this.cardFrontResource.save(formDataFront)
+          }
+
+          if (!cardsPromise) return
+
+          cardsPromise.then((res, res2) => {
+            if (_.isArray(res)) {
+              this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
+            } else {
+              this.$root.updateUser(Object.assign({}, this.user, res.json().user))
+            }
+          }).catch((res) => {
+            this.$root.log({
+              path: this.$route.path,
+              name: '用户提交名片失败'
+            })
           })
         }
       })
