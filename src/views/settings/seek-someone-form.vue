@@ -204,9 +204,15 @@ export default {
 
           cardsPromise.then((res, res2) => {
             if (_.isArray(res)) {
-              this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
+              this.$root.updateUser(Object.assign({}, this.user, {
+                pended_at: new Date(),
+                status: 'pended'
+              }, res[0].json().user, res[1].json().user))
             } else {
-              this.$root.updateUser(Object.assign({}, this.user, res.json().user))
+              this.$root.updateUser(Object.assign({}, this.user, {
+                pended_at: new Date(),
+                status: 'pended'
+              }, res.json().user))
             }
           }).catch((res) => {
             this.$root.log({

@@ -137,6 +137,7 @@ export default {
               } else {
                 _self.user.status = 'pended'
                 _self.user.card_back_url = ''
+                _self.user.pended_at = new Date()
               }
             }).catch(res => {
               _self.$root.hideLoadingStatus()
@@ -194,9 +195,15 @@ export default {
           cardsPromise.then((res) => {
             this.$root.hideLoadingStatus()
             if (_.isArray(res)) {
-              this.$root.updateUser(Object.assign({}, this.user, res[0].json().user, res[1].json().user))
+              this.$root.updateUser(Object.assign({}, this.user, {
+                pended_at: new Date(),
+                status: 'pended'
+              }, res[0].json().user, res[1].json().user))
             } else {
-              this.$root.updateUser(Object.assign({}, this.user, res.json().user))
+              this.$root.updateUser(Object.assign({}, this.user, {
+                pended_at: new Date(),
+                status: 'pended'
+              }, res.json().user))
             }
 
             if (!this.$route.query.update) { // 不是更新操作，注册后的上传名片
