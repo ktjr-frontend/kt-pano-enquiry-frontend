@@ -166,7 +166,7 @@ export default {
             this.submitted = true
             this.$root.hideLoadingStatus()
             this.$root.showAlert({
-              content: 'PANO微信小秘书将在2个工作日内为您精准推荐',
+              content: 'PANO微信小秘书将在1个工作日内为您精准推荐',
               onHide: function() {
                 this.$router.go({
                   path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/my_seeks',
