@@ -13,7 +13,7 @@
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_whom")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("search_whom")')
             span.count-box 0/{{validator.search_whom.maxlength.rule}}
-        kt-cell(title='*找人需求')
+        kt-cell(title='*具体事项')
           .textarea(v-validate-class='', :class='{"not-empty": model.search_target}', v-kt-textarea-count='model.search_target', display-into='.count-box', :max-length='validator.search_target.maxlength.rule')
             textarea(placeholder='举例：XX公司XX项目寻求资金合作，总需求量X元，寻找对小微资产感兴趣的互金平台合作。', v-model='model.search_target', v-validate:search_target='validator.search_target', rows="3")
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_target")')
@@ -254,7 +254,7 @@ export default {
         search_target: {
           required: {
             rule: true,
-            message: '请填写找人需求'
+            message: '请填写具体事项'
           },
           maxlength: {
             rule: 500,

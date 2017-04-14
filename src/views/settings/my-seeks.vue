@@ -11,7 +11,7 @@
       .in-content
         h3 想要找的人：
         p {{s.search_whom}}
-        h3.mt10 找人需求：
+        h3.mt10 具体事项：
         p {{s.search_target}}
 </template>
 
