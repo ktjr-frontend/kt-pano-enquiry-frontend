@@ -197,13 +197,13 @@ export default {
             if (_.isArray(res)) {
               this.$root.updateUser(Object.assign({}, this.user, {
                 pended_at: new Date(),
-                group: (() => this.user.group === 'normal' ? 'certified' : 'normal')(),
+                group: this.user.group === 'normal' ? 'certified' : this.user.group,
                 status: 'pended'
               }, res[0].json().user, res[1].json().user))
             } else {
               this.$root.updateUser(Object.assign({}, this.user, {
                 pended_at: new Date(),
-                group: (() => this.user.group === 'normal' ? 'certified' : 'normal')(),
+                group: this.user.group === 'normal' ? 'certified' : this.user.group,
                 status: 'pended'
               }, res.json().user))
             }

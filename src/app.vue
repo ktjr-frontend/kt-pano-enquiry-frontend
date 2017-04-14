@@ -3,7 +3,7 @@
   x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible && isWeixin()' @click='wxShare()') 分享
-  .app-body(:style="appBodyStyle")
+  .app-body(v-el:app-body)
     router-view.child-view
   .tabbar(v-show='tabVisible',v-el:tabbar)
     .tab(v-for='tab in tabs', :span='tab.span')
@@ -227,15 +227,23 @@ export default {
     }
   },
 
+  watch: {
+    'tabVisible' () {
+      this.$nextTick(() => {
+        this.$els.appBody.style.height = this.tabVisible ? `${window.innerHeight - this.$els.tabbar.getBoundingClientRect().height}px` : '100vh'
+      })
+    }
+  },
+
   computed: {
     title() {
       return this.$route.data.title
-    },
-    appBodyStyle() {
-      return {
-        height: `${window.innerHeight - this.$els.tabbar.getBoundingClientRect().height}px`
-      }
     }
+    // appBodyStyle() {
+    //   return {
+    //     height: this.tabVisible ? `${window.innerHeight - this.$els.tabbar.getBoundingClientRect().height}px` : '100vh'
+    //   }
+    // }
   },
   /*ready() {
     window.addEventListener('scroll', () => {
