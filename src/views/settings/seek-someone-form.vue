@@ -9,13 +9,13 @@
       .group
         kt-cell(title='*想要找的人')
           .textarea(v-validate-class='', :class='{"not-empty": model.search_whom}', v-kt-textarea-count='model.search_whom', display-into='.count-box', :max-length='validator.search_whom.maxlength.rule')
-            textarea(placeholder='举例：能够对接小微金融类资产的互金平台相关负责人', v-model='model.search_whom', v-validate:search_whom='validator.search_whom', rows="3")
+            textarea(placeholder='', v-model='model.search_whom', v-validate:search_whom='validator.search_whom', rows="3")
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_whom")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("search_whom")')
             span.count-box 0/{{validator.search_whom.maxlength.rule}}
         kt-cell(title='*具体事项')
           .textarea(v-validate-class='', :class='{"not-empty": model.search_target}', v-kt-textarea-count='model.search_target', display-into='.count-box', :max-length='validator.search_target.maxlength.rule')
-            textarea(placeholder='举例：XX公司XX项目寻求资金合作，总需求量X元，寻找对小微资产感兴趣的互金平台合作。', v-model='model.search_target', v-validate:search_target='validator.search_target', rows="3")
+            textarea(placeholder='', v-model='model.search_target', v-validate:search_target='validator.search_target', rows="3")
             i.weui_icon.weui_icon_clear(v-touch:tap='clearModel("search_target")')
             i.weui_icon.weui_icon_warn(v-touch:tap='showError("search_target")')
             span.count-box 0/{{validator.search_target.maxlength.rule}}
@@ -166,7 +166,7 @@ export default {
             this.submitted = true
             this.$root.hideLoadingStatus()
             this.$root.showAlert({
-              content: 'PANO微信小秘书将在1个工作日内为您精准推荐',
+              content: 'PANO微信小助手将在1个工作日内与您沟通，如需联系请添加PANO酱微信：kaitongpano',
               onHide: function() {
                 this.$router.go({
                   path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/my_seeks',

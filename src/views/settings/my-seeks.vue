@@ -10,9 +10,9 @@
     kt-cell(v-for='s in seeks', v-if="seeks.length", :title="s.created_at | moment 'YYYY-MM-DD'")
       .in-content
         h3 想要找的人：
-        p {{s.search_whom}}
+        p.word-break {{s.search_whom}}
         h3.mt10 具体事项：
-        p {{s.search_target}}
+        p.word-break {{s.search_target}}
 </template>
 
 <script>
