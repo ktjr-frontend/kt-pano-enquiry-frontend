@@ -247,7 +247,7 @@ export default {
     return {
       cardFrontResource: cardFront,
       cardBackResource: cardBack,
-      certifyApplication: false, // false 注册流程，true 真正流程
+      certifyApplication: 0, // false 注册流程，true 真正流程
       isUpdated: false, // 默认不是更新名片
       cardFront: { // 正面
         rst: {},

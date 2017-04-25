@@ -64,7 +64,7 @@ router.afterEach(({ from, to }) => {
         router.go({
           name: 'perfect',
           query: {
-            certifyApplication: true // 认证申请，不显示跳过按钮
+            certifyApplication: 1 // 认证申请，不显示跳过按钮
           }
         })
       },

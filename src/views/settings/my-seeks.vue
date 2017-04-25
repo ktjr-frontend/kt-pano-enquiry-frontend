@@ -13,6 +13,8 @@
         p.word-break {{s.search_whom}}
         h3.mt10 具体事项：
         p.word-break {{s.search_target}}
+    a.more-seeks(v-show="!pageInfo.end", @click="moreSeeks()") 点击加载更多
+    span.end(v-show="pageInfo.end") 没有更多了
 </template>
 
 <script>
@@ -38,7 +40,7 @@ export default {
       }
     }) {
       return peopleSearch.get({
-        per_page: 100,
+        per_page: 10,
         page: 1
       }).then(res => {
         const data = res.json()
@@ -49,10 +51,31 @@ export default {
     }
   },
 
-  methods: {},
+  methods: {
+    moreSeeks() {
+      this.$root.showLoadingStatus()
+      peopleSearch.get({
+        ...this.pageInfo
+      }).then(res => {
+        const moreData = res.json()
+        if (moreData.res.length) {
+          this.seeks = this.seeks.concat(moreData.res)
+          this.pageInfo.page += 1
+        } else {
+          this.pageInfo.end = true
+        }
+        this.$root.hideLoadingStatus()
+      })
+    }
+  },
 
   data() {
     return {
+      pageInfo: {
+        end: false,
+        page: 2,
+        per_page: 10
+      },
       seeks: []
     }
   }
@@ -76,6 +99,21 @@ export default {
       margin-right: .2em;
     }
   }
+}
+
+.more-seeks {
+  display: block;
+  padding: 0.322061rem; //40px
+  text-align: center;
+  &:active {
+    color: #3bc5ba;
+  }
+}
+
+.end {
+  display: block;
+  padding: 0.322061rem;
+  text-align: center;
 }
 
 .kt-cell {

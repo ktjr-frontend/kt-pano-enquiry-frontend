@@ -102,7 +102,7 @@ export default {
   },
   data() {
     return {
-      certifyApplication: false, // 是否是认证流程
+      certifyApplication: 0, // 是否是认证流程
       info: {
         business_types: {
           all: [],

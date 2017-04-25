@@ -10,7 +10,7 @@
   figure
     img(src="../../assets/images/seek-someone-bg.jpg")
   .buttons
-    button(v-link='{name: "seekSomeoneEdit", params:{type: "add"}}') 火速前往
+    button(@click="go()") 火速前往
       i.icon-pano.icon-arrow-bold
 </template>
 
@@ -20,6 +20,17 @@ import KtCell from '../../components/kt-cell.vue'
 export default {
   components: {
     KtCell
+  },
+  methods: {
+    go() {
+      this.$root.bdTrack(['找人介绍页', '点击', '火速前往'])
+      this.$router.go({
+        name: 'seekSomeoneEdit',
+        params: {
+          type: 'add'
+        }
+      })
+    }
   }
 }
 </script>

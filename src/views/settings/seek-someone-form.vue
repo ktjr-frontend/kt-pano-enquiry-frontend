@@ -154,6 +154,7 @@ export default {
           this.showFirstError()
         } else {
           this.$root.showLoadingStatus()
+          this.$root.bdTrack(['找人页', '点击', '确定'])
 
           // 保存找人信息
           peopleSearch.save(this.model).then(res => {

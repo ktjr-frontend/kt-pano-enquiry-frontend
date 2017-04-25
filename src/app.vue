@@ -138,7 +138,7 @@ export default {
       //   tab.link.query = tab.link.query || {}
       //   tab.link.query._r = Math.random().toString().slice(2)
       // }
-
+      this.bdTrack(['底部菜单', '点击', tab.name])
       this.$router.go(tab.link)
       this.log({
         name: tab.name
