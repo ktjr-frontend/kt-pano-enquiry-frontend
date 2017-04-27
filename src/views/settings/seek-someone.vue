@@ -1,5 +1,5 @@
 <template lang="jade">
-.seek-someone
+.seek-someone(:class="{pc: isPc}")
   //- .header
     .in
       | 找人
@@ -16,11 +16,17 @@
 
 <script>
 import KtCell from '../../components/kt-cell.vue'
+import Utils from '../../common/utils.js'
 
 export default {
   components: {
     KtCell
   },
+
+  ready() {
+    this.isPc = !Utils.isMobile()
+  },
+
   methods: {
     go() {
       this.$root.bdTrack(['找人介绍页', '点击', '火速前往'])
@@ -31,11 +37,32 @@ export default {
         }
       })
     }
+  },
+
+  data() {
+    return {
+      isPc: false
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.seek-someone.pc {
+  figure {
+    text-align: center;
+  }
+  img {
+    max-width: 600px;
+  }
+  .buttons {
+    text-align: center;
+    button {
+      max-width: 600px;
+    }
+  }
+}
+
 figure {
   img {
     vertical-align: top;
