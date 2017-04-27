@@ -80,7 +80,7 @@ export default {
   },
 
   ready() {
-    if (this.isPc) {
+    if (this.$root.isPc) {
       this.headerStyle.height = `${600 * 0.39371980676328505}px` // 0.39371980676328505 是设计稿的高宽比
     }
     this.model.wx = this.user.wx
@@ -279,10 +279,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/business-card.scss';
-.seek-someone-form.pc {
-  max-width: 600px;
-  margin: 0 auto;
-}
 
 .header {
   height: 3.94525rem; //490px
