@@ -184,6 +184,7 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true,
+      compatiblePc: true,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
         certified: ['passed', 'pended', 'rejected'],
@@ -201,6 +202,7 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true,
+      compatiblePc: true,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
         certified: ['passed', 'pended', 'rejected'],
@@ -218,6 +220,7 @@ export default {
       logoBottomVisible: false,
       headVisible: headVisible,
       tabVisible: true,
+      compatiblePc: true,
       skipAuth: true,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
@@ -323,6 +326,7 @@ export default {
       title: '注册',
       logoBottomVisible: true,
       headVisible: headVisible,
+      compatiblePc: true,
       tabVisible: false,
       skipAuth: true
     },
@@ -336,6 +340,7 @@ export default {
       title: '登录',
       logoBottomVisible: true,
       headVisible: headVisible,
+      compatiblePc: true,
       tabVisible: false,
       skipAuth: true
     },
@@ -349,6 +354,7 @@ export default {
       title: '上传名片进行认证',
       logoBottomVisible: true,
       headVisible: headVisible,
+      compatiblePc: true,
       tabVisible: false,
       permits: {
         premium: ['passed', 'pended', 'rejected'],
@@ -366,6 +372,7 @@ export default {
       title: '偏好信息',
       logoBottomVisible: true,
       headVisible: headVisible,
+      compatiblePc: true,
       tabVisible: false,
       permits: {
         premium: ['passed', 'pended', 'rejected'],

@@ -1,10 +1,10 @@
 <template lang="jade">
-#app(:class='{"head-visible": $route.data.headVisible}')
+#app(:class='{"head-visible": $route.data.headVisible, pc: isPc}')
   x-header(v-show='$route.data.headVisible', :left-options='header.leftOptions', @on-click-back='onClickBack()')
     | {{title}}
     a.button(slot='right' v-show='$route.data.shareButtonVisible && isWeixin()' @click='wxShare()') 分享
   .app-body(v-el:app-body)
-    router-view.child-view
+    router-view.child-view(:class="$route.data.compatiblePc ? 'compatible-pc' : ''")
   .tabbar(v-show='tabVisible',v-el:tabbar)
     .tab(v-for='tab in tabs', :span='tab.span')
       a(v-if='tab.link.name', @click='tabClick(tab)', :class="{'active': judgeActive(tab)}")
@@ -156,6 +156,7 @@ export default {
 
   data() {
     return {
+      isPc: false,
       header: {
         leftOptions: {
           preventGoBack: true,
@@ -245,12 +246,9 @@ export default {
     //   }
     // }
   },
-  /*ready() {
-    window.addEventListener('scroll', () => {
-      this.$route.data.scrollY = window.scrollY
-      console.log(this.$route.data.scrollY)
-    })
-  },*/
+  ready() {
+    this.isPc = !Utils.isMobile()
+  },
   created() {
     // 获取用户信息
     sessions.get({
@@ -287,6 +285,12 @@ export default {
   overflow-x: hidden;
   &.head-visible {
     padding-top: 50px;
+  }
+  &.pc {
+    .compatible-pc {
+      max-width: 600px;
+      margin: 0 auto;
+    }
   }
 }
 

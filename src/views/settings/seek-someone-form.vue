@@ -1,5 +1,5 @@
 <template lang="jade">
-.seek-someone-form(:class="{pc: isPc}")
+.seek-someone-form
   kt-loading(:visible='$loadingRouteData')
   .header(:style="headerStyle")
 
@@ -80,7 +80,6 @@ export default {
   },
 
   ready() {
-    this.isPc = !Utils.isMobile()
     if (this.isPc) {
       this.headerStyle.height = `${600 * 0.39371980676328505}px` // 0.39371980676328505 是设计稿的高宽比
     }
@@ -234,7 +233,6 @@ export default {
 
   data() {
     return {
-      isPc: false,
       model: {
         search_whom: '',
         search_target: '',
