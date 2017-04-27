@@ -1,5 +1,5 @@
 <template lang="jade">
-.form-container.register-container
+.form-container.register-container(:class="{pc: isPc}")
   small.tips 为方便后期实名认证，请使用与名片信息一致的手机号。
   validator(name='validation')
     form(autocomplete='off', action='', novalidate='', @submit.prevent='onSubmit($event)')
@@ -82,6 +82,7 @@ import {
   sessions,
   registrations
 } from '../common/resources'
+import Utils from '../common/utils'
 
 export default {
   mixins: [formMixin, captchaMixin],
@@ -94,6 +95,7 @@ export default {
   },
 
   ready() {
+    this.isPc = !Utils.isMobile()
     this.refreshImgCaptcha()
     this.user.inviter_account_id = this.$route.query._u || null
   },
@@ -194,6 +196,7 @@ export default {
   data() {
     let cachedUser = JSON.parse(window.sessionStorage.registerUserCache || '{}')
     return {
+      isPc: false,
       filter: {
         // img_captcha: '',
         img_captcha_key: ''
@@ -340,6 +343,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.register-container.pc {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .weui_cells {
   background: none;
   overflow: initial;

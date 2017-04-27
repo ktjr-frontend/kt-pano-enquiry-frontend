@@ -1,5 +1,5 @@
 <template lang="jade">
-.form-container
+.form-container(:class="{pc: isPc}")
   validator(name='validation')
     form(action='', novalidate='', @submit.prevent='onSubmit($event)')
       .form-group(v-for='field in fields')
@@ -31,6 +31,7 @@ import formMixin from '../mixins/form-mixin'
 import {
   sessions
 } from '../common/resources'
+import Utils from '../common/utils.js'
 
 export default {
   mixins: [formMixin],
@@ -38,6 +39,11 @@ export default {
     Flexbox,
     FlexboxItem
   },
+
+  ready() {
+    this.isPc = !Utils.isMobile()
+  },
+
   methods: {
     /*forgetPassword() {
       let weixin = require('../assets/images/weixin-secret.jpeg')
@@ -100,6 +106,7 @@ export default {
   data() {
     let savedUserMobile = window.localStorage.userMobile || ''
     return {
+      isPc: false,
       user: {
         mobile: savedUserMobile,
         password: ''
@@ -136,6 +143,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.form-container.pc {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .forget-password {
   color: #737e9c
 }

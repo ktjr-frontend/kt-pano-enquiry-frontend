@@ -1,5 +1,5 @@
 <template lang="jade">
-.seek-someone-form
+.seek-someone-form(:class="{pc: isPc}")
   kt-loading(:visible='$loadingRouteData')
   .header(:style="headerStyle")
 
@@ -80,6 +80,10 @@ export default {
   },
 
   ready() {
+    this.isPc = !Utils.isMobile()
+    if (this.isPc) {
+      this.headerStyle.height = `${600 * 0.39371980676328505}px` // 0.39371980676328505 是设计稿的高宽比
+    }
     this.model.wx = this.user.wx
     this.cardFront.canEdit = !this.user.card_url
     this.cardBack.canEdit = !this.user.card_back_url
@@ -230,6 +234,7 @@ export default {
 
   data() {
     return {
+      isPc: false,
       model: {
         search_whom: '',
         search_target: '',
@@ -276,6 +281,11 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/business-card.scss';
+.seek-someone-form.pc {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .header {
   height: 3.94525rem; //490px
   background: url('../../assets/images/seek-someone-form-header.jpg');
