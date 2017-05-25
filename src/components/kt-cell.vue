@@ -105,7 +105,7 @@ export default {
   }
   textarea {
     background: #f8f9fb;
-    border-radius: 5px;
+    border-radius: 0.080515rem; //10px
     border: 1px solid #eff2f7;
     padding: 0.241546rem; //30px
     display: block;

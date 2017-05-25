@@ -94,10 +94,10 @@ task :deploy => :environment do
     # invoke :'deploy:link_shared_uploads'
     # invoke :'rails:db_migrate'
     # invoke :'rails:assets_precompile'
-    invoke :'change_modify_time:touch'
     invoke :'deploy:cleanup'
 
     to :launch do
+      invoke :'change_modify_time:touch'
       # queue "grunt server"
     end
   end
@@ -106,6 +106,8 @@ end
 # 同步部署文件修改时间
 namespace :change_modify_time do
   task :touch => :environment do
+    # p modify_time
+    # exit
     queue %{find #{deploy_to}/current/dist -name '*' | xargs touch -t #{modify_time}}
   end
 end
