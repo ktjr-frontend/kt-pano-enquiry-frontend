@@ -28,7 +28,7 @@ export default {
       let token = encodeURIComponent(window.localStorage.token)
 
       let paramsStr = _.isEmpty(params) ? '' : '&' + Vue.url('', params).split('?')[1]
-      window.open(`${Env.hostName}/pano/institutions/${inst.name}?_t=${token}${paramsStr}`, '_self')
+      window.open(`${Env.hostName}/pano/institutions/detail/${inst.name}?_t=${token}${paramsStr}`, '_self')
       callback && callback(params)
     },
 

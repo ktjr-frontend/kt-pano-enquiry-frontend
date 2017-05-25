@@ -120,7 +120,6 @@
           font-size: 0.33816425120772947rem;
         }
         display: inline-block;
-        margin-left: 3em;
       }
       &.untouched {
         .weui_icon_warn {
@@ -132,6 +131,9 @@
       .weui_icon_clear {
         display: block;
         margin-left: -1rem;
+      }
+      .weui_icon_warn {
+        margin-left: 2.55em;
       }
     }
     .title {
