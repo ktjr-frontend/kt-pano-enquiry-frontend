@@ -145,6 +145,7 @@ export default {
             rule: true,
             message: '请输入咨询费用'
           },
+          pint: true,
           min: {
             rule: 0,
             message: '不能小于0元'

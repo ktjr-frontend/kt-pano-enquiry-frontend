@@ -115,11 +115,12 @@
     }
     &.invalid {
       .weui_icon_warn {
-        right: -1.2em;
+        // right: -1.2em;
         &:before {
           font-size: 0.33816425120772947rem;
         }
-        display: block;
+        display: inline-block;
+        margin-left: 3em;
       }
       &.untouched {
         .weui_icon_warn {
