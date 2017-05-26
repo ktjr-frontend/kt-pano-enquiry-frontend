@@ -94,9 +94,9 @@ export default {
   },
 
   ready() {
-    this.model.mobile = this.$route.query.mobile
+    this.model.m = this.$route.query.m
     userOptionLogs.save({
-      mobile: this.model.mobile,
+      m: this.model.m,
       option: encodeURIComponent(location.href)
     })
   },
@@ -124,7 +124,7 @@ export default {
     return {
       model: {
         fee: null,
-        mobile: null,
+        m: null,
         content: '',
         anonymity: true
       },

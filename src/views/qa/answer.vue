@@ -59,7 +59,7 @@ export default {
       }
     }) {
       return userQuestions.get({
-        user_question_id: query.user_question_id
+        q: query.q
       }).then(res => {
         return {
           question: res.json().res
@@ -110,10 +110,10 @@ export default {
   },
 
   ready() {
-    this.model.mobile = this.$route.query.mobile
-    this.model.user_question_id = this.$route.query.user_question_id
+    this.model.m = this.$route.query.m
+    this.model.q = this.$route.query.q
     userOptionLogs.save({
-      mobile: this.model.mobile,
+      m: this.model.m,
       option: encodeURIComponent(location.href)
     })
   },
@@ -140,14 +140,13 @@ export default {
   data() {
     return {
       model: {
-        user_question_id: null,
-        mobile: null,
+        q: null,
+        m: null,
         content: ''
       },
       question: {
         content: '',
         fee: null,
-        mobile: null,
         name: '',
         company: ''
       },
