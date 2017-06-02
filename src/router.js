@@ -8,7 +8,11 @@ import log from './common/log'
 import routes from './routes'
 import { showConfirm, showAlert, showToast, updateTabVisible } from './vuex/actions'
 import store from './vuex/store'
+import { updateUser } from './vuex/actions.js'
 import permitJudge from './routes/permits.js'
+import {
+  sessions
+} from './common/resources'
 
 // 自定义validator
 Vue.use(Router)
@@ -27,21 +31,39 @@ router.redirect({
 })
 
 router.beforeEach(({ from, to, abort, next }) => {
-  const permit = permitJudge(to)
-  if (permit.passed) {
-    next()
-  } else { //已经登录的
-    if (permit.showToast) {
-      showToast(store, {
-        text: '由于您未通过认证审核，无权访问该页面！'
+  let routePromise = Promise.resolve()
+
+  if (to.query._t) {
+    Vue.http.headers.common['Authorization'] = window.localStorage.token = decodeURIComponent(to.query._t)
+    routePromise = new Promise((resolve, reject) => {
+      sessions.get().then((res) => {
+        const user = res.json().account
+        updateUser(store, user || {})
+        resolve()
+      }).catch(() => {
+        updateUser({})
+        resolve()
       })
-    }
-    if (permit.redirect) {
-      router.replace(permit.redirect)
-    } else {
-      abort()
-    }
+    })
   }
+
+  routePromise.then(() => {
+    const permit = permitJudge(to)
+    if (permit.passed) {
+      next()
+    } else { //已经登录的
+      if (permit.showToast) {
+        showToast(store, {
+          text: '由于您未通过认证审核，无权访问该页面！'
+        })
+      }
+      if (permit.redirect) {
+        router.replace(permit.redirect)
+      } else {
+        abort()
+      }
+    }
+  })
 })
 
 // 哪些页面可以回跳

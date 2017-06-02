@@ -71,6 +71,7 @@ export default {
     component: resolve => require(['../views/quotation/project-info.vue'], resolve),
     data: {
       title: '填写项目信息',
+      compatiblePc: true,
       shareButtonVisible: false,
       logoBottomVisible: false,
       headVisible: headVisible,

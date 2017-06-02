@@ -17,6 +17,7 @@
 <script>
 import KtCell from '../../components/kt-cell.vue'
 import Utils from '../../common/utils.js'
+import Env from '../../env.js'
 
 export default {
   components: {
@@ -30,12 +31,17 @@ export default {
   methods: {
     go() {
       this.$root.bdTrack(['找人介绍页', '点击', '火速前往'])
-      this.$router.go({
-        name: 'seekSomeoneEdit',
-        params: {
-          type: 'add'
-        }
-      })
+      if (this.isPc) {
+        const uriToken = encodeURIComponent(localStorage.token)
+        location.href = `${Env.hostName}/pano/find?_t=${uriToken}`
+      } else {
+        this.$router.go({
+          name: 'seekSomeoneEdit',
+          params: {
+            type: 'add'
+          }
+        })
+      }
     }
   },
 
