@@ -3,7 +3,8 @@ import Vue from 'vue'
 let sessions, assetTypes, businessTypes, accounts, registrations,
   recoveries, cardFront, cardBack, enquiries, sharedEnquiries, feedbacks,
   signatures, log, persons, quotes, projects, panoFiles, projectInterest,
-  imageCaptcha, instBasicInfo, peopleSearch, userAnswers, userQuestions, userOptionLogs
+  imageCaptcha, instBasicInfo, peopleSearch, userAnswers, userQuestions, userOptionLogs,
+  ktInstitutions
 
 const previousRequestMap = {}
 const commonOpts = {
@@ -42,6 +43,7 @@ export default function setResources(resource) {
   userAnswers = resource('user_answers', {}, {}, commonOpts) // 找人
   userQuestions = resource('user_questions', {}, {}, commonOpts) // 找人
   userOptionLogs = resource('user_option_logs', {}, {}, commonOpts) // 找人
+  ktInstitutions = resource('institutions/ktjr_id', {}, {}, commonOpts)
 }
 
 export {
@@ -68,5 +70,6 @@ export {
   peopleSearch,
   userAnswers,
   userQuestions,
-  userOptionLogs
+  userOptionLogs,
+  ktInstitutions
 }

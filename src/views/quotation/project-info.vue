@@ -79,7 +79,8 @@ import _ from 'lodash'
 import {
   persons,
   projects,
-  panoFiles
+  panoFiles,
+  ktInstitutions
 } from '../../common/resources.js'
 // import pruneParams from '../../common/helpers.js'
 import {
@@ -108,11 +109,18 @@ export default {
 
   ready() {
     if (this.fromPcXiaoWei && this.$route.params.type === 'add') { // fromPcXiaoWei 说明是从pc页的小微资产跳转过来
-      projects.get({
-        content: 'platform_list'
-      }).then(res => {
-        const ktjr = _.find(res.json().res, v => v.name === '开通金融') || {}
-        this.model.platform_id = ktjr.id
+      // projects.get({
+      //   content: 'platform_list'
+      // }).then(res => {
+      //   const ktjr = _.find(res.json().res, v => v.name === '开通金融') || {}
+      //   this.model.platform_id = ktjr.id
+      // }).catch(res => {
+      //   this.$root.showToast({
+      //     text: res.json().error || '抱歉，服务器繁忙!'
+      //   })
+      // })
+      ktInstitutions.get().then(res => {
+        this.model.platform_id = res.json().id
       }).catch(res => {
         this.$root.showToast({
           text: res.json().error || '抱歉，服务器繁忙!'
