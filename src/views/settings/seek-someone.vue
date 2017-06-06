@@ -32,7 +32,7 @@ export default {
     go() {
       this.$root.bdTrack(['找人介绍页', '点击', '火速前往'])
       if (this.isPc) {
-        const uriToken = encodeURIComponent(localStorage.token)
+        const uriToken = encodeURIComponent(localStorage.token || '')
         location.href = `${Env.hostName}/pano/find?_t=${uriToken}`
       } else {
         this.$router.go({
