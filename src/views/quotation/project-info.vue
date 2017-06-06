@@ -79,7 +79,8 @@ import _ from 'lodash'
 import {
   persons,
   projects,
-  panoFiles
+  panoFiles,
+  ktInstitutions
 } from '../../common/resources.js'
 // import pruneParams from '../../common/helpers.js'
 import {
@@ -103,6 +104,18 @@ export default {
     },
     actions: {
       updateUser
+    }
+  },
+
+  ready() {
+    if (this.fromPcXiaoWei && this.$route.params.type === 'add') { // fromPcXiaoWei 说明是从pc页的小微资产跳转过来
+      ktInstitutions.get().then(res => {
+        this.model.platform_id = res.json().id
+      }).catch(res => {
+        this.$root.showToast({
+          text: res.json().error || '抱歉，服务器繁忙!'
+        })
+      })
     }
   },
 
@@ -281,33 +294,44 @@ export default {
 
           this.$root.showLoadingStatus()
           if (this.$route.params.type === 'add') { // 新建项目
-            project.platform_id = this.$route.query.platform_id
-            project.kaitong_refer = this.$route.query.kaitong_refer
+            if (!this.fromPcXiaoWei) {
+              project.platform_id = this.$route.query.platform_id
+              project.kaitong_refer = this.$route.query.kaitong_refer
+            }
             savePromise = projects.save({}, project)
           } else { // 编辑项目
             savePromise = projects.update({}, project)
           }
 
           savePromise.then(res => {
-            this.$root.showAlert({
-              content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天“选择”一个新机构！</p>',
-              onHide: function() {
-                this.$router.go({
-                  name: 'myProjectDetail',
-                  params: {
-                    id: res.json().res
-                  }
-                  // path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/quotation/ob',
-                  // query: {
-                  //   _r: Math.random().toString().slice(2)
-                  // }
-                })
-              }.bind(this)
-            })
+            if (!this.fromPcXiaoWei || this.$root.isWeixin()) {
+              this.$root.showAlert({
+                content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天“选择”一个新机构！</p>',
+                onHide: function() {
+                  this.$router.go({
+                    name: 'myProjectDetail',
+                    params: {
+                      id: res.json().res
+                    }
+                    // path: this.submitRedirect.replace(/(\?|&){1}_r=\d+/g, '') || '/quotation/ob',
+                    // query: {
+                    //   _r: Math.random().toString().slice(2)
+                    // }
+                  })
+                }.bind(this)
+              })
+            } else {
+              this.$root.showAlert({
+                content: '提交成功，我们将在2个工作日内完成项目审核。',
+                onHide: function() {
+                  window.close()
+                }
+              })
+            }
 
             if (!this.user.wx) {
               this.user.wx = this.model.wx_account
-              // this.updateUser(this.user)
+                // this.updateUser(this.user)
             }
 
             this.clearPreRouteCache()
@@ -360,6 +384,8 @@ export default {
   data() {
     return {
       model: {
+        platform_id: null,
+        kaitong_refer: false,
         project_id: null,
         name: '',
         files: [],
@@ -368,6 +394,7 @@ export default {
         wx_account: '',
         contact_method: []
       },
+      fromPcXiaoWei: this.$route.query._f === 'pc_xiaowei',
       submitRedirect: '', // 提交表单后的跳转路径
       submitted: false, // 确认已经提交，正常跳转离开
       asset_type_id: [], // 用于popuppicker的逻辑，区分model.asset_type_id

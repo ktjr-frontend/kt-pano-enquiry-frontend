@@ -6,6 +6,12 @@ export default function setValidators(validator) {
       return value.match(/^1[3-9]\d{9}$/)
     }
   }, {
+    name: 'pint',
+    message: '只能是正整数',
+    check(value) {
+      return value.match(/^\d+$/)
+    }
+  }, {
     name: 'required',
     message: '必填项不能为空',
     check: validator('required')

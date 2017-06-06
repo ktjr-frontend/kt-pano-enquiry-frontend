@@ -98,7 +98,7 @@ export default {
       // 跳转前记录当前位置
       Utils.setSessionByKey('scrollYCache', window.scrollY, this.$route.name)
 
-      window.open(`${envParams.hostName}/pano/institutions/${platform}?_t=${envParams.token}`, '_blank')
+      window.open(`${envParams.hostName}/pano/institutions/detail/${platform}?_t=${envParams.token}`, '_blank')
       callback && callback()
     },*/
 
