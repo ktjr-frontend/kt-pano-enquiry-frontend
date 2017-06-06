@@ -1,14 +1,14 @@
 Arguments: 
-  /Users/luxueyan/.nvm/versions/node/v4.4.3/bin/node /Users/luxueyan/.nvm/versions/node/v4.4.3/bin/yarn add eslint-config-vue
+  /Users/luxueyan/.nvm/versions/node/v7.9.0/bin/node /Users/luxueyan/.nvm/versions/node/v7.9.0/bin/yarn install
 
 PATH: 
-  /Users/luxueyan/.rvm/gems/ruby-2.2.1/bin:/Users/luxueyan/.rvm/gems/ruby-2.2.1@global/bin:/Users/luxueyan/.rvm/rubies/ruby-2.2.1/bin:/Users/luxueyan/.nvm/versions/node/v4.4.3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/Users/luxueyan/.rvm/gems/ruby-2.2.1/bin:/Users/luxueyan/.rvm/gems/ruby-2.2.1@global/bin:/Users/luxueyan/.rvm/rubies/ruby-2.2.1/bin:/Applications/node-webkit.app/Contents/MacOS/:/Applications/Sublime Text.app/Contents/SharedSupport/bin:/Applications/Genymotion Shell.app/Contents/MacOS/:/Applications/Genymotion.app/Contents/MacOS/:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/share/man:/Users/luxueyan/work/android-sdk-macosx/tools/:/Users/luxueyan/work/android-sdk-macosx/platform-tools/:/Users/luxueyan/.rvm/bin:/Applications/node-webkit.app/Contents/MacOS/:/Applications/Sublime Text.app/Contents/SharedSupport/bin:/Applications/Genymotion Shell.app/Contents/MacOS/:/Applications/Genymotion.app/Contents/MacOS/:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/share/man:/Users/luxueyan/work/android-sdk-macosx/tools/:/Users/luxueyan/work/android-sdk-macosx/platform-tools/:/Users/luxueyan/.rvm/bin
+  /Users/luxueyan/.rvm/gems/ruby-2.2.1/bin:/Users/luxueyan/.rvm/gems/ruby-2.2.1@global/bin:/Users/luxueyan/.rvm/rubies/ruby-2.2.1/bin:/Users/luxueyan/.nvm/versions/node/v7.9.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:/usr/local/go/bin:/Users/luxueyan/.rvm/gems/ruby-2.2.1/bin:/Users/luxueyan/.rvm/gems/ruby-2.2.1@global/bin:/Users/luxueyan/.rvm/rubies/ruby-2.2.1/bin:/Applications/node-webkit.app/Contents/MacOS/:/Applications/Sublime Text.app/Contents/SharedSupport/bin:/Applications/Genymotion Shell.app/Contents/MacOS/:/Applications/Genymotion.app/Contents/MacOS/:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/share/man:/Users/luxueyan/work/android-sdk-macosx/tools/:/Users/luxueyan/work/android-sdk-macosx/platform-tools/:/Users/luxueyan/.rvm/bin:/Applications/node-webkit.app/Contents/MacOS/:/Applications/Sublime Text.app/Contents/SharedSupport/bin:/Applications/Genymotion Shell.app/Contents/MacOS/:/Applications/Genymotion.app/Contents/MacOS/:/usr/local/sbin:/opt/local/bin:/opt/local/sbin:/opt/local/share/man:/Users/luxueyan/work/android-sdk-macosx/tools/:/Users/luxueyan/work/android-sdk-macosx/platform-tools/:/Users/luxueyan/.rvm/bin
 
 Yarn version: 
-  0.18.1
+  0.23.4
 
 Node version: 
-  4.4.3
+  7.9.0
 
 Platform: 
   darwin x64
@@ -53,6 +53,7 @@ npm manifest:
     },
     "devDependencies": {
       "autoprefixer": "^6.5.1",
+      "caniuse-db": "^1.0.30000640",
       "babel-core": "^6.0.0",
       "babel-eslint": "^7.0.0",
       "babel-loader": "^6.0.0",
@@ -104,6 +105,7 @@ npm manifest:
       "mockjs": "^1.0.1-beta2",
       "nightwatch": "^0.8.18",
       "node-sass": "^3.8.0",
+      "opn": "^4.0.2",
       "ora": "^0.2.0",
       "phantomjs-prebuilt": "^2.1.3",
       "postcss-loader": "^1.1.1",
@@ -1295,6 +1297,10 @@ Lockfile:
   caniuse-db@^1.0.30000601, caniuse-db@^1.0.30000602:
     version "1.0.30000602"
     resolved "http://r.cnpmjs.org/caniuse-db/download/caniuse-db-1.0.30000602.tgz#06b2cbfb6c3aeef7ddb18cd588043549ad1a2d4e"
+  
+  caniuse-db@^1.0.30000640:
+    version "1.0.30000649"
+    resolved "http://r.cnpmjs.org/caniuse-db/download/caniuse-db-1.0.30000649.tgz#1ee1754a6df235450c8b7cd15e0ebf507221a86a"
   
   capture-stack-trace@^1.0.0:
     version "1.0.0"
@@ -5190,6 +5196,13 @@ Lockfile:
     version "1.1.0"
     resolved "http://r.cnpmjs.org/onetime/download/onetime-1.1.0.tgz#a1f7838f8314c516f05ecefcbc4ccfe04b4ed789"
   
+  opn@^4.0.2:
+    version "4.0.2"
+    resolved "http://r.cnpmjs.org/opn/download/opn-4.0.2.tgz#7abc22e644dff63b0a96d5ab7f2790c0f01abc95"
+    dependencies:
+      object-assign "^4.0.1"
+      pinkie-promise "^2.0.0"
+  
   optimist@>=0.3.5, optimist@^0.6.1, optimist@~0.6.0:
     version "0.6.1"
     resolved "http://r.cnpmjs.org/optimist/download/optimist-0.6.1.tgz#da3ea74686fa21a19a111c326e90eb15a0196686"
@@ -7587,14 +7600,4 @@ Lockfile:
     resolved "http://r.cnpmjs.org/yeast/download/yeast-0.1.2.tgz#008e06d8094320c372dbc2f8ed76a0ca6c8ac419"
 
 Trace: 
-  Error: http://r.cnpmjs.org/swiper/download/swiper-3.4.1.tgz: unexpected eof
-      at decorate (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/fstream/lib/abstract.js:67:36)
-      at Extract.Abstract.error (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/fstream/lib/abstract.js:61:12)
-      at Extract._streamEnd (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/tar/lib/extract.js:91:35)
-      at BlockStream.<anonymous> (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/tar/lib/parse.js:51:8)
-      at emitNone (events.js:67:13)
-      at BlockStream.emit (events.js:166:7)
-      at BlockStream._emitChunk (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:203:10)
-      at BlockStream.flush (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:70:8)
-      at BlockStream.end (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/block-stream/block-stream.js:66:8)
-      at Extract.Parse.end (/Users/luxueyan/.nvm/versions/node/v4.4.3/lib/node_modules/yarn/node_modules/tar/lib/parse.js:86:23)
+  Error: http://r.cnpmjs.org/mockjs/download/mockjs-1.0.1-beta3.tgz: ENOENT: no such file or directory, utime '/Users/luxueyan/Library/Caches/Yarn/v1/npm-mockjs-1.0.1-beta3-d234f3c27256397564f2c955142e891909537209/dist/mock-min.js'

@@ -3,7 +3,7 @@ import { instBasicInfo } from '../common/resources.js'
 import _ from 'lodash'
 
 export function updateUser({ dispatch }, user, soft) {
-  if (!soft) {
+  if (!soft && _.isObject(user)) {
     localStorage.user = JSON.stringify(user)
     localStorage.userMobile = user.mobile
   }
