@@ -109,16 +109,6 @@ export default {
 
   ready() {
     if (this.fromPcXiaoWei && this.$route.params.type === 'add') { // fromPcXiaoWei 说明是从pc页的小微资产跳转过来
-      // projects.get({
-      //   content: 'platform_list'
-      // }).then(res => {
-      //   const ktjr = _.find(res.json().res, v => v.name === '开通金融') || {}
-      //   this.model.platform_id = ktjr.id
-      // }).catch(res => {
-      //   this.$root.showToast({
-      //     text: res.json().error || '抱歉，服务器繁忙!'
-      //   })
-      // })
       ktInstitutions.get().then(res => {
         this.model.platform_id = res.json().id
       }).catch(res => {
@@ -314,7 +304,7 @@ export default {
           }
 
           savePromise.then(res => {
-            if (!this.fromPcXiaoWei) {
+            if (!this.fromPcXiaoWei || this.$root.isWeixin()) {
               this.$root.showAlert({
                 content: '<p>提交成功，我们将在2个工作日内完成项目审核，并推送给相关互金平台。</p><p>每天登录PANO，每天“选择”一个新机构！</p>',
                 onHide: function() {
