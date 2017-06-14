@@ -932,7 +932,7 @@ export default {
   }
 }
 .yanqi{
-  margin-left:0.32rem;
+  margin-left:0.1rem;
   color:#3bc5ba;
 }
 </style>
