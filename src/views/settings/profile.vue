@@ -32,6 +32,7 @@ div
         span.remark(v-if="user.group === 'premium'")
           span(v-if="user.premium_duration") 剩余期限{{user.premium_duration}}天
           //- span(v-if="!user.premium_duration") 永久会员
+          a.yanqi(v-if="user.premium_duration && user.premium_duration<=5" @click="upgradeMember()") 延期
           i.icon-pano.icon-explain(@click.stop="showMemberTips()")
         span.remark(v-if="user.group === 'certified'", @click="upgradeMember()")
           span(v-show="user.status === 'passed'") 升级
@@ -929,5 +930,9 @@ export default {
       font-size: 1.5em;
     }
   }
+}
+.yanqi{
+  margin-left:0.32rem;
+  color:#3bc5ba;
 }
 </style>
