@@ -44,6 +44,10 @@
                     a(href='/static/pano-agreement.htm', target='_blank' @click.prevent="checkAgreement()") 开通PANO用户协议
         .form-group
           button(@click="$root.bdTrack(['注册页', '点击', '完成', '邀请好友'])") 完成
+        .form-group
+          .accounted
+            label 已有账号？
+            a.gologin(@click="goLogin")  请登录
         .form-group.about-us
           h3 开通PANO是什么？
           p 开通PANO是由开通金融推出的互金理财数据信息产品，致力于为关注互联网金融的从业人员提供互联网理财市场数据、资产信息及后继交易等服务，促进金融资产在互联网端的发行流通效率。
@@ -121,6 +125,16 @@ export default {
           })
         }
       })
+    },
+    //跳转到登录页
+    goLogin() {
+      if (this.isPc) {
+        location.href = `${Env.hostName}/account/login`
+      } else {
+        this.$router.go({
+          name: 'login'
+        })
+      }
     },
     /*onRegisterSuccess() {
       sessions.save({
@@ -448,5 +462,15 @@ hr {
   &:before {
     display: none;
   }
+}
+
+.accounted {
+  text-align: right;
+  a{
+    color:#006fb7;
+  }
+}
+.gologin{
+  cursor:pointer;
 }
 </style>
